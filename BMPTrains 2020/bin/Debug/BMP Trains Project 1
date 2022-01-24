@@ -1,0 +1,823 @@
+<BMPTrainsProject id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.BMPTrainsProject</FullClassName>
+ <ProjectName>Sample Project</ProjectName>
+ <FileName>BMP Trains Project 1</FileName>
+ <RainfallZone>Florida Zone 1</RainfallZone>
+ <MeanAnnualRainfall>61.00</MeanAnnualRainfall>
+ <AnalysisType>Specified Removal Efficiency</AnalysisType>
+ <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+ <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+ <CatchmentConfiguration>A</CatchmentConfiguration>
+ <numCatchments>0</numCatchments>
+ <currentCatchmentNum>1</currentCatchmentNum>
+ <Modified>False</Modified>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+<Catchment id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Catchment</FullClassName>
+ <ToID>0</ToID>
+ <CatchmentName>Sample Project</CatchmentName>
+ <Rainfall>61.00</Rainfall>
+ <RainfallZone>Florida Zone 1</RainfallZone>
+ <PreLandUseId>0</PreLandUseId>
+ <PreLandUseName>Undeveloped - Dry Prairie: TN=2.025 TP=0.184</PreLandUseName>
+ <PostLandUseId>0</PostLandUseId>
+ <PostLandUseName>Highway: TN=1.520 TP=0.200</PostLandUseName>
+ <PreArea>5.50</PreArea>
+ <PreRationalCoefficient>0.75</PreRationalCoefficient>
+ <PreNonDCIACurveNumber>80</PreNonDCIACurveNumber>
+ <PreDCIAPercent>85.00</PreDCIAPercent>
+ <PostArea>5.50</PostArea>
+ <BMPArea>0.500</BMPArea>
+ <PostRationalCoefficient>0.51</PostRationalCoefficient>
+ <PostNonDCIACurveNumber>80</PostNonDCIACurveNumber>
+ <PostDCIAPercent>50.00</PostDCIAPercent>
+ <PreLoading></PreLoading>
+ <PostLoading></PostLoading>
+ <RequiredNTreatmentEfficiency>80.000</RequiredNTreatmentEfficiency>
+ <RequiredPTreatmentEfficiency>80.000</RequiredPTreatmentEfficiency>
+ <PreNConcentration>2.025</PreNConcentration>
+ <PrePConcentration>0.184</PrePConcentration>
+ <PostNConcentration>1.520</PostNConcentration>
+ <PostPConcentration>0.200</PostPConcentration>
+ <PreRunoffVolume>20.857</PreRunoffVolume>
+ <PostRunoffVolume>12.861</PostRunoffVolume>
+ <PreNLoading>52.076</PreNLoading>
+ <PrePLoading>4.732</PrePLoading>
+ <PostNLoading>24.103</PostNLoading>
+ <PostPLoading>3.171</PostPLoading>
+ <DelayTime>0.000</DelayTime>
+ <BMP1></BMP1>
+ <BMP2></BMP2>
+ <BMP3></BMP3>
+ <BMP4></BMP4>
+ <id>1</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+<Retention id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Retention</FullClassName>
+  <RetentionArea>0.500</RetentionArea>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.417</RetentionVolume>
+  <RetentionDepth>1.000</RetentionDepth>
+  <RequiredRetentionDepth>1.477</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.615</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.477</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>B&amp;G ECT3</MediaMixType>
+  <MediaNPercentReduction>45</MediaNPercentReduction>
+  <MediaPPercentReduction>45</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>43</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>43</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType></BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>70</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>70</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>70</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>32</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>32</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>7.135</NMassLoadOut>
+  <PMassLoadOut>0.939</PMassLoadOut>
+  <NMassReduction>16.969</NMassReduction>
+  <PMassReduction>2.233</PMassReduction>
+  <NMassReductionLb>37.416</NMassReductionLb>
+  <PMassReductionLb>4.923</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</Retention>
+<Exfiltration id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Exfiltration</FullClassName>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType></BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</Exfiltration>
+<WetDetention id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.WetDetention</FullClassName>
+  <ResidenceTime>50</ResidenceTime>
+  <PermanentPoolPondDepth>3.52</PermanentPoolPondDepth>
+  <PermanentPoolArea>0.50</PermanentPoolArea>
+  <PermanentPoolVolume>0.000</PermanentPoolVolume>
+  <PermanentPoolVolumeOverWatershed>21.141</PermanentPoolVolumeOverWatershed>
+  <MinimumPermanentPoolVolume>1.762</MinimumPermanentPoolVolume>
+  <LittoralZoneEfficiencyCredit>10</LittoralZoneEfficiencyCredit>
+  <AdditionalPercentNLittoralRemoval>6</AdditionalPercentNLittoralRemoval>
+  <AdditionalPercentPLittoralRemoval>3</AdditionalPercentPLittoralRemoval>
+  <WetlandEfficiencyCredit>10</WetlandEfficiencyCredit>
+  <AdditionalPercentNWetlandRemoval>5.977</AdditionalPercentNWetlandRemoval>
+  <AdditionalPercentPWetlandRemoval>3.168</AdditionalPercentPWetlandRemoval>
+  <DetentionPercentPhosphorusRemoval>68.32</DetentionPercentPhosphorusRemoval>
+  <DetentionPercentNitrogenRemoval>40.23</DetentionPercentNitrogenRemoval>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Wet Detention</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>52</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>75</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>58</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>21</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>11.526</NMassLoadOut>
+  <PMassLoadOut>0.804</PMassLoadOut>
+  <NMassReduction>12.577</NMassReduction>
+  <PMassReduction>2.368</PMassReduction>
+  <NMassReductionLb>27.733</NMassReductionLb>
+  <PMassReductionLb>5.221</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</WetDetention>
+<Greenroof id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Greenroof</FullClassName>
+  <RainfallStation>Belle Glade #616</RainfallStation>
+  <GreenroofArea>20,000.000</GreenroofArea>
+  <RetentionProvided>1.000</RetentionProvided>
+  <IrrigationDemand>40.000</IrrigationDemand>
+  <RainfallExcess>10.000</RainfallExcess>
+  <AverageYearlyDemand>0.499</AverageYearlyDemand>
+  <AverageSupplyHarvested>0.090</AverageSupplyHarvested>
+  <AverageSupplementalWater>0.408</AverageSupplementalWater>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType></BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>72</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>72</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>28</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>28</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</Greenroof>
+<RainGarden id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.RainGarden</FullClassName>
+  <ProvidedRetentionVolume>0.034</ProvidedRetentionVolume>
+  <SystemTypes>System.String[]</SystemTypes>
+  <VoidFraction>0.500</VoidFraction>
+  <MediaVolume>1,000.000</MediaVolume>
+  <WaterAboveMedia>1,000.000</WaterAboveMedia>
+  <VolumeStorageCF>1,500.000</VolumeStorageCF>
+  <VolumeStorageIn>0.075</VolumeStorageIn>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.034</RetentionVolume>
+  <RetentionDepth>0.075</RetentionDepth>
+  <RequiredRetentionDepth>1.477</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.677</RequiredRetentionVolume>
+  <RemainingDepthNeeded>1.402</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Rain Garden</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>19</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>19</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>19</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>75</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>75</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>21.471</NMassLoadOut>
+  <PMassLoadOut>2.825</PMassLoadOut>
+  <NMassReduction>5.043</NMassReduction>
+  <PMassReduction>0.664</PMassReduction>
+  <NMassReductionLb>11.119</NMassReductionLb>
+  <PMassReductionLb>1.463</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</RainGarden>
+<StormwaterHarvesting id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.StormwaterHarvesting</FullClassName>
+  <RationalCforCAreaAt3inches>0.000</RationalCforCAreaAt3inches>
+  <SolveForChoice></SolveForChoice>
+  <HarvestVolume>0.000</HarvestVolume>
+  <HarvestEfficiency>0.000</HarvestEfficiency>
+  <CalculatedHarvestEfficiency>0.000</CalculatedHarvestEfficiency>
+  <IrrigationArea>0.000</IrrigationArea>
+  <EquivalentImperviousArea>0.000</EquivalentImperviousArea>
+  <HarvestVolumeOverEIA>0.000</HarvestVolumeOverEIA>
+  <AvailableHarvestRate>0.000</AvailableHarvestRate>
+  <HarvestRate>0.000</HarvestRate>
+  <HarvestRateOverEIA>0.000</HarvestRateOverEIA>
+  <RequiredHarvestRateCFD>0.000</RequiredHarvestRateCFD>
+  <RequiredHarvestRateINWEEK>0.000</RequiredHarvestRateINWEEK>
+  <HarvestWaterDemand>0.000</HarvestWaterDemand>
+  <HarvestWaterSupply>0.000</HarvestWaterSupply>
+  <SupplementalWater>0.000</SupplementalWater>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Stormwater Harvesting</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</StormwaterHarvesting>
+<RainwaterHarvesting id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.RainwaterHarvesting</FullClassName>
+  <RoofType></RoofType>
+  <SolveForChoice></SolveForChoice>
+  <HarvestVolume>0.000</HarvestVolume>
+  <HarvestEfficiency>0.000</HarvestEfficiency>
+  <CalculatedHarvestEfficiency>0.000</CalculatedHarvestEfficiency>
+  <IrrigationArea>0.000</IrrigationArea>
+  <EquivalentImperviousArea>0.000</EquivalentImperviousArea>
+  <HarvestVolumeOverEIA>0.000</HarvestVolumeOverEIA>
+  <AvailableHarvestRate>0.000</AvailableHarvestRate>
+  <HarvestRate>0.000</HarvestRate>
+  <HarvestRateOverEIA>0.000</HarvestRateOverEIA>
+  <RequiredHarvestRateCFD>0.000</RequiredHarvestRateCFD>
+  <RequiredHarvestRateINWEEK>0.000</RequiredHarvestRateINWEEK>
+  <HarvestWaterDemand>0.000</HarvestWaterDemand>
+  <HarvestWaterSupply>0.000</HarvestWaterSupply>
+  <SupplementalWater>0.000</SupplementalWater>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Rainwater Harvesting</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</RainwaterHarvesting>
+<PerviousPavement id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.PerviousPavement</FullClassName>
+  <PerviousPavements>BMPTrains_2020.DomainCode.AvailablePerviousPavements</PerviousPavements>
+  <Thickness>0.00	0.00	0.00	0.00	0.00	12.00	0.00	0.00	0.00	2.00	</Thickness>
+  <Storage>0.00
+0.00
+0.00
+0.00
+0.00
+0.11
+0.00
+0.00
+0.00
+0.01
+</Storage>
+  <SurfaceArea>0.500</SurfaceArea>
+  <TotalStorage>0.113</TotalStorage>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.113</RetentionVolume>
+  <RetentionDepth>0.300</RetentionDepth>
+  <RequiredRetentionDepth>1.477</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.554</RequiredRetentionVolume>
+  <RemainingDepthNeeded>1.177</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Pervious Pavement</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>36</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>36</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>36</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>69</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>69</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>13.918</NMassLoadOut>
+  <PMassLoadOut>1.831</PMassLoadOut>
+  <NMassReduction>7.775</NMassReduction>
+  <PMassReduction>1.023</PMassReduction>
+  <NMassReductionLb>17.143</NMassReductionLb>
+  <PMassReductionLb>2.256</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</PerviousPavement>
+<Filtration id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Filtration</FullClassName>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType></BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</Filtration>
+<Swale id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Swale</FullClassName>
+  <SwaleW>0.000</SwaleW>
+  <SwaleB>0.000</SwaleB>
+  <SwaleL>0.000</SwaleL>
+  <ImperviousL>0.000</ImperviousL>
+  <ImperviousW>0.000</ImperviousW>
+  <PerviousW>0.000</PerviousW>
+  <SwaleS>0.000</SwaleS>
+  <ManningsN>0.000</ManningsN>
+  <InfiltrationRate>0.000</InfiltrationRate>
+  <SwaleZ>0.000</SwaleZ>
+  <InfiltratedStorageDepth>0.163</InfiltratedStorageDepth>
+  <SwaleH>0.000</SwaleH>
+  <SwaleLb>0.000</SwaleLb>
+  <SwaleNb>0.000</SwaleNb>
+  <RainfallExcessArea>0.000</RainfallExcessArea>
+  <FlowInSwale>0.000</FlowInSwale>
+  <DepthOfFlow>0.000</DepthOfFlow>
+  <WettedPerimeter>0.000</WettedPerimeter>
+  <UpstreamSwaleBlockVolume>0.000</UpstreamSwaleBlockVolume>
+  <TotalSwaleBlockVolume>0.000</TotalSwaleBlockVolume>
+  <UseConcentrationReduction></UseConcentrationReduction>
+  <SurfaceDischargeNReduction>0.000</SurfaceDischargeNReduction>
+  <SurfaceDischargePReduction>0.000</SurfaceDischargePReduction>
+  <GroundwaterNReduction>0.000</GroundwaterNReduction>
+  <GroundwaterPReduction>0.000</GroundwaterPReduction>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType></BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</Swale>
+<TreeWell id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.TreeWell</FullClassName>
+  <WellDepth>0.000</WellDepth>
+  <WellStorage>0.000</WellStorage>
+  <WellLength>0.000</WellLength>
+  <WellWidth>0.000</WellWidth>
+  <SoilStorageCapacity>0.000</SoilStorageCapacity>
+  <NumWells>1</NumWells>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Tree Well</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</TreeWell>
+<VegetatedNaturalBuffer id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.VegetatedNaturalBuffer</FullClassName>
+  <BufferW>0.000</BufferW>
+  <BufferL>0.000</BufferL>
+  <BufferDepth>0.000</BufferDepth>
+  <BufferFeederWidth>0.000</BufferFeederWidth>
+  <SoilStorageCapacity>0.000</SoilStorageCapacity>
+  <BufferWidthSlope>0.000</BufferWidthSlope>
+  <BufferNRemovalEfficiency>0.000</BufferNRemovalEfficiency>
+  <BufferPRemovalEfficiency>0.000</BufferPRemovalEfficiency>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Vegetated Natural Buffer</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</VegetatedNaturalBuffer>
+<VegetatedFilterStrip id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.VegetatedFilterStrip</FullClassName>
+  <BufferW>0.000</BufferW>
+  <BufferL>0.000</BufferL>
+  <BufferDepth>0.000</BufferDepth>
+  <BufferFeederWidth>0.000</BufferFeederWidth>
+  <SoilStorageCapacity>0.000</SoilStorageCapacity>
+  <BufferWidthSlope>0.000</BufferWidthSlope>
+  <BufferNRemovalEfficiency>0.000</BufferNRemovalEfficiency>
+  <BufferPRemovalEfficiency>0.000</BufferPRemovalEfficiency>
+  <RequiredWaterQualityVolume>0.000</RequiredWaterQualityVolume>
+  <RetentionVolume>0.000</RetentionVolume>
+  <RetentionDepth>0.000</RetentionDepth>
+  <RequiredRetentionDepth>0.000</RequiredRetentionDepth>
+  <RequiredRetentionVolume>0.000</RequiredRetentionVolume>
+  <RemainingDepthNeeded>0.000</RemainingDepthNeeded>
+  <RetentionOrDetention>Retention</RetentionOrDetention>
+  <MediaMixType>None</MediaMixType>
+  <MediaNPercentReduction>0</MediaNPercentReduction>
+  <MediaPPercentReduction>0</MediaPPercentReduction>
+  <PostMediaNTreatmentEfficiency>0</PostMediaNTreatmentEfficiency>
+  <PostMediaPTreatmentEfficiency>0</PostMediaPTreatmentEfficiency>
+  <CatchmentID>1</CatchmentID>
+  <BMPType>Vegetated Natural Buffer</BMPType>
+  <BMPName></BMPName>
+  <HelpURL></HelpURL>
+  <ReportType>All Properties</ReportType>
+  <WatershedArea>5.50</WatershedArea>
+  <WatershedNDCIACurveNumber>80.00</WatershedNDCIACurveNumber>
+  <WatershedDCIAPercent>50.00</WatershedDCIAPercent>
+  <RationalCoefficient>0.51</RationalCoefficient>
+  <Rainfall>61.00</Rainfall>
+  <RainfallZone>Florida Zone 1</RainfallZone>
+  <RunoffVolume>12.861</RunoffVolume>
+  <ContributingArea>5.000</ContributingArea>
+  <HydraulicCaptureEfficiency>0</HydraulicCaptureEfficiency>
+  <RequiredNTreatmentEfficiency>80</RequiredNTreatmentEfficiency>
+  <RequiredPTreatmentEfficiency>80</RequiredPTreatmentEfficiency>
+  <ProvidedNTreatmentEfficiency>0</ProvidedNTreatmentEfficiency>
+  <ProvidedPTreatmentEfficiency>0</ProvidedPTreatmentEfficiency>
+  <RemainingNTreatmentEfficiency>0</RemainingNTreatmentEfficiency>
+  <RemainingPTreatmentEfficiency>0</RemainingPTreatmentEfficiency>
+  <NMassLoadIn>24.10</NMassLoadIn>
+  <PMassLoadIn>3.17</PMassLoadIn>
+  <NMassLoadOut>0.000</NMassLoadOut>
+  <PMassLoadOut>0.000</PMassLoadOut>
+  <NMassReduction>0.000</NMassReduction>
+  <PMassReduction>0.000</PMassReduction>
+  <NMassReductionLb>0.000</NMassReductionLb>
+  <PMassReductionLb>0.000</PMassReductionLb>
+  <VolumeIn>12.861</VolumeIn>
+  <VolumeOut>0.000</VolumeOut>
+  <id>0</id>
+  <Name></Name>
+  <Description></Description>
+  <Owner></Owner>
+</VegetatedFilterStrip>
+</Catchment>
+</BMPTrainsProject>
+

@@ -1,0 +1,173 @@
+<BMPTrainsProject id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.BMPTrainsProject</FullClassName>
+ <ProjectName>Test</ProjectName>
+ <FileName>BMP Trains Project 3</FileName>
+ <MeteorologicalZone>Florida Zone 1</MeteorologicalZone>
+ <MeanAnnualRainfall>0</MeanAnnualRainfall>
+ <AnalysisType>Specified Removal Efficiency</AnalysisType>
+ <NitrogenEfficiency>80</NitrogenEfficiency>
+ <PhosphorusEfficiency>80</PhosphorusEfficiency>
+ <CatchmentConfiguration>A</CatchmentConfiguration>
+ <numCatchments>0</numCatchments>
+ <Catchment1>BMPTrains_2020.DomainCode.Catchment</Catchment1>
+ <Catchment2>BMPTrains_2020.DomainCode.Catchment</Catchment2>
+ <Catchment3>BMPTrains_2020.DomainCode.Catchment</Catchment3>
+ <Catchment4>BMPTrains_2020.DomainCode.Catchment</Catchment4>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+<Catchment id = "1">
+<FullClassName>BMPTrains_2020.DomainCode.Catchment</FullClassName>
+ <CatchmentName>Test Project</CatchmentName>
+ <Rainfall>0.00</Rainfall>
+ <RainfallZone>Florida Zone 1</RainfallZone>
+ <PreLandUseId>0</PreLandUseId>
+ <PreLandUseName>Undeveloped - Dry Prairie: TN=2.025 TP=0.184</PreLandUseName>
+ <PostLandUseId>0</PostLandUseId>
+ <PostLandUseName>Highway: TN=1.520 TP=0.200</PostLandUseName>
+ <PreArea>5.50</PreArea>
+ <PreRationalCoefficient>0.44</PreRationalCoefficient>
+ <PreNonDCIACurveNumber>80</PreNonDCIACurveNumber>
+ <PreDCIAPercent>40.00</PreDCIAPercent>
+ <PostArea>5.50</PostArea>
+ <BMPArea>1</BMPArea>
+ <PostRationalCoefficient>0.75</PostRationalCoefficient>
+ <PostNonDCIACurveNumber>80</PostNonDCIACurveNumber>
+ <PostDCIAPercent>85.00</PostDCIAPercent>
+ <PreLoading></PreLoading>
+ <PostLoading></PostLoading>
+ <RequiredNRemoval></RequiredNRemoval>
+ <RequiredPRemoval></RequiredPRemoval>
+ <PreNConcentration>2</PreNConcentration>
+ <PrePConcentration>0</PrePConcentration>
+ <PostNConcentration>2</PostNConcentration>
+ <PostPConcentration>0</PostPConcentration>
+ <PreRunoffVolume>0</PreRunoffVolume>
+ <PostRunoffVolume>0</PostRunoffVolume>
+ <PreNLoading>0</PreNLoading>
+ <PrePLoading>0</PrePLoading>
+ <PostNLoading>0</PostNLoading>
+ <PostPLoading>0</PostPLoading>
+ <DelayTime>0</DelayTime>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+</Catchment>
+<Catchment id = "2">
+<FullClassName>BMPTrains_2020.DomainCode.Catchment</FullClassName>
+ <CatchmentName></CatchmentName>
+ <Rainfall>0.00</Rainfall>
+ <RainfallZone></RainfallZone>
+ <PreLandUseId>0</PreLandUseId>
+ <PreLandUseName></PreLandUseName>
+ <PostLandUseId>0</PostLandUseId>
+ <PostLandUseName></PostLandUseName>
+ <PreArea>0.00</PreArea>
+ <PreRationalCoefficient>0.00</PreRationalCoefficient>
+ <PreNonDCIACurveNumber>0</PreNonDCIACurveNumber>
+ <PreDCIAPercent>0.00</PreDCIAPercent>
+ <PostArea>0.00</PostArea>
+ <BMPArea>0</BMPArea>
+ <PostRationalCoefficient>0.00</PostRationalCoefficient>
+ <PostNonDCIACurveNumber>0</PostNonDCIACurveNumber>
+ <PostDCIAPercent>0.00</PostDCIAPercent>
+ <PreLoading></PreLoading>
+ <PostLoading></PostLoading>
+ <RequiredNRemoval></RequiredNRemoval>
+ <RequiredPRemoval></RequiredPRemoval>
+ <PreNConcentration>0</PreNConcentration>
+ <PrePConcentration>0</PrePConcentration>
+ <PostNConcentration>0</PostNConcentration>
+ <PostPConcentration>0</PostPConcentration>
+ <PreRunoffVolume>0</PreRunoffVolume>
+ <PostRunoffVolume>0</PostRunoffVolume>
+ <PreNLoading>0</PreNLoading>
+ <PrePLoading>0</PrePLoading>
+ <PostNLoading>0</PostNLoading>
+ <PostPLoading>0</PostPLoading>
+ <DelayTime>0</DelayTime>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+</Catchment>
+<Catchment id = "3">
+<FullClassName>BMPTrains_2020.DomainCode.Catchment</FullClassName>
+ <CatchmentName></CatchmentName>
+ <Rainfall>0.00</Rainfall>
+ <RainfallZone></RainfallZone>
+ <PreLandUseId>0</PreLandUseId>
+ <PreLandUseName></PreLandUseName>
+ <PostLandUseId>0</PostLandUseId>
+ <PostLandUseName></PostLandUseName>
+ <PreArea>0.00</PreArea>
+ <PreRationalCoefficient>0.00</PreRationalCoefficient>
+ <PreNonDCIACurveNumber>0</PreNonDCIACurveNumber>
+ <PreDCIAPercent>0.00</PreDCIAPercent>
+ <PostArea>0.00</PostArea>
+ <BMPArea>0</BMPArea>
+ <PostRationalCoefficient>0.00</PostRationalCoefficient>
+ <PostNonDCIACurveNumber>0</PostNonDCIACurveNumber>
+ <PostDCIAPercent>0.00</PostDCIAPercent>
+ <PreLoading></PreLoading>
+ <PostLoading></PostLoading>
+ <RequiredNRemoval></RequiredNRemoval>
+ <RequiredPRemoval></RequiredPRemoval>
+ <PreNConcentration>0</PreNConcentration>
+ <PrePConcentration>0</PrePConcentration>
+ <PostNConcentration>0</PostNConcentration>
+ <PostPConcentration>0</PostPConcentration>
+ <PreRunoffVolume>0</PreRunoffVolume>
+ <PostRunoffVolume>0</PostRunoffVolume>
+ <PreNLoading>0</PreNLoading>
+ <PrePLoading>0</PrePLoading>
+ <PostNLoading>0</PostNLoading>
+ <PostPLoading>0</PostPLoading>
+ <DelayTime>0</DelayTime>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+</Catchment>
+<Catchment id = "4">
+<FullClassName>BMPTrains_2020.DomainCode.Catchment</FullClassName>
+ <CatchmentName></CatchmentName>
+ <Rainfall>0.00</Rainfall>
+ <RainfallZone></RainfallZone>
+ <PreLandUseId>0</PreLandUseId>
+ <PreLandUseName></PreLandUseName>
+ <PostLandUseId>0</PostLandUseId>
+ <PostLandUseName></PostLandUseName>
+ <PreArea>0.00</PreArea>
+ <PreRationalCoefficient>0.00</PreRationalCoefficient>
+ <PreNonDCIACurveNumber>0</PreNonDCIACurveNumber>
+ <PreDCIAPercent>0.00</PreDCIAPercent>
+ <PostArea>0.00</PostArea>
+ <BMPArea>0</BMPArea>
+ <PostRationalCoefficient>0.00</PostRationalCoefficient>
+ <PostNonDCIACurveNumber>0</PostNonDCIACurveNumber>
+ <PostDCIAPercent>0.00</PostDCIAPercent>
+ <PreLoading></PreLoading>
+ <PostLoading></PostLoading>
+ <RequiredNRemoval></RequiredNRemoval>
+ <RequiredPRemoval></RequiredPRemoval>
+ <PreNConcentration>0</PreNConcentration>
+ <PrePConcentration>0</PrePConcentration>
+ <PostNConcentration>0</PostNConcentration>
+ <PostPConcentration>0</PostPConcentration>
+ <PreRunoffVolume>0</PreRunoffVolume>
+ <PostRunoffVolume>0</PostRunoffVolume>
+ <PreNLoading>0</PreNLoading>
+ <PrePLoading>0</PrePLoading>
+ <PostNLoading>0</PostNLoading>
+ <PostPLoading>0</PostPLoading>
+ <DelayTime>0</DelayTime>
+ <id>0</id>
+ <Name></Name>
+ <Description></Description>
+ <Owner></Owner>
+</Catchment>
+</BMPTrainsProject>
+
