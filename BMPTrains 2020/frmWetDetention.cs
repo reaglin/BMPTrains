@@ -15,6 +15,7 @@ namespace BMPTrains_2020
     public partial class frmWetDetention : Form
     {
         int currentCatchmentID;
+        double userInputTP; 
         public frmWetDetention(int id)
         {
             currentCatchmentID = id;
@@ -30,8 +31,11 @@ namespace BMPTrains_2020
             menuStrip1.Items[currentCatchmentID - 1].BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.MenuHighlight);
 
             setValues();
+            Common.setValue(tbUserTP, 0.0);
+
             currentBMP().BMPType = BMPTrainsProject.sWetDetention;
             this.Text +=currentCatchment().TitleHeader();
+            
         }
               
         private WetDetention currentBMP()
@@ -49,6 +53,7 @@ namespace BMPTrains_2020
             currentBMP().PermanentPoolVolume = Common.getDouble(tbPPVolume);
             currentBMP().LittoralZoneEfficiencyCredit = Common.getDouble(tbLittoralCredit);
             currentBMP().WetlandEfficiencyCredit = Common.getDouble(tbWetlandCredit);
+            userInputTP = Common.getDouble(tbUserTP);
         }
 
         private void setValues()
@@ -142,7 +147,14 @@ namespace BMPTrains_2020
         private void btnAnoxicDepth_Click(object sender, EventArgs e)
         {
             getValues();
+    
             currentBMP().Calculate();
+
+            if (userInputTP != 0.0)
+                currentBMP().CalculateAnoxicDepth(0.0, userInputTP);
+            else
+                currentBMP().CalculateAnoxicDepth();
+
             wbOutput.DocumentText = currentBMP().AnoxicDepthReport();
         }
     }

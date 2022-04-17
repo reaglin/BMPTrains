@@ -192,11 +192,11 @@ namespace BMPTrains_2020.DomainCode
 
             Calculate(ResidenceTime);
 
-            CalculateAnoxicDepth();
+            //CalculateAnoxicDepth();
 
         }
 
-        public void CalculateAnoxicDepth(double PRemoval = 0.0)
+        public void CalculateAnoxicDepth(double PRemoval = 0.0, double PondTPConcentration = 0.0)
         {
             if (TPEMC <= 0.0) return;
             if (PRemoval == 0)
@@ -206,7 +206,10 @@ namespace BMPTrains_2020.DomainCode
 
             if ((PRemoval <= 0.0) || (PRemoval >= 100)) return;
 
-            MeanAnnualPondTPConcentration = 1000 *TPEMC * (1.0 - PRemoval / 100.0);
+            if (PondTPConcentration == 0.0)
+                MeanAnnualPondTPConcentration = 1000 * TPEMC * (1.0 - PRemoval / 100.0);
+            else
+                MeanAnnualPondTPConcentration = PondTPConcentration;
 
             MeanChlorophyllA = Math.Pow(Math.E, 1.058 * Math.Log(MeanAnnualPondTPConcentration) - 0.934);
 

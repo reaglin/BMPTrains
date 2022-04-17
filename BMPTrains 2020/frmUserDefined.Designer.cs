@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUserDefined));
             this.tbN = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.wbOutput = new System.Windows.Forms.WebBrowser();
@@ -180,9 +179,10 @@
             this.label8.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(12, 161);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(509, 150);
+            this.label8.Size = new System.Drawing.Size(589, 90);
             this.label8.TabIndex = 38;
-            this.label8.Text = resources.GetString("label8.Text");
+            this.label8.Text = "Nitrogen and Phosphorus Treatment must both be entered as \r\npositive numbers. The" +
+    "se are considered to be flow through \r\ndevices, not retention.";
             // 
             // cbRetentionOrDetention
             // 

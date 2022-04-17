@@ -48,6 +48,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnHelp2 = new System.Windows.Forms.Button();
             this.btnAnoxicDepth = new System.Windows.Forms.Button();
+            this.tbUserTP = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tbPPVolume
@@ -111,7 +113,7 @@
             // 
             // wbOutput
             // 
-            this.wbOutput.Location = new System.Drawing.Point(12, 171);
+            this.wbOutput.Location = new System.Drawing.Point(12, 224);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
             this.wbOutput.Size = new System.Drawing.Size(614, 264);
@@ -211,12 +213,30 @@
             this.btnAnoxicDepth.UseVisualStyleBackColor = true;
             this.btnAnoxicDepth.Click += new System.EventHandler(this.btnAnoxicDepth_Click);
             // 
+            // tbUserTP
+            // 
+            this.tbUserTP.Location = new System.Drawing.Point(514, 163);
+            this.tbUserTP.Name = "tbUserTP";
+            this.tbUserTP.Size = new System.Drawing.Size(115, 35);
+            this.tbUserTP.TabIndex = 62;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(138, 166);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(362, 30);
+            this.label4.TabIndex = 63;
+            this.label4.Text = "User Input TP (ug/l) for Anoxic Depth.";
+            // 
             // frmWetDetention
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(780, 455);
+            this.ClientSize = new System.Drawing.Size(780, 504);
             this.ControlBox = false;
+            this.Controls.Add(this.tbUserTP);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAnoxicDepth);
             this.Controls.Add(this.btnHelp2);
             this.Controls.Add(this.btnCost);
@@ -265,5 +285,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnHelp2;
         private System.Windows.Forms.Button btnAnoxicDepth;
+        private System.Windows.Forms.TextBox tbUserTP;
+        private System.Windows.Forms.Label label4;
     }
 }

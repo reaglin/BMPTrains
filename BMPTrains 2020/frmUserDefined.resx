@@ -123,15 +123,4 @@
   <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>132, 17</value>
-  </metadata>
-  <data name="label8.Text" xml:space="preserve">
-    <value>User Defined BMP can also be used for any routing
-scenario where additional credit for removal
-needs to be applied such as wetlands or littoral zones
- Use as most downstream node for this purpose.
-
-</value>
-  </data>
 </root>
