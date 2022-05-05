@@ -13,7 +13,7 @@ namespace BMPTrains_2020.DomainCode
         public static string None = "None";
         public static string BnG_ECT = "IFGEM";
         public static string BnG_OTE = "IFGEM";
-        public static string BnG_ECT3 = "B&G ECT3";
+        public static string BnG_ECT3 = "B&G ECT Mixes";
         public static string SAT = "SAT";
         public static string BnG_CTS12 = "B&G CTS12";
         public static string BnG_CTS24 = "B&G CTS24";
