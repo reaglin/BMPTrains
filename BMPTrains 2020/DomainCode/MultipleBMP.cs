@@ -170,7 +170,7 @@ namespace BMPTrains_2020.DomainCode
                 CalculateReductions(bmp1);
                 ProvidedNTreatmentEfficiency = bmp1.ProvidedNTreatmentEfficiency;
                 ProvidedPTreatmentEfficiency = bmp1.ProvidedPTreatmentEfficiency;
-                CalculateMassLoading();
+                CalculateMassLoading(false);
                 if (bmp2.isDefined())
                 {
                     bmp2.BMPNMassLoadIn = bmp1.BMPNMassLoadOut;
@@ -178,7 +178,7 @@ namespace BMPTrains_2020.DomainCode
                     CalculateReductions(bmp2);
                     ProvidedNTreatmentEfficiency = 100 *  (bmp1.BMPNMassLoadIn - bmp2.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
                     ProvidedPTreatmentEfficiency = 100 *  (bmp1.BMPPMassLoadIn - bmp2.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                    CalculateMassLoading();
+                    CalculateMassLoading(false);
                     if (bmp3.isDefined())
                     {
                         bmp3.BMPNMassLoadIn = bmp2.BMPNMassLoadOut;
@@ -186,15 +186,15 @@ namespace BMPTrains_2020.DomainCode
                         CalculateReductions(bmp3);
                         ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp3.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
                         ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp3.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                        CalculateMassLoading();
+                        CalculateMassLoading(false);
                         if (bmp4.isDefined())
                         {
-                            bmp4.BMPNMassLoadIn = bmp2.BMPNMassLoadOut;
-                            bmp4.BMPPMassLoadIn = bmp2.BMPPMassLoadOut;
+                            bmp4.BMPNMassLoadIn = bmp3.BMPNMassLoadOut;
+                            bmp4.BMPPMassLoadIn = bmp3.BMPPMassLoadOut;
                             CalculateReductions(bmp4);
                             ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp4.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
                             ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp4.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                            CalculateMassLoading();
+                            CalculateMassLoading(false);
                         }
 
                     }

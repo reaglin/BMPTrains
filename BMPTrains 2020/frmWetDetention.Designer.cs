@@ -223,11 +223,12 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(138, 166);
+            this.label4.Location = new System.Drawing.Point(157, 166);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(362, 30);
+            this.label4.Size = new System.Drawing.Size(351, 30);
             this.label4.TabIndex = 63;
-            this.label4.Text = "User Input TP (ug/l) for Anoxic Depth.";
+            this.label4.Text = "Input Pond TP (ug/l) if data available";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // frmWetDetention
             // 

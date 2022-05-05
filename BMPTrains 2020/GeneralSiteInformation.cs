@@ -350,7 +350,7 @@ namespace BMPTrains_2020
 
         private void btnUserManual_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsManual.pdf");
+            System.Diagnostics.Process.Start("http://roneaglin.online/bmptrains");
         }
     }
 }

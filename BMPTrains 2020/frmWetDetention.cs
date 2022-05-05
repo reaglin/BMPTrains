@@ -157,5 +157,10 @@ namespace BMPTrains_2020
 
             wbOutput.DocumentText = currentBMP().AnoxicDepthReport();
         }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

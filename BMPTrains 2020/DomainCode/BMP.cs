@@ -682,10 +682,12 @@ namespace BMPTrains_2020.DomainCode
             if (RemainingPTreatmentEfficiency < 0) RemainingPTreatmentEfficiency = 0.0;
         }
 
-        public void CalculateMassLoading()
+        public void CalculateMassLoading(bool recalcMassLoad = false)
         {
-            BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100;
-            BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100;
+            if (recalcMassLoad) { 
+                BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100;
+                BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100;
+            }
 
             GroundwaterNMassLoadIn = BMPNMassLoadIn - BMPNMassLoadOut;
             GroundwaterPMassLoadIn = BMPPMassLoadIn - BMPPMassLoadOut;
