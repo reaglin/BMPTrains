@@ -1235,6 +1235,7 @@ namespace BMPTrains_2020.DomainCode
         public double VolumeFromCatchment { get; set; }
         public double VolumeIn { get; set; }
         public double VolumeOut { get; set; }
+        public double VolumeGW { get; set; }
 
         public string RoutingNotes { get; set; }
         #endregion

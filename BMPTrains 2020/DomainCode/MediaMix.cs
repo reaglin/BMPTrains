@@ -25,17 +25,17 @@ namespace BMPTrains_2020.DomainCode
 
         public static Dictionary<string, List<double>> MediaMixes()
         {       
-            // TN Removal, TP removal, ___ , Sorption Rate, Saturated Weight
+            // TN Treatment Efficiency (%), TP Treatment Efficiency (%), Sustain (void fraction) , Sorption Rate (mg/g), Treatment Rate (gpm/sf)
             Dictionary<string, List<double>> d = new Dictionary<string, List<double>>
             {
                 {NotSpecified, new List<double> {0.0, 0.0, 0.25, 0.0, 00, 0 }},
                 //{BnG_ECT, new List<double> {45.0, 45.0, 0.25, 0.2, 63, 1.0}},
-                {BnG_OTE, new List<double>  {80.0, 95.0, 0.25, 0.6, 98, 0.10 }}, //Now IFGEM
-                {BnG_ECT3, new List<double> {45.0, 45.0, 0.25, 0.2, 63, 1.0 }},
-                {SAT, new List<double>      {30.0, 45.0, 0.25, 0.0, 100, 0.02 }},
-                {BnG_CTS12, new List<double> {60.0, 90.0, 0.25, 0.2, 95, 0.052 }},
-                {BnG_CTS24, new List<double> {75.0, 95.0, 0.25, 0.2, 95, 0.052 }},
-                {P_Pavement, new List<double> {60.0, 90.0, 0.25, 0.0, 00, 0 }},
+                {BnG_OTE, new List<double>  {80.0, 95.0, 0.30, 0.6, 105, 0.104 }}, //Now IFGEM
+                {BnG_ECT3, new List<double> {45.0, 45.0, 0.30, 0.2, 63, 1.0 }},
+                {SAT, new List<double>      {20.0, 45.0, 0.30, 0.2, 95, 0.02 }},
+                {BnG_CTS12, new List<double> {60.0, 90.0, 0.30, 0.2, 95, 0.052 }},
+                {BnG_CTS24, new List<double> {75.0, 95.0, 0.30, 0.2, 95, 0.052 }},
+                {P_Pavement, new List<double> {60.0, 90.0, 0.30, 0.2, 95, 0.052 }},
                 {User_Defined, new List<double> {0.0, 0.0, 0.25, 0.0, 00, 0 }},
             };
             return d;
