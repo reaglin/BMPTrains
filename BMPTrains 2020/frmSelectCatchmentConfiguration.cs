@@ -224,5 +224,12 @@ namespace BMPTrains_2020
         {
 
         }
+
+        private void btnFlowBalance_Click(object sender, EventArgs e)
+        {
+            Globals.Project.Calculate();
+            Form form = new frmReport(Globals.Project.FlowBalanceReport(), false);
+            form.ShowDialog();
+        }
     }
 }

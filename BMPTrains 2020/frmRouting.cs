@@ -194,5 +194,12 @@ namespace BMPTrains_2020
             GetValues();
             getCatchment().OpenSelectedBMPForm();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Globals.Project.Calculate();
+            Form form = new frmReport(Globals.Project.FlowBalanceReport(), false);
+            form.ShowDialog();
+        }
     }
 }

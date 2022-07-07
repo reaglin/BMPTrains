@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label4 = new System.Windows.Forms.Label();
+            this.btnFlowBalance = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbOptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -118,7 +119,6 @@
             this.toolTip1.SetToolTip(this.btnReport, "This report is a full balance and removal for all catchments in the configuration" +
         ".");
             this.btnReport.UseVisualStyleBackColor = true;
-            this.btnReport.Visible = false;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // label2
@@ -142,12 +142,24 @@
             this.label4.Text = "\r\n0 is Outlet";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
+            // btnFlowBalance
+            // 
+            this.btnFlowBalance.Location = new System.Drawing.Point(613, 266);
+            this.btnFlowBalance.Name = "btnFlowBalance";
+            this.btnFlowBalance.Size = new System.Drawing.Size(255, 42);
+            this.btnFlowBalance.TabIndex = 46;
+            this.btnFlowBalance.Text = "Flow Balance Report";
+            this.toolTip1.SetToolTip(this.btnFlowBalance, "This report shows the flows into and out of each routing.");
+            this.btnFlowBalance.UseVisualStyleBackColor = true;
+            this.btnFlowBalance.Click += new System.EventHandler(this.btnFlowBalance_Click);
+            // 
             // frmSelectCatchmentConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 519);
             this.ControlBox = false;
+            this.Controls.Add(this.btnFlowBalance);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnReport);
@@ -181,5 +193,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnFlowBalance;
     }
 }

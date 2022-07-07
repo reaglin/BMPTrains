@@ -321,14 +321,13 @@ namespace BMPTrains_2020.DomainCode
         public virtual double GroundwaterNLoading()
         {
             BMP bmp = getSelectedBMP();
-            return bmp.GroundwaterNLoading();
-
+            if (bmp.isRetention()) return bmp.GroundwaterNLoading(); else return 0.0;
         }
 
         public virtual double GroundwaterPLoading()
         {
             BMP bmp = getSelectedBMP();
-            return bmp.GroundwaterPLoading();
+            if (bmp.isRetention()) return bmp.GroundwaterPLoading(); else return 0.0;
         }
 
         public double GroundwaterNRemoved()
@@ -470,6 +469,11 @@ namespace BMPTrains_2020.DomainCode
         public string getRoutingBalanceReport()
         {
             return routing.getBalanceReport();
+        }
+
+        public string getFlowBalanceReport()
+        {
+            return routing.FlowBalanceReport();
         }
 
 
@@ -1232,9 +1236,21 @@ namespace BMPTrains_2020.DomainCode
         // In routing Hydraulic Efficiency is the % that passes through the BMP
         public double HydraulicEfficiency { get; set; } // Given as %
 
+        // Each Catchment Routing has these volumes
+        // VolumeFromCatchment - this is volume coming into the Catchment Routing from the Catchment
+        // VolumeFromUpstream - in addition to the volume from the catchment, upstream nodes can contribute to the volume
+        // VolumeIn - all volume coming into the node (usually sum of upstream and catchment
+        // VolumeOut - Total volume leaving the node and heading to the next node
+        // VolumeTreated - This treatment efficiency * volume in
+        // VolumeIntoMedia - If media exists then it will capture some of the load before GW
+        // VolumeGW - Total Volume of water going into the ground 
+
         public double VolumeFromCatchment { get; set; }
+        public double VolumeFromUpstream { get; set; }
         public double VolumeIn { get; set; }
         public double VolumeOut { get; set; }
+        public double VolumeTreated { get; set; }
+        public double VolumeIntoMedia { get; set; }
         public double VolumeGW { get; set; }
 
         public string RoutingNotes { get; set; }
@@ -1274,6 +1290,8 @@ namespace BMPTrains_2020.DomainCode
         }
         public void setCatchmentRouting(Catchment c)
         {
+            // When a catchment routing is initialized these parameters are set
+
             resetCatchmentRouting();
             BMP bmp = c.getSelectedBMP();
 
@@ -1292,6 +1310,7 @@ namespace BMPTrains_2020.DomainCode
             
             Nitrogen.Name = "Nitrogen";
             Phosphorus.Name = "Phosphorus";
+
             if (c.Disabled)
             {
 
@@ -1299,10 +1318,15 @@ namespace BMPTrains_2020.DomainCode
                 Phosphorus.Calculate();
                 return;
             }
+
+            // The VolumeIn is set to the VolumeFromCatchment
+            // Volume from Upstream Nodes is added during routing
+            // VolumeIn will be VolumeFromCatchment + summation of VolumeOut of upstream nodes
             Name = c.CatchmentName;
             UpstreamNodes = "";
             VolumeFromCatchment = c.PostRunoffVolume;
             VolumeIn = VolumeFromCatchment;                         // This is the starting point, more will be added
+            VolumeFromUpstream = 0;
             HydraulicEfficiency = 100;
 
             Nitrogen.ProvidedRemovalEfficiency = bmp.ProvidedNTreatmentEfficiency;
@@ -1380,7 +1404,8 @@ namespace BMPTrains_2020.DomainCode
                 {"ToID", "Routing to Catchment:"},
                 {"VolumeFromCatchment", "Volume From Catchment (ac-ft)" },
                 {"VolumeIn", "Total Volume In (ac-ft)" },
-                {"VolumeOut", "Total Volume Out (ac-ft)" }
+                {"VolumeOut", "Total Volume Out (ac-ft)" },
+                {"VolumeGW", "Total Volume Groundwater or Media (ac-ft)" },
             };
         }
         public override Dictionary<string, int> PropertyDecimalPlaces()
@@ -1411,7 +1436,21 @@ namespace BMPTrains_2020.DomainCode
 
             return s;
         }
-
+        public string FlowBalanceReport()
+        {
+            string s = "Catchment Routing ID: " + FromID.ToString() + "<br/>";
+            s += "BMP Type: " + BMPType +"<br/>";
+            s += "Routing to: " + ToID.ToString() + "<br/><br/>";
+            s += "All volumes in ac-ft";
+            s += "<table>";
+            s += "<tr><td>Volume From Catchment</td><td>" + GetValue(VolumeFromCatchment, 2) + "</td></tr>";
+            s += "<tr><td>Volume From Upstream</td><td>" + GetValue(VolumeFromUpstream, 2) + "</td></tr>";
+            s += "<tr><td>Total Volume In</td><td>" + GetValue(VolumeIn, 2) + "</td></tr>";
+            s += "<tr><td>Volume Into GW (or Media)</td><td>" + GetValue(VolumeGW, 2) + "</td></tr>";
+            s += "<tr><td>Volume Out (to next node)</td><td>" + GetValue(VolumeOut, 2) + "</td></tr>";
+            s += "</table>";
+            return s;
+        }
         public string getBalanceReport()
         {
             RoutingParameters n =  Nitrogen.Calculate();
@@ -1576,6 +1615,9 @@ namespace BMPTrains_2020.DomainCode
             }
 
             cr.VolumeOut = cr.HydraulicEfficiency * cr.VolumeIn / 100;
+            cr.VolumeIntoMedia = cr.VolumeIn - cr.VolumeOut;
+            cr.VolumeGW = cr.VolumeIn - cr.VolumeOut;
+
             return cr.VolumeOut;
         }
 
@@ -1588,6 +1630,8 @@ namespace BMPTrains_2020.DomainCode
 
             // Volume
             VolumeIn += cr.VolumeOut;  // The Catchment Volume is put in during initialization
+            VolumeFromUpstream += cr.VolumeOut;
+
             VolumeOut = HydraulicEfficiency * VolumeIn / 100;
 
             // Sum Upstream

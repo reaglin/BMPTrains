@@ -36,7 +36,7 @@ namespace BMPTrains_2020.DomainCode
                 {BnG_CTS12, new List<double> {60.0, 90.0, 0.30, 0.2, 95, 0.052 }},
                 {BnG_CTS24, new List<double> {75.0, 95.0, 0.30, 0.2, 95, 0.052 }},
                 {P_Pavement, new List<double> {60.0, 90.0, 0.30, 0.2, 95, 0.052 }},
-                {User_Defined, new List<double> {0.0, 0.0, 0.25, 0.0, 00, 0 }},
+                {User_Defined, new List<double> {0.0, 0.0, 0.25, 0.0, 00, 0.0 }},
             };
             return d;
         }

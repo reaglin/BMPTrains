@@ -813,9 +813,11 @@ namespace BMPTrains_2020.DomainCode
             double t = 0.0;
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                //if (!kvp.Value.Disabled) t += kvp.Value.getRechargeRate();
-                if (!kvp.Value.Disabled) t += 0.3258724* kvp.Value.getRouting().VolumeGW;
+                if (!kvp.Value.Disabled) t += kvp.Value.getRechargeRate();
+                //if (!kvp.Value.Disabled) t += 0.3258724* kvp.Value.getRouting().VolumeGW;
+                //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
             }
+            
             return t;
 
         }
@@ -1088,11 +1090,39 @@ namespace BMPTrains_2020.DomainCode
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
             string PNLR = (Double.IsNaN(ActualNR) ? "99+" : ActualNR.ToString("##"));
+
+            // Nitrogen and Phosphorus ground loading
+            double gwn = CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
+            double gwnr = CalculateTotalCatchmentGWNRemoved();  // Total mass removed
+            double gwnd;
+
+            if (gwnr != 0)
+            {
+                gwnd = gwn - gwnr; // TOtal mass discharged from media into GW
+            }
+            else
+            {
+                gwnd = (tn - OutletNLoad);
+            }
+            double gwp = CalculateTotalCatchmentGWPLoading();
+            double gwpr = CalculateTotalCatchmentGWPRemoved();
+            double gwpd;
+            if (gwpr != 0)
+            {
+                gwpd = gwp - gwpr;      // TOtal mass discharged from media into GW
+            }
+            else
+            {
+                gwpd = tp - OutletPLoad;
+            }
+
             if (Double.IsNaN(OutletNLoad)) OutletNLoad = 0;
+
+            double pnlr = tn - OutletNLoad - gwnd;
 
             s += "<tr>" + td + "Percent N load reduction</td>" + td + "" + PNLR + " %</td><td></td></tr>";
             s += "<tr>" + td + "Provided N discharge load</td>" + td + "" + OutletNLoad.ToString("##.##") + " kg/yr</td><td>" + (OutletNLoad * 2.205).ToString("##.##") + " lb/yr</td></tr>";
-            s += "<tr>" + td + "Provided N load removed</td>" + td + "" + (tn - OutletNLoad).ToString("##.##") + " kg/yr</td><td>" + ((tn - OutletNLoad) * 2.205).ToString("##.##") + " lb/yr</td></tr>";
+            s += "<tr>" + td + "Provided N load removed</td>" + td + "" + (pnlr).ToString("##.##") + " kg/yr</td><td>" + ((pnlr) * 2.205).ToString("##.##") + " lb/yr</td></tr>";
             double recharge = CalculateTotalCatchmentGWRechargeRate();
 
             //            double NRetained = BMPNMassLoadIn - BMPNMassLoadOut - GroundwaterNMassDischarge;
@@ -1101,19 +1131,9 @@ namespace BMPTrains_2020.DomainCode
             if (Globals.Project.DoGroundwaterAnalysis == "Yes")
             {
                 s += "<tr><td><h4><br/>Groundwater Discharge</h4></td><td></td><td></td></tr>";
-                double gwn = CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
-                double gwnr = CalculateTotalCatchmentGWNRemoved();  // Total mass removed
-                double gwnd;
 
-                if (gwnr != 0)
-                {
-                    gwnd = gwn - gwnr; // TOtal mass discharged from media into GW
-                }
-                else
-                {
-                    gwnd = (tn - OutletNLoad);
-                }
-                double gwpr = 0.0;
+
+                //double gwpr = 0.0;
                 if (gwn  != 0) gwpr = 100* gwnd / gwn;
                 double Nconcentration = (recharge != 0 ? (gwnd * 1e6)  / (recharge * 3785411.78) : 0.0);
                 //double NConcentration = (tn-OutletNLoad)
@@ -1154,23 +1174,13 @@ namespace BMPTrains_2020.DomainCode
             if (Globals.Project.DoGroundwaterAnalysis == "Yes")
             {
                 s += "<tr><td><br/><h4>Groundwater Discharge<h4></td><td></td><td></td></tr>";
-                double gwn = CalculateTotalCatchmentGWPLoading();
-                double gwnr = CalculateTotalCatchmentGWPRemoved();
-                double gwnd;
-                if (gwnr != 0)
-                {
-                    gwnd = gwn - gwnr;                           // TOtal mass discharged from media into GW
-                }
-                else
-                {
-                    gwnd = tp - OutletPLoad;
-                }
-                double gwpr = 0.0;
-                if (gwn != 0) gwpr = 100 * gwnd / gwn;
-                double Pconcentration = (recharge != 0 ? (gwnd * 1e6) / (recharge * 3785411.78) : 0.0);
+
+                
+                if (gwp != 0) gwpr = 100 * gwnd / gwn;
+                double Pconcentration = (recharge != 0 ? (gwpd * 1e6) / (recharge * 3785411.78) : 0.0);
 
                 s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + recharge.ToString("##.###") + " MG/yr</td><td></td></tr>";
-                s += "<tr>" + td + "Provided P recharge load</td>" + td + "" + gwnd.ToString("##.####") + " kg/yr</td><td>" + (gwnd * 2.205).ToString("##.####") + " lb/yr</td></tr>";
+                s += "<tr>" + td + "Provided P recharge load</td>" + td + "" + gwpd.ToString("##.####") + " kg/yr</td><td>" + (gwpd * 2.205).ToString("##.####") + " lb/yr</td></tr>";
                 s += "<tr>" + td + "Provided P Concentration</td>" + td + "" + Pconcentration.ToString("##.####") + " mg/l</td><td></td></tr>";
             }
 
@@ -1237,6 +1247,17 @@ namespace BMPTrains_2020.DomainCode
             }
             s += "<br/>";
             s += summaryReport();
+            return s;
+        }
+
+        public string FlowBalanceReport()
+        {
+            string s = "<h2>Flow Balance Report</h2>";
+            for (int i = 1; i <= numCatchments; i++)
+            {
+                s += Catchments[i].getFlowBalanceReport();
+                s += "<br/>";
+            }
             return s;
         }
 
