@@ -813,8 +813,9 @@ namespace BMPTrains_2020.DomainCode
             double t = 0.0;
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                if (!kvp.Value.Disabled) t += kvp.Value.getRechargeRate();
-                //if (!kvp.Value.Disabled) t += 0.3258724* kvp.Value.getRouting().VolumeGW;
+                //double gw = kvp.Value.getRechargeRate();
+                //if (!kvp.Value.Disabled) t += gw;
+                t += 0.3258724* kvp.Value.getRouting().VolumeGW;
                 //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
             }
             
@@ -1118,7 +1119,7 @@ namespace BMPTrains_2020.DomainCode
 
             if (Double.IsNaN(OutletNLoad)) OutletNLoad = 0;
 
-            double pnlr = tn - OutletNLoad - gwnd;
+            double pnlr = tn - OutletNLoad;
 
             s += "<tr>" + td + "Percent N load reduction</td>" + td + "" + PNLR + " %</td><td></td></tr>";
             s += "<tr>" + td + "Provided N discharge load</td>" + td + "" + OutletNLoad.ToString("##.##") + " kg/yr</td><td>" + (OutletNLoad * 2.205).ToString("##.##") + " lb/yr</td></tr>";

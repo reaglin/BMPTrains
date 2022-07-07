@@ -125,6 +125,7 @@ namespace BMPTrains_2020
 
         private void btnPavements_Click(object sender, EventArgs e)
         {
+            getValues();
             Form form = new frmPervousPavementTypes(currentBMP());
             form.ShowDialog();
             setValues();

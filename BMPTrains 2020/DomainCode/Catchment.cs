@@ -1471,7 +1471,8 @@ namespace BMPTrains_2020.DomainCode
             s += EfficiencyReportCell("&darr;");
             s += "<td></td><td></td></tr>";
             s += "<tr><td></td><td></td><td></td>";
-            s += EfficiencyReportCell(n.RemovedLoad, p.RemovedLoad, 2, "kg/yr", "Mass Removed");
+            s += MassBalanceReportCell(n.RemovedLoad, p.RemovedLoad, VolumeGW, 2, "Mass Removed");
+            // s += EfficiencyReportCell(n.RemovedLoad, p.RemovedLoad, 2, "kg/yr", "Mass Removed");
             s += "<td></td><td></td></tr>";
             s += "</table>";
 
