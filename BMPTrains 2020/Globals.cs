@@ -12,5 +12,7 @@ namespace BMPTrains_2020
         private static DomainCode.BMPTrainsProject project = new BMPTrainsProject();
 
         public static BMPTrainsProject Project { get => project; set => project = value; }
+
+        public static string HelpURL = "http://roneaglin.online/bmptrains/";
     }
 }

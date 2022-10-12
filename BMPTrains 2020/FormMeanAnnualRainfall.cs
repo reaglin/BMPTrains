@@ -72,10 +72,11 @@ namespace BMPTrains_2020
 
         private void btnInfo_Click(object sender, EventArgs e)
         {
+            DomainCode.Common.OpenURL(Globals.HelpURL);
             // Same for every edit form - URL will change
             // This allows us to have external help by pulling up a web site in the application
-            Form form = new frmHelp("https://stormwater.ucf.edu/research-publications/");
-            form.ShowDialog();
+            //Form form = new frmHelp("https://stormwater.ucf.edu/research-publications/");
+            //form.ShowDialog();
         }
     }
 }

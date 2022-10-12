@@ -84,13 +84,12 @@
             // 
             // btnInfo
             // 
-            this.btnInfo.Location = new System.Drawing.Point(730, 3);
+            this.btnInfo.Location = new System.Drawing.Point(722, 3);
             this.btnInfo.Name = "btnInfo";
             this.btnInfo.Size = new System.Drawing.Size(112, 30);
             this.btnInfo.TabIndex = 5;
-            this.btnInfo.Text = "Information";
+            this.btnInfo.Text = "Updates";
             this.btnInfo.UseVisualStyleBackColor = true;
-            this.btnInfo.Visible = false;
             this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
             // 
             // btnExit

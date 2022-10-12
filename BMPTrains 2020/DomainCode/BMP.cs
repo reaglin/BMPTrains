@@ -173,7 +173,7 @@ namespace BMPTrains_2020.DomainCode
             AnalysisType = c.AnalysisType;
             CatchmentID = c.id;
             CatchmentName = c.CatchmentName;
-            if ((HelpURL == "") || (HelpURL == null)) HelpURL = "http://stormwater.ucf.edu/";
+            if ((HelpURL == "") || (HelpURL == null)) HelpURL = Globals.HelpURL;
             GroundwaterNTreatmentEfficiency = 0;
             GroundwaterPTreatmentEfficiency = 0;
             TNEMC = c.PostNConcentration;

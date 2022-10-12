@@ -12,7 +12,7 @@ namespace BMPTrains_2020.DomainCode
         public static string NotSpecified = "Not Specified";
         public static string None = "None";
         public static string BnG_ECT = "IFGEM";
-        public static string BnG_OTE = "IFGEM";
+        public static string BnG_OTE = "ICS";
         public static string BnG_ECT3 = "B&G ECT Mixes";
         public static string SAT = "SAT";
         public static string BnG_CTS12 = "B&G CTS12";
@@ -30,7 +30,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 {NotSpecified, new List<double> {0.0, 0.0, 0.25, 0.0, 00, 0 }},
                 //{BnG_ECT, new List<double> {45.0, 45.0, 0.25, 0.2, 63, 1.0}},
-                {BnG_OTE, new List<double>  {80.0, 95.0, 0.30, 0.6, 105, 0.104 }}, //Now IFGEM
+                {BnG_OTE, new List<double>  {80.0, 95.0, 0.30, 0.6, 105, 0.104 }}, //Now IFGEM // Now ICS
                 {BnG_ECT3, new List<double> {45.0, 45.0, 0.30, 0.2, 63, 1.0 }},
                 {SAT, new List<double>      {20.0, 45.0, 0.30, 0.2, 95, 0.02 }},
                 {BnG_CTS12, new List<double> {60.0, 90.0, 0.30, 0.2, 95, 0.052 }},
