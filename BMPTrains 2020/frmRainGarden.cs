@@ -59,7 +59,7 @@ namespace BMPTrains_2020
             Common.setValue(tbVoidFraction, currentBMP().VoidFraction);
             Common.setValue(tbMediaVolume, currentBMP().MediaVolume);
             Common.setValue(tbWaterAboveMedia, currentBMP().WaterAboveMedia);
-            Common.setValue(tbMediaArea, currentBMP().MediaAreaSF);
+            Common.setValue(tbMediaArea, currentBMP().CreditForCoverCrop);
             
             setMediaValues();
             setOutputText();
@@ -90,7 +90,7 @@ namespace BMPTrains_2020
             currentBMP().VoidFraction = Common.getDouble(tbVoidFraction);
             currentBMP().MediaVolume = Common.getDouble(tbMediaVolume);
             currentBMP().WaterAboveMedia = Common.getDouble(tbWaterAboveMedia);
-            currentBMP().MediaAreaSF = Common.getDouble(tbMediaArea);
+            currentBMP().CreditForCoverCrop = Common.getDouble(tbMediaArea);
 
             if (currentBMP().MediaMixType != MediaMix.User_Defined)
             {

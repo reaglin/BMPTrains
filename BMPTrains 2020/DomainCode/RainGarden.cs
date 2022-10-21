@@ -21,6 +21,8 @@ namespace BMPTrains_2020.DomainCode
         public double VolumeStorageIn { get; set; }
         public double MediaAreaSF { get; set; }
         public double MinimumMediaArea { get; set; }
+        public double CreditForCoverCrop { get; set; }
+
 
         public RainGarden(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sRainGarden;
@@ -92,8 +94,7 @@ namespace BMPTrains_2020.DomainCode
                 {"WaterAboveMedia", "Water Storage Above Media (cubic feet)"},
                 { "ProvidedRetentionVolume", "Provided retention volume for efficiency (ac-ft)" },
                 { "TreatmentMediaDepth", "Provided Media Treatment Depth (in)" },
-                { "MinimumMediaArea", "Minimum Media Area (SF)" },
-                { "MediaAreaSF",  "Media Area (SF)" }
+                { "CreditForCoverCrop", "Credit For Cover Crop (%)" }
                 });
             return s;
         }
@@ -105,6 +106,8 @@ namespace BMPTrains_2020.DomainCode
                 {
                     {"VoidFraction", 2},
                     {"VolumeStorageCF", 2},
+                    {"CreditForCoverCrop", 1},
+
                 };
             return Add(current, base.PropertyDecimalPlaces());
         }
@@ -143,8 +146,8 @@ namespace BMPTrains_2020.DomainCode
             base.Calculate();
             if (RetentionOrDetention == RainGarden.sRetention)
             {
-                ProvidedNTreatmentEfficiency = HydraulicCaptureEfficiency;
-                ProvidedPTreatmentEfficiency = HydraulicCaptureEfficiency;
+                ProvidedNTreatmentEfficiency = HydraulicCaptureEfficiency + (CreditForCoverCrop / 100.0) * (100 - HydraulicCaptureEfficiency);
+                ProvidedPTreatmentEfficiency = HydraulicCaptureEfficiency + (CreditForCoverCrop / 100.0) * (100 - HydraulicCaptureEfficiency);
             }
 
             // The input is Retention Depth in inches over watershed
@@ -155,8 +158,8 @@ namespace BMPTrains_2020.DomainCode
                     MediaNPercentReduction = MediaMix.TNRemoval(MediaMixType);
                     MediaPPercentReduction = MediaMix.TPRemoval(MediaMixType);
                 }
-                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency * MediaNPercentReduction / 100;
-                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency * MediaPPercentReduction / 100;
+                ProvidedNTreatmentEfficiency = CreditForCoverCrop + ProvidedNTreatmentEfficiency * MediaNPercentReduction / 100;
+                ProvidedPTreatmentEfficiency = CreditForCoverCrop + ProvidedPTreatmentEfficiency * MediaPPercentReduction / 100;
             }
         }
 

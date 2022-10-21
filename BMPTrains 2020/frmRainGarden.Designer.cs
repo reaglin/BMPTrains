@@ -297,11 +297,11 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(190, 232);
+            this.label8.Location = new System.Drawing.Point(186, 232);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(256, 25);
+            this.label8.Size = new System.Drawing.Size(260, 25);
             this.label8.TabIndex = 48;
-            this.label8.Text = "Media Area (square feet):";
+            this.label8.Text = "Credit for Cover Crop (%):";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbMediaArea

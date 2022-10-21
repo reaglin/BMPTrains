@@ -42,6 +42,7 @@ namespace BMPTrains_2020.DomainCode
                 new LanduseTableRow() {D = "Undeveloped - Wet Flatwoods: TN=1.213 TP=0.021", N =1.213, P =0.021},
                 new LanduseTableRow() {D = "Undeveloped - Wet Prairie: TN=1.095 TP=0.015", N =1.095, P =0.015},
                 new LanduseTableRow() {D = "Undeveloped - Xeric Scrub: TN=1.596 TP=0.156", N =1.596, P =0.156},
+                new LanduseTableRow() {D = "General Natural: TN=1.22 TP=0.213", N =1.22, P =0.213},
                 new LanduseTableRow() {D = "SJRWMD Apopka Open Space/Recreation/Fallow Crop: TN=1.100 TP=0.050", N =1.1, P =0.05},
                 new LanduseTableRow() {D = "SJRWMD Apopka Forests/Abandoned Tree Crops: TN=1.250 TP=0.080", N =1.25, P =0.08},
                 new LanduseTableRow() {D = "Rangeland/Parkland: TN=1.150 TP=0.055", N =1.15, P =0.055},
