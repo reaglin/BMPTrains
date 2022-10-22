@@ -20,10 +20,10 @@ namespace BMPTrains_2020.DomainCode
         {
             List<LanduseTableRow> values = new List<LanduseTableRow>
             {
-                new LanduseTableRow() {D = "Agricultural - Citrus:    TN=2.240 TP=0.183", N =2.24, P =0.183},
-                new LanduseTableRow() {D = "Agricultural - General: TN=2.800 TP=0.487", N =2.8, P =0.487},
-                new LanduseTableRow() {D = "Agricultural - Pasture: TN=3.510TP=0.686", N =3.51, P =0.686},
-                new LanduseTableRow() {D = "Agricultural - Row Crops: TN=2.650 TP=0.593 ", N =2.65, P =0.593},
+                new LanduseTableRow() {D = "Agricultural - Citrus:    TN=2.11 TP=0.18", N =2.11, P =0.18},
+                new LanduseTableRow() {D = "Agricultural - General: TN=2.55 TP=0.450", N =2.55, P =0.45},
+                new LanduseTableRow() {D = "Agricultural - Pasture: TN=3.03 TP=0.593", N =3.03, P =0.593},
+                new LanduseTableRow() {D = "Agricultural - Row Crops: TN=2.50 TP=0.577 ", N =2.5, P =0.577},
                 new LanduseTableRow() {D = "Conventional Roofs: TN=1.050 TP=0.120", N =1.05, P =0.12},
                 new LanduseTableRow() {D = "High-Intensity Commercial: TN=2.40 TP=0.345", N =2.4, P =0.345},
                 new LanduseTableRow() {D = "Highway: TN=1.520 TP=0.200", N =1.52, P =0.2},

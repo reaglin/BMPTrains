@@ -158,8 +158,16 @@ namespace BMPTrains_2020.DomainCode
                     MediaNPercentReduction = MediaMix.TNRemoval(MediaMixType);
                     MediaPPercentReduction = MediaMix.TPRemoval(MediaMixType);
                 }
-                ProvidedNTreatmentEfficiency = CreditForCoverCrop + ProvidedNTreatmentEfficiency * MediaNPercentReduction / 100;
-                ProvidedPTreatmentEfficiency = CreditForCoverCrop + ProvidedPTreatmentEfficiency * MediaPPercentReduction / 100;
+                if (MediaNPercentReduction == 0)
+                {
+                    ProvidedNTreatmentEfficiency = CreditForCoverCrop;
+                    ProvidedPTreatmentEfficiency = CreditForCoverCrop;
+                }
+                else
+                {
+                    ProvidedNTreatmentEfficiency = HydraulicCaptureEfficiency* MediaNPercentReduction/100 + (CreditForCoverCrop / 100.0) * (100 - HydraulicCaptureEfficiency * MediaNPercentReduction / 100);
+                    ProvidedPTreatmentEfficiency = HydraulicCaptureEfficiency * MediaPPercentReduction / 100 + (CreditForCoverCrop / 100.0) * (100 - HydraulicCaptureEfficiency * MediaPPercentReduction / 100);
+                }
             }
         }
 
