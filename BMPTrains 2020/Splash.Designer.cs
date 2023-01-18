@@ -43,9 +43,9 @@
             this.label1.Font = new System.Drawing.Font("Broadway", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(59, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(337, 24);
+            this.label1.Size = new System.Drawing.Size(518, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Welcome to BMP 2020 Trains";
+            this.label1.Text = "Welcome to BMP 2020 Trains (January 2023)";
             // 
             // buttonContinue
             // 
@@ -71,7 +71,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(620, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(628, 39);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(190, 264);
             this.pictureBox1.TabIndex = 0;

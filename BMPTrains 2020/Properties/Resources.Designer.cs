@@ -296,7 +296,8 @@ namespace BMPTrains_2020.Properties {
         ///href=&quot;Event%20Mean%20Concentrations!G7-H21_files/filelist.xml&quot;&gt;
         ///&lt;!--[if !mso]&gt;
         ///&lt;style&gt;
-        ///v\:* {behavior:url(#default#VML);}        /// [rest of string was truncated]&quot;;.
+        ///v\:* {behavior:url(#default#VML);}
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GeneralLanduseCategories {
             get {
@@ -332,6 +333,16 @@ namespace BMPTrains_2020.Properties {
         internal static string NaturalCommunitySummary {
             get {
                 return ResourceManager.GetString("NaturalCommunitySummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NOAA_2023 {
+            get {
+                object obj = ResourceManager.GetObject("NOAA_2023", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

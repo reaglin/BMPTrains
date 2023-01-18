@@ -981,7 +981,11 @@ namespace BMPTrains_2020.DomainCode
                 s += kvp.Value.SelectedBMPTitle();
                 s += "</br>";
             }
-            s += "Based on % removal values to the nearest percent<br/>";
+            if (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
+                s += "Based on discharge load to 2 decimal places<br/>";
+            else
+                s += "Based on % removal values to the nearest percent<br/>";
+    
             s += "</td>";
             s += "<td style='width:50%;'>";
             s += "<div style='font-size: 1.2em; text-align:right;'>Date:" + DateTime.Now.ToString("d") + "</div><br/>";
@@ -1082,15 +1086,17 @@ namespace BMPTrains_2020.DomainCode
 
             s += "<tr>" + td + "Total N post load</td>" + td + "" + tn.ToString("##.##") + " kg/yr</td><td></td></tr>";
 
+            string decimal_removal = "##";
+            if (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement) decimal_removal = "##.##";
             // Targets only exist in the case of Specified removal efficiency
             if ((Globals.Project.AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) 
                 || (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.sPreReduction))
             { 
-                s += "<tr>" + td + "Target N load reduction</td>" + td + "" + targetNPercent.ToString("##") + " %</td><td></td></tr>";
+                s += "<tr>" + td + "Target N load reduction</td>" + td + "" + targetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
-            string PNLR = (Double.IsNaN(ActualNR) ? "99+" : ActualNR.ToString("##"));
+            string PNLR = (Double.IsNaN(ActualNR) ? "99+" : ActualNR.ToString(decimal_removal));
 
             // Nitrogen and Phosphorus ground loading
             double gwn = CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
@@ -1160,11 +1166,11 @@ namespace BMPTrains_2020.DomainCode
                 || (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.sPreReduction))
             {
-                s += "<tr>" + td + "Target P load reduction</td>" + td + "" + targetPPercent.ToString("##") + " %</td><td></td></tr>";
+                s += "<tr>" + td + "Target P load reduction</td>" + td + "" + targetPPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target P discharge load</td>" + td + "" + TargetPMassLoad.ToString("##.###") + " kg/yr</td><td></td></tr>";
             }
 
-            string PPLR = (Double.IsNaN(ActualPR) ? "99+" : ActualPR.ToString("##"));
+            string PPLR = (Double.IsNaN(ActualPR) ? "99+" : ActualPR.ToString(decimal_removal));
             if (Double.IsNaN(OutletPLoad)) OutletPLoad = 0;
             s += "<tr>" + td + "Percent P load reduction</td>" + td + "" + PPLR + " %</td><td></td></tr>";
             s += "<tr>" + td + "Provided P discharge load</td>" + td + "" + OutletPLoad.ToString("##.###") + " kg/yr</td>";

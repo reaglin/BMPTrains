@@ -539,6 +539,7 @@
     <Content Include="Images\drippy-medium.jpg" />
     <Content Include="Images\Elegantthemes-Beautiful-Flat-Magnifying-glass.ico" />
     <None Include="Images\RainfallZones.png" />
+    <Resource Include="Images\NOAA_2023.png" />
     <Resource Include="Images\RainfallMap-Central.png" />
     <Resource Include="Images\RainfallMap-NE.png" />
     <Resource Include="Images\RainfallMap-NW.png" />
