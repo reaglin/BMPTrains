@@ -34,7 +34,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -43,9 +45,9 @@
             this.label1.Font = new System.Drawing.Font("Broadway", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(59, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(518, 24);
+            this.label1.Size = new System.Drawing.Size(547, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Welcome to BMP 2020 Trains (January 2023)";
+            this.label1.Text = "Welcome to BMP Trains 2025 Training Software";
             // 
             // buttonContinue
             // 
@@ -64,29 +66,42 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 63);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(502, 260);
+            this.label2.Size = new System.Drawing.Size(541, 280);
             this.label2.TabIndex = 3;
             this.label2.Text = resources.GetString("label2.Text");
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(628, 39);
+            this.pictureBox1.Location = new System.Drawing.Point(711, -2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(190, 264);
+            this.pictureBox1.Size = new System.Drawing.Size(127, 174);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 343);
+            this.label3.Location = new System.Drawing.Point(12, 356);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(636, 94);
+            this.label3.Size = new System.Drawing.Size(636, 57);
             this.label3.TabIndex = 5;
             this.label3.Text = "Disclaimer:  The user is responsible for all input data and an understanding of t" +
     "he program details in the User Manual.";
             this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox2.Image = global::BMPTrains_2020.Properties.Resources.FDEP_Logo;
+            this.pictureBox2.Location = new System.Drawing.Point(585, 178);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(180, 180);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
             // 
             // Splash
             // 
@@ -95,6 +110,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(863, 446);
             this.ControlBox = false;
+            this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonContinue);
@@ -104,6 +120,7 @@
             this.Text = "BMP Trains 2020";
             this.Load += new System.EventHandler(this.Splash_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +133,7 @@
         private System.Windows.Forms.Button buttonContinue;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

@@ -243,6 +243,16 @@ namespace BMPTrains_2020.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FDEP_Logo {
+            get {
+                object obj = ResourceManager.GetObject("FDEP_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FDOT_logo_2014 {
             get {
                 object obj = ResourceManager.GetObject("FDOT_logo_2014", resourceCulture);
@@ -296,8 +306,7 @@ namespace BMPTrains_2020.Properties {
         ///href=&quot;Event%20Mean%20Concentrations!G7-H21_files/filelist.xml&quot;&gt;
         ///&lt;!--[if !mso]&gt;
         ///&lt;style&gt;
-        ///v\:* {behavior:url(#default#VML);}
-        /// [rest of string was truncated]&quot;;.
+        ///v\:* {behavior:url(#default#VML);}        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GeneralLanduseCategories {
             get {

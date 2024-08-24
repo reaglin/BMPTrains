@@ -118,8 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>Analysis by: Dr. Marty Wanielista
-Program by: Dr. Ron Eaglin
+    <value>This program is a product of the University of Central Florida
+
+Analysis by: Dr. Marty Wanielista, Dr. Harvey Harper, and Dr. Dingbao Wang
+Programming by: Dr. Ron Eaglin
 
 1) This program  is used to  calculate the average annual removal 
 effectiveness of stormwater Best Management Practices either as 
@@ -127,10 +129,9 @@ stand alone BMPs or as BMPs in series or in parallel.
 
 2) There is a users manual to help navigate this program.
 
-3) Input for improvements was from State DOT, DEP, WMDs, and 
-consultants. The authors recognize that changes will be necessary as 
-knowledge increases. The versions expand on the model published by 
-the UCF Stormwater Academy at the end of State of Florida Support. 
+3) The State Department of Environmental Protection provides guidance
+and resources to develop this program. The Stormwater Management 
+Academy is responsible for the content of this program
 </value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />

@@ -97,7 +97,7 @@ namespace BMPTrains_2020
             //& (bmp.gr)) return bmp.PRetained; //
             
             return bmp.PRetained;
-            return bmp.BMPPMassLoadOut * bmp.MediaPPercentReduction / 100;  
+            //return bmp.BMPPMassLoadOut * bmp.MediaPPercentReduction / 100;  
         }
 
         private void GetValues()

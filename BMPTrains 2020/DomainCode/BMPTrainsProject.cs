@@ -113,8 +113,9 @@ namespace BMPTrains_2020.DomainCode
 
         public string Version()
         {
-            return "BMP Trains Version: " + Application.ProductVersion;
+            return "BMPTrains 2025 Trainee Software Version: " + Application.ProductVersion;
         }
+
 
         public string VersionNumber()
         {
