@@ -14,12 +14,22 @@ namespace BMPTrains_2020.DomainCode
     {
 
         #region "Properties"
+
+
+
         public const string SessionId = "CatchmentID";
         // Catchment ID is id inherited from XmlPropertyObject
         public int ToID { get; set; }
         public bool Disabled { get; set; }
 
         public string CatchmentName { get; set; }
+        
+        // AnalysisType determines the analysis that is done for pre/post
+        // It comes from BMPTrainsProject. The AnalysisTypes are prefixed with 
+        // AT_(Type of Analysis)
+
+        // AnalysisType can also have a Criteria (a generalization of AnalysisTypes)
+        // Which categorize the AnalysisTypes. 
         public string AnalysisType { get; set; }
 
         public double Rainfall { get; set; }
@@ -89,8 +99,7 @@ namespace BMPTrains_2020.DomainCode
         public double PreGWP { get; set; }
         public double PostGWN { get; set; }
         public double PostGWP { get; set; }
-
-
+        public double PreReductionPercent { get; set; }
 
         public CatchmentRouting routing { get; set; }
 
@@ -159,8 +168,8 @@ namespace BMPTrains_2020.DomainCode
             BMP3 = BMPTrainsProject.sNone;
             BMP4 = BMPTrainsProject.sNone;
 
-            DoGroundwaterAnalysis = "Yes";                  // default
-            AnalysisType = BMPTrainsProject.sBMPAnalysis;   // default
+            DoGroundwaterAnalysis = "Yes";                      // default
+            AnalysisType = BMPTrainsProject.AT_BMPAnalysis;     // default AnalysusType
 
             // Set Default BMP to None
             SelectedBMPType = BMPTrainsProject.sNone;
@@ -232,13 +241,12 @@ namespace BMPTrains_2020.DomainCode
             Rainfall = p.MeanAnnualRainfall;
             RainfallZone = p.RainfallZone;
             AnalysisType = p.AnalysisType;
-            if (AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency)
-            {
-                RequiredNTreatmentEfficiency = p.RequiredNTreatmentEfficiency;
-                RequiredPTreatmentEfficiency = p.RequiredPTreatmentEfficiency;
-            }
-            DoGroundwaterAnalysis = p.getDoGroundwaterAnalysis();
-            
+            PreReductionPercent = p.PreReductionPercent;
+
+            CalculateRequiredNTreatmentEfficiency();
+            CalculateRequiredPTreatmentEfficiency();
+ 
+            DoGroundwaterAnalysis = p.getDoGroundwaterAnalysis();           
         }
 
         #endregion
@@ -422,9 +430,9 @@ namespace BMPTrains_2020.DomainCode
         public string TitleHeader()
         {
             string s = " Analysis: " + AnalysisType;
-            if ((AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) ||
-                (AnalysisType == BMPTrainsProject.sNetImprovement) ||
-                (AnalysisType == BMPTrainsProject.sPreReduction))
+            if ((AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
+                (AnalysisType == BMPTrainsProject.AT_NetImprovement) ||
+                (AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
                 return s + " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
 
             return s;
@@ -487,8 +495,8 @@ namespace BMPTrains_2020.DomainCode
 
             CalculateRationalCoefficients();
             CalculateMassLoadings();
-            CalculateNImprovement();
-            CalculatePImprovement();
+            CalculateRequiredNTreatmentEfficiency();
+            CalculateRequiredPTreatmentEfficiency();
 
             // Also Need to set values of BMP's relying on propogation of values
 
@@ -520,9 +528,10 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
-        public string ErrorMessage(string analysisType = BMPTrainsProject.sBMPAnalysis)
+        public string ErrorMessage(string analysisType = BMPTrainsProject.AT_BMPAnalysis)
         {
-            if (analysisType == BMPTrainsProject.sBMPAnalysis)
+            // This checks catchement errors
+            if (analysisType == BMPTrainsProject.AT_BMPAnalysis)
             {
                 if ( PreNonDCIACurveNumber > 100)
                     return "The Pre Non DCIA CN Must be between 30 and 100";
@@ -537,6 +546,15 @@ namespace BMPTrains_2020.DomainCode
                 return "The BMP Area Cannot Exceed the Total Post Development Area";
             if (CatchmentName == "" )
                 return "Please Enter a Name for Your Catchment Before Saving";
+
+            // For specific types of analysis you must have a pre watershed condition
+            if (((analysisType == BMPTrainsProject.AT_NetImprovement) || 
+                (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
+                (analysisType == BMPTrainsProject.AT_PreReductionPercent)) && 
+                PreArea == 0)
+            {
+                return "For this Analysis Method (" + analysisType + ") you must specify a Pre watershed condition";
+            }
             return "";
         }
 
@@ -623,25 +641,65 @@ namespace BMPTrains_2020.DomainCode
             return getSelectedBMP().RechargeRate;
         }
 
-        public double CalculateNImprovement()
+        public double CalculateRequiredNTreatmentEfficiency()
         {
+            // Returns as a Percent Efficiency Requirement
             double ni = 0.0;
-            if (AnalysisType == BMPTrainsProject.sNetImprovement) ni = 100 * (PostNLoading - PreNLoading) / PostNLoading;
-            if (AnalysisType == BMPTrainsProject.sPreReduction) ni = 100 * (PostNLoading - 0.9 * PreNLoading) / PostNLoading;
-            if (AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) return RequiredNTreatmentEfficiency;
+            switch (AnalysisType)
+            {
+                case BMPTrainsProject.AT_AllSites:
+                case BMPTrainsProject.AT_OFW:
+                case BMPTrainsProject.AT_ImpairedWater:
+                case BMPTrainsProject.AT_ImpairedWater_OFW:
+                case BMPTrainsProject.AT_Redevelopment:
+                case BMPTrainsProject.AT_Redevelopment_OFW:
+                    ni = BMPTrainsProject.AT_Removal_For_Scenario(AnalysisType, "N");
+                    break;
+                case BMPTrainsProject.AT_SpecifiedRemovalEfficiency:
+                    ni = RequiredNTreatmentEfficiency;
+                    break;
+                case BMPTrainsProject.AT_NetImprovement:
+                    ni = 100 * (PostNLoading - PreNLoading) / PostNLoading; 
+                    break;
+                case BMPTrainsProject.AT_BMPAnalysis: break;
+                case BMPTrainsProject.AT_PreReductionPercent:
+                    ni = 100 * (PostNLoading - ((100.0 - (double)PreReductionPercent) / 100.0) * PreNLoading) / PostNLoading;
+                    break;
+                default:
+                    break;
+            }
             if (ni < 0) RequiredNTreatmentEfficiency = 0.0; else RequiredNTreatmentEfficiency = ni;
-
             return RequiredNTreatmentEfficiency;
         }
 
-        public double CalculatePImprovement()
+        public double CalculateRequiredPTreatmentEfficiency()
         {
+            // Returns as a Required Efficiency Requirement
             double ni = 0.0;
-            if (AnalysisType == BMPTrainsProject.sNetImprovement) ni = 100 * (PostPLoading - PrePLoading) / PostPLoading;
-            if (AnalysisType == BMPTrainsProject.sPreReduction) ni = 100 * (PostPLoading - 0.9 * PrePLoading) / PostPLoading;
-            if (AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) return RequiredPTreatmentEfficiency;
+            switch (AnalysisType)
+            {
+                case BMPTrainsProject.AT_AllSites:
+                case BMPTrainsProject.AT_OFW:
+                case BMPTrainsProject.AT_ImpairedWater:
+                case BMPTrainsProject.AT_ImpairedWater_OFW:
+                case BMPTrainsProject.AT_Redevelopment:
+                case BMPTrainsProject.AT_Redevelopment_OFW:
+                    ni = BMPTrainsProject.AT_Removal_For_Scenario(AnalysisType, "P");
+                    break;
+                case BMPTrainsProject.AT_SpecifiedRemovalEfficiency:
+                    ni = RequiredPTreatmentEfficiency;
+                    break;
+                case BMPTrainsProject.AT_NetImprovement:
+                    ni = 100 * (PostPLoading - PrePLoading) / PostPLoading;
+                    break;
+                case BMPTrainsProject.AT_BMPAnalysis: break;
+                case BMPTrainsProject.AT_PreReductionPercent:
+                    ni = (100.0 - (double)PreReductionPercent) / 100.0;
+                    break;
+                default:
+                    break;
+            }
             if (ni < 0) RequiredPTreatmentEfficiency = 0.0; else RequiredPTreatmentEfficiency = ni;
-
             return RequiredPTreatmentEfficiency;
         }
 

@@ -21,6 +21,10 @@ namespace BMPTrains_2020.DomainCode
         public double TrenchVolumeCF { get; set; }
         public double StorageVolumeAF { get; set; }
         public double StorageVolumeIn { get; set; }
+        public bool ExfiltrationOver3hours { get; set; }
+
+        public double IncreasedEffectiveness { get; set; }
+
 
         public Exfiltration(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sExfiltration;
@@ -31,6 +35,7 @@ namespace BMPTrains_2020.DomainCode
             // The input is Retention Depth in inches over watershed
             CalculateStorage();
             base.Calculate();
+            CalculateAdjustment();
         }
         public new void SetValuesFromProject(BMPTrainsProject p, Catchment c)
         {
@@ -59,7 +64,8 @@ namespace BMPTrains_2020.DomainCode
                 {"label1", "<b>Provided Values Based on Inputs</b>"  },
                 { "RainfallZone", "Rainfall Zone:"},
                 {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                {"IncreasedEffectiveness", "Effectiveness Increase for > 3 hours (%)" }
             };
 
             Dictionary<string, string> d2 = MediaMixLabels();
@@ -87,9 +93,11 @@ namespace BMPTrains_2020.DomainCode
                 {"TrenchVolumeCF", "Trench Volume (cf)"},
                 {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
                 {"StorageVolumeIn", "Storage Volume (in over CA)"}
+                
 
             };
         }
+        // This one is in the printout
         public override string BMPInputVariables()
         {
             string s = "";
@@ -104,7 +112,8 @@ namespace BMPTrains_2020.DomainCode
                 {"TrenchLength", "Trench Length (ft)" },
                 { "VoidRatio", "Aggregate Void (fraction) "},
                 {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
-                {"StorageVolumeIn", "Retention Depth (in over CA)"}
+                {"StorageVolumeIn", "Retention Depth (in over CA)"},
+                {"IncreasedEffectiveness", "Effectiveness Increase for > 3 hours (%)" }
 
                 });
             return s;
@@ -124,7 +133,8 @@ namespace BMPTrains_2020.DomainCode
                 { "PipeVolumeCF", 0},
                 {"TrenchVolumeCF", 0},
                 {"StorageVolumeAF", 2},
-                {"StorageVolumeIn", 3}
+                {"StorageVolumeIn", 3},
+                {"IncreasedEffectiveness", 3 }
             }, base.PropertyDecimalPlaces());
         }
 
@@ -148,6 +158,26 @@ namespace BMPTrains_2020.DomainCode
             if (ContributingArea != 0.0) StorageVolumeIn = StorageVolumeAF / ContributingArea * 12; else StorageVolumeIn = 0.0;
             RetentionDepth = StorageVolumeIn;
         }
+
+        public void CalculateAdjustment()
+        {
+            IncreasedEffectiveness = 0.0;
+            double x = RetentionDepth;
+            if (ExfiltrationOver3hours) // Exfiltration over 3 hours
+            {
+                if (RetentionDepth > 0.01 && RetentionDepth < 2.51)
+                {
+                    IncreasedEffectiveness = 2.7052 * Math.Pow(x,3) - 14.728 * Math.Pow(x,2) + 19.905 * x + 0.1017;
+                }
+                else
+                { 
+                    IncreasedEffectiveness = 0.1;
+                }
+                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency + IncreasedEffectiveness;
+                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency + IncreasedEffectiveness;
+            }
+        }
+
 
         public string StorageReport()
         {

@@ -368,7 +368,7 @@ namespace BMPTrains_2020
 
         private void btnMassLoadingDoc_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/MassLoadingMethodology.pdf");
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_Mass_Loading);
         }
 
         private void btnEMCPreN_Click(object sender, EventArgs e)

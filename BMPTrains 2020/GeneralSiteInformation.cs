@@ -8,6 +8,7 @@ namespace BMPTrains_2020
 {
     public partial class GeneralSiteInformation : Form
     {
+
         public GeneralSiteInformation()
         {
             InitializeComponent();
@@ -48,11 +49,28 @@ namespace BMPTrains_2020
 
         private void cbAnalysisType_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             getValues(false);
             bool showNP = false;
             bool enableNP = true;
-            Globals.Project.AnalysisType = Common.getString(cbAnalysisType);
-            if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.sSpecifiedRemovalEfficiency)
+            bool showLP = false;
+            string analysisType = Common.getString(cbAnalysisType);
+
+            Globals.Project.AnalysisType = analysisType;
+            if ((BMPTrainsProject.AT_Criteria_For_Scenario(analysisType) != BMPTrainsProject.AT_Criteria_None) 
+                || (analysisType == BMPTrainsProject.AT_Redevelopment)
+                || (analysisType == BMPTrainsProject.AT_Redevelopment_OFW))
+            {
+                lblN.Text = "Nitrogen Removal Efficiency (%):";
+                lblP.Text = "Phosphorus Removal Efficiency (%):";
+
+                Common.setValue(tbN, BMPTrainsProject.AT_Removal_For_Scenario(analysisType, "N"));
+                Common.setValue(tbP, BMPTrainsProject.AT_Removal_For_Scenario(analysisType, "P"));
+//                enableNP = true;
+                showNP = true;
+            }
+  
+            if (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 lblN.Text = "Nitrogen Removal Efficiency (%):";
                 lblP.Text = "Phosphorus Removal Efficiency (%):";
@@ -60,6 +78,10 @@ namespace BMPTrains_2020
                 showNP = true;
             }
 
+            if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_PreReductionPercent)
+            {
+                showLP = true;
+            }
 
             tbN.Enabled = enableNP;
             tbP.Enabled = enableNP;
@@ -67,6 +89,10 @@ namespace BMPTrains_2020
             lblP.Visible = showNP;
             tbN.Visible = showNP;
             tbP.Visible = showNP;
+            lblPercentLessThanPre.Visible = showLP;
+            tbPercentLessThanPre.Visible = showLP;
+            tbPercentLessThanPre.Enabled = showLP;
+
 
             setValues();
         }
@@ -107,6 +133,9 @@ namespace BMPTrains_2020
 
             Globals.Project.RequiredNTreatmentEfficiency = Common.getInt(tbN, 0, 99);
             Globals.Project.RequiredPTreatmentEfficiency = Common.getInt(tbP, 0 ,99);
+
+            if (tbPercentLessThanPre.Enabled) Globals.Project.PreReductionPercent = Common.getDouble(tbPercentLessThanPre); 
+
             Globals.Project.Calculate();        // This also sets Catchment Values for Associated Catchments
             EnableButtons();
         }
@@ -143,10 +172,12 @@ namespace BMPTrains_2020
             Common.setValue(cbMetZone, Globals.Project.RainfallZone);
             Common.setValue(tbMeanAnnualRainfall, Globals.Project.MeanAnnualRainfall);
             Common.setValue(cbAnalysisType, Globals.Project.AnalysisType);
-            Common.setValue(cbGroundwater, Globals.Project.getDoGroundwaterAnalysis());
-            if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.sSpecifiedRemovalEfficiency)
+            Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis,true);
+            if (tbPercentLessThanPre.Enabled) Common.setValue(tbPercentLessThanPre, Globals.Project.PreReductionPercent);
+                if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
-                Common.setValue(tbN, Globals.Project.RequiredNTreatmentEfficiency);
+                //Common.setValue(tbN, Globals.Project.RequiredNTreatmentEfficiency);
+                Common.setValue(tbN, 55);
                 Common.setValue(tbP, Globals.Project.RequiredPTreatmentEfficiency);
             }
 
@@ -179,17 +210,21 @@ namespace BMPTrains_2020
             {
                 string fileName = dlg.FileName;
                 OpenFile(fileName);
+                
                 Globals.Project.Calculate();
             }
+            
         }
 
         public void OpenFile(string filename)
         {
             
             string res = Globals.Project.openFromFile(filename);
+            Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis, true);
             if (res == "")
             {
                 Globals.Project.FileName = filename;
+                Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis, true);
                 setValues();
             }
             else
@@ -269,23 +304,40 @@ namespace BMPTrains_2020
         {
             System.Windows.Forms.Clipboard.SetText(StaticLookupTables.RationalCValues(cbMetZone.Text));
         }
-
+        #region "User Documentation Links"
         private void btnHarper_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/Harper2007Report.pdf");
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_Harper_Report);
         }
 
         private void btnFDEP_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/FDEPRule.pdf");
+            // Link to FDEP Rules
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_FDEP_Rules);
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Should be link to Applicants Handbook
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_Applicants_Handbook);
+        }
+
+        private void btnPerformanceSummary_Click(object sender, EventArgs e)
+        {
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_Performance_Summary);
+        }
+
+        #endregion
         private void btnCatchmentReport_Click(object sender, EventArgs e)
         {
             getValues();
             Globals.Project.Calculate();
             Form form = new frmReport(Globals.Project.CatchmentReport(), false);
             form.ShowDialog();
+        }
+        private void btnUserManual_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://roneaglin.online/bmptrains");
         }
 
         public void btnPre_Click(object sender, EventArgs e)
@@ -348,9 +400,10 @@ namespace BMPTrains_2020
             setValues();
         }
 
-        private void btnUserManual_Click(object sender, EventArgs e)
+        private void cbGroundwater_SelectedIndexChanged(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/bmptrains");
+            // No action
+           
         }
     }
 }

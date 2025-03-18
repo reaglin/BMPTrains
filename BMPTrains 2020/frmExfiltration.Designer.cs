@@ -56,6 +56,8 @@
             this.tbPipeRise = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.tbPipeSpan = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chkThreeHours = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnCalculate
@@ -102,10 +104,10 @@
             // 
             // wbOutput
             // 
-            this.wbOutput.Location = new System.Drawing.Point(17, 199);
+            this.wbOutput.Location = new System.Drawing.Point(17, 221);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(650, 355);
+            this.wbOutput.Size = new System.Drawing.Size(650, 333);
             this.wbOutput.TabIndex = 21;
             // 
             // menuStrip1
@@ -132,7 +134,7 @@
             // btnExfiltrationCalculator
             // 
             this.btnExfiltrationCalculator.Image = ((System.Drawing.Image)(resources.GetObject("btnExfiltrationCalculator.Image")));
-            this.btnExfiltrationCalculator.Location = new System.Drawing.Point(748, 147);
+            this.btnExfiltrationCalculator.Location = new System.Drawing.Point(758, 133);
             this.btnExfiltrationCalculator.Name = "btnExfiltrationCalculator";
             this.btnExfiltrationCalculator.Size = new System.Drawing.Size(46, 40);
             this.btnExfiltrationCalculator.TabIndex = 2;
@@ -176,7 +178,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.CausesValidation = false;
-            this.label7.Location = new System.Drawing.Point(350, 138);
+            this.label7.Location = new System.Drawing.Point(371, 138);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(285, 30);
             this.label7.TabIndex = 50;
@@ -185,7 +187,7 @@
             // 
             // tbVoidRatio
             // 
-            this.tbVoidRatio.Location = new System.Drawing.Point(642, 135);
+            this.tbVoidRatio.Location = new System.Drawing.Point(663, 135);
             this.tbVoidRatio.Name = "tbVoidRatio";
             this.tbVoidRatio.Size = new System.Drawing.Size(89, 35);
             this.tbVoidRatio.TabIndex = 49;
@@ -194,7 +196,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.CausesValidation = false;
-            this.label4.Location = new System.Drawing.Point(447, 97);
+            this.label4.Location = new System.Drawing.Point(468, 97);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(188, 30);
             this.label4.TabIndex = 48;
@@ -203,7 +205,7 @@
             // 
             // tbTrenchLength
             // 
-            this.tbTrenchLength.Location = new System.Drawing.Point(642, 94);
+            this.tbTrenchLength.Location = new System.Drawing.Point(663, 94);
             this.tbTrenchLength.Name = "tbTrenchLength";
             this.tbTrenchLength.Size = new System.Drawing.Size(89, 35);
             this.tbTrenchLength.TabIndex = 47;
@@ -212,16 +214,17 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.CausesValidation = false;
-            this.label5.Location = new System.Drawing.Point(447, 56);
+            this.label5.Location = new System.Drawing.Point(410, 56);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(188, 30);
+            this.label5.Size = new System.Drawing.Size(246, 30);
             this.label5.TabIndex = 46;
             this.label5.Text = "Trench Depth (ft):";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label5, "To water table or the bottom of the pipe, whichever is less");
             // 
             // tbTrenchDepth
             // 
-            this.tbTrenchDepth.Location = new System.Drawing.Point(642, 53);
+            this.tbTrenchDepth.Location = new System.Drawing.Point(663, 53);
             this.tbTrenchDepth.Name = "tbTrenchDepth";
             this.tbTrenchDepth.Size = new System.Drawing.Size(89, 35);
             this.tbTrenchDepth.TabIndex = 45;
@@ -230,7 +233,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.CausesValidation = false;
-            this.label6.Location = new System.Drawing.Point(447, 15);
+            this.label6.Location = new System.Drawing.Point(468, 15);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(188, 30);
             this.label6.TabIndex = 44;
@@ -239,7 +242,7 @@
             // 
             // tbTrenchWidth
             // 
-            this.tbTrenchWidth.Location = new System.Drawing.Point(642, 12);
+            this.tbTrenchWidth.Location = new System.Drawing.Point(663, 12);
             this.tbTrenchWidth.Name = "tbTrenchWidth";
             this.tbTrenchWidth.Size = new System.Drawing.Size(89, 35);
             this.tbTrenchWidth.TabIndex = 43;
@@ -298,6 +301,29 @@
             this.tbPipeSpan.Size = new System.Drawing.Size(89, 35);
             this.tbPipeSpan.TabIndex = 37;
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.CausesValidation = false;
+            this.label2.Location = new System.Drawing.Point(758, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(60, 30);
+            this.label2.TabIndex = 51;
+            this.label2.Text = "info";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label2, "o water table or the bottom of the pipe, whichever is less");
+            // 
+            // chkThreeHours
+            // 
+            this.chkThreeHours.AutoSize = true;
+            this.chkThreeHours.Location = new System.Drawing.Point(386, 176);
+            this.chkThreeHours.Name = "chkThreeHours";
+            this.chkThreeHours.Size = new System.Drawing.Size(352, 34);
+            this.chkThreeHours.TabIndex = 52;
+            this.chkThreeHours.Text = "Check if exfiltration is over 3 hours";
+            this.chkThreeHours.UseVisualStyleBackColor = true;
+            this.chkThreeHours.CheckedChanged += new System.EventHandler(this.chkThreeHours_CheckedChanged);
+            // 
             // frmExfiltration
             // 
             this.AcceptButton = this.btnClose;
@@ -306,6 +332,8 @@
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(830, 570);
             this.ControlBox = false;
+            this.Controls.Add(this.chkThreeHours);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.tbVoidRatio);
             this.Controls.Add(this.label4);
@@ -373,5 +401,7 @@
         private System.Windows.Forms.TextBox tbPipeRise;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbPipeSpan;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkThreeHours;
     }
 }

@@ -106,7 +106,7 @@ namespace BMPTrains_2020.DomainCode
             // Retention Values
             switch (AnalysisType)
             {
-                case BMPTrainsProject.sSpecifiedRemovalEfficiency:
+                case BMPTrainsProject.AT_SpecifiedRemovalEfficiency:
                     retVal = Add(retVal, RequiredRetentionLabels());
                     break;
                 default:

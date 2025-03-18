@@ -661,12 +661,12 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(747, 228);
+            this.label20.Location = new System.Drawing.Point(721, 231);
             this.label20.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(98, 30);
+            this.label20.Size = new System.Drawing.Size(127, 30);
             this.label20.TabIndex = 52;
-            this.label20.Text = "Annual C";
+            this.label20.Text = "Annual ROC";
             this.label20.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbPreC

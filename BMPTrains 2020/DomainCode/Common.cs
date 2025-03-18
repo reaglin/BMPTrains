@@ -137,15 +137,17 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
-        public static void setValue(ComboBox cb, string s)
+        public static void setValue(ComboBox cb, string s, bool addString = false)
         {
+             
             try
             {
                 cb.SelectedIndex = cb.FindStringExact(s);
             }
             catch
             {
-                // do nothing
+                // will add items
+                if (addString) cb.Items.Add(s);
             }
         }
 
@@ -229,6 +231,28 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        public static void setValue(CheckBox cb, bool isChecked)
+        {
+            try {
+                cb.Checked = isChecked;
+            }
+            catch { }
+            
+        }
+
+        public static bool getBoolean(CheckBox cb)
+        {
+            bool result = false;
+            try
+            {
+                result = cb.Checked;
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
+        }
         public static T Clone<T>(T source)
         {
             if (!typeof(T).IsSerializable)

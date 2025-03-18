@@ -51,6 +51,8 @@
             this.btnCatchmentReport = new System.Windows.Forms.Button();
             this.btnPre = new System.Windows.Forms.Button();
             this.btnUserManual = new System.Windows.Forms.Button();
+            this.btnApplicantsHandbook = new System.Windows.Forms.Button();
+            this.btnPerformanceSummary = new System.Windows.Forms.Button();
             this.lblN = new System.Windows.Forms.Label();
             this.lblP = new System.Windows.Forms.Label();
             this.tbN = new System.Windows.Forms.TextBox();
@@ -62,6 +64,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.btnNewProject = new System.Windows.Forms.Button();
             this.btnRecentProjects = new System.Windows.Forms.Button();
+            this.tbPercentLessThanPre = new System.Windows.Forms.TextBox();
+            this.lblPercentLessThanPre = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -78,12 +82,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(193, 19);
+            this.label2.Location = new System.Drawing.Point(272, 19);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(223, 30);
+            this.label2.Size = new System.Drawing.Size(144, 30);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Name for Your Project:";
+            this.label2.Text = "Project Name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label3
@@ -120,7 +124,7 @@
             this.cbMetZone.FormattingEnabled = true;
             this.cbMetZone.Location = new System.Drawing.Point(427, 55);
             this.cbMetZone.Name = "cbMetZone";
-            this.cbMetZone.Size = new System.Drawing.Size(206, 38);
+            this.cbMetZone.Size = new System.Drawing.Size(311, 38);
             this.cbMetZone.TabIndex = 5;
             this.cbMetZone.SelectedIndexChanged += new System.EventHandler(this.cbMetZone_SelectedIndexChanged);
             // 
@@ -154,7 +158,7 @@
             // btnZoneMaps
             // 
             this.btnZoneMaps.Image = ((System.Drawing.Image)(resources.GetObject("btnZoneMaps.Image")));
-            this.btnZoneMaps.Location = new System.Drawing.Point(690, 55);
+            this.btnZoneMaps.Location = new System.Drawing.Point(744, 53);
             this.btnZoneMaps.Name = "btnZoneMaps";
             this.btnZoneMaps.Size = new System.Drawing.Size(46, 40);
             this.btnZoneMaps.TabIndex = 15;
@@ -262,7 +266,7 @@
             // 
             // btnPre
             // 
-            this.btnPre.Location = new System.Drawing.Point(189, 340);
+            this.btnPre.Location = new System.Drawing.Point(16, 193);
             this.btnPre.Name = "btnPre";
             this.btnPre.Size = new System.Drawing.Size(108, 40);
             this.btnPre.TabIndex = 29;
@@ -284,6 +288,30 @@
             this.toolTip1.SetToolTip(this.btnUserManual, "User Manual");
             this.btnUserManual.UseVisualStyleBackColor = false;
             this.btnUserManual.Click += new System.EventHandler(this.btnUserManual_Click);
+            // 
+            // btnApplicantsHandbook
+            // 
+            this.btnApplicantsHandbook.BackColor = System.Drawing.Color.Yellow;
+            this.btnApplicantsHandbook.Image = ((System.Drawing.Image)(resources.GetObject("btnApplicantsHandbook.Image")));
+            this.btnApplicantsHandbook.Location = new System.Drawing.Point(167, 8);
+            this.btnApplicantsHandbook.Name = "btnApplicantsHandbook";
+            this.btnApplicantsHandbook.Size = new System.Drawing.Size(46, 40);
+            this.btnApplicantsHandbook.TabIndex = 32;
+            this.btnApplicantsHandbook.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.toolTip1.SetToolTip(this.btnApplicantsHandbook, "Applicants Handbook");
+            this.btnApplicantsHandbook.UseVisualStyleBackColor = false;
+            this.btnApplicantsHandbook.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // btnPerformanceSummary
+            // 
+            this.btnPerformanceSummary.Image = ((System.Drawing.Image)(resources.GetObject("btnPerformanceSummary.Image")));
+            this.btnPerformanceSummary.Location = new System.Drawing.Point(744, 139);
+            this.btnPerformanceSummary.Name = "btnPerformanceSummary";
+            this.btnPerformanceSummary.Size = new System.Drawing.Size(46, 40);
+            this.btnPerformanceSummary.TabIndex = 33;
+            this.toolTip1.SetToolTip(this.btnPerformanceSummary, "View Map of Rainfall Zones");
+            this.btnPerformanceSummary.UseVisualStyleBackColor = true;
+            this.btnPerformanceSummary.Click += new System.EventHandler(this.btnPerformanceSummary_Click);
             // 
             // lblN
             // 
@@ -324,7 +352,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(333, 337);
+            this.btnOpen.Location = new System.Drawing.Point(138, 190);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(71, 47);
             this.btnOpen.TabIndex = 17;
@@ -363,6 +391,7 @@
             this.cbGroundwater.Name = "cbGroundwater";
             this.cbGroundwater.Size = new System.Drawing.Size(93, 38);
             this.cbGroundwater.TabIndex = 22;
+            this.cbGroundwater.SelectedIndexChanged += new System.EventHandler(this.cbGroundwater_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -395,11 +424,34 @@
             this.btnRecentProjects.UseVisualStyleBackColor = true;
             this.btnRecentProjects.Click += new System.EventHandler(this.btnRecentProjects_Click);
             // 
+            // tbPercentLessThanPre
+            // 
+            this.tbPercentLessThanPre.Location = new System.Drawing.Point(354, 340);
+            this.tbPercentLessThanPre.Name = "tbPercentLessThanPre";
+            this.tbPercentLessThanPre.Size = new System.Drawing.Size(62, 35);
+            this.tbPercentLessThanPre.TabIndex = 35;
+            this.tbPercentLessThanPre.Text = "80";
+            // 
+            // lblPercentLessThanPre
+            // 
+            this.lblPercentLessThanPre.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPercentLessThanPre.Location = new System.Drawing.Point(12, 340);
+            this.lblPercentLessThanPre.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblPercentLessThanPre.Name = "lblPercentLessThanPre";
+            this.lblPercentLessThanPre.Size = new System.Drawing.Size(341, 30);
+            this.lblPercentLessThanPre.TabIndex = 34;
+            this.lblPercentLessThanPre.Text = "Select % less than Pre (0.1-10%):";
+            this.lblPercentLessThanPre.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // GeneralSiteInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 537);
+            this.ClientSize = new System.Drawing.Size(798, 537);
+            this.Controls.Add(this.tbPercentLessThanPre);
+            this.Controls.Add(this.lblPercentLessThanPre);
+            this.Controls.Add(this.btnPerformanceSummary);
+            this.Controls.Add(this.btnApplicantsHandbook);
             this.Controls.Add(this.btnUserManual);
             this.Controls.Add(this.btnRecentProjects);
             this.Controls.Add(this.btnPre);
@@ -476,5 +528,9 @@
         private System.Windows.Forms.Button btnPre;
         private System.Windows.Forms.Button btnRecentProjects;
         private System.Windows.Forms.Button btnUserManual;
+        private System.Windows.Forms.Button btnApplicantsHandbook;
+        private System.Windows.Forms.Button btnPerformanceSummary;
+        private System.Windows.Forms.TextBox tbPercentLessThanPre;
+        private System.Windows.Forms.Label lblPercentLessThanPre;
     }
 }

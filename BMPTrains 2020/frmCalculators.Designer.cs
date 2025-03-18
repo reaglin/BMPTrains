@@ -77,7 +77,7 @@
             this.btnRationalC.Name = "btnRationalC";
             this.btnRationalC.Size = new System.Drawing.Size(429, 39);
             this.btnRationalC.TabIndex = 3;
-            this.btnRationalC.Text = "Rational Coefficient Lookup Table";
+            this.btnRationalC.Text = "ROC Rational Coefficient Lookup Table";
             this.btnRationalC.UseVisualStyleBackColor = true;
             this.btnRationalC.Click += new System.EventHandler(this.btnRationalC_Click);
             // 

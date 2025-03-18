@@ -23,7 +23,7 @@ namespace BMPTrains_2020
             setValues();
 
             this.Text +=currentCatchment().TitleHeader();
-            if (Globals.Project.DoGroundwaterAnalysis == "No")
+            if (Globals.Project.DoGroundwaterAnalysis != "Yes")
             {
                 btnMediaMix.Visible = false;
             }
@@ -49,6 +49,7 @@ namespace BMPTrains_2020
             Common.setValue(tbTrenchDepth, currentBMP().TrenchDepth);
             Common.setValue(tbTrenchLength, currentBMP().TrenchLength);
             Common.setValue(tbVoidRatio, currentBMP().VoidRatio);
+            Common.setValue(chkThreeHours, currentBMP().ExfiltrationOver3hours);
 
             currentBMP().Calculate();
             setOutputText();
@@ -63,6 +64,7 @@ namespace BMPTrains_2020
             currentBMP().TrenchDepth = Common.getDouble(tbTrenchDepth);
             currentBMP().TrenchLength = Common.getDouble(tbTrenchLength);
             currentBMP().VoidRatio = Common.getDouble(tbVoidRatio,0.0,1.0);
+            currentBMP().ExfiltrationOver3hours = Common.getBoolean(chkThreeHours);
         }
 
         private void setOutputText()
@@ -150,6 +152,13 @@ namespace BMPTrains_2020
         {
             Form form = new frmCostAnalysis(currentBMP());
             form.ShowDialog();
+        }
+
+        private void chkThreeHours_CheckedChanged(object sender, EventArgs e)
+        {
+            getValues();
+            currentBMP().Calculate();
+            setOutputText();
         }
     }
 }

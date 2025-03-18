@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -12,7 +10,8 @@ namespace BMPTrains_2020.DomainCode
 {
     public class BMPTrainsProject : XmlPropertyObject
     {
-        #region "BMP Types"
+        #region "String Constants used in Project"
+        #region "BMP Types - Constants for selection of BMP Types in Program"
         public const string sNone = "None";
         public const string sRetention = "Retention";
         public const string sExfiltration = "Exfiltration";
@@ -31,15 +30,118 @@ namespace BMPTrains_2020.DomainCode
         public const string sMultipleBMP = "Multiple BMP";
         #endregion
 
+        #region "URL Locations for Documentation"
+        // Hard Coded URL References
+        public const string URL_Documentation_Base = "http://roneaglin.online/BMPTrainsDocumentation/";
+        public const string URL_Harper_Report = "Harper2007Report.pdf";
+        public const string URL_FDEP_Rules = "FDEPRule.pdf";
+        public const string URL_Applicants_Handbook = "";
+        public const string URL_Mass_Loading = "MassLoadingMethodology.pdf";
+        public const string URL_Performance_Summary = "";
+
+        #endregion
+
+        #region "Analysis Types"
+        public const string AT_AllSites = "All sites non-exempted";
+        public const string AT_OFW = "OFW";
+        public const string AT_ImpairedWater = "Impaired Water";
+        public const string AT_ImpairedWater_OFW = "Impaired Water + OFW";
+        public const string AT_Redevelopment = "Redevelopment";
+        public const string AT_Redevelopment_OFW = "Redevelopment + OFW";
+        public const string AT_SpecifiedRemovalEfficiency = "Specified Removal Efficiency";
+        public const string AT_NetImprovement = "Net Improvement";
+        public const string AT_BMPAnalysis = "BMP Analysis";
+        public const string AT_PreReductionPercent = "Specified % Less than Pre-Development Conditions";
+        //        public const string sExistingBMPInput = "Existing Loading in Pre-Development";
+
+        public const string AT_Criteria_PvP_GO = "Post = Greater of Pre-Conditions";
+        public const string AT_Criteria_PvP = "Post = Pre-Conditions";
+        public const string AT_Criteria_None = "No Post Condition Requirements";
+        #endregion
+        #endregion
+
         #region "Static Methods"
-        public const string sSpecifiedRemovalEfficiency = "Specified Removal Efficiency";
-        public const string sNetImprovement = "Net Improvement";
-        public const string sBMPAnalysis = "BMP Analysis";
-        public const string sPreReduction = "10% Less than Pre-Development Conditions";
-//        public const string sExistingBMPInput = "Existing Loading in Pre-Development";
+        public static List<string> AnalysisTypes() => new List<string> { 
+            AT_AllSites, AT_OFW, AT_ImpairedWater, AT_ImpairedWater_OFW, AT_Redevelopment, AT_Redevelopment_OFW,
+            AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis, AT_PreReductionPercent };
 
+        // Opens documentation in program in browser
+        public static void openURL(string url) { System.Diagnostics.Process.Start(URL_Documentation_Base + url); }
 
-        public static List<string> AnalysisTypes() => new List<string> { sSpecifiedRemovalEfficiency, sNetImprovement, sBMPAnalysis, sPreReduction };
+        public static string AT_Criteria_For_Scenario(string analysisType)
+        {
+            switch (analysisType)
+            {
+                case AT_AllSites:
+                    return AT_Criteria_PvP_GO;
+                case AT_OFW:
+                    return AT_Criteria_PvP_GO; 
+                case AT_ImpairedWater:
+                    return AT_Criteria_PvP;
+                case AT_ImpairedWater_OFW:
+                    return AT_Criteria_PvP;
+                case AT_Redevelopment:
+                    return AT_Criteria_None;
+                case AT_Redevelopment_OFW:
+                    return AT_Criteria_None;
+                case AT_SpecifiedRemovalEfficiency:
+                    return AT_Criteria_None; 
+                case AT_NetImprovement:
+                    return AT_Criteria_None; 
+                case AT_BMPAnalysis:
+                    return AT_Criteria_None; 
+                case AT_PreReductionPercent:
+                    return AT_Criteria_None; 
+                default:
+                    return "Unknown Analysis Type"; // Handle the default case
+            }
+        }
+
+        public static int AT_Removal_For_Scenario(string analysisType, string NorP = "N")
+        {
+            // These could be put into extrnal table, kept inside
+            // code to avoid modifications, user entered cases all return
+            // 0 and must be checked against in operational code. 
+            if (NorP == "N)") { 
+            switch (analysisType)
+            {
+                case AT_AllSites:
+                    return 55;
+                case AT_OFW:
+                    return 80;
+                case AT_ImpairedWater:
+                    return 80;
+                case AT_ImpairedWater_OFW:
+                    return 95;;
+                case AT_Redevelopment:
+                    return 45;
+                case AT_Redevelopment_OFW:
+                    return 60;
+                default:
+                    return 0; // Handle the default case
+            }
+
+            }
+            // Any value other than N (is P)
+            switch (analysisType)
+            {
+                case AT_AllSites:
+                    return 80;
+                case AT_OFW:
+                    return 90;
+                case AT_ImpairedWater:
+                    return 80;
+                case AT_ImpairedWater_OFW:
+                    return 95;
+                case AT_Redevelopment:
+                    return 80;
+                case AT_Redevelopment_OFW:
+                    return 90;
+                default:
+                    return 0; // Handle the default case
+            }
+        }
+
         #endregion
 
         #region "Properties"
@@ -66,6 +168,7 @@ namespace BMPTrains_2020.DomainCode
 
         public double TargetNFromPreLoad { get; set; }
         public double TargetPFromPreLoad { get; set; }
+        public double PreReductionPercent { get; set; }
 
         public string CatchmentConfiguration { get; set; }
 
@@ -104,7 +207,7 @@ namespace BMPTrains_2020.DomainCode
 
             RequiredNTreatmentEfficiency = 80;
             RequiredPTreatmentEfficiency = 80;
-            AnalysisType = sBMPAnalysis;
+            AnalysisType = AT_BMPAnalysis;
             RainfallZone = StaticLookupTables.DefaultRainfallZone;
 
             Modified = false;
@@ -113,7 +216,7 @@ namespace BMPTrains_2020.DomainCode
 
         public string Version()
         {
-            return "BMPTrains 2025 Trainee Software Version: " + Application.ProductVersion;
+            return "V2025 " + Application.ProductVersion;
         }
 
 
@@ -349,7 +452,7 @@ namespace BMPTrains_2020.DomainCode
 
         public string getDoGroundwaterAnalysis()
         {
-            if (DoGroundwaterAnalysis == "Yes") return "Yes"; else return "No";
+            if (DoGroundwaterAnalysis == "No") return "No"; else return "Yes";
         }
 
         public bool CatchmentExists(int i = 1)
@@ -926,7 +1029,7 @@ namespace BMPTrains_2020.DomainCode
 
             s += "Total Catchment Nitrogen Loading: " + tn.ToString("##.##") + " kg/yr<br/>";
             s += "Total Outlet Nitrogen Loading: " + an.ToString("##.##") + " kg/yr<br/>";
-            if ( AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency)
+            if ( AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 s += "Nitrogen Removal Required: " +  RequiredNTreatmentEfficiency.ToString("##") + "%<br/>";
                 s += "Nitrogen Removal Provided: " + anr.ToString("##");
@@ -935,7 +1038,7 @@ namespace BMPTrains_2020.DomainCode
             }
             s += "Total Catchment Phosphorus Loading: " + tp.ToString("##.##") + " kg/yr<br/>";
             s += "Total Outlet Phosphorus Loading: " + ap.ToString("##.##") + " kg/yr<br/>";
-            if ( AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency)
+            if ( AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 s += "Phosphorus Removal Required: " +  RequiredPTreatmentEfficiency.ToString("##") + " %<br/>";
                 s += "Phosphorus Removal Provided: " + apr.ToString("##");
@@ -982,7 +1085,7 @@ namespace BMPTrains_2020.DomainCode
                 s += kvp.Value.SelectedBMPTitle();
                 s += "</br>";
             }
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
                 s += "Based on discharge load to 2 decimal places<br/>";
             else
                 s += "Based on % removal values to the nearest percent<br/>";
@@ -1015,13 +1118,13 @@ namespace BMPTrains_2020.DomainCode
             //double targetNMass = 0;
             //double targetPMass = 0;
 
-            // Target only used for sPreReduction and Specified Removal Efficiency
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sBMPAnalysis){
+            // Target only used for AT_PreReductionPercent and Specified Removal Efficiency
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_BMPAnalysis){
                 Globals.Project.TargetNMassLoad = ptn;
                 Globals.Project.TargetPMassLoad = ptp;
             }
 
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency)
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                targetNPercent = Globals.Project.RequiredNTreatmentEfficiency;
                targetPPercent = Globals.Project.RequiredPTreatmentEfficiency;
@@ -1030,7 +1133,7 @@ namespace BMPTrains_2020.DomainCode
             }
             // In the case of pre reduction we must calculate the required efficiency
             // from the pre and post mass loads.
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
             {
                 TargetNMassLoad = ptn;
                 TargetPMassLoad = ptp;
@@ -1038,7 +1141,7 @@ namespace BMPTrains_2020.DomainCode
                 if (tp != 0) targetPPercent = 100 * (tp - ptp) / tp;
             }
 
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sPreReduction)
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent)
             {
                 TargetNMassLoad = 0.9*ptn;
                 TargetPMassLoad = 0.9*ptp;
@@ -1058,8 +1161,8 @@ namespace BMPTrains_2020.DomainCode
 
 //            s += "Total Catchment Nitrogen Loading: " + tn.ToString("##.##") + " kg/yr<br/>";
 //            s += "Total Outlet Nitrogen Loading: " + an.ToString("##.##") + " kg/yr<br/>";
-            if ((Globals.Project.AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) ||
-                (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement))
+            if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
+                (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement))
             {
                 //s += "Nitrogen Removal Required: " + Globals.Project.RequiredNTreatmentEfficiency.ToString("##") + "%<br/>";
                 //s += "Nitrogen Removal Provided: " + anr.ToString("##");
@@ -1080,7 +1183,7 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr><td><h4>Surface Water Discharge</h4></td><td></td><td></td></tr>";
 
             // Pre loads do not show in the case of BMP Analysis
-            if (Globals.Project.AnalysisType != BMPTrainsProject.sBMPAnalysis)
+            if (Globals.Project.AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
             { 
                 s += "<tr>" + td + "Total N pre load</td>" + td + "" + ptn.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
@@ -1088,11 +1191,11 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr>" + td + "Total N post load</td>" + td + "" + tn.ToString("##.##") + " kg/yr</td><td></td></tr>";
 
             string decimal_removal = "##";
-            if (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement) decimal_removal = "##.##";
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement) decimal_removal = "##.##";
             // Targets only exist in the case of Specified removal efficiency
-            if ((Globals.Project.AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency) 
-                || (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.sPreReduction))
+            if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) 
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
             { 
                 s += "<tr>" + td + "Target N load reduction</td>" + td + "" + targetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
@@ -1156,16 +1259,16 @@ namespace BMPTrains_2020.DomainCode
             s += "<table style='margin:10px'>";
             s += "<tr><td><h4><br/>Surface Water Discharge</h4></td><td></td><td></td></tr>";
 
-            if (Globals.Project.AnalysisType != BMPTrainsProject.sBMPAnalysis)
+            if (Globals.Project.AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
             {
                 s += "<tr>" + td + "Total P pre load</td>" + td + "" + ptp.ToString("##.###") + " kg/yr</td><td></td></tr>";
             }
 
             s += "<tr>" + td + "Total P post load</td>" + td + "" + tp.ToString("##.###") + " kg/yr</td><td></td></tr>";
 
-            if ((Globals.Project.AnalysisType == BMPTrainsProject.sSpecifiedRemovalEfficiency)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.sNetImprovement)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.sPreReduction))
+            if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
             {
                 s += "<tr>" + td + "Target P load reduction</td>" + td + "" + targetPPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target P discharge load</td>" + td + "" + TargetPMassLoad.ToString("##.###") + " kg/yr</td><td></td></tr>";
@@ -1340,11 +1443,11 @@ namespace BMPTrains_2020.DomainCode
             {
                 s += CatchmentReportRow(cn, kvp.Key);
             }
-            //if (AnalysisType == BMPTrainsProject.sNetImprovement)
+            //if (AnalysisType == BMPTrainsProject.AT_NetImprovement)
             //{
             //    s += "<tr><td><b>" + AnalysisType  + "</b></td><td></td></tr>";
-            //    s += "<tr><td>Nitrogen Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateNImprovement()) + "</td></tr>";
-            //    s += "<tr><td>Phosphorus Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculatePImprovement()) + "</td></tr>";
+            //    s += "<tr><td>Nitrogen Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredNTreatmentEfficiency()) + "</td></tr>";
+            //    s += "<tr><td>Phosphorus Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredPTreatmentEfficiency()) + "</td></tr>";
             //}
             s += "</table>";
             return s;
@@ -1366,7 +1469,7 @@ namespace BMPTrains_2020.DomainCode
         public string TitleHeader()
         {
             string s = " Analysis: " + AnalysisType;
-            if ((AnalysisType == sSpecifiedRemovalEfficiency) || (AnalysisType == sNetImprovement) || (AnalysisType == sPreReduction))
+            if ((AnalysisType == AT_SpecifiedRemovalEfficiency) || (AnalysisType == AT_NetImprovement) || (AnalysisType == AT_PreReductionPercent))
                 return s + " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
 
             //if (AnalysisType == sExistingBMPInput)

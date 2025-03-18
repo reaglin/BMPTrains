@@ -217,11 +217,11 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(193, 138);
+            this.label5.Location = new System.Drawing.Point(197, 138);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(224, 21);
+            this.label5.Size = new System.Drawing.Size(218, 21);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Average impervious length (ft):";
+            this.label5.Text = "Average catchment length (ft):";
             // 
             // tbPervW
             // 

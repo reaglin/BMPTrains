@@ -40,8 +40,8 @@
             this.lblRow = new System.Windows.Forms.Label();
             this.wbReport = new System.Windows.Forms.WebBrowser();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cbMetZone = new System.Windows.Forms.ComboBox();
             this.btnBack = new System.Windows.Forms.Button();
+            this.cbMetZone = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -65,11 +65,11 @@
             // lblTable
             // 
             this.lblTable.AutoSize = true;
-            this.lblTable.Location = new System.Drawing.Point(803, 15);
+            this.lblTable.Location = new System.Drawing.Point(851, 13);
             this.lblTable.Name = "lblTable";
-            this.lblTable.Size = new System.Drawing.Size(113, 30);
+            this.lblTable.Size = new System.Drawing.Size(60, 30);
             this.lblTable.TabIndex = 20;
-            this.lblTable.Text = "Rational C:";
+            this.lblTable.Text = "ROC:";
             // 
             // btnColumn
             // 
@@ -133,14 +133,6 @@
             this.wbReport.Size = new System.Drawing.Size(1145, 440);
             this.wbReport.TabIndex = 13;
             // 
-            // cbMetZone
-            // 
-            this.cbMetZone.FormattingEnabled = true;
-            this.cbMetZone.Location = new System.Drawing.Point(40, 8);
-            this.cbMetZone.Name = "cbMetZone";
-            this.cbMetZone.Size = new System.Drawing.Size(206, 38);
-            this.cbMetZone.TabIndex = 23;
-            // 
             // btnBack
             // 
             this.btnBack.Location = new System.Drawing.Point(1166, 10);
@@ -152,6 +144,14 @@
         "e.");
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // cbMetZone
+            // 
+            this.cbMetZone.FormattingEnabled = true;
+            this.cbMetZone.Location = new System.Drawing.Point(40, 8);
+            this.cbMetZone.Name = "cbMetZone";
+            this.cbMetZone.Size = new System.Drawing.Size(206, 38);
+            this.cbMetZone.TabIndex = 23;
             // 
             // button1
             // 
