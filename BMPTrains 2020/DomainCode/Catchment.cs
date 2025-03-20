@@ -59,6 +59,8 @@ namespace BMPTrains_2020.DomainCode
 
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
+        public double CalculatedNTreatmentEfficiency { get; set; }
+        public double CalculatedPTreatmentEfficiency { get; set; }
 
         public double PreNConcentration { get; set; } // mg/l
         public double PrePConcentration { get; set; } // mg/l
@@ -74,6 +76,10 @@ namespace BMPTrains_2020.DomainCode
 
         public double PostNLoading { get; set; }  //kg/yr
         public double PostPLoading { get; set; }  //kg/yr
+
+        public double PreRunoffVolumeInches_Yr { get; set; }
+        public double PostRunoffVolumeInches_yr { get; set; }
+
 
 
         // Internal BMP Routing
@@ -594,11 +600,16 @@ namespace BMPTrains_2020.DomainCode
             PreRunoffVolume = PreRationalCoefficient * PreArea * Rainfall /12;
             PostRunoffVolume = PostRationalCoefficient * (PostArea - BMPArea) * Rainfall /12;
 
+            PreRunoffVolumeInches_Yr = 12 * PreRunoffVolume / PreArea;
+            PostRunoffVolumeInches_yr = 12 * PostRunoffVolume / (PostArea - BMPArea);
+
             PreNLoading =  1.233 * PreNConcentration * PreRunoffVolume + PreGWN;
             PostNLoading = 1.233 * PostNConcentration * PostRunoffVolume + PostGWN;
 
             PrePLoading = 1.233 * PrePConcentration * PreRunoffVolume + PreGWP;
             PostPLoading = 1.233 * PostPConcentration * PostRunoffVolume + PostGWP;
+
+            
         }
 
         public void CalculateRationalCoefficients()
@@ -663,7 +674,7 @@ namespace BMPTrains_2020.DomainCode
                     break;
                 case BMPTrainsProject.AT_BMPAnalysis: break;
                 case BMPTrainsProject.AT_PreReductionPercent:
-                    ni = 100 * (PostNLoading - ((100.0 - (double)PreReductionPercent) / 100.0) * PreNLoading) / PostNLoading;
+                    ni = 100 * (100.0 - (double)PreReductionPercent) / 100.0;
                     break;
                 default:
                     break;
@@ -694,7 +705,7 @@ namespace BMPTrains_2020.DomainCode
                     break;
                 case BMPTrainsProject.AT_BMPAnalysis: break;
                 case BMPTrainsProject.AT_PreReductionPercent:
-                    ni = (100.0 - (double)PreReductionPercent) / 100.0;
+                    ni = 100 * (100.0 - (double)PreReductionPercent) / 100.0;
                     break;
                 default:
                     break;
@@ -703,6 +714,17 @@ namespace BMPTrains_2020.DomainCode
             return RequiredPTreatmentEfficiency;
         }
 
+        public string IsPrePostTNMet()
+        {
+            if (RequiredNTreatmentEfficiency <= CalculatedNTreatmentEfficiency) return "Yes";
+            return "No";
+        }
+
+        public string IsPrePostTPMet()
+        {
+            if (RequiredPTreatmentEfficiency <= CalculatedPTreatmentEfficiency) return "Yes";
+            return "No";
+        }
         public double[] CalculateWeightedC(bool pre)
         {
             int maxRows = 20;
@@ -1405,9 +1427,12 @@ namespace BMPTrains_2020.DomainCode
             Nitrogen.GroundwaterRemovalEfficiency = c.GroundwaterNRemovalEfficiency();
             Phosphorus.GroundwaterLoad = c.GroundwaterPRemovalEfficiency();
 
+            c.CalculatedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;
+            c.CalculatedPTreatmentEfficiency = Phosphorus.ProvidedRemovalEfficiency;
 
             Nitrogen.Calculate();
             Phosphorus.Calculate();
+
         }
 
         public void resetCatchmentRouting()

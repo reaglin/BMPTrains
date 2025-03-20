@@ -500,6 +500,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\FDEP_Logo.png" />
+    <None Include="Images\Toolbox.png" />
     <None Include="Resources\FDEP_Logo.png" />
     <None Include="Images\RainGarden2.PNG" />
     <None Include="Images\PerviousPavement.jpg" />
