@@ -80,6 +80,19 @@ namespace BMPTrains_2020
             return "<span style='color:red; font-weight:bold'> No</span>";
         }
 
+        public static string GreenText(String s)
+        {
+            return "<span style='color:green; font-weight:bold'> " + s + "</span>";
+        }
+        public static string RedText(String s)
+        {
+            return "<span style='color:red; font-weight:bold'> " + s + "</span>";
+        }
+        public static string YesNo(string s)
+        {
+            if (s.Trim().ToUpper() == "YES") return GreenText(s);
+            return RedText(s);
+        }
         public static string YesNo(Boolean val)
         {
             if (val)

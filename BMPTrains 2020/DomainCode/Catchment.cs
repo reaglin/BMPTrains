@@ -70,6 +70,7 @@ namespace BMPTrains_2020.DomainCode
 
         public double PreRunoffVolume { get; set; }     // ac-ft
         public double PostRunoffVolume { get; set; }    // ac-ft
+        public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
 
         public double PreNLoading { get; set; }  // kg/yr
         public double PrePLoading { get; set; }  // kg/yr

@@ -160,13 +160,18 @@ namespace BMPTrains_2020.DomainCode
         public int RequiredNTreatmentEfficiency { get; set; }
         public int RequiredPTreatmentEfficiency { get; set; }
 
-        // Used for Target Load
+        // Used for Target LoadCalcualt
         public double TargetNMassLoad { get; set; }
         public double TargetPMassLoad { get; set; }
 
         public double TotalCatchmentNLoad { get; set; }
         public double TotalCatchmentPLoad { get; set; }
+        public double TotalGroundwaterNRemoved { get; set; }
+        public double TotalGroundwaterPRemoved { get; set; }
 
+        public double TotalGroundwaterNLoading { get; set; }
+        public double TotalGroundwaterPLoading { get; set; }
+        
         public double TotalCatchmentPreNLoad { get; set; }
         public double TotalCatchmentPrePLoad { get; set; }
         public double TotalOutletNLoad { get; set; }
@@ -881,54 +886,6 @@ namespace BMPTrains_2020.DomainCode
                 if (kvp.Value.getRouting().ToID == 0) kvp.Value.getRouting().CalculateOutlet(outlet);
             }
         }
-        //public double CalculateTotalCatchmentNLoading()
-        //{
-        //    double t = 0.0;
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        if (!kvp.Value.Disabled) t += kvp.Value.PostNLoading;
-        //    }
-        //    return t;
-        //}
-
-        //public double CalculateTotalCatchmentPreNLoading()
-        //{
-        //    double t = 0.0;
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        if (!kvp.Value.Disabled) t += kvp.Value.PreNLoading;
-        //    }
-        //    return t;
-        //}
-
-        //public double CalculateTotalCatchmentPLoading()
-        //{
-        //    double t = 0.0;
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        if (!kvp.Value.Disabled) t += kvp.Value.PostPLoading;
-        //    }
-        //    return t;
-        //}
-        //public double CalculateTotalCatchmentPrePLoading()
-        //{
-        //    double t = 0.0;
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        if (!kvp.Value.Disabled) t += kvp.Value.PrePLoading;
-        //    }
-        //    return t;
-        //}
-
-        public double CalculateTotalCatchmentGWNLoading()
-        {
-            double t = 0.0;
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (!kvp.Value.Disabled) t += kvp.Value.GroundwaterNLoading();
-            }
-            return t;
-        }
 
         public double CalculateTotalCatchmentGWRechargeRate()
         {
@@ -945,35 +902,7 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
-        public double CalculateTotalCatchmentGWPLoading()
-        {
-            double t = 0.0;
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (!kvp.Value.Disabled) t += kvp.Value.GroundwaterPLoading();
-            }
-            return t;
-        }
 
-        public double CalculateTotalCatchmentGWPRemoved()
-        {
-            double t = 0.0;
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (!kvp.Value.Disabled) t += kvp.Value.GroundwaterPRemoved();
-            }
-            return t;
-        }
-
-        public double CalculateTotalCatchmentGWNRemoved()
-        {
-            double t = 0.0;
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (!kvp.Value.Disabled) t += kvp.Value.GroundwaterNRemoved();
-            }
-            return t;
-        }
         public void CalculateCatchmentTotals()
         {
             TotalCatchmentNLoad = 0.0;
@@ -983,7 +912,12 @@ namespace BMPTrains_2020.DomainCode
             PreCatchmentAreaAcres = 0;
             PostCatchmentAreaAcres = 0;
             PreRunoffVolume = 0;
-            PostRunoffVolume = 0;
+            TotalGroundwaterNRemoved = 0;
+            TotalGroundwaterPRemoved = 0;
+            TotalGroundwaterNLoading = 0;
+            TotalGroundwaterPLoading = 0;
+
+            //PostRunoffVolume = 0;
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
                 if (!kvp.Value.Disabled)
@@ -993,11 +927,14 @@ namespace BMPTrains_2020.DomainCode
                     TotalCatchmentPreNLoad += kvp.Value.PreNLoading;
                     TotalCatchmentPrePLoad += kvp.Value.PrePLoading;
                     PreCatchmentAreaAcres += kvp.Value.PreArea;
-                    PostCatchmentAreaAcres += kvp.Value.PostArea - kvp.Value.BMPArea;
+                    PostCatchmentAreaAcres += kvp.Value.PostArea; //  - kvp.Value.BMPArea
                     PreRunoffVolume += kvp.Value.PreRunoffVolume;
-                    PostRunoffVolume += kvp.Value.PostRunoffVolume;
-
+                    TotalGroundwaterNRemoved += kvp.Value.GroundwaterNRemoved();
+                    TotalGroundwaterPRemoved += kvp.Value.GroundwaterPRemoved();
+                    TotalGroundwaterNLoading += kvp.Value.GroundwaterNLoading();
+                    TotalGroundwaterPLoading += kvp.Value.GroundwaterPLoading();
                 }
+                PostRunoffVolume = Catchments[numCatchments].routing.VolumeOut;
 
             }
 
@@ -1047,12 +984,15 @@ namespace BMPTrains_2020.DomainCode
             CalculateCatchmentTotals();
             double tn = TotalCatchmentNLoad;
             double tp = TotalCatchmentPLoad;
+            if (outlet != null) { 
+                // Only calcuate when a project has all data
+                TotalOutletNLoad = outlet.Nitrogen.TotalMassLoad; double an = TotalOutletNLoad;
+                TotalOutletPLoad = outlet.Phosphorus.TotalMassLoad; double ap = TotalOutletPLoad;
+                ProvidedNTreatmentEfficiency = 0.0; if (tn > 0) ProvidedNTreatmentEfficiency = 100 * (tn - an) / tn;
+                ProvidedPTreatmentEfficiency = 0.0; if (tp > 0) ProvidedNTreatmentEfficiency = 100 * (tp - ap) / tp;
+            }
 
-            TotalOutletNLoad = outlet.Nitrogen.TotalMassLoad; double an = TotalOutletNLoad;
-            TotalOutletPLoad = outlet.Phosphorus.TotalMassLoad; double ap = TotalOutletPLoad;
 
-            ProvidedNTreatmentEfficiency = 0.0; if (tn > 0) ProvidedNTreatmentEfficiency = 100 * (tn - an) / tn;
-            ProvidedPTreatmentEfficiency = 0.0; if (tp > 0) ProvidedNTreatmentEfficiency = 100 * (tp - ap) / tp;
         }
         #endregion
 
@@ -1128,7 +1068,7 @@ namespace BMPTrains_2020.DomainCode
             s += "<div <h2>Project: " + ProjectName + "</h2><br/>";
             s += "<b>Analysis Type:</b> " +  AnalysisType;
             s += "  " + RequiredNTreatmentEfficiency.ToString("##") + "% TN  ";
-            s +=  RequiredNTreatmentEfficiency.ToString("##") +"% TP<br/>";
+            s +=  RequiredPTreatmentEfficiency.ToString("##") +"% TP<br/>";
             s += "<b>BMP Types: </b><br/>";
 
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
@@ -1140,10 +1080,10 @@ namespace BMPTrains_2020.DomainCode
                 s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
 
                 if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
-                    s += "Is % less than predevelopment loading for TN met? " + kvp.Value.IsPrePostTNMet()
+                    s += "Is % less than predevelopment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
                         + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
                         + " Provided: " + kvp.Value.CalculatedNTreatmentEfficiency.ToString("##") +"%<br/>";
-                    s += "Is % less than predevelopment loading for TP met? " + kvp.Value.IsPrePostTPMet()
+                    s += "Is % less than predevelopment loading for TP met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTPMet())
                         + "<br/> Required: " + kvp.Value.RequiredPTreatmentEfficiency.ToString("##") +"% "
                         + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
                 }
@@ -1235,9 +1175,11 @@ namespace BMPTrains_2020.DomainCode
                 s += InterfaceCommon.YesNo(TargetMet(ActualPR, targetPPercent, 3));
                 s += "<br/>";
             }
-           
 
             s += "<br/><h2>Summary Report</h2><br/>";
+            s += "<h3>Volume of Runoff</h3>";
+            if (PreCatchmentAreaAcres != 0)  s += "Pre-Condition Runoff (inches/year): " + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") +"<br/>";
+            if (PostCatchmentAreaAcres != 0) s += "Post-Condition Runoff (inches/year): " + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##")+"<br/>";
 
 
             s += "<h3>Nitrogen Loading</h3>";
@@ -1266,8 +1208,8 @@ namespace BMPTrains_2020.DomainCode
             string PNLR = (Double.IsNaN(ActualNR) ? "99+" : ActualNR.ToString(decimal_removal));
 
             // Nitrogen and Phosphorus ground loading
-            double gwn = CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
-            double gwnr = CalculateTotalCatchmentGWNRemoved();  // Total mass removed
+            double gwn = TotalGroundwaterNLoading; //CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
+            double gwnr = TotalGroundwaterNRemoved; // CalculateTotalCatchmentGWNRemoved();  // Total mass removed
             double gwnd;
 
             if (gwnr != 0)
@@ -1278,8 +1220,8 @@ namespace BMPTrains_2020.DomainCode
             {
                 gwnd = (tn - OutletNLoad);
             }
-            double gwp = CalculateTotalCatchmentGWPLoading();
-            double gwpr = CalculateTotalCatchmentGWPRemoved();
+            double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
+            double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
             double gwpd;
             if (gwpr != 0)
             {

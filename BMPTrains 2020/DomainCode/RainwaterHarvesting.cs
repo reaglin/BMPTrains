@@ -108,8 +108,8 @@ namespace BMPTrains_2020.DomainCode
 
         public override bool isDefined()
         {
-            if (RoofType != "" && RoofType != null) return true;
-            return false;
+            if (HarvestVolume == 0) return false;
+            return true;
         }
 
         public override string BMPTypeTitle()
@@ -134,6 +134,7 @@ namespace BMPTrains_2020.DomainCode
                 CalculatedHarvestEfficiency = getEfficiencyLUT().CalculateRowValue(HarvestVolumeOverEIA, HarvestRateOverEIA);
                 if (CalculatedHarvestEfficiency > maxHarvestTreatmentEfficiency) CalculatedHarvestEfficiency = maxHarvestTreatmentEfficiency;
                 HarvestWaterDemand = AvailableHarvestRate * 52 * 0.325829 * IrrigationArea / (12 * 43560);
+                if (CalculatedHarvestEfficiency < 0) CalculatedHarvestEfficiency = 0;
                 ProvidedNTreatmentEfficiency = CalculatedHarvestEfficiency;
                 ProvidedPTreatmentEfficiency = CalculatedHarvestEfficiency;
             }

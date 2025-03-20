@@ -140,6 +140,7 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "<b>The following calculations are based on the mean annual stormwater mass <br/>";
             s += "remaining in the wet detention pond. The equation used are those used by Harper (2007, Chapter 7)<br/>";
+            s += " and valid for anoxic depths from 0.8 to 29.5 feet.<br/>";
             s += "WET DETENTION AS A FIRST BMP: " + CatchmentName + "<br/><br/>" ;
 
             s += AsHtmlTable(
@@ -152,6 +153,8 @@ namespace BMPTrains_2020.DomainCode
                 {"AnoxicPoolDepth","Anoxic Pool Depth (ft)" }
               
             });
+            s += "<br/>Note: If anoxic depth < pond depth, recalculate permanent pool volume using the anoxic<br/>";
+            s += "depth and re-enter the permanent pool volume.";
             return s;
         }
 

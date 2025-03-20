@@ -29,6 +29,7 @@ namespace BMPTrains_2020
 
             // We are only doing Harvest Efficiency
             currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestEfficiency;
+            currentBMP().ContributingAreaSF = 43560 * currentCatchment().PostArea;
         }
 
         private Catchment currentCatchment()
@@ -45,25 +46,6 @@ namespace BMPTrains_2020
 
         private void getValues()
         {
-            //if (currentBMP().SolveForChoice == RainwaterHarvesting.sHarvestEfficiency)
-            //{
-            //    currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
-            //}
-            //else
-            //{
-            //    currentBMP().HarvestEfficiency = Common.getDouble(tbHarvestRate);
-            //}
-
-            //if (rbHarvestEfficiency.Checked)
-            //{
-            //    currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestEfficiency;
-            //}
-            //if (rbHarvestRate.Checked)
-            //{
-            //    currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestRate;
-            //}
-
-
             currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
             currentBMP().HarvestVolume = Common.getDouble(tbHarvestVolume);
             currentBMP().RoofType = Common.getString(cbRoofType);
@@ -73,18 +55,7 @@ namespace BMPTrains_2020
 
         private void setValues()
         {
-            //if (currentBMP().SolveForChoice == RainwaterHarvesting.sHarvestEfficiency)
-            //{
-            //    rbHarvestEfficiency.Checked = true;
-            //    lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week)";
-            //    Common.setValue(tbHarvestRate, currentBMP().AvailableHarvestRate);
-            //}
-            //else
-            //{
-            //    rbHarvestRate.Checked = true;
-            //    lblHarvest.Text = "Harvest Efficiency (20% - 90%)";
-            //    Common.setValue(tbHarvestRate, currentBMP().HarvestEfficiency);
-            //}
+
 
             rbHarvestEfficiency.Checked = true;
             lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week)";

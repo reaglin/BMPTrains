@@ -57,6 +57,8 @@
             // 
             // tbContributingArea
             // 
+            this.tbContributingArea.BackColor = System.Drawing.SystemColors.Info;
+            this.tbContributingArea.Enabled = false;
             this.tbContributingArea.Location = new System.Drawing.Point(714, 45);
             this.tbContributingArea.Name = "tbContributingArea";
             this.tbContributingArea.Size = new System.Drawing.Size(115, 35);
