@@ -49,23 +49,7 @@ namespace BMPTrains_2020
 
         private void getValues()
         {
-            //if (currentBMP().SolveForChoice == RainwaterHarvesting.sHarvestEfficiency)
-            //{
-            //    currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
-            //}
-            //else
-            //{
-            //    currentBMP().HarvestEfficiency = Common.getDouble(tbHarvestRate);
-            //}
 
-            //if (rbHarvestEfficiency.Checked)
-            //{
-            //    currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestEfficiency;
-            //}
-            //if (rbHarvestRate.Checked)
-            //{
-            //    currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestRate;
-            //}
 
             currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
             currentBMP().ContributingArea = Common.getDouble(tbContributingArea) * 43560;
@@ -76,18 +60,7 @@ namespace BMPTrains_2020
 
         private void setValues()
         {
-            //if (currentBMP().SolveForChoice == RainwaterHarvesting.sHarvestEfficiency)
-            //{
-            //    rbHarvestEfficiency.Checked = true;
-            //    lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week)";
-            //    Common.setValue(tbHarvestRate, currentBMP().AvailableHarvestRate);
-            //}
-            //else
-            //{
-            //    rbHarvestRate.Checked = true;
-            //    lblHarvest.Text = "Harvest Efficiency (20% - 90%)";
-            //    Common.setValue(tbHarvestRate, currentBMP().HarvestEfficiency);
-            //}
+
 
             rbHarvestEfficiency.Checked = true;
             lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week)";
@@ -177,5 +150,49 @@ namespace BMPTrains_2020
             SendKeys.SendWait("^a^c");
             DialogResult dialogResult = MessageBox.Show("Report has been copied to the clipboard as HTML text", "Copy Report", MessageBoxButtons.OK);
         }
+
+        private void btnPlotREV_Click(object sender, EventArgs e)
+        {
+            if (btnPlotREV.Text == "Plot REV") showREV(); else showReport();
+        }
+
+        private void pbREV_Click(object sender, EventArgs e)
+        {
+            showReport();
+        }
+
+        private void showREV()
+        {
+            switch (currentBMP().RainfallZone)
+            {
+                case StaticLookupTables.FlZone1:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone1;
+                    break; ;
+                case StaticLookupTables.FlZone2:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone2;
+                    break; ;
+                case StaticLookupTables.FlZone3:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone3;
+                    break; ;
+                case StaticLookupTables.FlZone4:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone4;
+                    break; ;
+                case StaticLookupTables.FlZone5:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone5;
+                    break; ;
+                default:
+                    pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone1;
+                    break; ;
+            }
+            pbREV.Visible = true; btnPlotREV.Text = "Report";
+            wbOutput.Visible = false;
+        }
+        private void showReport()
+        {
+            btnPlotREV.Text = "Plot REV";
+            pbREV.Visible = false;
+            wbOutput.Visible = true;
+        }
     }
+
 }

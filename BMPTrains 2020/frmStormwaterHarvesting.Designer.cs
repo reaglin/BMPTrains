@@ -49,19 +49,22 @@
             this.tbContributingArea = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnCost = new System.Windows.Forms.Button();
+            this.btnPlotREV = new System.Windows.Forms.Button();
+            this.pbREV = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbREV)).BeginInit();
             this.SuspendLayout();
             // 
             // tbHarvestVolume
             // 
-            this.tbHarvestVolume.Location = new System.Drawing.Point(714, 132);
+            this.tbHarvestVolume.Location = new System.Drawing.Point(716, 120);
             this.tbHarvestVolume.Name = "tbHarvestVolume";
             this.tbHarvestVolume.Size = new System.Drawing.Size(115, 35);
             this.tbHarvestVolume.TabIndex = 3;
             // 
             // tbIrrigationArea
             // 
-            this.tbIrrigationArea.Location = new System.Drawing.Point(714, 91);
+            this.tbIrrigationArea.Location = new System.Drawing.Point(716, 79);
             this.tbIrrigationArea.Name = "tbIrrigationArea";
             this.tbIrrigationArea.Size = new System.Drawing.Size(115, 35);
             this.tbIrrigationArea.TabIndex = 2;
@@ -69,7 +72,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(483, 137);
+            this.label2.Location = new System.Drawing.Point(485, 125);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(225, 30);
             this.label2.TabIndex = 38;
@@ -78,7 +81,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(396, 96);
+            this.label1.Location = new System.Drawing.Point(398, 84);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(312, 30);
             this.label1.TabIndex = 37;
@@ -86,10 +89,10 @@
             // 
             // wbOutput
             // 
-            this.wbOutput.Location = new System.Drawing.Point(12, 259);
+            this.wbOutput.Location = new System.Drawing.Point(12, 211);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(666, 271);
+            this.wbOutput.Size = new System.Drawing.Size(666, 319);
             this.wbOutput.TabIndex = 36;
             // 
             // btnHelp
@@ -149,7 +152,7 @@
             // 
             this.groupBox1.Controls.Add(this.rbHarvestRate);
             this.groupBox1.Controls.Add(this.rbHarvestEfficiency);
-            this.groupBox1.Location = new System.Drawing.Point(12, 41);
+            this.groupBox1.Location = new System.Drawing.Point(14, 29);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(353, 126);
             this.groupBox1.TabIndex = 6;
@@ -183,7 +186,7 @@
             // 
             // tbHarvestRate
             // 
-            this.tbHarvestRate.Location = new System.Drawing.Point(714, 173);
+            this.tbHarvestRate.Location = new System.Drawing.Point(716, 161);
             this.tbHarvestRate.Name = "tbHarvestRate";
             this.tbHarvestRate.Size = new System.Drawing.Size(115, 35);
             this.tbHarvestRate.TabIndex = 4;
@@ -192,7 +195,7 @@
             // lblHarvest
             // 
             this.lblHarvest.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.lblHarvest.Location = new System.Drawing.Point(318, 178);
+            this.lblHarvest.Location = new System.Drawing.Point(320, 166);
             this.lblHarvest.Name = "lblHarvest";
             this.lblHarvest.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblHarvest.Size = new System.Drawing.Size(391, 30);
@@ -212,7 +215,7 @@
             // tbContributingArea
             // 
             this.tbContributingArea.Enabled = false;
-            this.tbContributingArea.Location = new System.Drawing.Point(714, 49);
+            this.tbContributingArea.Location = new System.Drawing.Point(716, 37);
             this.tbContributingArea.Name = "tbContributingArea";
             this.tbContributingArea.Size = new System.Drawing.Size(115, 35);
             this.tbContributingArea.TabIndex = 1;
@@ -221,7 +224,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(436, 54);
+            this.label4.Location = new System.Drawing.Point(438, 42);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(272, 30);
             this.label4.TabIndex = 44;
@@ -238,6 +241,27 @@
             this.btnCost.UseVisualStyleBackColor = true;
             this.btnCost.Click += new System.EventHandler(this.btnCost_Click);
             // 
+            // btnPlotREV
+            // 
+            this.btnPlotREV.Location = new System.Drawing.Point(714, 211);
+            this.btnPlotREV.Name = "btnPlotREV";
+            this.btnPlotREV.Size = new System.Drawing.Size(112, 39);
+            this.btnPlotREV.TabIndex = 48;
+            this.btnPlotREV.Text = "Plot REV";
+            this.btnPlotREV.UseVisualStyleBackColor = true;
+            this.btnPlotREV.Click += new System.EventHandler(this.btnPlotREV_Click);
+            // 
+            // pbREV
+            // 
+            this.pbREV.Location = new System.Drawing.Point(14, 211);
+            this.pbREV.Name = "pbREV";
+            this.pbREV.Size = new System.Drawing.Size(24, 18);
+            this.pbREV.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbREV.TabIndex = 49;
+            this.pbREV.TabStop = false;
+            this.pbREV.Visible = false;
+            this.pbREV.Click += new System.EventHandler(this.pbREV_Click);
+            // 
             // frmStormwaterHarvesting
             // 
             this.AcceptButton = this.btnClose;
@@ -246,6 +270,8 @@
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(869, 548);
             this.ControlBox = false;
+            this.Controls.Add(this.pbREV);
+            this.Controls.Add(this.btnPlotREV);
             this.Controls.Add(this.btnCost);
             this.Controls.Add(this.tbContributingArea);
             this.Controls.Add(this.label4);
@@ -274,6 +300,7 @@
             this.Load += new System.EventHandler(this.frmStormwaterHarvesting_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbREV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -301,5 +328,7 @@
         private System.Windows.Forms.TextBox tbContributingArea;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnCost;
+        private System.Windows.Forms.Button btnPlotREV;
+        private System.Windows.Forms.PictureBox pbREV;
     }
 }

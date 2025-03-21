@@ -180,7 +180,7 @@ namespace BMPTrains_2020.DomainCode
         public override string BMPTypeTitle()
         {
             string s = "Wet Detention";
-            if (LittoralZoneEfficiencyCredit > 0) s += " with Littoral Shelf";
+            if (LittoralZoneEfficiencyCredit >= 0) s += " with Littoral Shelf";
             if (WetlandEfficiencyCredit > 0) s += " with Floating Wetland Mats";
             return s;
         }

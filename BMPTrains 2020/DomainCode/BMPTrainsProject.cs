@@ -57,8 +57,7 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_Criteria_PvP_GO = "Post = Greater of Pre-Conditions";
         public const string AT_Criteria_PvP = "Post = Pre-Conditions";
         public const string AT_Criteria_None = "No Post Condition Requirements";
-        #endregion
-        #endregion
+        #endregion     
 
         #region "Static Methods"
         public static List<string> AnalysisTypes() => new List<string> { 
@@ -916,8 +915,8 @@ namespace BMPTrains_2020.DomainCode
             TotalGroundwaterPRemoved = 0;
             TotalGroundwaterNLoading = 0;
             TotalGroundwaterPLoading = 0;
-
-            //PostRunoffVolume = 0;
+            
+            PostRunoffVolume = 0; // System Runoff
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
                 if (!kvp.Value.Disabled)
@@ -933,11 +932,10 @@ namespace BMPTrains_2020.DomainCode
                     TotalGroundwaterPRemoved += kvp.Value.GroundwaterPRemoved();
                     TotalGroundwaterNLoading += kvp.Value.GroundwaterNLoading();
                     TotalGroundwaterPLoading += kvp.Value.GroundwaterPLoading();
+                    if (kvp.Value.ToID == 0) PostRunoffVolume += kvp.Value.routing.VolumeOut;
                 }
-                PostRunoffVolume = Catchments[numCatchments].routing.VolumeOut;
-
             }
-
+            
         }
         public void CalculateRouting(int cid, int iteration = 0)
         {
@@ -1611,3 +1609,4 @@ namespace BMPTrains_2020.DomainCode
         #endregion
     }
 }
+#endregion

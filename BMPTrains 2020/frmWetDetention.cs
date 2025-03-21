@@ -63,6 +63,7 @@ namespace BMPTrains_2020
 
             Common.setValue(tbPPVolume, currentBMP().PermanentPoolVolume);
             Common.setValue(tbLittoralCredit, currentBMP().LittoralZoneEfficiencyCredit);
+            if (currentBMP().LittoralZoneEfficiencyCredit == 0) chkLittoralZone.Checked = true;
             Common.setValue(tbWetlandCredit, currentBMP().WetlandEfficiencyCredit);
 
             //wbOutput.DocumentText = currentBMP().BasicReport();
@@ -161,6 +162,12 @@ namespace BMPTrains_2020
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            // Littoral Zone Check
+            if (chkLittoralZone.Checked) currentBMP().LittoralZoneEfficiencyCredit = -10.0; else currentBMP().LittoralZoneEfficiencyCredit = 0;
         }
     }
 }
