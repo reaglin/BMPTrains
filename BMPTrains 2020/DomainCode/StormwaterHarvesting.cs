@@ -155,8 +155,8 @@ namespace BMPTrains_2020.DomainCode
 
             //if (SolveForChoice == sHarvestRate)
             //{
-            //    ProvidedNTreatmentEfficiency = HarvestEfficiency;
-            //    ProvidedPTreatmentEfficiency = HarvestEfficiency;
+            //    CalculatedNTreatmentEfficiency = HarvestEfficiency;
+            //    CalculatedPTreatmentEfficiency = HarvestEfficiency;
             //    HarvestRateOverEIA = getEfficiencyLUT().Calculate(HarvestEfficiency, HarvestVolumeOverEIA);
             //    RequiredHarvestRateCFD = HarvestRateOverEIA * EquivalentImperviousArea * 43560 / 12;
             //    RequiredHarvestRateINWEEK = RequiredHarvestRateCFD * 7 * 12 / ( IrrigationArea * 43560);                

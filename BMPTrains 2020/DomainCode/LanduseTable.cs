@@ -59,6 +59,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static double getN(string lutValue)
         {
+            if (lutValue == "") return 0.0;
             try
             {
                 List<LanduseTableRow> v = LanduseTable.Values();
@@ -73,6 +74,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static double getP(string lutValue)
         {
+            if (lutValue == "") return 0.0;
             try
             {
                 List<LanduseTableRow> v = LanduseTable.Values();

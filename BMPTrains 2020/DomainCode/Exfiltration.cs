@@ -21,7 +21,7 @@ namespace BMPTrains_2020.DomainCode
         public double TrenchVolumeCF { get; set; }
         public double StorageVolumeAF { get; set; }
         public double StorageVolumeIn { get; set; }
-        public bool ExfiltrationOver3hours { get; set; }
+        public bool ExfiltrationUnder3hours { get; set; }
 
         public double IncreasedEffectiveness { get; set; }
 
@@ -63,8 +63,8 @@ namespace BMPTrains_2020.DomainCode
                 { "RequiredRetentionVolume", "Required Water Quality Retention Volume (in)"},
                 {"label1", "<b>Provided Values Based on Inputs</b>"  },
                 { "RainfallZone", "Rainfall Zone:"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
                 {"IncreasedEffectiveness", "Effectiveness Increase for > 3 hours (%)" }
             };
 
@@ -113,7 +113,7 @@ namespace BMPTrains_2020.DomainCode
                 { "VoidRatio", "Aggregate Void (fraction) "},
                 {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
                 {"StorageVolumeIn", "Retention Depth (in over CA)"},
-                {"IncreasedEffectiveness", "Effectiveness Increase for > 3 hours (%)" }
+                {"IncreasedEffectiveness", "Effectiveness Increase for < 3 hours (%)" }
 
                 });
             return s;
@@ -163,14 +163,14 @@ namespace BMPTrains_2020.DomainCode
         {
             IncreasedEffectiveness = 0.0;
             double x = RetentionDepth;
-            if (ExfiltrationOver3hours) // Exfiltration over 3 hours
+            if (ExfiltrationUnder3hours) // Exfiltration under 3 hours
             {
                 if (RetentionDepth > 0.01 && RetentionDepth < 2.51)
                 {
-                    IncreasedEffectiveness = 2.7052 * Math.Pow(x,3) - 14.728 * Math.Pow(x,2) + 19.905 * x + 0.1017;
+                    IncreasedEffectiveness = 2.7052 * Math.Pow(x, 3) - 14.728 * Math.Pow(x, 2) + 19.905 * x + 0.1017;
                 }
                 else
-                { 
+                {
                     IncreasedEffectiveness = 0.1;
                 }
                 ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency + IncreasedEffectiveness;

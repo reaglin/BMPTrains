@@ -66,8 +66,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RetentionDepth", "<u>Provided retetention depth for hydraulic capture (in)</u>"},                
                 {"label1", "<b>Provided Values Based on Inputs</b>"  },
                 {"RainfallZone", "Rainfall Zone:"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
 
             Dictionary<string, string> d2 = new Dictionary<string, string>

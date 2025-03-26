@@ -18,7 +18,11 @@ namespace BMPTrains_2020.DomainCode
         {
             return "~/Pages/ManageXMLPropertyObject.aspx?Class=" + className;
         }
-
+        public static string getDateString()
+        {
+            string s = "<div style = 'text-align: right;' >Date: " + DateTime.Now.ToString("d") + "</div><br/>";
+            return s;
+        }
         public static int getInt(TextBox tb)
         {
             try

@@ -336,6 +336,8 @@ namespace BMPTrains_2020.DomainCode
                     return GetValue(pi, places);
                 case "Single":
                     return GetValue(pi, places);
+                case "Boolean":
+                    return GetValue(Convert.ToBoolean(pi.GetValue(this)));
                 default:
                     return Convert.ToString(pi.GetValue(this));
             }
@@ -368,6 +370,10 @@ namespace BMPTrains_2020.DomainCode
 
             return String.Format(formatString, d);
         }
+
+        public string GetValue(Boolean b)
+        {
+            if (b) return "Yes"; else return "No";        }
 
         public string GetValue(ArrayList al, int places)
         {

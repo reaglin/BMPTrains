@@ -56,7 +56,7 @@
             // 
             // tbPPVolume
             // 
-            this.tbPPVolume.Location = new System.Drawing.Point(514, 49);
+            this.tbPPVolume.Location = new System.Drawing.Point(514, 86);
             this.tbPPVolume.Name = "tbPPVolume";
             this.tbPPVolume.Size = new System.Drawing.Size(115, 35);
             this.tbPPVolume.TabIndex = 1;
@@ -158,7 +158,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(167, 52);
+            this.label3.Location = new System.Drawing.Point(167, 89);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(341, 30);
             this.label3.TabIndex = 31;
@@ -247,7 +247,7 @@
             // chkLittoralZone
             // 
             this.chkLittoralZone.AutoSize = true;
-            this.chkLittoralZone.Location = new System.Drawing.Point(316, 91);
+            this.chkLittoralZone.Location = new System.Drawing.Point(313, 52);
             this.chkLittoralZone.Name = "chkLittoralZone";
             this.chkLittoralZone.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.chkLittoralZone.Size = new System.Drawing.Size(313, 34);

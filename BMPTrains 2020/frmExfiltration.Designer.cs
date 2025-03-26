@@ -62,7 +62,7 @@
             // 
             // btnCalculate
             // 
-            this.btnCalculate.Location = new System.Drawing.Point(692, 289);
+            this.btnCalculate.Location = new System.Drawing.Point(698, 333);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(112, 39);
             this.btnCalculate.TabIndex = 4;
@@ -72,7 +72,7 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Location = new System.Drawing.Point(692, 380);
+            this.btnPrint.Location = new System.Drawing.Point(698, 424);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 5;
@@ -82,7 +82,7 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(692, 470);
+            this.btnReport.Location = new System.Drawing.Point(698, 514);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(112, 39);
             this.btnReport.TabIndex = 6;
@@ -93,7 +93,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(692, 515);
+            this.btnClose.Location = new System.Drawing.Point(698, 559);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 7;
@@ -104,10 +104,10 @@
             // 
             // wbOutput
             // 
-            this.wbOutput.Location = new System.Drawing.Point(17, 221);
+            this.wbOutput.Location = new System.Drawing.Point(23, 246);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(650, 333);
+            this.wbOutput.Size = new System.Drawing.Size(650, 352);
             this.wbOutput.TabIndex = 21;
             // 
             // menuStrip1
@@ -134,7 +134,7 @@
             // btnExfiltrationCalculator
             // 
             this.btnExfiltrationCalculator.Image = ((System.Drawing.Image)(resources.GetObject("btnExfiltrationCalculator.Image")));
-            this.btnExfiltrationCalculator.Location = new System.Drawing.Point(758, 133);
+            this.btnExfiltrationCalculator.Location = new System.Drawing.Point(758, 163);
             this.btnExfiltrationCalculator.Name = "btnExfiltrationCalculator";
             this.btnExfiltrationCalculator.Size = new System.Drawing.Size(46, 40);
             this.btnExfiltrationCalculator.TabIndex = 2;
@@ -159,18 +159,18 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.CausesValidation = false;
-            this.label2.Location = new System.Drawing.Point(758, 58);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(415, 94);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 30);
+            this.label2.Size = new System.Drawing.Size(414, 33);
             this.label2.TabIndex = 51;
-            this.label2.Text = "info";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label2.Text = "To water table or the bottom of the pipe, whichever is less";
             this.toolTip1.SetToolTip(this.label2, "o water table or the bottom of the pipe, whichever is less");
             // 
             // btnMediaMix
             // 
             this.btnMediaMix.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMediaMix.Location = new System.Drawing.Point(692, 244);
+            this.btnMediaMix.Location = new System.Drawing.Point(698, 288);
             this.btnMediaMix.Name = "btnMediaMix";
             this.btnMediaMix.Size = new System.Drawing.Size(112, 39);
             this.btnMediaMix.TabIndex = 34;
@@ -180,7 +180,7 @@
             // 
             // btnPlot
             // 
-            this.btnPlot.Location = new System.Drawing.Point(692, 425);
+            this.btnPlot.Location = new System.Drawing.Point(698, 469);
             this.btnPlot.Name = "btnPlot";
             this.btnPlot.Size = new System.Drawing.Size(112, 39);
             this.btnPlot.TabIndex = 35;
@@ -190,7 +190,7 @@
             // 
             // bnCost
             // 
-            this.bnCost.Location = new System.Drawing.Point(692, 334);
+            this.bnCost.Location = new System.Drawing.Point(698, 378);
             this.bnCost.Name = "bnCost";
             this.bnCost.Size = new System.Drawing.Size(112, 39);
             this.bnCost.TabIndex = 36;
@@ -202,7 +202,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.CausesValidation = false;
-            this.label7.Location = new System.Drawing.Point(306, 138);
+            this.label7.Location = new System.Drawing.Point(306, 168);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(350, 30);
             this.label7.TabIndex = 50;
@@ -211,7 +211,7 @@
             // 
             // tbVoidRatio
             // 
-            this.tbVoidRatio.Location = new System.Drawing.Point(663, 135);
+            this.tbVoidRatio.Location = new System.Drawing.Point(663, 165);
             this.tbVoidRatio.Name = "tbVoidRatio";
             this.tbVoidRatio.Size = new System.Drawing.Size(89, 35);
             this.tbVoidRatio.TabIndex = 49;
@@ -220,7 +220,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.CausesValidation = false;
-            this.label4.Location = new System.Drawing.Point(468, 97);
+            this.label4.Location = new System.Drawing.Point(468, 127);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(188, 30);
             this.label4.TabIndex = 48;
@@ -229,7 +229,7 @@
             // 
             // tbTrenchLength
             // 
-            this.tbTrenchLength.Location = new System.Drawing.Point(663, 94);
+            this.tbTrenchLength.Location = new System.Drawing.Point(663, 124);
             this.tbTrenchLength.Name = "tbTrenchLength";
             this.tbTrenchLength.Size = new System.Drawing.Size(89, 35);
             this.tbTrenchLength.TabIndex = 47;
@@ -316,11 +316,11 @@
             // chkThreeHours
             // 
             this.chkThreeHours.AutoSize = true;
-            this.chkThreeHours.Location = new System.Drawing.Point(386, 176);
+            this.chkThreeHours.Location = new System.Drawing.Point(112, 201);
             this.chkThreeHours.Name = "chkThreeHours";
-            this.chkThreeHours.Size = new System.Drawing.Size(394, 34);
+            this.chkThreeHours.Size = new System.Drawing.Size(544, 34);
             this.chkThreeHours.TabIndex = 52;
-            this.chkThreeHours.Text = "Check if exfiltration is less than 3 hours";
+            this.chkThreeHours.Text = "Check if design volume removal takes less than 3 hours";
             this.chkThreeHours.UseVisualStyleBackColor = true;
             this.chkThreeHours.CheckedChanged += new System.EventHandler(this.chkThreeHours_CheckedChanged);
             // 
@@ -330,7 +330,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(830, 570);
+            this.ClientSize = new System.Drawing.Size(830, 610);
             this.ControlBox = false;
             this.Controls.Add(this.chkThreeHours);
             this.Controls.Add(this.label2);

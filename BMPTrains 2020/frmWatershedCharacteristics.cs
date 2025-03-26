@@ -18,6 +18,7 @@ namespace BMPTrains_2020
         public Catchment c()
         {
             return Globals.Project.getCatchment(currentCatchmentNum);
+            
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -228,7 +229,8 @@ namespace BMPTrains_2020
             tbPreArea.Enabled = !Globals.Project.LockedPreCondition;
             tbPreDCIAPercentage.Enabled = !Globals.Project.LockedPreCondition;
             tbPreNonDCIACurveNumber.Enabled = !Globals.Project.LockedPreCondition; 
-            tbPreDCIAPercentage.Enabled = !Globals.Project.LockedPreCondition; 
+            tbPreDCIAPercentage.Enabled = !Globals.Project.LockedPreCondition;
+            checkErrors();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

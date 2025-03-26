@@ -48,7 +48,7 @@ namespace BMPTrains_2020.DomainCode
                 {"SurfaceArea", "Surface Area of Pavement (acres)"},
                 {"RetentionVolume", "Retention Volume (ac-ft)"},
                 {"RetentionDepth", "Treatment Volume (in over watershed)"},
-                {"ProvidedNTreatmentEfficiency", "Provided Treatment Capture Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Treatment Capture Efficiency (%)"}
             };
         }
 
@@ -66,8 +66,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RequiredRetentionVolume", "Required Water Quality Retention Volume (in)"},
                 {"label1", "<b>Provided Values Based on Inputs</b>"  },
                 {"RainfallZone", "Rainfall Zone:"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
             return d1;
         }

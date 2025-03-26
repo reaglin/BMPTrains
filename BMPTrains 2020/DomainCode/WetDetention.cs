@@ -21,9 +21,11 @@ namespace BMPTrains_2020.DomainCode
         public double MinimumPermanentPoolVolume { get; set; }
 
 
-        public double LittoralZoneEfficiencyCredit { get; set; }
+        //public double LittoralZoneEfficiencyCredit { get; set; }
         public double AdditionalPercentNLittoralRemoval { get; set; }
         public double AdditionalPercentPLittoralRemoval { get; set; }
+
+        public bool HasLittoralZone { get; set; }
 
         public double WetlandEfficiencyCredit { get; set; }
         public double AdditionalPercentNWetlandRemoval { get; set; }
@@ -55,6 +57,7 @@ namespace BMPTrains_2020.DomainCode
                 {"LittoralZoneEfficiencyCredit","Littoral Zone Efficiency Credit" },
                 {"AdditionalPercentNLittoralRemoval","Additional Percent N Littoral Removal" },
                 {"AdditionalPercentPLittoralRemoval","Additional Percent P Littoral Removal" },
+                {"HasLittoralZone", "Has Littoral Zone" },
                 {"WetlandEfficiencyCredit","Wetland Efficiency Credit" },
                 {"AdditionalPercentNWetlandRemoval","Additional Percent  NWetland Removal" },
                 {"AdditionalPercentPWetlandRemoval","Additional Percent P Wetland Removal" },
@@ -114,8 +117,8 @@ namespace BMPTrains_2020.DomainCode
                 {"AdditionalPercentNWetlandRemoval","Additional N Wetland Removal (%)" },
                 {"AdditionalPercentPWetlandRemoval","Additional P Wetland Removal (%)" },
 
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
             };
             return d1;
         }
@@ -129,7 +132,7 @@ namespace BMPTrains_2020.DomainCode
                 {"PermanentPoolVolume31", "Permanent Pool Volume (ac-ft) for 31 days residence"},
 
                 {"ResidenceTime", "Annual Residence Time (days)"},
-                { "LittoralZoneEfficiencyCredit","Littoral Zone Efficiency Credit" },
+                { "HasLittoralZone","Has Littoral Zone" },
                 { "WetlandEfficiencyCredit","Wetland Efficiency Credit" }
 
             });
@@ -180,7 +183,7 @@ namespace BMPTrains_2020.DomainCode
         public override string BMPTypeTitle()
         {
             string s = "Wet Detention";
-            if (LittoralZoneEfficiencyCredit >= 0) s += " with Littoral Shelf";
+            //if (LittoralZoneEfficiencyCredit >= 0) s += " with Littoral Shelf";
             if (WetlandEfficiencyCredit > 0) s += " with Floating Wetland Mats";
             return s;
         }
@@ -244,12 +247,18 @@ namespace BMPTrains_2020.DomainCode
             double NRemaining = 100 - Neff;
             double PRemaining = 100 - Peff;
 
-            if (LittoralZoneEfficiencyCredit != 0)
+            //if (LittoralZoneEfficiencyCredit != 0)
+            //{
+            //    AdditionalPercentNLittoralRemoval = LittoralZoneEfficiencyCredit * NRemaining / 100;
+            //    AdditionalPercentPLittoralRemoval = LittoralZoneEfficiencyCredit * PRemaining / 100;
+            //    CalculatedNTreatmentEfficiency = CalculatedNTreatmentEfficiency + AdditionalPercentNLittoralRemoval;
+            //    CalculatedPTreatmentEfficiency = CalculatedPTreatmentEfficiency + AdditionalPercentPLittoralRemoval;
+            //}
+
+            if (!HasLittoralZone)
             {
-                AdditionalPercentNLittoralRemoval = LittoralZoneEfficiencyCredit * NRemaining / 100;
-                AdditionalPercentPLittoralRemoval = LittoralZoneEfficiencyCredit * PRemaining / 100;
-                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency + AdditionalPercentNLittoralRemoval;
-                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency + AdditionalPercentPLittoralRemoval;
+                ProvidedNTreatmentEfficiency = Math.Max(ProvidedNTreatmentEfficiency - 10, 0.0);
+                ProvidedPTreatmentEfficiency = Math.Max(ProvidedPTreatmentEfficiency - 10, 0.0);
             }
 
             NRemaining = 100 - ProvidedNTreatmentEfficiency;
@@ -262,6 +271,8 @@ namespace BMPTrains_2020.DomainCode
                 ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency + AdditionalPercentNWetlandRemoval;
                 ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency + AdditionalPercentPWetlandRemoval;
             }
+                if (!HasLittoralZone)
+
 
             if (ProvidedNTreatmentEfficiency > 100.0) ProvidedNTreatmentEfficiency = 100.0;
             if (ProvidedPTreatmentEfficiency > 100.0) ProvidedPTreatmentEfficiency = 100.0;
@@ -301,11 +312,19 @@ namespace BMPTrains_2020.DomainCode
                 }
                 double nr = 100 - y[i];
 
-                if (LittoralZoneEfficiencyCredit != 0)
+                if (!HasLittoralZone)
                 {
-                    double apr = LittoralZoneEfficiencyCredit * nr / 100;
-                    y[i] = y[i] + apr;
+                    // No Littoral Zone reduce by 10%
+//                    double apr = LittoralZoneEfficiencyCredit * nr / 100;
+                    y[i] = y[i] - 0.1*nr;
+
                 }
+
+                //if (LittoralZoneEfficiencyCredit != 0)
+                //{
+                //    double apr = LittoralZoneEfficiencyCredit * nr / 100;
+                //    y[i] = y[i] + apr;
+                //}
 
                 if (WetlandEfficiencyCredit != 0)
                 {

@@ -134,7 +134,7 @@ namespace BMPTrains_2020
             Globals.Project.RequiredNTreatmentEfficiency = Common.getInt(tbN, 0, 99);
             Globals.Project.RequiredPTreatmentEfficiency = Common.getInt(tbP, 0 ,99);
 
-            if (tbPercentLessThanPre.Enabled) Globals.Project.PreReductionPercent = Common.getDouble(tbPercentLessThanPre); 
+            if (tbPercentLessThanPre.Enabled) Globals.Project.RequiredPreReductionPercent = Common.getDouble(tbPercentLessThanPre); 
 
             Globals.Project.Calculate();        // This also sets Catchment Values for Associated Catchments
             EnableButtons();
@@ -173,7 +173,7 @@ namespace BMPTrains_2020
             Common.setValue(tbMeanAnnualRainfall, Globals.Project.MeanAnnualRainfall);
             Common.setValue(cbAnalysisType, Globals.Project.AnalysisType);
             Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis,true);
-            if (tbPercentLessThanPre.Enabled) Common.setValue(tbPercentLessThanPre, Globals.Project.PreReductionPercent);
+            if (tbPercentLessThanPre.Enabled) Common.setValue(tbPercentLessThanPre, Globals.Project.RequiredPreReductionPercent);
                 if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 //Common.setValue(tbN, Globals.Project.RequiredNTreatmentEfficiency);

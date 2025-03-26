@@ -148,8 +148,8 @@ namespace BMPTrains_2020.DomainCode
                 {"HydraulicCaptureEfficiency", "Hydraulic Capture Efficiency (%)" },
                 {"BufferNRemovalEfficiency","Nitrogen Removal Efficiency in Buffer (%)" },
                 {"BufferPRemovalEfficiency","Phosphorus Removal Efficiency in Buffer (%)" },
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Removal Efficiency (%)" },
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Removal Efficiency (%)" },
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Removal Efficiency (%)" },
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Removal Efficiency (%)" },
             };
 
             return d1;
@@ -254,8 +254,8 @@ namespace BMPTrains_2020.DomainCode
                 {"MediaMixType", "Type of Media" },
                 {"BufferNRemovalEfficiency","Nitrogen Removal Efficiency in Buffer (%)" },
                 {"BufferPRemovalEfficiency","Phosphorus Removal Efficiency in Buffer (%)" },
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Removal Efficiency (%)" },
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Removal Efficiency (%)" },
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Removal Efficiency (%)" },
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Removal Efficiency (%)" },
             };
 
             return d1;
@@ -310,22 +310,22 @@ namespace BMPTrains_2020.DomainCode
         public override double GroundwaterNLoading()
         {
             return GroundwaterNMassLoadOut;
-            //          return ProvidedNTreatmentEfficiency; 
+            //          return CalculatedNTreatmentEfficiency; 
         }
 
         public override double GroundwaterPLoading()
         {
             return GroundwaterPMassLoadOut;
-            //          return ProvidedNTreatmentEfficiency; 
+            //          return CalculatedNTreatmentEfficiency; 
         }
         public override double GroundwaterNRemovalEfficiency()
         {
-            //return 100 * ProvidedNTreatmentEfficiency / MediaNPercentReduction;
+            //return 100 * CalculatedNTreatmentEfficiency / MediaNPercentReduction;
             return 0; 
         }
         public override double GroundwaterPRemovalEfficiency()
         {
-            //return 100 * ProvidedPTreatmentEfficiency / MediaPPercentReduction;
+            //return 100 * CalculatedPTreatmentEfficiency / MediaPPercentReduction;
             return 0;
         }
 

@@ -49,7 +49,7 @@ namespace BMPTrains_2020
             Common.setValue(tbTrenchDepth, currentBMP().TrenchDepth);
             Common.setValue(tbTrenchLength, currentBMP().TrenchLength);
             Common.setValue(tbVoidRatio, currentBMP().VoidRatio);
-            Common.setValue(chkThreeHours, !currentBMP().ExfiltrationOver3hours);
+            Common.setValue(chkThreeHours, !currentBMP().ExfiltrationUnder3hours);
 
             currentBMP().Calculate();
             setOutputText();
@@ -64,7 +64,7 @@ namespace BMPTrains_2020
             currentBMP().TrenchDepth = Common.getDouble(tbTrenchDepth);
             currentBMP().TrenchLength = Common.getDouble(tbTrenchLength);
             currentBMP().VoidRatio = Common.getDouble(tbVoidRatio,0.0,1.0);
-            currentBMP().ExfiltrationOver3hours = !Common.getBoolean(chkThreeHours);
+            currentBMP().ExfiltrationUnder3hours = !Common.getBoolean(chkThreeHours);
         }
 
         private void setOutputText()

@@ -235,9 +235,9 @@ namespace BMPTrains_2020.DomainCode
                 new Dictionary<string, string>
             {
                 {"RequiredNTreatmentEfficiency", "Required TN Treatment Efficiency (%)"},
-                {"ProvidedNTreatmentEfficiency", "Provided TN Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Provided TN Treatment Efficiency (%)"},
                 {"RequiredPTreatmentEfficiency", "Required TP Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided TP Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided TP Treatment Efficiency (%)"},
             });
             s += "<br/>";
 
@@ -301,8 +301,8 @@ namespace BMPTrains_2020.DomainCode
                 {"HydraulicCaptureEfficiency", "Hydraulic Capture Efficiency (%)"},
                 {"RequiredNTreatmentEfficiency", "Required Nitrogen Treatment Efficiency (%)"},
                 {"RequiredPTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
                 {"RemainingNTreatmentEfficiency", "Remaining Nitrogen Treatment Efficiency (%)"},
                 {"RemainingPTreatmentEfficiency", "Remaining Phosphorus Treatment Efficiency (%)"},
 
@@ -336,8 +336,8 @@ namespace BMPTrains_2020.DomainCode
             return new Dictionary<string, string>
             {
                 {"BMPType", "Type of BMP"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Efficiency (%)"}
             };
         }
 
@@ -363,8 +363,8 @@ namespace BMPTrains_2020.DomainCode
                 {"EfficiencyLabels01", "<b>Efficiency Values</b>"  },
                 {"RequiredNTreatmentEfficiency", "Required Nitrogen Treatment Efficiency (%)"},
                 {"RequiredPTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
                 {"RemainingNTreatmentEfficiency", "Remaining Nitrogen Treatment Efficiency (%)"},
                 {"RemainingPTreatmentEfficiency", "Remaining Phosphorus Treatment Efficiency (%)"}
             };
@@ -414,8 +414,8 @@ namespace BMPTrains_2020.DomainCode
                 {"HydraulicCaptureEfficiency", 0 },
                 {"RequiredNTreatmentEfficiency", 0},
                 {"RequiredPTreatmentEfficiency", 0},
-                {"ProvidedNTreatmentEfficiency", 0},
-                {"ProvidedPTreatmentEfficiency", 0},
+                {"CalculatedNTreatmentEfficiency", 0},
+                {"CalculatedPTreatmentEfficiency", 0},
                 {"RemainingNTreatmentEfficiency", 0},
                 {"RemainingPTreatmentEfficiency", 0},
                 {"LandCost", -2},

@@ -203,7 +203,7 @@ namespace BMPTrains_2020.DomainCode
                 TotalSwaleBlockVolume = (UpstreamSwaleBlockVolume + InfiltratedStorageDepth) > 4 ? 4 : (UpstreamSwaleBlockVolume + InfiltratedStorageDepth); // inches
                 RetentionDepth = TotalSwaleBlockVolume;
 
-                CalculateTreatmentEfficiency(RetentionDepth, WatershedNDCIACurveNumber, WatershedDCIAPercent); // Calculates  ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency;
+                CalculateTreatmentEfficiency(RetentionDepth, WatershedNDCIACurveNumber, WatershedDCIAPercent); // Calculates  CalculatedNTreatmentEfficiency, CalculatedPTreatmentEfficiency;
             }
 
             if ((SwaleS < 0.01) || (SwaleH >= 0.5)) UseConcentrationReduction = "Yes"; else UseConcentrationReduction = "No";
@@ -211,8 +211,8 @@ namespace BMPTrains_2020.DomainCode
             {
                 SurfaceDischargeNReduction = ProvidedNTreatmentEfficiency + (0.3 * (100 - ProvidedNTreatmentEfficiency));
                 SurfaceDischargePReduction = ProvidedPTreatmentEfficiency + (0.3 * (100 - ProvidedPTreatmentEfficiency));
-                //ProvidedNTreatmentEfficiency = SurfaceDischargeNReduction;
-                //ProvidedPTreatmentEfficiency = SurfaceDischargePReduction;
+                //CalculatedNTreatmentEfficiency = SurfaceDischargeNReduction;
+                //CalculatedPTreatmentEfficiency = SurfaceDischargePReduction;
             }
             else
             {

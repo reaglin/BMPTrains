@@ -19,8 +19,8 @@ namespace BMPTrains_2020.DomainCode
             {
                 {"label0", "<h2>User Defined BMP</h2>" },
                 {"ContributingArea", "Contributing Catchment Area (acres)" },
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
             return d1;
         }
@@ -31,8 +31,8 @@ namespace BMPTrains_2020.DomainCode
                 new Dictionary<string, string>
             {
                 {"ContributingArea", "Contributing Catchment Area (acres)" },
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             });
             return s;
         }

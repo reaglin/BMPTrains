@@ -58,8 +58,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RetentionDepth", "Retention Depth for Provided Hydraulic Capture Efficiency (in)" },
                 {"RetentionOrDetention", "<u>Retention or Detention</u>"},
                 {"MediaMixType", "<u>Type of Soil Augmentation:</u>"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
             return current;
         }

@@ -50,8 +50,9 @@ namespace BMPTrains_2020
 
         private void getValues()
         {
+            currentBMP().HasLittoralZone= chkLittoralZone.Checked;
             currentBMP().PermanentPoolVolume = Common.getDouble(tbPPVolume);
-            currentBMP().LittoralZoneEfficiencyCredit = Common.getDouble(tbLittoralCredit);
+            //currentBMP().LittoralZoneEfficiencyCredit = Common.getDouble(tbLittoralCredit);
             currentBMP().WetlandEfficiencyCredit = Common.getDouble(tbWetlandCredit);
             userInputTP = Common.getDouble(tbUserTP);
         }
@@ -62,8 +63,7 @@ namespace BMPTrains_2020
             currentBMP().Calculate();
 
             Common.setValue(tbPPVolume, currentBMP().PermanentPoolVolume);
-            Common.setValue(tbLittoralCredit, currentBMP().LittoralZoneEfficiencyCredit);
-            if (currentBMP().LittoralZoneEfficiencyCredit == 0) chkLittoralZone.Checked = true;
+            chkLittoralZone.Checked = currentBMP().HasLittoralZone;
             Common.setValue(tbWetlandCredit, currentBMP().WetlandEfficiencyCredit);
 
             //wbOutput.DocumentText = currentBMP().BasicReport();
@@ -167,7 +167,11 @@ namespace BMPTrains_2020
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             // Littoral Zone Check
-            if (chkLittoralZone.Checked) currentBMP().LittoralZoneEfficiencyCredit = -10.0; else currentBMP().LittoralZoneEfficiencyCredit = 0;
+            //if (chkLittoralZone.Checked) currentBMP().LittoralZoneEfficiencyCredit = -10.0; else currentBMP().LittoralZoneEfficiencyCredit = 0;
+
+            getValues();
+            setValues();
+
         }
     }
 }

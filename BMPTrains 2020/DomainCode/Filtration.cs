@@ -30,8 +30,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RequiredPTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"  },
                 {"HydraulicCaptureEfficiency", "Hydraulic Capture Efficiency (%)"},
                 {"MediaMixType", "Type of Down Flow Media"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
             return d1;
             }

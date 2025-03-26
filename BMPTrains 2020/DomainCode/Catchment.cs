@@ -57,21 +57,31 @@ namespace BMPTrains_2020.DomainCode
         public string PreLoading { get; set; }
         public string PostLoading { get; set; }
 
+
+        // Three treatment efficiencies (all in percent) 
+        // Required - given by user or as Analysis Type
+        // Calculated - Treatment efficiency of BMP
+        // PrePost - Treatment efficiency (Post after Trreatment compared to Pre)
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
         public double CalculatedNTreatmentEfficiency { get; set; }
         public double CalculatedPTreatmentEfficiency { get; set; }
+        public double PrePostNTreatmentEfficiency { get; set; }
+        public double PrePostPTreatmentEfficiency { get; set; }
 
+        // Concentrations
         public double PreNConcentration { get; set; } // mg/l
         public double PrePConcentration { get; set; } // mg/l
 
         public double PostNConcentration { get; set; } // mg/l
         public double PostPConcentration { get; set; }  //mg/l
 
+        // Volumes in ac-fett
         public double PreRunoffVolume { get; set; }     // ac-ft
         public double PostRunoffVolume { get; set; }    // ac-ft
         public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
 
+        // Loadings in kg.year
         public double PreNLoading { get; set; }  // kg/yr
         public double PrePLoading { get; set; }  // kg/yr
 
@@ -248,7 +258,7 @@ namespace BMPTrains_2020.DomainCode
             Rainfall = p.MeanAnnualRainfall;
             RainfallZone = p.RainfallZone;
             AnalysisType = p.AnalysisType;
-            PreReductionPercent = p.PreReductionPercent;
+            PreReductionPercent = p.RequiredPreReductionPercent;
 
             CalculateRequiredNTreatmentEfficiency();
             CalculateRequiredPTreatmentEfficiency();
@@ -558,7 +568,7 @@ namespace BMPTrains_2020.DomainCode
             if (((analysisType == BMPTrainsProject.AT_NetImprovement) || 
                 (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
                 (analysisType == BMPTrainsProject.AT_PreReductionPercent)) && 
-                PreArea == 0)
+                PreLandUseName == "")
             {
                 return "For this Analysis Method (" + analysisType + ") you must specify a Pre watershed condition";
             }
@@ -653,6 +663,9 @@ namespace BMPTrains_2020.DomainCode
             return getSelectedBMP().RechargeRate;
         }
 
+
+        // Required Treatment Efficiency is either set by analysis type
+        // or it can be calcualted from specific analysis types. 
         public double CalculateRequiredNTreatmentEfficiency()
         {
             // Returns as a Percent Efficiency Requirement
@@ -715,6 +728,7 @@ namespace BMPTrains_2020.DomainCode
             return RequiredPTreatmentEfficiency;
         }
 
+        // Comparisons of Whether specific conditions have been met
         public string IsPrePostTNMet()
         {
             if (RequiredNTreatmentEfficiency <= CalculatedNTreatmentEfficiency) return "Yes";
@@ -1410,6 +1424,7 @@ namespace BMPTrains_2020.DomainCode
             VolumeFromUpstream = 0;
             HydraulicEfficiency = 100;
 
+            // Removal Efficiency proided by the BMP
             Nitrogen.ProvidedRemovalEfficiency = bmp.ProvidedNTreatmentEfficiency;
             Phosphorus.ProvidedRemovalEfficiency = bmp.ProvidedPTreatmentEfficiency;
 
@@ -1428,6 +1443,7 @@ namespace BMPTrains_2020.DomainCode
             Nitrogen.GroundwaterRemovalEfficiency = c.GroundwaterNRemovalEfficiency();
             Phosphorus.GroundwaterLoad = c.GroundwaterPRemovalEfficiency();
 
+            // Calculated Removal Efficiency is from the BMP 
             c.CalculatedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;
             c.CalculatedPTreatmentEfficiency = Phosphorus.ProvidedRemovalEfficiency;
 
@@ -1727,8 +1743,8 @@ namespace BMPTrains_2020.DomainCode
             Phosphorus.UpstreamPreMassLoad += cr.Phosphorus.TotalUpstreamPreMassLoad;
 
             // And Calculate
-            //getCatchment().getSelectedBMP().ProvidedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;
-            //getCatchment().getSelectedBMP().ProvidedPTreatmentEfficiency = Phosphorus.ProvidedRemovalEfficiency;
+            //getCatchment().getSelectedBMP().CalculatedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;
+            //getCatchment().getSelectedBMP().CalculatedPTreatmentEfficiency = Phosphorus.ProvidedRemovalEfficiency;
             //getCatchment().getSelectedBMP().BMPNMassLoadOut = (100 - Nitrogen.ProvidedRemovalEfficiency) / 100 * getCatchment().getSelectedBMP().BMPNMassLoadIn;
             //getCatchment().getSelectedBMP().BMPPMassLoadOut = (100 - Phosphorus.ProvidedRemovalEfficiency) / 100 * getCatchment().getSelectedBMP().BMPPMassLoadIn;
 

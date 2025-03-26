@@ -16,6 +16,8 @@ namespace BMPTrains_2020
         public int SelectedCatchment;
 
         public double AnnualOP;
+        public double UserEnteredOP;
+        public double TotalOP;
         public double FilterVolumeProvided;
         public double SaturatedWeight;
         public double FractionOP;
@@ -41,6 +43,7 @@ namespace BMPTrains_2020
         {
             if (SelectedCatchment == 0) SelectedCatchment = 1;
             SetCatchments();
+            lblTP_BMP.Text = "TP BMP Removed Upstream (- Value) " + Environment.NewLine + "TP in non-runoff flow to the filter (+ value) kg/yr:";
         }
 
         private void SetBMPs()
@@ -103,7 +106,9 @@ namespace BMPTrains_2020
         private void GetValues()
         {
             SelectedCatchment = Convert.ToInt32(cbTo.SelectedValue);
+            UserEnteredOP = Common.getDouble(tbTD);
             AnnualOP = GetAnnualOP();
+            TotalOP = UserEnteredOP + AnnualOP;
             FilterVolumeProvided = Common.getDouble(tbFilterVolume);
             FractionOP = Common.getDouble(tbOPFraction);
             SaturatedWeight = Common.getDouble(tbMediaWeight);
@@ -117,7 +122,7 @@ namespace BMPTrains_2020
             if (AnnualOP == 0) return false;
             if (FractionOP == 0) return false;
 
-            OPRemoved = 1e6 * AnnualOP * FractionOP;
+            OPRemoved = 1e6 * (UserEnteredOP + AnnualOP) * FractionOP;
             OPCapacity = FilterVolumeProvided * SaturatedWeight * 454 * SorptionRate;
 
             if (OPRemoved == 0) return false;
@@ -135,11 +140,14 @@ namespace BMPTrains_2020
         {
             BMP bmp = currentCatchment().getBMP(Common.getString(cbBMP));
             string s = "<h1>Media Filter Report</h1>";
+            s += Common.getDateString();
             //s += "Catchment Name: Catchment " + SelectedCatchment.ToString() + "<br/>";
             if (bmp != null) { 
                 s += "Treatment Depth (in): " + Common.getString(bmp.RetentionDepth, 2) + "<br/>";
             }
-//            s += " Phosphorus Into Media Per Year (kg/yr): " + Common.getString(AnnualOP, 2) + "<br/>";
+            s += " Total Phosphorus from Cathcment BMP (kg/yr)" + Common.getString(AnnualOP, 2) + "<br/>";
+            s += " User Entered Total Phosphorus (kg/yr)" + Common.getString(UserEnteredOP, 2) + "<br/>";
+            s += " Total Phosphorus Into Media Per Year (kg/yr): " + Common.getString(TotalOP, 2) + "<br/>";
             s += " Phosphorus Removed per Year (kg OP/yr): " + Common.getString(OPRemoved/1e6, 2) + "<br/>";
             s += " Filter Capacity (kg OP): " + Common.getString(OPCapacity/1e6, 2) + "<br/>";
             s += " Sorption Rate (mg OP/g media): " + Common.getString(SorptionRate, 2) + "<br/>";

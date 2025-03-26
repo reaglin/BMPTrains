@@ -85,8 +85,8 @@ namespace BMPTrains_2020.DomainCode
                 {"ProvidedRetentionLabels01", "<b>Retention System Information</b>" },
                 {"RetentionDepth", "Provided Treatment Depth (in over watershed)"},
                 {"RetentionVolume", "Provided Retention Volume (ac-ft)"},
-                {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
+                {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"}
             };
         }
 
@@ -127,8 +127,8 @@ namespace BMPTrains_2020.DomainCode
                     {"RetentionDepth", "Treatment Volume (in over watershed)"},
                     {"RequiredNTreatmentEfficiency", "Required Nitrogen Treatment Efficiency (%)"},
                     {"RequiredPTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"},
-                    {"ProvidedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
-                    {"ProvidedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
+                    {"CalculatedNTreatmentEfficiency", "Provided Nitrogen Treatment Efficiency (%)"},
+                    {"CalculatedPTreatmentEfficiency", "Provided Phosphorus Treatment Efficiency (%)"},
                     {"RemainingNTreatmentEfficiency", "Remaining Nitrogen Treatment Efficiency (%)"},
                     {"RemainingPTreatmentEfficiency", "Remaining Phosphorus Treatment Efficiency (%)"}
             };
@@ -296,7 +296,7 @@ namespace BMPTrains_2020.DomainCode
             }
             else
             {
-                PostMediaNTreatmentEfficiency = 0;// ProvidedNTreatmentEfficiency;
+                PostMediaNTreatmentEfficiency = 0;// CalculatedNTreatmentEfficiency;
             }
 
             if (MediaPPercentReduction != 0)
@@ -306,7 +306,7 @@ namespace BMPTrains_2020.DomainCode
             }
             else
             {
-                PostMediaPTreatmentEfficiency = 0;// ProvidedPTreatmentEfficiency;
+                PostMediaPTreatmentEfficiency = 0;// CalculatedPTreatmentEfficiency;
             }
         }
 

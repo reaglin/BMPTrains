@@ -432,16 +432,16 @@ namespace BMPTrains_2020.DomainCode
             double NonAdjustedN = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
             double NonAdjustedP = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
 
-            //if (e > down.ProvidedNTreatmentEfficiency)
-            //    down.ProvidedNTreatmentEfficiency = down.ProvidedNTreatmentEfficiency - 22;
+            //if (e > down.CalculatedNTreatmentEfficiency)
+            //    down.CalculatedNTreatmentEfficiency = down.CalculatedNTreatmentEfficiency - 22;
             //else
             down.ProvidedNTreatmentEfficiency = down.ProvidedNTreatmentEfficiency - e/7.0;
-            //down.ProvidedNTreatmentEfficiency = NonAdjustedN - e / 7.0;
-            //if (e > down.ProvidedPTreatmentEfficiency)
-            //    down.ProvidedPTreatmentEfficiency = down.ProvidedPTreatmentEfficiency - 12;
+            //down.CalculatedNTreatmentEfficiency = NonAdjustedN - e / 7.0;
+            //if (e > down.CalculatedPTreatmentEfficiency)
+            //    down.CalculatedPTreatmentEfficiency = down.CalculatedPTreatmentEfficiency - 12;
             //else
             down.ProvidedPTreatmentEfficiency = down.ProvidedPTreatmentEfficiency - e/7.0;
-            //down.ProvidedPTreatmentEfficiency = NonAdjustedP - e / 7.0;
+            //down.CalculatedPTreatmentEfficiency = NonAdjustedP - e / 7.0;
 
             if (down.ProvidedNTreatmentEfficiency <= 0) down.ProvidedNTreatmentEfficiency = 0.0;
             if (down.ProvidedPTreatmentEfficiency <= 0) down.ProvidedPTreatmentEfficiency = 0.0;
@@ -460,8 +460,8 @@ namespace BMPTrains_2020.DomainCode
 
             // 
             //if (!bmp.isRetention()) { 
-            //    bmp.GroundwaterNMassLoadIn = bmp.BMPNMassLoadIn * bmp.ProvidedNTreatmentEfficiency / 100;
-            //    bmp.GroundwaterPMassLoadIn = bmp.BMPPMassLoadIn * bmp.ProvidedPTreatmentEfficiency / 100;
+            //    bmp.GroundwaterNMassLoadIn = bmp.BMPNMassLoadIn * bmp.CalculatedNTreatmentEfficiency / 100;
+            //    bmp.GroundwaterPMassLoadIn = bmp.BMPPMassLoadIn * bmp.CalculatedPTreatmentEfficiency / 100;
             //}
 
 
@@ -629,8 +629,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RainfallZone", "Rainfall Zone"},
                 {"RationalCoefficient", "Calculated Annual Coefficient (0-1)"},
                 {"RetentionDepth", "Total (accumulated) Retention Depth (in over watershed)"},
-                {"ProvidedNTreatmentEfficiency", "Overall Provided Nitrogen Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Overall Provided Phosphorus Treatment Efficiency (%)"},
+                {"CalculatedNTreatmentEfficiency", "Overall Provided Nitrogen Treatment Efficiency (%)"},
+                {"CalculatedPTreatmentEfficiency", "Overall Provided Phosphorus Treatment Efficiency (%)"},
                 {"BMPNMassLoadOut", "Overall Nitrogen Load (kg/yr)"},
                 {"BMPPMassLoadOut", "Overall Phosphorus Load (kg/yr)"}
             };
