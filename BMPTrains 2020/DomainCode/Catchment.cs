@@ -91,6 +91,16 @@ namespace BMPTrains_2020.DomainCode
         public double PreRunoffVolumeInches_Yr { get; set; }
         public double PostRunoffVolumeInches_yr { get; set; }
 
+        public double GroundwaterNLoading { get; set; }
+        public double GroundwaterPLoading { get; set; }
+
+        public double GroundwaterNRemoved { get; set; }
+
+        public double GroundwaterPRemoved { get; set; }
+        public double GroundwaterNRemovalEfficiency { get; set; }
+        public double GroundwaterPRemovalEfficiency { get; set; }
+
+
 
 
         // Internal BMP Routing
@@ -117,7 +127,6 @@ namespace BMPTrains_2020.DomainCode
         public double PostGWN { get; set; }
         public double PostGWP { get; set; }
         public double PreReductionPercent { get; set; }
-
         public CatchmentRouting routing { get; set; }
 
         #region "BMP Properties"
@@ -331,45 +340,62 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
-        public double GroundwaterNRemovalEfficiency()
+        //public double GroundwaterNRemovalEfficiency()
+        //{
+        //    BMP bmp = getSelectedBMP();
+        //    return bmp.GroundwaterNRemovalEfficiency();
+        //}
+
+        //public double GroundwaterPRemovalEfficiency()
+        //{
+        //    BMP bmp = getSelectedBMP();
+        //    return bmp.GroundwaterPRemovalEfficiency();
+        //}
+
+        public virtual void CalculateGroundwaterLoading()
         {
             BMP bmp = getSelectedBMP();
-            return bmp.GroundwaterNRemovalEfficiency();
+            if (bmp.isRetention()) { 
+                GroundwaterNLoading = bmp.GroundwaterNLoading();
+                GroundwaterPLoading = bmp.GroundwaterPLoading();
+            }
+            else { 
+                GroundwaterNLoading = 0.0;
+                GroundwaterPLoading = 0.0;
+            }
+
+            GroundwaterNRemovalEfficiency = bmp.GroundwaterNRemovalEfficiency();
+            GroundwaterPRemovalEfficiency = bmp.GroundwaterPRemovalEfficiency();
+
+            GroundwaterNRemoved = GroundwaterNLoading * GroundwaterNRemovalEfficiency / 100;
+            GroundwaterPRemoved = GroundwaterPLoading * GroundwaterPRemovalEfficiency / 100;
         }
 
-        public double GroundwaterPRemovalEfficiency()
-        {
-            BMP bmp = getSelectedBMP();
-            return bmp.GroundwaterPRemovalEfficiency();
-        }
+        //public virtual double CalculateGroundwaterPLoading()
+        //{
+        //    BMP bmp = getSelectedBMP();
+        //    if (bmp.isRetention()) GroundwaterPLoading = bmp.GroundwaterPLoading();
+        //    else
+        //        GroundwaterPLoading = 0.0;
 
-        public virtual double GroundwaterNLoading()
-        {
-            BMP bmp = getSelectedBMP();
-            if (bmp.isRetention()) return bmp.GroundwaterNLoading(); else return 0.0;
-        }
+        //    return GroundwaterPLoading;
+        //}
 
-        public virtual double GroundwaterPLoading()
-        {
-            BMP bmp = getSelectedBMP();
-            if (bmp.isRetention()) return bmp.GroundwaterPLoading(); else return 0.0;
-        }
+        //public double GroundwaterNRemoved()
+        //{
+        //    double l = CalculateGroundwaterNLoading();
+        //    double e = GroundwaterNRemovalEfficiency();
+        //    double r =  l * e / 100;
+        //    return r;
+        //}
 
-        public double GroundwaterNRemoved()
-        {
-            double l = GroundwaterNLoading();
-            double e = GroundwaterNRemovalEfficiency();
-            double r =  l * e / 100;
-            return r;
-        }
-
-        public double GroundwaterPRemoved()
-        {
-            double l = GroundwaterPLoading();
-            double e = GroundwaterPRemovalEfficiency();
-            double r =  l * e / 100;
-            return r;
-        }
+        //public double GroundwaterPRemoved()
+        //{
+        //    double l = GroundwaterPLoading;
+        //    double e = GroundwaterPRemovalEfficiency();
+        //    double r =  l * e / 100;
+        //    return r;
+        //}
 
         #endregion
 
@@ -542,6 +568,8 @@ namespace BMPTrains_2020.DomainCode
             if (VFS.isDefined()) VFS.Calculate();
             if (userDefinedBMP.isDefined()) userDefinedBMP.Calculate();
             if (multipleBMP.isDefined()) multipleBMP.Calculate();
+
+            CalculateGroundwaterLoading();
 
         }
 
@@ -1440,8 +1468,8 @@ namespace BMPTrains_2020.DomainCode
             Nitrogen.TargetRemovalEfficiency = c.RequiredNTreatmentEfficiency;
             Phosphorus.TargetRemovalEfficiency = c.RequiredPTreatmentEfficiency;
 
-            Nitrogen.GroundwaterRemovalEfficiency = c.GroundwaterNRemovalEfficiency();
-            Phosphorus.GroundwaterLoad = c.GroundwaterPRemovalEfficiency();
+            Nitrogen.GroundwaterRemovalEfficiency = c.GroundwaterNRemovalEfficiency;
+            Phosphorus.GroundwaterLoad = c.GroundwaterPRemovalEfficiency;
 
             // Calculated Removal Efficiency is from the BMP 
             c.CalculatedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;

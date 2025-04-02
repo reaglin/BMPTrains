@@ -41,7 +41,7 @@ namespace BMPTrains_2020.DomainCode
 
         #endregion
 
-        #region "Analysis Types"
+        #region "Analysis Types Constants and Static Methods"
         public const string AT_AllSites = "All sites non-exempted";
         public const string AT_OFW = "OFW";
         public const string AT_ImpairedWater = "Impaired Water";
@@ -57,12 +57,11 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_Criteria_PvP_GO = "Post = Greater of Pre-Conditions";
         public const string AT_Criteria_PvP = "Post = Pre-Conditions";
         public const string AT_Criteria_None = "No Post Condition Requirements";
-        #endregion     
 
-        #region "Static Methods"
         public static List<string> AnalysisTypes() => new List<string> { 
             AT_AllSites, AT_OFW, AT_ImpairedWater, AT_ImpairedWater_OFW, AT_Redevelopment, AT_Redevelopment_OFW,
-            AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis, AT_PreReductionPercent };
+            AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis };
+            // Note , AT_PreReductionPercent removed
 
         // Opens documentation in program in browser
         public static void openURL(string url) { System.Diagnostics.Process.Start(URL_Documentation_Base + url); }
@@ -190,7 +189,7 @@ namespace BMPTrains_2020.DomainCode
         public double PrePostNTreatmentEfficiency { get; set; }
         public double PrePostPTreatmentEfficiency { get; set; }
 
-    public double PreCatchmentAreaAcres { get; set; }
+        public double PreCatchmentAreaAcres { get; set; }
         public double PostCatchmentAreaAcres { get; set; }
         public double PreRunoffVolume { get; set; }
         public double PostRunoffVolume { get; set; }
@@ -203,10 +202,14 @@ namespace BMPTrains_2020.DomainCode
         public double TargetPFromPreLoad { get; set; }
         public double RequiredPreReductionPercent { get; set; }
 
+        public double TotalGroundwaterNFromMedia { get; set; }
+        public double TotalGroundwaterPFromMedia { get; set; }
+
         public string CatchmentConfiguration { get; set; }
 
         public string DoGroundwaterAnalysis { get; set; }
         public double TotalGWVolume { get; set; }
+        public double TotalCatchmentGWRechargeRate { get; set; }
 
         public int numCatchments { get; set; }
         public int currentCatchmentNum { get; set; }
@@ -877,6 +880,9 @@ namespace BMPTrains_2020.DomainCode
         #region "Caclulation Routines - Embedded Object Dependent"
         public void Calculate()
         {
+            // Do not calculate if no catchments exist. 
+            if (Catchments.Count == 0) return;
+
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
                 kvp.Value.SetValuesFromProject(this);
@@ -899,57 +905,24 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
-        public double CalculateTotalCatchmentGWRechargeRate()
-        {
-            double t = 0.0;
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                //double gw = kvp.Value.getRechargeRate();
-                //if (!kvp.Value.Disabled) t += gw;
-                t += 0.3258724* kvp.Value.getRouting().VolumeGW;
-                //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
-            }
+        //public double CalculateTotalCatchmentGWRechargeRate()
+        //{
+        //    double t = 0.0;
+        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+        //    {
+        //        //double gw = kvp.Value.getRechargeRate();
+        //        //if (!kvp.Value.Disabled) t += gw;
+        //        t += 0.3258724* kvp.Value.getRouting().VolumeGW;
+        //        //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
+        //    }
             
-            return t;
+        //    return t;
 
-        }
+        //}
 
 
-        public void CalculateCatchmentTotals()
-        {
-            TotalCatchmentNLoad = 0.0;
-            TotalCatchmentPLoad = 0.0;
-            TotalCatchmentPreNLoad = 0;
-            TotalCatchmentPrePLoad = 0;
-            PreCatchmentAreaAcres = 0;
-            PostCatchmentAreaAcres = 0;
-            PreRunoffVolume = 0;
-            TotalGroundwaterNRemoved = 0;
-            TotalGroundwaterPRemoved = 0;
-            TotalGroundwaterNLoading = 0;
-            TotalGroundwaterPLoading = 0;
-            
-            PostRunoffVolume = 0; // System Runoff
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (!kvp.Value.Disabled)
-                {
-                    TotalCatchmentNLoad += kvp.Value.PostNLoading;
-                    TotalCatchmentPLoad += kvp.Value.PostPLoading;
-                    TotalCatchmentPreNLoad += kvp.Value.PreNLoading;
-                    TotalCatchmentPrePLoad += kvp.Value.PrePLoading;
-                    PreCatchmentAreaAcres += kvp.Value.PreArea;
-                    PostCatchmentAreaAcres += kvp.Value.PostArea; //  - kvp.Value.BMPArea
-                    PreRunoffVolume += kvp.Value.PreRunoffVolume;
-                    TotalGroundwaterNRemoved += kvp.Value.GroundwaterNRemoved();
-                    TotalGroundwaterPRemoved += kvp.Value.GroundwaterPRemoved();
-                    TotalGroundwaterNLoading += kvp.Value.GroundwaterNLoading();
-                    TotalGroundwaterPLoading += kvp.Value.GroundwaterPLoading();
-                    if (kvp.Value.ToID == 0) PostRunoffVolume += kvp.Value.routing.VolumeOut;
-                }
-            }
-            
-        }
+
+
         public void CalculateRouting(int cid, int iteration = 0)
         {
             // This is a recursive function
@@ -992,18 +965,80 @@ namespace BMPTrains_2020.DomainCode
 
         public void CalculateTotalSystemLoading()
         {
-            CalculateCatchmentTotals();
 
             if (outlet != null) { 
                 // Only calcuate when a project has all data
                 TotalOutletNLoad = outlet.Nitrogen.TotalMassLoad; 
                 TotalOutletPLoad = outlet.Phosphorus.TotalMassLoad; 
-                CalculatedNTreatmentEfficiency = 0.0; 
-                if (TotalCatchmentNLoad > 0) CalculatedNTreatmentEfficiency = 100 * (TotalCatchmentNLoad - TotalOutletNLoad) / TotalCatchmentNLoad;
-                CalculatedPTreatmentEfficiency = 0.0; 
-                if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
+
             }
 
+            TotalCatchmentNLoad = 0.0;
+            TotalCatchmentPLoad = 0.0;
+            TotalCatchmentPreNLoad = 0;
+            TotalCatchmentPrePLoad = 0;
+            PreCatchmentAreaAcres = 0;
+            PostCatchmentAreaAcres = 0;
+            PreRunoffVolume = 0;
+            TotalGroundwaterNRemoved = 0;
+            TotalGroundwaterPRemoved = 0;
+            TotalGroundwaterNLoading = 0;
+            TotalGroundwaterPLoading = 0;
+            TotalCatchmentGWRechargeRate = 0;
+
+            PostRunoffVolume = 0; // System Runoff
+
+            // No Catchments - do not Calculate
+            if (Catchments.Count == 0) return;
+
+            // For all catchments
+            for (int i = 1; i <= Catchments.Count; i++)
+            {
+                TotalCatchmentNLoad += Catchments[i].PostNLoading;
+                TotalCatchmentPLoad += Catchments[i].PostPLoading;
+                TotalCatchmentPreNLoad += Catchments[i].PreNLoading;
+                TotalCatchmentPrePLoad += Catchments[i].PrePLoading;
+                PreCatchmentAreaAcres += Catchments[i].PreArea;
+                PostCatchmentAreaAcres += Catchments[i].PostArea - Catchments[i].BMPArea;
+                PreRunoffVolume += Catchments[i].PreRunoffVolume;
+                if (Catchments[i].ToID == 0) PostRunoffVolume += Catchments[i].routing.VolumeOut;
+
+                TotalGroundwaterNRemoved += Catchments[i].GroundwaterNRemoved;
+                TotalGroundwaterPRemoved += Catchments[i].GroundwaterPRemoved;
+                TotalGroundwaterNLoading += Catchments[i].GroundwaterNLoading;
+                TotalGroundwaterPLoading += Catchments[i].GroundwaterPLoading;
+                TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[i].getRouting().VolumeGW;
+
+                //foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+                //{
+                //    if (!kvp.Value.Disabled)
+
+            }
+            if (TotalGroundwaterNRemoved != 0)
+            {
+                TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // TOtal mass discharged from media into GW
+            }
+            else
+            {
+                TotalGroundwaterNFromMedia = (TotalCatchmentNLoad - TotalOutletNLoad);
+            }
+            //double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
+            //double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
+
+            if (TotalGroundwaterPRemoved != 0)
+            {
+                TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // TOtal mass discharged from media into GW
+            }
+            else
+            {
+                TotalGroundwaterPFromMedia = TotalCatchmentPLoad - TotalOutletPLoad;
+            }
+
+            if (Double.IsNaN(TotalOutletNLoad)) TotalOutletNLoad = 0;
+            CalculatedNTreatmentEfficiency = 0.0;
+            if (TotalCatchmentNLoad > 0) CalculatedNTreatmentEfficiency = 100 * (TotalCatchmentNLoad - TotalOutletNLoad) / TotalCatchmentNLoad;
+            CalculatedPTreatmentEfficiency = 0.0;
+            if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
 
         }
         #endregion
@@ -1122,6 +1157,8 @@ namespace BMPTrains_2020.DomainCode
             s += "</td>";
             s += "</tr></table>";
 
+            // These need to be removed from reporting and added to the calculation routines
+
             double targetNPercent = 0;
             double targetPPercent = 0;
 
@@ -1177,36 +1214,38 @@ namespace BMPTrains_2020.DomainCode
             //CalculateTotalCatchmentGWNRemoved();  // Total mass removed
 
 
-            double TotalGroundwaterNFromMedia;
+            //double TotalGroundwaterNFromMedia;
 
-            if (TotalGroundwaterNRemoved != 0)
-            {
-                TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // TOtal mass discharged from media into GW
-            }
-            else
-            {
-                TotalGroundwaterNFromMedia = (TotalCatchmentNLoad - TotalOutletNLoad);
-            }
-            //double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
-            //double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
-            double TotalGroundwaterPFromMedia;
-            if (TotalGroundwaterPRemoved != 0)
-            {
-                TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // TOtal mass discharged from media into GW
-            }
-            else
-            {
-                TotalGroundwaterPFromMedia = TotalCatchmentPLoad - TotalOutletPLoad;
-            }
+            //if (TotalGroundwaterNRemoved != 0)
+            //{
+            //    TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // TOtal mass discharged from media into GW
+            //}
+            //else
+            //{
+            //    TotalGroundwaterNFromMedia = (TotalCatchmentNLoad - TotalOutletNLoad);
+            //}
+            ////double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
+            ////double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
+            //double TotalGroundwaterPFromMedia;
+            //if (TotalGroundwaterPRemoved != 0)
+            //{
+            //    TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // TOtal mass discharged from media into GW
+            //}
+            //else
+            //{
+            //    TotalGroundwaterPFromMedia = TotalCatchmentPLoad - TotalOutletPLoad;
+            //}
 
-            if (Double.IsNaN(TotalOutletNLoad)) TotalOutletNLoad = 0;
+            //if (Double.IsNaN(TotalOutletNLoad)) TotalOutletNLoad = 0;
             double pnlr = TotalCatchmentNLoad - TotalOutletNLoad;
 
 
-            s += "<br/><h2>Summary Report</h2><br/>";
+            s += "<br/><h2>Summary Report for System (All Catchments)</h2><br/>";
             s += "<h3>Volume of Runoff</h3>";
-            if (PreCatchmentAreaAcres != 0)  s += "Pre-Condition Runoff (inches/year): " + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") +"<br/>";
-            if (PostCatchmentAreaAcres != 0) s += "Post-Condition Runoff (inches/year): " + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##")+"<br/>";
+            if (PreCatchmentAreaAcres != 0)  
+                s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") +"<br/>";
+            if (PostCatchmentAreaAcres != 0) 
+                s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##")+"<br/>";
 
             s += "<h3>Summary Loading Anlysis</h3>";
 
@@ -1275,7 +1314,7 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr>" + td + "Percent N load reduction</td>" + td + "" + PNLR + " %</td><td></td></tr>";
             s += "<tr>" + td + "Provided N discharge load</td>" + td + "" + TotalOutletNLoad.ToString("##.##") + " kg/yr</td><td>" + (TotalOutletNLoad * 2.205).ToString("##.##") + " lb/yr</td></tr>";
             s += "<tr>" + td + "Provided N load removed</td>" + td + "" + (pnlr).ToString("##.##") + " kg/yr</td><td>" + ((pnlr) * 2.205).ToString("##.##") + " lb/yr</td></tr>";
-            double recharge = CalculateTotalCatchmentGWRechargeRate();
+            //double recharge = CalculateTotalCatchmentGWRechargeRate();
 
             //            double NRetained = BMPNMassLoadIn - BMPNMassLoadOut - GroundwaterNMassDischarge;
             //            double PRetained = BMPPMassLoadIn - BMPPMassLoadOut - GroundwaterPMassDischarge;
@@ -1287,9 +1326,9 @@ namespace BMPTrains_2020.DomainCode
 
                 //double gwpr = 0.0;
                 if (TotalGroundwaterNLoading != 0) TotalGroundwaterPRemoved = 100* TotalGroundwaterNFromMedia / TotalGroundwaterNLoading;
-                double Nconcentration = (recharge != 0 ? (TotalGroundwaterNFromMedia * 1e6)  / (recharge * 3785411.78) : 0.0);
+                double Nconcentration = (TotalCatchmentGWRechargeRate != 0 ? (TotalGroundwaterNFromMedia * 1e6)  / (TotalCatchmentGWRechargeRate * 3785411.78) : 0.0);
                 //double NConcentration = (tn-OutletNLoad)
-                s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + recharge.ToString("##.###") + " MG/yr</td><td></td></tr>";
+                s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + TotalCatchmentGWRechargeRate.ToString("##.###") + " MG/yr</td><td></td></tr>";
                 s += "<tr>" + td + "Provided N recharge load</td>" + td + "" + TotalGroundwaterNFromMedia.ToString("##.###") + " kg/yr</td><td>" + (TotalGroundwaterNFromMedia * 2.205).ToString("##.##") + " lb/yr</td></tr>";
                 s += "<tr>" + td + "Provided N Concentration</td>" + td + "" + Nconcentration.ToString("##.###") + " mg/l</td><td></td></tr>";
                 //s += "<tr>" + td + "Provided N load removed</td>" + td + "" + gwnr.ToString("##.##") + " kg/yr</td><td>" + (gwnr * 2.205).ToString("##.##") + " lb/yr</td></tr>";
@@ -1329,9 +1368,9 @@ namespace BMPTrains_2020.DomainCode
 
                 
                 if (TotalGroundwaterPLoading != 0) TotalGroundwaterPRemoved = 100 * TotalGroundwaterPFromMedia / TotalGroundwaterPLoading;
-                double Pconcentration = (recharge != 0 ? (TotalGroundwaterPFromMedia * 1e6) / (recharge * 3785411.78) : 0.0);
+                double Pconcentration = (TotalCatchmentGWRechargeRate != 0 ? (TotalGroundwaterPFromMedia * 1e6) / (TotalCatchmentGWRechargeRate * 3785411.78) : 0.0);
 
-                s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + recharge.ToString("##.###") + " MG/yr</td><td></td></tr>";
+                s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + TotalCatchmentGWRechargeRate.ToString("##.###") + " MG/yr</td><td></td></tr>";
                 s += "<tr>" + td + "Provided P recharge load</td>" + td + "" + TotalGroundwaterPFromMedia.ToString("##.####") + " kg/yr</td><td>" + (TotalGroundwaterPFromMedia * 2.205).ToString("##.####") + " lb/yr</td></tr>";
                 s += "<tr>" + td + "Provided P Concentration</td>" + td + "" + Pconcentration.ToString("##.####") + " mg/l</td><td></td></tr>";
             }

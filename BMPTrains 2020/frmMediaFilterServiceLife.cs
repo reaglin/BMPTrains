@@ -85,7 +85,7 @@ namespace BMPTrains_2020
             BMP bmp = c.getBMP(Common.getString(cbBMP));
             bmp.Calculate();
 
-            Common.setValue(tbTD, bmp.PRetained, 3);
+            //Common.setValue(tbTD, bmp.PRetained, 3);
 
             if (bmp.BMPType == BMPTrainsProject.sRainGarden)
             {

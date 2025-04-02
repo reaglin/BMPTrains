@@ -139,7 +139,6 @@
             // 
             // tbTD
             // 
-            this.tbTD.Enabled = false;
             this.tbTD.Location = new System.Drawing.Point(542, 164);
             this.tbTD.Name = "tbTD";
             this.tbTD.Size = new System.Drawing.Size(89, 35);

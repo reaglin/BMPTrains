@@ -151,7 +151,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(246, 30);
             this.label5.TabIndex = 46;
-            this.label5.Text = "Trench Depth (ft):";
+            this.label5.Text = "Trench/Vault Depth (ft):";
             this.label5.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.toolTip1.SetToolTip(this.label5, "To water table or the bottom of the pipe, whichever is less");
             // 
@@ -220,11 +220,11 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.CausesValidation = false;
-            this.label4.Location = new System.Drawing.Point(468, 127);
+            this.label4.Location = new System.Drawing.Point(415, 127);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(188, 30);
+            this.label4.Size = new System.Drawing.Size(241, 30);
             this.label4.TabIndex = 48;
-            this.label4.Text = "Trench Length (ft):";
+            this.label4.Text = "Trench/Vault Length (ft):";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbTrenchLength
@@ -245,11 +245,11 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.CausesValidation = false;
-            this.label6.Location = new System.Drawing.Point(468, 15);
+            this.label6.Location = new System.Drawing.Point(415, 15);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(188, 30);
+            this.label6.Size = new System.Drawing.Size(241, 30);
             this.label6.TabIndex = 44;
-            this.label6.Text = "Trench Width (ft):";
+            this.label6.Text = "Trench/Vault Width (ft):";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbTrenchWidth
@@ -318,9 +318,9 @@
             this.chkThreeHours.AutoSize = true;
             this.chkThreeHours.Location = new System.Drawing.Point(112, 201);
             this.chkThreeHours.Name = "chkThreeHours";
-            this.chkThreeHours.Size = new System.Drawing.Size(544, 34);
+            this.chkThreeHours.Size = new System.Drawing.Size(558, 34);
             this.chkThreeHours.TabIndex = 52;
-            this.chkThreeHours.Text = "Check if design volume removal takes less than 3 hours";
+            this.chkThreeHours.Text = "Check if design volume removal takes more than 3 hours";
             this.chkThreeHours.UseVisualStyleBackColor = true;
             this.chkThreeHours.CheckedChanged += new System.EventHandler(this.chkThreeHours_CheckedChanged);
             // 
