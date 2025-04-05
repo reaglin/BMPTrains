@@ -37,7 +37,7 @@
             this.lblTP_BMP = new System.Windows.Forms.Label();
             this.tbRate = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.tbTD = new System.Windows.Forms.TextBox();
+            this.tbRemovedUpstream = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cbTo = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,6 +51,11 @@
             this.lblName = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label7 = new System.Windows.Forms.Label();
+            this.tbRemovedBMP = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbInNonRunoff = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -111,11 +116,11 @@
             // 
             this.lblTP_BMP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTP_BMP.CausesValidation = false;
-            this.lblTP_BMP.Location = new System.Drawing.Point(15, 136);
+            this.lblTP_BMP.Location = new System.Drawing.Point(15, 123);
             this.lblTP_BMP.Name = "lblTP_BMP";
-            this.lblTP_BMP.Size = new System.Drawing.Size(513, 63);
+            this.lblTP_BMP.Size = new System.Drawing.Size(513, 35);
             this.lblTP_BMP.TabIndex = 55;
-            this.lblTP_BMP.Text = "TP BMP Removed Upstream (+ Value)  TP in non-runoff flow to the filter (+ value)";
+            this.lblTP_BMP.Text = "TP BMP Removed Upstream (kg/yr):";
             this.lblTP_BMP.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbRate
@@ -129,20 +134,19 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.CausesValidation = false;
-            this.label8.Location = new System.Drawing.Point(70, 205);
+            this.label8.Location = new System.Drawing.Point(70, 210);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(457, 43);
+            this.label8.Size = new System.Drawing.Size(457, 30);
             this.label8.TabIndex = 53;
             this.label8.Text = "Removal Rate in mg OP/g media (0.01-10.0) :";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.label8.Visible = false;
             // 
-            // tbTD
+            // tbRemovedUpstream
             // 
-            this.tbTD.Location = new System.Drawing.Point(542, 164);
-            this.tbTD.Name = "tbTD";
-            this.tbTD.Size = new System.Drawing.Size(89, 35);
-            this.tbTD.TabIndex = 3;
+            this.tbRemovedUpstream.Location = new System.Drawing.Point(542, 123);
+            this.tbRemovedUpstream.Name = "tbRemovedUpstream";
+            this.tbRemovedUpstream.Size = new System.Drawing.Size(89, 35);
+            this.tbRemovedUpstream.TabIndex = 3;
             // 
             // label1
             // 
@@ -259,11 +263,62 @@
             this.label7.Text = "Service life is calculated based on catchment TP runoff load. ";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // tbRemovedBMP
+            // 
+            this.tbRemovedBMP.Enabled = false;
+            this.tbRemovedBMP.Location = new System.Drawing.Point(474, 63);
+            this.tbRemovedBMP.Name = "tbRemovedBMP";
+            this.tbRemovedBMP.Size = new System.Drawing.Size(89, 35);
+            this.tbRemovedBMP.TabIndex = 71;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.CausesValidation = false;
+            this.label2.Location = new System.Drawing.Point(569, 79);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 32);
+            this.label2.TabIndex = 72;
+            this.label2.Text = "kg/yr";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.CausesValidation = false;
+            this.label9.Location = new System.Drawing.Point(15, 161);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(513, 35);
+            this.label9.TabIndex = 74;
+            this.label9.Text = "TP in non-runoff flow to the filter (kg/yr):";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // tbInNonRunoff
+            // 
+            this.tbInNonRunoff.Location = new System.Drawing.Point(542, 161);
+            this.tbInNonRunoff.Name = "tbInNonRunoff";
+            this.tbInNonRunoff.Size = new System.Drawing.Size(89, 35);
+            this.tbInNonRunoff.TabIndex = 73;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.CausesValidation = false;
+            this.label10.Location = new System.Drawing.Point(569, 60);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(100, 32);
+            this.label10.TabIndex = 75;
+            this.label10.Text = "removed";
+            // 
             // frmMediaFilterServiceLife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 569);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.tbInNonRunoff);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.tbRemovedBMP);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.label6);
@@ -282,7 +337,7 @@
             this.Controls.Add(this.lblTP_BMP);
             this.Controls.Add(this.tbRate);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.tbTD);
+            this.Controls.Add(this.tbRemovedUpstream);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cbTo);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -305,7 +360,7 @@
         private System.Windows.Forms.Label lblTP_BMP;
         private System.Windows.Forms.TextBox tbRate;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbTD;
+        private System.Windows.Forms.TextBox tbRemovedUpstream;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbTo;
         private System.Windows.Forms.Label label3;
@@ -319,5 +374,10 @@
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbRemovedBMP;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbInNonRunoff;
+        private System.Windows.Forms.Label label10;
     }
 }

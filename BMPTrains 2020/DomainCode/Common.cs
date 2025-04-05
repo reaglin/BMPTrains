@@ -23,6 +23,16 @@ namespace BMPTrains_2020.DomainCode
             string s = "<div style = 'text-align: right;' >Date: " + DateTime.Now.ToString("d") + "</div><br/>";
             return s;
         }
+
+        public static string Spaces(int n)
+        {
+            string s = "";
+            for (int i = 1; i < n; i++)
+            {
+                s += "&nbsp;";
+            }
+            return s;
+        }
         public static int getInt(TextBox tb)
         {
             try

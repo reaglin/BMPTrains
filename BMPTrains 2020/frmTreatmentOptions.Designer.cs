@@ -126,7 +126,7 @@
             this.btExfiltration.Name = "btExfiltration";
             this.btExfiltration.Size = new System.Drawing.Size(130, 51);
             this.btExfiltration.TabIndex = 5;
-            this.btExfiltration.Text = "Exfiltration\r\nTrench";
+            this.btExfiltration.Text = "Exfiltration\r\nTrench/Vault";
             this.toolTip1.SetToolTip(this.btExfiltration, "Exfiltration Trench");
             this.btExfiltration.UseVisualStyleBackColor = true;
             this.btExfiltration.Click += new System.EventHandler(this.btExfiltration_Click);

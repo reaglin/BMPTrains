@@ -202,6 +202,10 @@ namespace BMPTrains_2020.DomainCode
         public double TargetPFromPreLoad { get; set; }
         public double RequiredPreReductionPercent { get; set; }
 
+        public double TargetNPercent { get; set; }
+        public double TargetPPercent { get; set; }
+
+
         public double TotalGroundwaterNFromMedia { get; set; }
         public double TotalGroundwaterPFromMedia { get; set; }
 
@@ -891,8 +895,11 @@ namespace BMPTrains_2020.DomainCode
                 CalculateRouting(0);  // This is a recursive routing
             }
 
+            // Each of these does what it says
+
             CalculateOutlet();
-            CalculateTotalSystemLoading();
+            CalculateTotalSystemLoading(); 
+            CalculateTargets();
         }
 
         public void CalculateOutlet()
@@ -1041,6 +1048,52 @@ namespace BMPTrains_2020.DomainCode
             if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
 
         }
+
+        public void CalculateTargets()
+        {
+            // These need to be removed from reporting and added to the calculation routines
+            
+            TargetNPercent = BMPTrainsProject.AT_Removal_For_Scenario(Globals.Project.AnalysisType,"N");
+            TargetPPercent = BMPTrainsProject.AT_Removal_For_Scenario(Globals.Project.AnalysisType, "P"); ;
+
+
+            // Target only used for AT_PreReductionPercent and Specified Removal Efficiency
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_BMPAnalysis)
+            {
+                Globals.Project.TargetNMassLoad = TotalCatchmentPreNLoad;
+                Globals.Project.TargetPMassLoad = TotalCatchmentPrePLoad;
+            }
+
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
+            {
+                TargetNPercent = Globals.Project.RequiredNTreatmentEfficiency;
+                TargetPPercent = Globals.Project.RequiredPTreatmentEfficiency;
+                TargetNMassLoad = TotalCatchmentNLoad * (100 - TargetNPercent) / 100.0;
+                TargetPMassLoad = TotalCatchmentPLoad * (100 - TargetPPercent) / 100.0;
+            }
+            // In the case of pre reduction we must calculate the required efficiency
+            // from the pre and post mass loads.
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
+            {
+                TargetNMassLoad = TotalCatchmentPreNLoad;
+                TargetPMassLoad = TotalCatchmentPrePLoad;
+                if (TotalCatchmentNLoad != 0) TargetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
+                if (TotalCatchmentPLoad != 0) TargetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
+            }
+
+            //
+            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent)
+            {
+                TargetNMassLoad = 0.9 * TotalCatchmentPreNLoad;
+                TargetPMassLoad = 0.9 * TotalCatchmentPrePLoad;
+                if (TotalCatchmentNLoad != 0) TargetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
+                if (TotalCatchmentPLoad != 0) TargetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
+            }
+
+            if (TargetNPercent < 0) TargetNPercent = 0;
+            if (TargetPPercent < 0) TargetPPercent = 0;
+        }
+
         #endregion
 
         #region "Routing Report"
@@ -1059,7 +1112,7 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        public string routingReportHeader()
+        public string routingReportHeader(bool print_catchments = false)
         {
             string s = "Analysis Type: " +  AnalysisType + "<br/>";
             
@@ -1105,7 +1158,7 @@ namespace BMPTrains_2020.DomainCode
             return p;
         }
 
-        public string summaryReport()
+        public string summaryReport(bool print_catchments = false)
         {
             Calculate();
 
@@ -1120,7 +1173,7 @@ namespace BMPTrains_2020.DomainCode
 
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                s += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                s += Common.Spaces(5);
                 s += "Catchment " + kvp.Key.ToString() + " - (" + kvp.Value.CatchmentName +") " ;
                 s += kvp.Value.SelectedBMPTitle() +"<br/>";
 
@@ -1133,6 +1186,9 @@ namespace BMPTrains_2020.DomainCode
                 s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
 
                 // Pre Post Analsyis Removal (Not Required for a number of analysis types)
+                // This is turned off, but is usefule for debugging if needed. 
+                
+                if (print_catchments) { 
                 if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
                     s += "Is % less than predevelopment catchment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
                         + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
@@ -1142,6 +1198,7 @@ namespace BMPTrains_2020.DomainCode
                         + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
                 }
                 s += "</br>";
+                }
             }
             if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
                 s += "Based on discharge load to 3 decimal places<br/>";
@@ -1157,86 +1214,8 @@ namespace BMPTrains_2020.DomainCode
             s += "</td>";
             s += "</tr></table>";
 
-            // These need to be removed from reporting and added to the calculation routines
 
-            double targetNPercent = 0;
-            double targetPPercent = 0;
-
-
-            // Target only used for AT_PreReductionPercent and Specified Removal Efficiency
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_BMPAnalysis){
-                Globals.Project.TargetNMassLoad = TotalCatchmentPreNLoad;
-                Globals.Project.TargetPMassLoad = TotalCatchmentPrePLoad;
-            }
-
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
-            {
-               targetNPercent = Globals.Project.RequiredNTreatmentEfficiency;
-               targetPPercent = Globals.Project.RequiredPTreatmentEfficiency;
-               TargetNMassLoad = TotalCatchmentNLoad * (100 - targetNPercent) / 100.0;
-               TargetPMassLoad = TotalCatchmentPLoad * (100 - targetPPercent) / 100.0;
-            }
-            // In the case of pre reduction we must calculate the required efficiency
-            // from the pre and post mass loads.
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
-            {
-                TargetNMassLoad = TotalCatchmentPreNLoad;
-                TargetPMassLoad = TotalCatchmentPrePLoad;
-                if (TotalCatchmentNLoad != 0) targetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
-                if (TotalCatchmentPLoad != 0) targetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
-            }
-
-            //
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent)
-            {
-                TargetNMassLoad = 0.9* TotalCatchmentPreNLoad;
-                TargetPMassLoad = 0.9* TotalCatchmentPrePLoad;
-                if (TotalCatchmentNLoad != 0) targetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
-                if (TotalCatchmentPLoad != 0) targetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
-            }
-            if (targetNPercent < 0) targetNPercent = 0;
-            if (targetPPercent < 0) targetPPercent = 0;
-
-            // an and ap are actual mass loads to outlet
-            //double OutletNLoad = outlet.Nitrogen.TotalMassLoad;
-            //double OutletPLoad = outlet.Phosphorus.TotalMassLoad;
-
-            //// Actual Reduction Percent
-            ////double ActualNR = 0.0; 
-            //if (TotalCatchmentNLoad > 0) CalculatedNTreatmentEfficiency = 100 * (TotalCatchmentNLoad - TotalOutletNLoad) / TotalCatchmentNLoad;
-            ////double ActualPR = 0.0; 
-            //if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
-
-            // Nitrogen and Phosphorus ground loading
-            //double gwn = TotalGroundwaterNLoading; //
-            //CalculateTotalCatchmentGWNLoading();   // Total mass of N going into GW/Media
-            //double gwnr = TotalGroundwaterNRemoved; //
-            //CalculateTotalCatchmentGWNRemoved();  // Total mass removed
-
-
-            //double TotalGroundwaterNFromMedia;
-
-            //if (TotalGroundwaterNRemoved != 0)
-            //{
-            //    TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // TOtal mass discharged from media into GW
-            //}
-            //else
-            //{
-            //    TotalGroundwaterNFromMedia = (TotalCatchmentNLoad - TotalOutletNLoad);
-            //}
-            ////double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
-            ////double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
-            //double TotalGroundwaterPFromMedia;
-            //if (TotalGroundwaterPRemoved != 0)
-            //{
-            //    TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // TOtal mass discharged from media into GW
-            //}
-            //else
-            //{
-            //    TotalGroundwaterPFromMedia = TotalCatchmentPLoad - TotalOutletPLoad;
-            //}
-
-            //if (Double.IsNaN(TotalOutletNLoad)) TotalOutletNLoad = 0;
+            // For the printout only
             double pnlr = TotalCatchmentNLoad - TotalOutletNLoad;
 
 
@@ -1255,15 +1234,15 @@ namespace BMPTrains_2020.DomainCode
                 //s += "Nitrogen Removal Provided: " + anr.ToString("##");
                 s += "<h3>Target Removals</h3>";
                 s += "Is system total nitrogen target removal met? ";
-                s += InterfaceCommon.YesNo((TargetMet(CalculatedNTreatmentEfficiency, targetNPercent, 3)));
+                s += InterfaceCommon.YesNo((TargetMet(CalculatedNTreatmentEfficiency, TargetNPercent, 3)));
 
-                s += " (Required: " + targetNPercent.ToString("##.##") + "% ";
+                s += " (Required: " + TargetNPercent.ToString("##.##") + "% ";
                 s += " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
 
                 s += "Is system total phosphorus target removal met? ";
-                s += InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, targetPPercent, 3));
+                s += InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPercent, 3));
 
-                s += " (Required: " + targetPPercent.ToString("##.##") + "% ";
+                s += " (Required: " + TargetPPercent.ToString("##.##") + "% ";
                 s += " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
                 s += "<br/>";
                 s += "<br/>";
@@ -1304,7 +1283,7 @@ namespace BMPTrains_2020.DomainCode
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
             { 
-                s += "<tr>" + td + "Target N load reduction</td>" + td + "" + targetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
+                s += "<tr>" + td + "Target N load reduction</td>" + td + "" + TargetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
             string PNLR = (Double.IsNaN(CalculatedNTreatmentEfficiency) ? "99+" : CalculatedNTreatmentEfficiency.ToString(decimal_removal));
@@ -1350,7 +1329,7 @@ namespace BMPTrains_2020.DomainCode
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
             {
-                s += "<tr>" + td + "Target P load reduction</td>" + td + "" + targetPPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
+                s += "<tr>" + td + "Target P load reduction</td>" + td + "" + TargetPPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target P discharge load</td>" + td + "" + TargetPMassLoad.ToString("##.###") + " kg/yr</td><td></td></tr>";
             }
 
@@ -1438,7 +1417,7 @@ namespace BMPTrains_2020.DomainCode
                 s += "<br/>";
             }
             s += "<br/>";
-            s += summaryReport();
+            s += summaryReport(true);
             return s;
         }
 

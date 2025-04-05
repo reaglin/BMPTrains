@@ -160,11 +160,11 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.CausesValidation = false;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(415, 94);
+            this.label2.Location = new System.Drawing.Point(354, 94);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(414, 33);
+            this.label2.Size = new System.Drawing.Size(475, 33);
             this.label2.TabIndex = 51;
-            this.label2.Text = "To water table or the bottom of the pipe, whichever is less";
+            this.label2.Text = "To water table or the bottom of the trench/vault, whichever is less";
             this.toolTip1.SetToolTip(this.label2, "o water table or the bottom of the pipe, whichever is less");
             // 
             // btnMediaMix
@@ -202,11 +202,11 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.CausesValidation = false;
-            this.label7.Location = new System.Drawing.Point(306, 168);
+            this.label7.Location = new System.Drawing.Point(254, 168);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(350, 30);
+            this.label7.Size = new System.Drawing.Size(402, 30);
             this.label7.TabIndex = 50;
-            this.label7.Text = "Aggregate Void (Fraction 0 - 1.0) :";
+            this.label7.Text = "Void space fraction not in pipe (0-1.0) :";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbVoidRatio
@@ -263,7 +263,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.CausesValidation = false;
-            this.label3.Location = new System.Drawing.Point(111, 97);
+            this.label3.Location = new System.Drawing.Point(64, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(188, 30);
             this.label3.TabIndex = 42;
@@ -272,7 +272,7 @@
             // 
             // tbPipeLength
             // 
-            this.tbPipeLength.Location = new System.Drawing.Point(306, 94);
+            this.tbPipeLength.Location = new System.Drawing.Point(259, 94);
             this.tbPipeLength.Name = "tbPipeLength";
             this.tbPipeLength.Size = new System.Drawing.Size(89, 35);
             this.tbPipeLength.TabIndex = 41;
@@ -281,7 +281,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.CausesValidation = false;
-            this.label1.Location = new System.Drawing.Point(111, 56);
+            this.label1.Location = new System.Drawing.Point(64, 56);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(188, 30);
             this.label1.TabIndex = 40;
@@ -290,7 +290,7 @@
             // 
             // tbPipeRise
             // 
-            this.tbPipeRise.Location = new System.Drawing.Point(306, 53);
+            this.tbPipeRise.Location = new System.Drawing.Point(259, 53);
             this.tbPipeRise.Name = "tbPipeRise";
             this.tbPipeRise.Size = new System.Drawing.Size(89, 35);
             this.tbPipeRise.TabIndex = 39;
@@ -299,7 +299,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.CausesValidation = false;
-            this.label8.Location = new System.Drawing.Point(111, 15);
+            this.label8.Location = new System.Drawing.Point(64, 15);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(188, 30);
             this.label8.TabIndex = 38;
@@ -308,7 +308,7 @@
             // 
             // tbPipeSpan
             // 
-            this.tbPipeSpan.Location = new System.Drawing.Point(306, 12);
+            this.tbPipeSpan.Location = new System.Drawing.Point(259, 12);
             this.tbPipeSpan.Name = "tbPipeSpan";
             this.tbPipeSpan.Size = new System.Drawing.Size(89, 35);
             this.tbPipeSpan.TabIndex = 37;
