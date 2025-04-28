@@ -115,7 +115,7 @@
             this.Controls.Add(this.buttonContinue);
             this.Controls.Add(this.label1);
             this.Name = "Splash";
-            this.Text = "BMP Trains 2020";
+            this.Text = "BMPTrains 2025";
             this.Load += new System.EventHandler(this.Splash_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

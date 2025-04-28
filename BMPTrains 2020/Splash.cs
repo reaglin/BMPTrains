@@ -40,7 +40,7 @@ namespace BMPTrains_2020
 
         private void Splash_Load(object sender, EventArgs e)
         {
-            label1.Text = "Welcome to " + Globals.Project.Version();
+            //label1.Text = "Welcome to " + Globals.Project.Version();
         }
 
         private void label3_Click(object sender, EventArgs e)

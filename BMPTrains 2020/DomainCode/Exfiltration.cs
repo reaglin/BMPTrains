@@ -108,9 +108,9 @@ namespace BMPTrains_2020.DomainCode
                 {"PipeRise", "Pipe Rise (in)"},
                 {"PipeLength", "Pipe Length (ft)"},
                 {"TrenchWidth", "Trench/Vault Width (ft)"},
-                {"TrenchDepth", "Trench/Vault/Vault Depth (ft)"},
+                {"TrenchDepth", "Trench/Vault Depth (ft)"},
                 {"TrenchLength", "Trench Length (ft)" },
-                { "VoidRatio", "Aggregate Void (fraction) "},
+                { "VoidRatio", "Void not in pipe (fraction) "},
                 {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
                 {"StorageVolumeIn", "Retention Depth (in over CA)"},
                 {"IncreasedEffectiveness", "Effectiveness Increase for < 3 hours (%)" }
@@ -147,7 +147,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string BMPTypeTitle()
         {
-            return "Exfiltration Trench";
+            return "Exfiltration";
         }
 
         public void CalculateStorage()
@@ -183,8 +183,8 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "";
             if (TrenchWidth + 1 < PipeSpan / 12) s += "Warning: Pipe Width requires a 6 inch clearance with trench edge<br/>";
-            if (TrenchWidth < 3) s += "Warning: Minimum Trench Depth is 3 ft<br/>";
-            if (TrenchDepth + 1 < PipeRise / 12) s += "Warning: Trench Depth must have 6 inch clearance with trench top and bottom<br/>";
+            if (TrenchWidth < 3) s += "Warning: Minimum Trench/Vault Depth is 3 ft<br/>";
+            if (TrenchDepth + 1 < PipeRise / 12) s += "Warning: Trench/Vault Depth must have 6 inch clearance with trench top and bottom<br/>";
 
             s += base.AsHtmlTable(StorageLabels());
             return s;

@@ -157,7 +157,7 @@ namespace BMPTrains_2020
             s += " Filter Volume Provided (cf): " + Common.getString(FilterVolumeProvided, 2) + "<br/>";
             s += " Saturated Weight of Media (lbs/cf): " + Common.getString(SaturatedWeight, 2) + "<br/>";
             s += " Filter OP in TP (fraction): " + Common.getString(FractionOP, 2) + "<br/>";
-            s += " Service Life (years): " + Common.getString(ServiceLife, 1) + "<br/>";
+            s += " Service Life (years): " + ((ServiceLife > 50) ? "> 50": Common.getString(ServiceLife, 1)) + "<br/>";
             //s += " Filter Volume for 30 Years Service Life (cf): " + Common.getString(FilterVolume30Years, 0) + "<br/>";
 
             wbOutput.DocumentText = s;

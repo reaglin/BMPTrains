@@ -204,7 +204,7 @@ namespace BMPTrains_2020
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.InitialDirectory = Common.WorkingDirectory();
 
-            dlg.Filter = "BMP Trains files (*.bmpt)|*.bmpt";
+            dlg.Filter = "BMPTrains_2025 files (*.bmpt)|*.bmpt";
            
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -345,7 +345,7 @@ namespace BMPTrains_2020
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.InitialDirectory = Common.WorkingDirectory();
 
-            dlg.Filter = "BMP Trains files (*.bmpt)|*.bmpt";
+            dlg.Filter = "BMPTrains files (*.bmpt)|*.bmpt";
 
             BMPTrainsProject pre = new BMPTrainsProject();
             if (dlg.ShowDialog() == DialogResult.OK)

@@ -45,8 +45,13 @@ namespace BMPTrains_2020.DomainCode
         public string DoGroundwaterAnalysis { get; set; }
 
         // Watershed Information
+        [Meta("Watershed Area", "acres", "###.##")]
         public double WatershedArea { get; set; } // Area in acres
+
+        [Meta("Watershed NDCIA CN", "(0-100)", "##")]
         public double WatershedNDCIACurveNumber { get; set; }
+
+        [Meta("Watershed DCIA", "%", "##.##")]
         public double WatershedDCIAPercent { get; set; }
         public double RationalCoefficient { get; set; }
         public double Rainfall { get; set; } // Rainfall depth ininches
@@ -59,6 +64,8 @@ namespace BMPTrains_2020.DomainCode
 
         // Treatment Efficiency for N and P
         public double RetentionVolume { get; set; }             // Acre-feet (same as Retention Depth, different units)
+
+        [Meta("Treatment Depth", "in", "##.##")]
         public double RetentionDepth { get; set; }             // inches over watershed (also called Treatment Volume or Treatment Depth)
         public double DelayTime { get; set; }
         public double DelayFactor { get; set; }
@@ -69,7 +76,10 @@ namespace BMPTrains_2020.DomainCode
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
 
+        [Meta("Provided N Treatment Efficiency", "%", "##.#")]
         public double ProvidedNTreatmentEfficiency { get; set; }
+
+        [Meta("Provided P Treatment Efficiency", "%", "##.#")]
         public double ProvidedPTreatmentEfficiency { get; set; }
 
         // Adjusted treatment efficiencies are the efficiencies
@@ -161,6 +171,11 @@ namespace BMPTrains_2020.DomainCode
         public double TNEMC { get; set; }
         public double TPEMC { get; set; }
 
+        // Can use if meta properties are defined (Follow Meta Print for Details)
+        public string Print(string property_name)
+        {
+            return Meta.Print(this, property_name);
+        }
         #endregion
 
         #region "Contructors"

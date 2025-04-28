@@ -88,7 +88,10 @@ namespace BMPTrains_2020.DomainCode
         public double PostNLoading { get; set; }  //kg/yr
         public double PostPLoading { get; set; }  //kg/yr
 
+        [Meta("Volume of Runoff Pre-Condition", "inches/yr", "##.##")]
         public double PreRunoffVolumeInches_Yr { get; set; }
+
+        [Meta("Volume of Runoff Post-Condition", "inches/yr", "##.##")]
         public double PostRunoffVolumeInches_yr { get; set; }
 
         public double GroundwaterNLoading { get; set; }
@@ -129,6 +132,11 @@ namespace BMPTrains_2020.DomainCode
         public double PreReductionPercent { get; set; }
         public CatchmentRouting routing { get; set; }
 
+        // Can use if meta properties are defined (Follow Meta Print for Details)
+        public string Print(string property_name)
+        {
+            return Meta.Print(this, property_name);
+        }
         #region "BMP Properties"
         // Need to add a single instance of each BMP a Catchment Can have - this
         // will be about 20

@@ -35,9 +35,9 @@ namespace BMPTrains_2020.DomainCode
         public const string URL_Documentation_Base = "http://roneaglin.online/BMPTrainsDocumentation/";
         public const string URL_Harper_Report = "Harper2007Report.pdf";
         public const string URL_FDEP_Rules = "FDEPRule.pdf";
-        public const string URL_Applicants_Handbook = "";
+        public const string URL_Applicants_Handbook = "Applicants_handbook_vol_1.pdf";
         public const string URL_Mass_Loading = "MassLoadingMethodology.pdf";
-        public const string URL_Performance_Summary = "";
+        public const string URL_Performance_Summary = "Type_of_Discharge.pdf";
 
         #endregion
 
@@ -148,6 +148,7 @@ namespace BMPTrains_2020.DomainCode
         public static bool PrintTargetAnalysis(string analysisType)
         {
             if (analysisType == BMPTrainsProject.AT_BMPAnalysis) return false;
+            if (analysisType == BMPTrainsProject.AT_NetImprovement) return false;
             return true;
         }
         #endregion
@@ -164,14 +165,23 @@ namespace BMPTrains_2020.DomainCode
         public string AnalysisType { get; set; }
 
         // Used for Target Efficicency
+        // Meta class added to simplify printing and output
+        [Meta("Nitrogen Removal Required", "%", "##")]
         public int RequiredNTreatmentEfficiency { get; set; }
+        [Meta("Phosphorus Removal Required", "%", "##")]
         public int RequiredPTreatmentEfficiency { get; set; }
 
-        // Used for Target LoadCalcualt
+        // Used for Target Load Calculations
+        [Meta("Total Nitrogen Discharge Load", "kg/yr", "##.##")]
         public double TargetNMassLoad { get; set; }
+
+        [Meta("Total Phosphrous Discharge Load", "kg/yr", "##.##")]
         public double TargetPMassLoad { get; set; }
 
+        [Meta("Total Catchement Nitrogen Loading", "kg/yr", "##.##")]
         public double TotalCatchmentNLoad { get; set; }
+
+        [Meta("Total Catchement Phosphorus Loading", "kg/yr", "##.##")]
         public double TotalCatchmentPLoad { get; set; }
         public double TotalGroundwaterNRemoved { get; set; }
         public double TotalGroundwaterPRemoved { get; set; }
@@ -232,6 +242,11 @@ namespace BMPTrains_2020.DomainCode
         public double ProjectDuration { get; set; }     // Years
         public double CostOfWater { get; set; }         // $ / 1000 gal-water
 
+        // Can use if meta properties are defined (Follow Meta Print for Details)
+        public string Print(string property_name)
+        {
+            return Meta.Print(this, property_name);
+        }
         #endregion
 
         // Constructor
@@ -687,7 +702,7 @@ namespace BMPTrains_2020.DomainCode
 
             savefile.FileName = Globals.Project.getFileName();
             // set filters - this can be done in properties as well
-            savefile.Filter = "BMP Trains files (*.bmpt)|*.bmpt|All files (*.*)|*.*";
+            savefile.Filter = "BMPTrains files (*.bmpt)|*.bmpt|All files (*.*)|*.*";
 
             if (savefile.ShowDialog() == DialogResult.OK)
             {
@@ -843,7 +858,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static string getUniqueFileName()
         {
-            return Common.getUniqueFileName("BMP Trains Project ", "bmpt");
+            return Common.getUniqueFileName("BMPTrains Project ", "bmpt");
         }
         #endregion
 
@@ -1122,6 +1137,7 @@ namespace BMPTrains_2020.DomainCode
             if ( AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 s += "Nitrogen Removal Required: " +  RequiredNTreatmentEfficiency.ToString("##") + "%<br/>";
+                //s += Meta.Print(RequiredNTreatmentEfficiency, "RequiredNTreatmentEfficiency");
                 s += "Nitrogen Removal Provided: " + CalculatedNTreatmentEfficiency.ToString("##");
                 if (CalculatedNTreatmentEfficiency >  RequiredNTreatmentEfficiency) s += "% Target met<br/>"; else s += "% Target Not met<br/>";
                 s += "<br/>";
@@ -1166,9 +1182,10 @@ namespace BMPTrains_2020.DomainCode
             s += "<table style='width:80%'><tr><td style='width:60%'>";
 
             s += "<div <h2>Project: " + ProjectName + "</h2><br/>";
-            s += "<b>Analysis Type:</b> " +  AnalysisType;
-            s += "  " + RequiredNTreatmentEfficiency.ToString("##") + "% TN  ";
-            s +=  RequiredPTreatmentEfficiency.ToString("##") +"% TP<br/>";
+            s += "<b>Analysis Type:</b> " +  AnalysisType +"<br/>";
+        
+            //s += "  " + RequiredNTreatmentEfficiency.ToString("##") + "% TN  ";
+            //s +=  RequiredPTreatmentEfficiency.ToString("##") +"% TP<br/>";
             s += "<b>BMP Types: </b><br/>";
 
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
@@ -1200,10 +1217,10 @@ namespace BMPTrains_2020.DomainCode
                 s += "</br>";
                 }
             }
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
-                s += "Based on discharge load to 3 decimal places<br/>";
-//            else
-//                s += "Based on % removal values to the nearest percent<br/>";
+//            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
+//                s += "Based on discharge load to 3 decimal places<br/>";
+////            else
+////                s += "Based on % removal values to the nearest percent<br/>";
     
             s += "</td>";
             s += "<td style='width:40%;'>";
@@ -1400,7 +1417,7 @@ namespace BMPTrains_2020.DomainCode
         public string CatchmentReport()
         {
             string br = "<br/>";
-            string s = "<h1>Complete Report (not including cost) Ver " + Application.ProductVersion + "</h1>";
+            string s = "<h1>BMPTrains 2025 Complete Report (not including cost)</h1>";
             s += Common.getDateString();
             s += "Project: " + ProjectName + br;
             s += "<h2>Site and Catchment Information</h2><br/>";

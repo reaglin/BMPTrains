@@ -174,7 +174,7 @@
             this.btnCatchments.TabIndex = 14;
             this.btnCatchments.Text = "1.                   Enter Catchment";
             this.btnCatchments.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTip1.SetToolTip(this.btnCatchments, "Step 1 of BMP Trains, Create and Enter Watershed Information");
+            this.toolTip1.SetToolTip(this.btnCatchments, "Step 1 of BMPTrains, Create and Enter Watershed Information");
             this.btnCatchments.UseVisualStyleBackColor = true;
             this.btnCatchments.Click += new System.EventHandler(this.btnCatchments_Click);
             // 

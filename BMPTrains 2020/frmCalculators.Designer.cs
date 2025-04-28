@@ -97,7 +97,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(410, 30);
             this.label2.TabIndex = 5;
-            this.label2.Text = "tables and calculations used in BMP Trains.";
+            this.label2.Text = "tables and calculations used in BMPTrains.";
             // 
             // label3
             // 
@@ -169,7 +169,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "frmCalculators";
-            this.Text = "BMP Trains Calculators";
+            this.Text = "BMPTrains Calculators";
             this.ResumeLayout(false);
             this.PerformLayout();
 

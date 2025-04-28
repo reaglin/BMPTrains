@@ -121,7 +121,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmReport";
-            this.Text = "BMP Trains Reports ";
+            this.Text = "BMPTrains Reports ";
             this.Load += new System.EventHandler(this.frmReport_Load);
             this.Resize += new System.EventHandler(this.frmReport_Resize);
             this.menuStrip1.ResumeLayout(false);

@@ -40,7 +40,7 @@ namespace BMPTrains_2020
             cbPreLanduse.DisplayMember = "D";
             cbPostLanduse.ValueMember = "D";
 
-            this.Text += " Version: " + Application.ProductVersion;
+            //this.Text += " Version: " + Application.ProductVersion;
 
             InterfaceCommon.BuildCatchmentMenu(menuStrip1, MenuItemClickHandler);
 

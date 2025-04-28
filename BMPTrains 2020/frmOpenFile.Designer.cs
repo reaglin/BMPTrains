@@ -76,8 +76,8 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(412, 100);
             this.label4.TabIndex = 32;
-            this.label4.Text = "This will open a BMP Trains  project file and set all values to the pre values of" +
-    " the BMP Trains file.";
+            this.label4.Text = "This will open a BMPTrains  project file and set all values to the pre values of" +
+    " the BMPTrains file.";
             // 
             // label1
             // 
@@ -88,7 +88,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(412, 100);
             this.label1.TabIndex = 33;
-            this.label1.Text = "This will open new BMP Trains  project file any unsaved values of the current fil" +
+            this.label1.Text = "This will open new BMPTrains  project file any unsaved values of the current fil" +
     "e will be lost. ";
             // 
             // lbFiles
@@ -128,7 +128,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "frmOpenFile";
-            this.Text = "Open BMP Trains Project";
+            this.Text = "Open BMPTrains Project";
             this.Load += new System.EventHandler(this.frmOpenFile_Load);
             this.ResumeLayout(false);
 
