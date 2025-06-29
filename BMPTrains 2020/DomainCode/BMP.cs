@@ -71,7 +71,7 @@ namespace BMPTrains_2020.DomainCode
         public double DelayFactor { get; set; }
         public double DelayEfficiency { get; set; }
 
-        public double HydraulicCaptureEfficiency { get; set; }
+        public double HydraulicCaptureEfficiency { get; set; } // Give units
 
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
@@ -771,16 +771,40 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "<br/><h2>Load Diagram for " + BMPTypeTitle() + " (stand-alone)</h2><br/><table>";
             s += "<tr>";         // 5 Cells per row
-            s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
-            s += EfficiencyReportCell("&rarr;");
-            s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency, 0, "%", "Treatment", 1);
-            s += EfficiencyReportCell("&rarr;");
+
+            double R = RunoffVolume;
+            if (HydraulicCaptureEfficiency == 0) HydraulicCaptureEfficiency = ProvidedPTreatmentEfficiency;
+            // Create row for load balance report, 3 columns in the row
+            //if (this.RetentionOrDetention == BMP.sDetention)
+            //{
+            //    s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
+            //    s += EfficiencyReportCell("&rarr;");
+            //    s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency, 0, "%", "Treatment", 1);
+            //    s += EfficiencyReportCell("&rarr;");
+            //}
+            //else 
+            //{ 
+                s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, R, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Load");
+                s += EfficiencyReportCell("&rarr;");
+                s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency,  0, "%", "Treatment", 1);
+                s += EfficiencyReportCell("&rarr;");
+            //}
+
 
             BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100.0;
             BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100.0;
 
-            s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, 2, "kg/yr", "Surface Discharge");
-            s += "</tr>";
+            if (this.BMPType == BMPTrainsProject.sWetDetention)
+            {
+                s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, 2, "kg/yr", "Surface Discharge");
+                s += "</tr>";
+            }
+            else
+            {
+                s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, ((100 - HydraulicCaptureEfficiency) / 100) * R, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Surface Discharge");
+                s += "</tr>";
+            }
+
 
             GroundwaterNMassLoadIn = BMPNMassLoadIn * ProvidedNTreatmentEfficiency / 100.0;
             GroundwaterPMassLoadIn = BMPPMassLoadIn * ProvidedPTreatmentEfficiency / 100.0;
@@ -788,10 +812,19 @@ namespace BMPTrains_2020.DomainCode
             NRetained = BMPNMassLoadIn - BMPNMassLoadOut - GroundwaterNMassLoadOut;
             PRetained = BMPPMassLoadIn - BMPPMassLoadOut - GroundwaterPMassLoadOut;
 
+
+            // Creates second in mass balance report - only Mass reduction in this row
             s += "<tr><td></td><td></td>";
             s += EfficiencyReportCell("&darr;");
             s += "<td></td>";
-            s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, 2, "kg/yr", "Mass Reduction");
+            if (this.BMPType == BMPTrainsProject.sWetDetention)
+            {
+                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, 2, "kg/yr", "Mass Reduction");
+            }
+            else
+            {
+                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, HydraulicCaptureEfficiency * R / 100, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Mass Reduction");
+            }
             s += "</tr>";
 
             if (BMPType == BMPTrainsProject.sFiltration)
@@ -843,6 +876,18 @@ namespace BMPTrains_2020.DomainCode
             string td = "<td style='padding: 10px'>";
             if (border != 0) td = "<td style='border: 2px solid black; padding: 10px'>";
             return td + label + "<br/> N: " + GetValue(val1, places) + " " + units + "<br/> P: " + GetValue(val2, places) + " " + units + "</td>";
+        }
+
+        public string EfficiencyReportCell(double val1, double val2, double val3, int places = 2, string units1 = "", string units2 = "", string units3 = "", string label = "", int border = 0)
+        {
+            string s = "";
+            string td = "<td style='padding: 10px'>";
+            if (border != 0) td = "<td style='border: 2px solid black; padding: 10px'>";
+            s = td + label + "<br/> N: " + GetValue(val1, places) + " " + units1;
+            s += "<br/> P: " + GetValue(val2, places) + " " + units2;
+            s += "<br/> Q: " + GetValue(val3, places) + " " + units3 + "</td>";
+
+            return s;
         }
 
         #endregion
