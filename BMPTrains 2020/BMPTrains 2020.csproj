@@ -70,6 +70,7 @@
     <Compile Include="DomainCode\BMPTrainsProject.cs" />
     <Compile Include="DomainCode\Catchment.cs" />
     <Compile Include="DomainCode\CatchmentConfigurations.cs" />
+    <Compile Include="DomainCode\CodeTesting.cs" />
     <Compile Include="DomainCode\Common.cs" />
     <Compile Include="DomainCode\CostScenario.cs" />
     <Compile Include="DomainCode\Exfiltration.cs" />
@@ -287,6 +288,12 @@
     <Compile Include="frmRation.Designer.cs">
       <DependentUpon>frmRation.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTestingPlots.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTestingPlots.Designer.cs">
+      <DependentUpon>frmTestingPlots.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTreatmentOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -338,6 +345,12 @@
     <Compile Include="Globals.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="InterfaceCommon.cs" />
+    <Compile Include="frmPlotting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPlotting.Designer.cs">
+      <DependentUpon>frmPlotting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -444,6 +457,9 @@
     <EmbeddedResource Include="frmRation.resx">
       <DependentUpon>frmRation.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmTestingPlots.resx">
+      <DependentUpon>frmTestingPlots.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmTreatmentOptions.resx">
       <DependentUpon>frmTreatmentOptions.cs</DependentUpon>
     </EmbeddedResource>
@@ -467,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GeneralSiteInformation.resx">
       <DependentUpon>GeneralSiteInformation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPlotting.resx">
+      <DependentUpon>frmPlotting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

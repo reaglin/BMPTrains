@@ -32,6 +32,8 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.plotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wbReport = new System.Windows.Forms.WebBrowser();
             this.lblRow = new System.Windows.Forms.Label();
             this.tbRow = new System.Windows.Forms.TextBox();
@@ -50,7 +52,9 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.printToolStripMenuItem,
-            this.exitToolStripMenuItem});
+            this.exitToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.plotToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1023, 29);
@@ -72,6 +76,19 @@
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(54, 25);
             this.exitToolStripMenuItem.Text = "&Back";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(12, 25);
+            // 
+            // plotToolStripMenuItem
+            // 
+            this.plotToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.plotToolStripMenuItem.Name = "plotToolStripMenuItem";
+            this.plotToolStripMenuItem.Size = new System.Drawing.Size(49, 25);
+            this.plotToolStripMenuItem.Text = "Plot";
+            this.plotToolStripMenuItem.Click += new System.EventHandler(this.plotToolStripMenuItem_Click);
             // 
             // wbReport
             // 
@@ -159,7 +176,7 @@
             this.lblTable.TabIndex = 10;
             this.lblTable.Text = "Table Value:";
             // 
-            // frmTableViewer
+            // frmTableViewer2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -177,7 +194,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.Name = "frmTableViewer";
+            this.Name = "frmTableViewer2";
             this.Text = "Table Viewer";
             this.Load += new System.EventHandler(this.frmTableViewer_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -203,5 +220,7 @@
         private System.Windows.Forms.TextBox tbTable;
         private System.Windows.Forms.Label lblTable;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem plotToolStripMenuItem;
     }
 }

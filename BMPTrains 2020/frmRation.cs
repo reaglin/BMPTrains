@@ -14,10 +14,19 @@ namespace BMPTrains_2020
     public partial class frmTableViewer2 : Form
     {
         LookupTable lut;
-        public frmTableViewer2(LookupTable l)
+        Harvesting harvesting;
+        public frmTableViewer2(Harvesting h)
         {
             InitializeComponent();
-            lut = l;
+            this.harvesting = h;
+            this.lut = h.getEfficiencyLUT();
+        }
+
+        public frmTableViewer2(LookupTable lut)
+        {
+            InitializeComponent();
+            this.lut = lut;
+            plotToolStripMenuItem.Visible = false;
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -63,6 +72,12 @@ namespace BMPTrains_2020
 
             double t = lut.Calculate(r, c);
             Common.setValue(tbTable, t);
+        }
+
+        private void plotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Form plot = new frmPlotting(harvesting.CreateREVScatterPlot());
+            //plot.ShowDialog();
         }
     }
 }

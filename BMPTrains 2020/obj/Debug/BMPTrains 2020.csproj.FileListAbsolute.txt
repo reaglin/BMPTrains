@@ -101,3 +101,5 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.exe.config
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmPlotting.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmTestingPlots.resources

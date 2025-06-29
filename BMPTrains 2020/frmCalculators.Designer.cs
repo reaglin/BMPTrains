@@ -39,11 +39,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.btnMediaFilterArea = new System.Windows.Forms.Button();
             this.btnMediaServiceLife = new System.Windows.Forms.Button();
+            this.btnHarvestingPlot = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(464, 406);
+            this.btnExit.Location = new System.Drawing.Point(704, 406);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(107, 39);
             this.btnExit.TabIndex = 0;
@@ -95,7 +96,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 51);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(410, 30);
+            this.label2.Size = new System.Drawing.Size(404, 30);
             this.label2.TabIndex = 5;
             this.label2.Text = "tables and calculations used in BMPTrains.";
             // 
@@ -149,12 +150,24 @@
             this.btnMediaServiceLife.UseVisualStyleBackColor = true;
             this.btnMediaServiceLife.Click += new System.EventHandler(this.btnMediaServiceLife_Click);
             // 
+            // btnHarvestingPlot
+            // 
+            this.btnHarvestingPlot.Location = new System.Drawing.Point(461, 226);
+            this.btnHarvestingPlot.Name = "btnHarvestingPlot";
+            this.btnHarvestingPlot.Size = new System.Drawing.Size(350, 39);
+            this.btnHarvestingPlot.TabIndex = 11;
+            this.btnHarvestingPlot.Text = "Harvesting Efficiency Plot";
+            this.btnHarvestingPlot.UseVisualStyleBackColor = true;
+            this.btnHarvestingPlot.Visible = false;
+            this.btnHarvestingPlot.Click += new System.EventHandler(this.btnHarvestingPlot_Click);
+            // 
             // frmCalculators
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(601, 482);
+            this.ClientSize = new System.Drawing.Size(841, 482);
             this.ControlBox = false;
+            this.Controls.Add(this.btnHarvestingPlot);
             this.Controls.Add(this.btnMediaServiceLife);
             this.Controls.Add(this.btnMediaFilterArea);
             this.Controls.Add(this.button1);
@@ -188,5 +201,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnMediaFilterArea;
         private System.Windows.Forms.Button btnMediaServiceLife;
+        private System.Windows.Forms.Button btnHarvestingPlot;
     }
 }

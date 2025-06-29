@@ -66,6 +66,7 @@
             this.btnRecentProjects = new System.Windows.Forms.Button();
             this.tbPercentLessThanPre = new System.Windows.Forms.TextBox();
             this.lblPercentLessThanPre = new System.Windows.Forms.Label();
+            this.btnTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -266,9 +267,9 @@
             // 
             // btnPre
             // 
-            this.btnPre.Location = new System.Drawing.Point(16, 193);
+            this.btnPre.Location = new System.Drawing.Point(16, 225);
             this.btnPre.Name = "btnPre";
-            this.btnPre.Size = new System.Drawing.Size(108, 40);
+            this.btnPre.Size = new System.Drawing.Size(108, 25);
             this.btnPre.TabIndex = 29;
             this.btnPre.Text = "Open Pre BMP";
             this.toolTip1.SetToolTip(this.btnPre, "Opens a file and reads precondition information from file");
@@ -443,11 +444,23 @@
             this.lblPercentLessThanPre.Text = "Select % less than Pre (0.1-10%):";
             this.lblPercentLessThanPre.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // btnTest
+            // 
+            this.btnTest.Location = new System.Drawing.Point(11, 176);
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(98, 43);
+            this.btnTest.TabIndex = 36;
+            this.btnTest.Text = "Testing Button";
+            this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Visible = false;
+            this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
             // GeneralSiteInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(798, 537);
+            this.Controls.Add(this.btnTest);
             this.Controls.Add(this.tbPercentLessThanPre);
             this.Controls.Add(this.lblPercentLessThanPre);
             this.Controls.Add(this.btnPerformanceSummary);
@@ -532,5 +545,6 @@
         private System.Windows.Forms.Button btnPerformanceSummary;
         private System.Windows.Forms.TextBox tbPercentLessThanPre;
         private System.Windows.Forms.Label lblPercentLessThanPre;
+        private System.Windows.Forms.Button btnTest;
     }
 }

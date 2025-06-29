@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace BMPTrains_2020.DomainCode
 {
@@ -32,6 +34,9 @@ namespace BMPTrains_2020.DomainCode
         public double HarvestWaterDemand { get; set; }  // MGY
         public double HarvestWaterSupply { get; set; }  //MGY
         public double SupplementalWater { get; set; }   //MGY
+
+        public double[,] REVXValues = new double[8,116];
+        public double[,] REVYValues = new double[8,116];
 
         public double[,] FlZone1R = new double[,]
     {
@@ -293,10 +298,164 @@ namespace BMPTrains_2020.DomainCode
             return lut;
         }
 
+
+
+        public void SetREVPlottingValues()
+        {
+            int row = 0;
+            int col = 0;
+            double[,] v = RValues(RainfallZone);
+            double[,] limits = CurveFitLimits(RainfallZone);
+
+            for (int r = 20; r <= 90; r += 10)
+            {
+                col = 0;
+                string l = String.Empty;
+                for (double c = 0.25; c <= 6.0; c += 0.05)
+                {
+                    double y;
+                    if (c < limits[row, 0])
+                    {
+                        y = v[row, 0] * Math.Pow(c, 5) + v[row, 1] * Math.Pow(c, 4) - v[row, 2] * Math.Pow(c, 3) +
+                                   v[row, 3] * Math.Pow(c, 2) - v[row, 4] * c + v[row, 5];
+                    }
+                    else
+                    {
+                        y = limits[row, 1];
+                    }
+                    REVXValues[row, col] = c;
+                    REVYValues[row, col] = y;
+                    col++;
+                }
+                row++;
+            }
+        }
+
+        public string[] plotLegend()
+        {
+            string[] legend = { "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%" };
+            return legend;
+        }
+
+
         public new void Calculate()
         {
             
         }
 
+        public void CreateREVScatterPlot(Chart chart)
+        {
+
+            SetREVPlottingValues();
+            
+            double[,] xvalues = REVXValues;
+            double[,] yvalues = REVYValues;
+
+            if (xvalues == null || yvalues == null)
+                throw new ArgumentException("X and Y value arrays cannot be null");
+
+            if (xvalues.GetLength(0) != 8 || yvalues.GetLength(0) != 8)
+                throw new ArgumentException("Arrays must have 8 lines (20% through 90%)");
+
+            // Clear any existing series and chart areas
+            chart.Series.Clear();
+            chart.ChartAreas.Clear();
+            chart.Legends.Clear();
+
+            // Create chart area
+            ChartArea chartArea = new ChartArea("MainArea");
+            chart.ChartAreas.Add(chartArea);
+
+            // Configure X-axis
+            chartArea.AxisX.Title = "Runoff Volume of Water (inches over EIA)";
+            chartArea.AxisX.TitleFont = new Font("Arial", 12, FontStyle.Bold);
+            chartArea.AxisX.Minimum = 0;
+            chartArea.AxisX.Maximum = 6;
+            chartArea.AxisX.Interval = 1;
+            chartArea.AxisX.MajorGrid.Enabled = true;
+            chartArea.AxisX.MajorGrid.LineColor = Color.LightGray;
+            chartArea.AxisX.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+
+            // Configure Y-axis
+            chartArea.AxisY.Title = "Use Rate (inches/day over EIA)";
+            chartArea.AxisY.TitleFont = new Font("Arial", 12, FontStyle.Bold);
+            chartArea.AxisY.Minimum = 0;
+            chartArea.AxisY.Maximum = 0.5;
+            chartArea.AxisY.Interval = 0.1;
+            chartArea.AxisY.MajorGrid.Enabled = true;
+            chartArea.AxisY.MajorGrid.LineColor = Color.LightGray;
+            chartArea.AxisY.MajorGrid.LineDashStyle = ChartDashStyle.Dash;
+
+            // Create and configure legend
+            Legend legend = new Legend("MainLegend");
+            legend.Docking = Docking.Right;
+            legend.Alignment = StringAlignment.Center;
+            legend.Font = new Font("Arial", 10);
+            legend.Title = "Percentages";
+            legend.TitleFont = new Font("Arial", 11, FontStyle.Bold);
+            chart.Legends.Add(legend);
+
+            // Define colors for each line
+            Color[] lineColors = {
+        Color.Red,           // 20%
+        Color.Blue,          // 30%
+        Color.Green,         // 40%
+        Color.Orange,        // 50%
+        Color.Purple,        // 60%
+        Color.Brown,         // 70%
+        Color.Pink,          // 80%
+        Color.DarkBlue       // 90%
+    };
+
+            // Define legend labels
+            string[] percentages = { "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%" };
+
+            // Create series for each line
+            for (int lineIndex = 0; lineIndex < 8; lineIndex++)
+            {
+                // Create new series
+                Series series = new Series(percentages[lineIndex]);
+                series.ChartType = SeriesChartType.Line;
+                series.Color = lineColors[lineIndex];
+                series.BorderWidth = 2;
+                series.MarkerStyle = MarkerStyle.Circle;
+                series.MarkerSize = 6;
+                series.MarkerColor = lineColors[lineIndex];
+                series.MarkerBorderColor = Color.Black;
+                series.MarkerBorderWidth = 1;
+
+                // Get the number of points for this line
+                int pointCount = yvalues.GetLength(1);
+
+                // Add data points to the series
+                for (int pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                {
+                    double xValue = xvalues[lineIndex, pointIndex];
+                    double yValue = yvalues[lineIndex, pointIndex];
+
+                    // Add point to series
+                    series.Points.AddXY(xValue, yValue);
+                }
+
+                // Add series to chart
+                chart.Series.Add(series);
+            }
+
+            // Additional chart formatting
+            chart.BackColor = Color.White;
+            chartArea.BackColor = Color.White;
+
+            // Set chart title (optional)
+            Title title = new Title("Use Rate vs Runoff Volume");
+            title.Font = new Font("Arial", 14, FontStyle.Bold);
+            chart.Titles.Add(title);
+
+            // Enable anti-aliasing for smoother lines
+            chart.AntiAliasing = AntiAliasingStyles.All;
+            
+        }
+
+
     }
 }
+

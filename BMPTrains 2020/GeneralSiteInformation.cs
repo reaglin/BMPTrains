@@ -405,5 +405,11 @@ namespace BMPTrains_2020
             // No action
            
         }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            Form frmTestingPlots = new frmTestingPlots();
+            frmTestingPlots.ShowDialog();
+        }
     }
 }

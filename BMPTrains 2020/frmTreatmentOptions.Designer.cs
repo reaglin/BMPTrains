@@ -50,6 +50,7 @@
             this.btnTools = new System.Windows.Forms.Button();
             this.btnHelp = new System.Windows.Forms.Button();
             this.btnBMPs = new System.Windows.Forms.Button();
+            this.btnPlots = new System.Windows.Forms.Button();
             this.btnBiofiltration = new System.Windows.Forms.Button();
             this.btnGreenroof = new System.Windows.Forms.Button();
             this.lblError = new System.Windows.Forms.Label();
@@ -110,9 +111,9 @@
             // btnExit
             // 
             this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnExit.Location = new System.Drawing.Point(642, 472);
+            this.btnExit.Location = new System.Drawing.Point(734, 470);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(124, 46);
+            this.btnExit.Size = new System.Drawing.Size(101, 46);
             this.btnExit.TabIndex = 4;
             this.btnExit.Text = "Back";
             this.toolTip1.SetToolTip(this.btnExit, "Exit the Current Worksheet");
@@ -237,9 +238,9 @@
             // 
             // btnWatershed
             // 
-            this.btnWatershed.Location = new System.Drawing.Point(351, 472);
+            this.btnWatershed.Location = new System.Drawing.Point(479, 470);
             this.btnWatershed.Name = "btnWatershed";
-            this.btnWatershed.Size = new System.Drawing.Size(145, 46);
+            this.btnWatershed.Size = new System.Drawing.Size(122, 46);
             this.btnWatershed.TabIndex = 20;
             this.btnWatershed.Text = "Catchments";
             this.toolTip1.SetToolTip(this.btnWatershed, "Catchment Editor");
@@ -248,9 +249,9 @@
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(642, 420);
+            this.btnReset.Location = new System.Drawing.Point(734, 418);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(124, 46);
+            this.btnReset.Size = new System.Drawing.Size(101, 46);
             this.btnReset.TabIndex = 22;
             this.btnReset.Text = "Reset All";
             this.toolTip1.SetToolTip(this.btnReset, "Reset all BMP\'s for Catchment");
@@ -259,9 +260,9 @@
             // 
             // buttonCalculators
             // 
-            this.buttonCalculators.Location = new System.Drawing.Point(502, 472);
+            this.buttonCalculators.Location = new System.Drawing.Point(617, 470);
             this.buttonCalculators.Name = "buttonCalculators";
-            this.buttonCalculators.Size = new System.Drawing.Size(134, 46);
+            this.buttonCalculators.Size = new System.Drawing.Size(111, 46);
             this.buttonCalculators.TabIndex = 18;
             this.buttonCalculators.Text = "Cost Report";
             this.toolTip1.SetToolTip(this.buttonCalculators, "Will open a report with cost data and copy the data to the clipboard (for paste i" +
@@ -271,9 +272,9 @@
             // 
             // btnTools
             // 
-            this.btnTools.Location = new System.Drawing.Point(502, 419);
+            this.btnTools.Location = new System.Drawing.Point(617, 418);
             this.btnTools.Name = "btnTools";
-            this.btnTools.Size = new System.Drawing.Size(134, 46);
+            this.btnTools.Size = new System.Drawing.Size(111, 46);
             this.btnTools.TabIndex = 24;
             this.btnTools.Text = "Tools";
             this.toolTip1.SetToolTip(this.btnTools, "Calculating tools helpful for design");
@@ -282,9 +283,9 @@
             // 
             // btnHelp
             // 
-            this.btnHelp.Location = new System.Drawing.Point(351, 420);
+            this.btnHelp.Location = new System.Drawing.Point(319, 470);
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(145, 46);
+            this.btnHelp.Size = new System.Drawing.Size(74, 46);
             this.btnHelp.TabIndex = 25;
             this.btnHelp.Text = "Help";
             this.toolTip1.SetToolTip(this.btnHelp, "Open online help ");
@@ -303,6 +304,17 @@
             this.toolTip1.SetToolTip(this.btnBMPs, "For more than one BMP in the same Catchment");
             this.btnBMPs.UseVisualStyleBackColor = true;
             this.btnBMPs.Click += new System.EventHandler(this.btnBMPs_Click);
+            // 
+            // btnPlots
+            // 
+            this.btnPlots.Location = new System.Drawing.Point(479, 418);
+            this.btnPlots.Name = "btnPlots";
+            this.btnPlots.Size = new System.Drawing.Size(122, 46);
+            this.btnPlots.TabIndex = 29;
+            this.btnPlots.Text = "Plots";
+            this.toolTip1.SetToolTip(this.btnPlots, "Calculating tools helpful for design");
+            this.btnPlots.UseVisualStyleBackColor = true;
+            this.btnPlots.Visible = false;
             // 
             // btnBiofiltration
             // 
@@ -396,6 +408,7 @@
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(853, 525);
             this.ControlBox = false;
+            this.Controls.Add(this.btnPlots);
             this.Controls.Add(this.lblCurrent);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
@@ -454,5 +467,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblCurrent;
+        private System.Windows.Forms.Button btnPlots;
     }
 }
