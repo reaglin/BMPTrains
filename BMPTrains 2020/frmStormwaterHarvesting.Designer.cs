@@ -51,6 +51,7 @@
             this.btnCost = new System.Windows.Forms.Button();
             this.btnPlotREV = new System.Windows.Forms.Button();
             this.pbREV = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbREV)).BeginInit();
             this.SuspendLayout();
@@ -72,11 +73,12 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(485, 125);
+            this.label2.Location = new System.Drawing.Point(349, 125);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(225, 30);
+            this.label2.Size = new System.Drawing.Size(361, 30);
             this.label2.TabIndex = 38;
-            this.label2.Text = "Harvest Volume (ac-ft):";
+            this.label2.Text = "Max Available Harvest Volume (ac-ft):";
+            this.toolTip1.SetToolTip(this.label2, "Maximum Available Harvest Volume measured from the discharge elevation (ac-ft)");
             // 
             // label1
             // 
@@ -152,9 +154,9 @@
             // 
             this.groupBox1.Controls.Add(this.rbHarvestRate);
             this.groupBox1.Controls.Add(this.rbHarvestEfficiency);
-            this.groupBox1.Location = new System.Drawing.Point(14, 29);
+            this.groupBox1.Location = new System.Drawing.Point(12, 52);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(353, 126);
+            this.groupBox1.Size = new System.Drawing.Size(329, 126);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Calculation Option";
@@ -200,7 +202,7 @@
             this.lblHarvest.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.lblHarvest.Size = new System.Drawing.Size(391, 30);
             this.lblHarvest.TabIndex = 41;
-            this.lblHarvest.Text = "Harvest Rate (in/week):";
+            this.lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week):";
             this.lblHarvest.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // menuStrip1
@@ -262,6 +264,18 @@
             this.pbREV.Visible = false;
             this.pbREV.Click += new System.EventHandler(this.pbREV_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.label3.Location = new System.Drawing.Point(7, -1);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(745, 21);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "The maximum available harvest volume can be in underground storage or as part of " +
+    "a wet detention pond.";
+            this.label3.Visible = false;
+            // 
             // frmStormwaterHarvesting
             // 
             this.AcceptButton = this.btnClose;
@@ -270,6 +284,7 @@
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(869, 548);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pbREV);
             this.Controls.Add(this.btnPlotREV);
             this.Controls.Add(this.btnCost);
@@ -330,5 +345,6 @@
         private System.Windows.Forms.Button btnCost;
         private System.Windows.Forms.Button btnPlotREV;
         private System.Windows.Forms.PictureBox pbREV;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -101,3 +101,5 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrai
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains 2020.csproj.CoreCompileInputs.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains 2020.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains 2020.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains_2020.frmTestingPlots.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains_2020.frmPlotting.resources

@@ -165,32 +165,6 @@ namespace BMPTrains_2020
         {
             Form plot = new frmPlotting(currentBMP());
             plot.ShowDialog();
-            //wbOutput.DocumentText = currentBMP().CreateREVScatterPlot();
-            //switch (currentBMP().RainfallZone)
-            //{
-            //    case StaticLookupTables.FlZone1:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone1;
-            //        break; ;
-            //    case StaticLookupTables.FlZone2:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone2;
-            //        break; ;
-            //    case StaticLookupTables.FlZone3:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone3;
-            //        break; ;
-            //    case StaticLookupTables.FlZone4:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone4;
-            //        break; ;
-            //    case StaticLookupTables.FlZone5:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone5;
-            //        break; ;
-            //    default:
-            //        pbREV.Image = BMPTrains_2020.Properties.Resources.REV_Zone1;
-            //        break; ;
-            //}
-            //pbREV.Visible = true; btnPlotREV.Text = "Report";
-            //wbOutput.Visible = false;
-
-
         }
         private void showReport()
         {

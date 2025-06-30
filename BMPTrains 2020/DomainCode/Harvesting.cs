@@ -103,7 +103,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.0031400, 0.0212000, 0.0528000, 0.0592000, 0.0516000},
                 {0.00, 0.0020000, 0.0172000, 0.0544000, 0.0737000, 0.0791000},
                 {-0.000890, 0.0111000, 0.0526000, 0.1181000, 0.1290000, 0.1229000},
-                {-0.0001542405,0.0032245262,-0.254227472,0.093820545,-0.1638103135,0.2016530820},
+                {-0.0001542405,0.0032245262,-0.0254227472,0.093820545,-0.1638103135,0.2016530820},
                 {-0.000500, 0.0090000, 0.0622700, 0.2048300, 0.3246000, 0.3194000},
                 {0.00, 0.0011000, 0.0173800, 0.1008000, 0.2614000, 0.3983000},
                 {0.00, 0.0005250, 0.0098000, 0.0703000, 0.2407000, 0.5054000},
@@ -347,25 +347,41 @@ namespace BMPTrains_2020.DomainCode
         {
 
             SetREVPlottingValues();
+
+            double xv = 0.0;
+            double yv = 0.0;
             
             double[,] xvalues = REVXValues;
             double[,] yvalues = REVYValues;
 
-            if (xvalues == null || yvalues == null)
-                throw new ArgumentException("X and Y value arrays cannot be null");
+            //if (xvalues == null || yvalues == null)
+            //    throw new ArgumentException("X and Y value arrays cannot be null");
 
-            if (xvalues.GetLength(0) != 8 || yvalues.GetLength(0) != 8)
-                throw new ArgumentException("Arrays must have 8 lines (20% through 90%)");
+            //if (xvalues.GetLength(0) != 8 || yvalues.GetLength(0) != 8)
+            //    throw new ArgumentException("Arrays must have 8 lines (20% through 90%)");
 
+            try
+            {
+                xv = HarvestVolume * 12 / IrrigationArea / RationalCoefficient;
+                yv = AvailableHarvestRate * IrrigationArea / 7 / ContributingArea / RationalCoefficient;
+            }
+            catch
+            {
+                xv = 0;
+                yv = 0;
+            }
             // Clear any existing series and chart areas
             chart.Series.Clear();
             chart.ChartAreas.Clear();
             chart.Legends.Clear();
+            chart.Titles.Clear();
+
+            chart.Titles.Add(RainfallZone);
 
             // Create chart area
             ChartArea chartArea = new ChartArea("MainArea");
             chart.ChartAreas.Add(chartArea);
-
+           
             // Configure X-axis
             chartArea.AxisX.Title = "Runoff Volume of Water (inches over EIA)";
             chartArea.AxisX.TitleFont = new Font("Arial", 12, FontStyle.Bold);
@@ -397,15 +413,15 @@ namespace BMPTrains_2020.DomainCode
 
             // Define colors for each line
             Color[] lineColors = {
-        Color.Red,           // 20%
-        Color.Blue,          // 30%
-        Color.Green,         // 40%
-        Color.Orange,        // 50%
-        Color.Purple,        // 60%
-        Color.Brown,         // 70%
-        Color.Pink,          // 80%
-        Color.DarkBlue       // 90%
-    };
+            Color.Red,           // 20%
+            Color.Blue,          // 30%
+            Color.Green,         // 40%
+            Color.Orange,        // 50%
+            Color.Purple,        // 60%
+            Color.Brown,         // 70%
+            Color.Pink,          // 80%
+            Color.DarkBlue       // 90%
+            };
 
             // Define legend labels
             string[] percentages = { "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%" };
@@ -418,11 +434,11 @@ namespace BMPTrains_2020.DomainCode
                 series.ChartType = SeriesChartType.Line;
                 series.Color = lineColors[lineIndex];
                 series.BorderWidth = 2;
-                series.MarkerStyle = MarkerStyle.Circle;
-                series.MarkerSize = 6;
-                series.MarkerColor = lineColors[lineIndex];
-                series.MarkerBorderColor = Color.Black;
-                series.MarkerBorderWidth = 1;
+                series.MarkerStyle = MarkerStyle.None;
+                //series.MarkerSize = 6;
+                //series.MarkerColor = lineColors[lineIndex];
+                //series.MarkerBorderColor = Color.Black;
+                //series.MarkerBorderWidth = 1;
 
                 // Get the number of points for this line
                 int pointCount = yvalues.GetLength(1);
@@ -440,6 +456,19 @@ namespace BMPTrains_2020.DomainCode
                 // Add series to chart
                 chart.Series.Add(series);
             }
+
+            // Add the single Point to the Plot
+            Series seriesp = new Series(RainfallZone);
+            seriesp.ChartType = SeriesChartType.Point;
+            seriesp.Color = Color.Red;
+            seriesp.Points.AddXY(xv, yv);
+            seriesp.MarkerStyle = MarkerStyle.None;
+            seriesp.MarkerSize = 6;
+            seriesp.MarkerColor = Color.Red;
+            seriesp.Points[0].Label = "("+ xv.ToString("F2") + "," + yv.ToString("F2") + ")";
+            //series.MarkerBorderColor = Color.Black;
+            //series.MarkerBorderWidth = 1;
+            chart.Series.Add(seriesp);
 
             // Additional chart formatting
             chart.BackColor = Color.White;
