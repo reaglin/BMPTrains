@@ -58,6 +58,14 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Average supplemental water needed per year", "MGY", "##.##")]
         public double SupplementalWater { get; set; }   //MGY
+        [Meta("Effective Impervious Area", "(ac - ft)", "##.##")]
+        public double EffectiveImperviousArea { get; set; }
+
+        [Meta("Harvested Water Supply", "(MGY)", "##.##")]
+        public double HarvestedWaterSupply { get; set; }
+
+        [Meta("Water Use", "(MGY)", "##.##")]
+        public double WaterUse { get; set; }
 
 
 
@@ -307,7 +315,10 @@ namespace BMPTrains_2020.DomainCode
                     }
                     else
                     {
-                        x = limits[row, 1];
+                        double c2 = limits[row, 0];
+                        x = v[row, 0] * Math.Pow(c2, 5) + v[row, 1] * Math.Pow(c2, 4) - v[row, 2] * Math.Pow(c2, 3) +
+                                   v[row, 3] * Math.Pow(c2, 2) - v[row, 4] * c2 + v[row, 5];
+                        //x = limits[row, 1];
                     }
 
                     l += String.Format("\t{0:N4}", x);
@@ -382,8 +393,8 @@ namespace BMPTrains_2020.DomainCode
 
             try
             {
-                xv = HarvestVolume * 12 / IrrigationArea / RationalCoefficient;
-                yv = AvailableHarvestRate * IrrigationArea / 7 / ContributingArea / RationalCoefficient;
+                xv = HarvestVolume * 12 / WatershedArea / RationalCoefficient;
+                yv = AvailableHarvestRate * IrrigationArea / 7 / WatershedArea / RationalCoefficient;
             }
             catch
             {
@@ -481,11 +492,21 @@ namespace BMPTrains_2020.DomainCode
             Series seriesp = new Series(RainfallZone);
             seriesp.ChartType = SeriesChartType.Point;
             seriesp.Color = Color.Red;
-            seriesp.Points.AddXY(xv, yv);
+            if ((xv > 6.0) || (yv > 0.5))
+            {
+                seriesp.Points.AddXY(5.1, 0.45);
+                seriesp.Points[0].Label = "(" + xv.ToString("F2") + "," + yv.ToString("F2") + ")";
+            }
+                else
+            {
+                seriesp.Points.AddXY(xv, yv);
+                seriesp.Points[0].Label = "(" + xv.ToString("F2") + "," + yv.ToString("F2") + ")";
+            }
+            
             seriesp.MarkerStyle = MarkerStyle.None;
             seriesp.MarkerSize = 6;
             seriesp.MarkerColor = Color.Red;
-            seriesp.Points[0].Label = "("+ xv.ToString("F2") + "," + yv.ToString("F2") + ")";
+            
             //series.MarkerBorderColor = Color.Black;
             //series.MarkerBorderWidth = 1;
             chart.Series.Add(seriesp);

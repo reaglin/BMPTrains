@@ -359,9 +359,9 @@ namespace BMPTrains_2020.DomainCode
                 new Dictionary<string, string>
             {
                 {"RequiredNTreatmentEfficiency", "Required TN Treatment Efficiency (%)"},
-                {"CalculatedNTreatmentEfficiency", "Provided TN Treatment Efficiency (%)"},
+                {"ProvidedNTreatmentEfficiency", "Provided TN Treatment Efficiency (%)"},
                 {"RequiredPTreatmentEfficiency", "Required TP Treatment Efficiency (%)"},
-                {"CalculatedPTreatmentEfficiency", "Provided TP Treatment Efficiency (%)"},
+                {"ProvidedPTreatmentEfficiency", "Provided TP Treatment Efficiency (%)"},
             });
             s += "<br/>";
 
@@ -540,6 +540,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RequiredPTreatmentEfficiency", 0},
                 {"CalculatedNTreatmentEfficiency", 0},
                 {"CalculatedPTreatmentEfficiency", 0},
+                {"ProvidedNTreatmentEfficiency", 0},
+                {"ProvidedPTreatmentEfficiency", 0},
                 {"RemainingNTreatmentEfficiency", 0},
                 {"RemainingPTreatmentEfficiency", 0},
                 {"LandCost", -2},

@@ -595,9 +595,14 @@ namespace BMPTrains_2020.DomainCode
             foreach (KeyValuePair<string, string> pair in p)
             {
                 s += "<tr>";
+                // To debug print out both key and value - uncomment to debug
+                //s += "<td>" + pair.Key + ":" + pair.Value + "</td>";
+                // Normal node only print out value
                 s += "<td>" + (pair.Value == "" ? pair.Key : pair.Value) + "</td>";
                 string v = GetValue(pair.Key);
                 s += "<td>" + v + "</td>";
+                
+                
                 s += "</tr>";
             }
             s += "</table>";

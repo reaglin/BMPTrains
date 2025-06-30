@@ -12,6 +12,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static Dictionary<string, double[]> RainfallStations = new Dictionary<string, double[]>
         {
+            {"None",  new double[] {0,0,0 }},
             {"Belle Glade #616", new double[] {10.7,72.36,50.00 }},
             {"Boca Raton #845", new double[] {10.62,61.75,42.00 }},
             {"Brooksville #1048", new double[] {10.03,66.65,45.00}},
