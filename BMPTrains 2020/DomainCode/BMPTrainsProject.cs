@@ -245,7 +245,7 @@ namespace BMPTrains_2020.DomainCode
         // Can use if meta properties are defined (Follow Meta Print for Details)
         public string Print(string property_name)
         {
-            return Meta.Print(this, property_name);
+            return InterfaceCommon.PrintProperty(this, property_name);
         }
         #endregion
 

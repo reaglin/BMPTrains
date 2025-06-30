@@ -64,7 +64,11 @@ namespace BMPTrains_2020.DomainCode
         // PrePost - Treatment efficiency (Post after Trreatment compared to Pre)
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
+
+        [Meta("Provided Nitrogen Treatment Efficiency", "%", "##.##")]
         public double CalculatedNTreatmentEfficiency { get; set; }
+
+        [Meta("Provided Phosphorus Treatment Efficiency", "%", "##.##")]
         public double CalculatedPTreatmentEfficiency { get; set; }
         public double PrePostNTreatmentEfficiency { get; set; }
         public double PrePostPTreatmentEfficiency { get; set; }
@@ -76,7 +80,7 @@ namespace BMPTrains_2020.DomainCode
         public double PostNConcentration { get; set; } // mg/l
         public double PostPConcentration { get; set; }  //mg/l
 
-        // Volumes in ac-fett
+        // Volumes in ac-ft
         public double PreRunoffVolume { get; set; }     // ac-ft
         public double PostRunoffVolume { get; set; }    // ac-ft
         public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
@@ -135,7 +139,7 @@ namespace BMPTrains_2020.DomainCode
         // Can use if meta properties are defined (Follow Meta Print for Details)
         public string Print(string property_name)
         {
-            return Meta.Print(this, property_name);
+            return InterfaceCommon.PrintProperty(this, property_name);
         }
         #region "BMP Properties"
         // Need to add a single instance of each BMP a Catchment Can have - this

@@ -12,8 +12,19 @@ namespace BMPTrains_2020.DomainCode
         public static string SessionId = "StormwaterHarvestingId";
         public const double maxHarvestTreatmentEfficiency = 90;
 
+        [Meta("Effective Impervious Area", "(ac - ft)", "##.##")]
+        public double EffectiveImperviousArea { get; set; }
+
+        [Meta("Harvested Water Supply", "(MGY)", "##.##")]
+        public double HarvestedWaterSupply { get; set; }
+
+        [Meta("Water Use", "(MGY)", "##.##")]
+        public double WaterUse { get; set; }
+
+
         // Properties inherited from Harvesting
 
+        [Meta("Weighted Annual Coefficient", "", "##.##")]
         public double RationalCforCAreaAt3inches { get; set; }
 
         #endregion
@@ -78,7 +89,10 @@ namespace BMPTrains_2020.DomainCode
                     {"ContributingArea", "Total Contributing Area to Harvesting (ac)"},
                     {"IrrigationArea", "Total Area Available for Irrigation (ac)"},
                     {"HarvestVolume", "Available Harvest Volume (ac-ft)"},
-                    {"AvailableHarvestRate", " Harvest Rate (0.1-4.0 in/week)" }
+                    {"AvailableHarvestRate", " Harvest Rate (0.1-4.0 in/week)" },
+                    {"EffectiveImperviousArea", "Effective Impervious Area (ac-ft)" },
+                    {"HarvestedWaterSupply", "Harvested Water Supply (MGY)" },
+                    {"WaterUse", "Water Use (MGY)" }
                 });
             }
             else
@@ -88,7 +102,10 @@ namespace BMPTrains_2020.DomainCode
                     {"ContributingArea", "Total Contributing Area to Harvesting (ac)"},
                     {"IrrigationArea", "Total Area Available for Irrigation (ac)"},
                     {"HarvestVolume", "Available Harvest Volume (ac-ft)"},
-                    {"HarvestEfficiency", "Harvest Efficiency (%)"}
+                    {"HarvestEfficiency", "Harvest Efficiency (%)"},
+                    {"EffectiveImperviousArea", "Effective Impervious Area (ac-ft)" },
+                    {"HarvestedWaterSupply", "Harvested Water Supply (MGY)" },
+                    {"WaterUse", "Water Use (MGY)" }
                 });
 
             }
@@ -165,6 +182,7 @@ namespace BMPTrains_2020.DomainCode
             //}
 
             if (HarvestWaterDemand > HarvestWaterSupply) SupplementalWater = HarvestWaterDemand - HarvestWaterSupply; else SupplementalWater = 0.0;
+
 
             base.Calculate();
 

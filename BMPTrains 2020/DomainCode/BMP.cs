@@ -36,8 +36,14 @@ namespace BMPTrains_2020.DomainCode
         // Base class for all BMP Types
         public int CatchmentID { get; set; }
         public string CatchmentName { get; set; }
+
+        [Meta("Type of Best Management Practice", "", "##.##")]
         public string BMPType { get; set; }
+
+        [Meta("BMP Name (use to organize BMP's)", "", "##.##")]
         public string BMPName { get; set; }
+
+        [Meta("Help URL", "", "##.##")]
         public string HelpURL { get; set; }
        
         public string ReportType { get; set; }
@@ -48,17 +54,26 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Watershed Area", "acres", "###.##")]
         public double WatershedArea { get; set; } // Area in acres
 
-        [Meta("Watershed NDCIA CN", "(0-100)", "##")]
+        [Meta("Watershed Non-DCIA Curve Number", "(0-100)", "##")]
         public double WatershedNDCIACurveNumber { get; set; }
 
-        [Meta("Watershed DCIA", "%", "##.##")]
+        [Meta("Watershed DCIA Percent", "%", "##.##")]
         public double WatershedDCIAPercent { get; set; }
+
+        [Meta("Calculated Annual Coefficient (0-1)", "", "##.##")]
         public double RationalCoefficient { get; set; }
+
+        [Meta("Rainfall", "in", "##.##")] 
         public double Rainfall { get; set; } // Rainfall depth ininches
+        
+        [Meta("Rainfall Zone", "", "##.##")]
         public string RainfallZone { get; set; }
+
+        [Meta("Average Annual Runoff Volume", "ac-ft/yr", "##.##")]
         public double RunoffVolume { get; set; } // Average Annual Runoff Volume
 
         // Always use Contributing Area as area contributing to BMP
+        [Meta("Contributing Area to BMP", "ac", "##.##")]
         public double ContributingArea { get; set; }
         //public double ContributingAreaSF { get; set; }
 
@@ -71,15 +86,19 @@ namespace BMPTrains_2020.DomainCode
         public double DelayFactor { get; set; }
         public double DelayEfficiency { get; set; }
 
+        [Meta("Hydraulic Capture Efficiency", "%", "##.##")]
         public double HydraulicCaptureEfficiency { get; set; } // Give units
 
+        [Meta("Required Nitrogen Treatment Efficiency", "%", "##.##")]
         public double RequiredNTreatmentEfficiency { get; set; }
+
+        [Meta("Required Phosphorus Treatment Efficiency", "%", "##.##")]
         public double RequiredPTreatmentEfficiency { get; set; }
 
-        [Meta("Provided N Treatment Efficiency", "%", "##.#")]
+        [Meta("Provided Nitrogen Treatment Efficiency", "%", "##.#")]
         public double ProvidedNTreatmentEfficiency { get; set; }
 
-        [Meta("Provided P Treatment Efficiency", "%", "##.#")]
+        [Meta("Provided Phosphorus Treatment Efficiency", "%", "##.#")]
         public double ProvidedPTreatmentEfficiency { get; set; }
 
         // Adjusted treatment efficiencies are the efficiencies
@@ -88,7 +107,10 @@ namespace BMPTrains_2020.DomainCode
         public double AdjustedNTreatmentEfficiency { get; set; }
         public double AdjustedPTreatmentEfficiency { get; set; }
 
+        [Meta("Remaining Nitrogen Treatment Efficiency", "%", "##.##")]
         public double RemainingNTreatmentEfficiency { get; set; }
+
+        [Meta("Remaining Phosphorus Treatment Efficiency", "%", "##.##")]
         public double RemainingPTreatmentEfficiency { get; set; }
 
         public double GroundwaterNTreatmentEfficiency { get; set; }
@@ -97,28 +119,47 @@ namespace BMPTrains_2020.DomainCode
         public double GroundwaterNMassLoadIn { get; set; }
         public double GroundwaterPMassLoadIn { get; set; }
 
+        [Meta("TN Mass Load", "kg/yr", "##.##")]
         public double GroundwaterNMassLoadOut { get; set; }
+
+        [Meta("TP Mass Load", "kg/yr", "##.##")]
         public double GroundwaterPMassLoadOut { get; set; }
 
+        [Meta("TN Concentration", "mg/L", "##.##")]
         public double GroundwaterTNConcentration { get; set; }
+
+        [Meta("TP Concentration", "mg/L", "##.##")]
         public double GroundwaterTPConcentration { get; set; }
 
+        [Meta("Treatment Rate", "MG/yr", "##.##")]
         public double RechargeRate { get; set; }
 
         // True of all BMP's
         // Mass loading from Catchment
+        [Meta("Nitrogen Mass Loading into BMP", "kg/yr", "##.##")]
         public double BMPNMassLoadIn { get; set; }
+
+        [Meta("Phosphorus Mass Loading into BMP", "kg/yr", "##.##")]
         public double BMPPMassLoadIn { get; set; }
 
         // Mass Load out to Surface Water unts
+        [Meta("Nitrogen Mass Loading out of BMP", "kg/yr", "##.##")]
         public double BMPNMassLoadOut { get; set; }
+
+        [Meta("Phosphorus Mass Loading out of BMP", "kg/yr", "##.##")]
         public double BMPPMassLoadOut { get; set; }
 
+        [Meta("Nitrogen mass reduction", "lb/yr", "##.##")]
         public double NMassReductionLb { get; set; }
+
+        [Meta("Phosphorus mass reduction", "lb/yr", "##.##")]
         public double PMassReductionLb { get; set; }
 
         // Volume into the BMP
+        [Meta("Volume into BMP", "ac-ft", "##.##")]
         public double BMPVolumeIn { get; set; }
+
+        [Meta("Volume out of BMP", "ac-ft", "##.##")]
         public double BMPVolumeOut { get; set; }
 
         public double GWVolumeIn { get; set; }
@@ -128,21 +169,46 @@ namespace BMPTrains_2020.DomainCode
         public double PRetained { get; set; }
 
         // Cost Variables
+
+        [Meta("Cost of Land Needed for BMP", "$", "##.##")]
         public double LandCost { get; set; }            // input: Cost of Land Needed for the BMP - $
         public double UnitCost { get; set; }
-        public double FixedCost { get; set; }           // input: BMP FIxed Cost $
+
+        [Meta("Fixed Cost of BMP", "$", "##.##")]
+        public double FixedCost { get; set; }   // input: BMP FIxed Cost $
+
+        [Meta("Expected Life of BMP", "years", "##.##")]
         public double ExpectedLife { get; set; }        // input: yr
+
+        [Meta("BMP Cost Per Acre-Foot", "$", "##.##")]
         public double CostPerAcreFoot { get; set; }     // input: BMP Cost per ac-ft
+
+        [Meta("Construction Cost of BMP", "$", "##.##")]
         public double BMPCost { get; set; }             // Calculated: TreatmentVolume * CostPerAcreFoot + Fixed Cost
 
+        [Meta("Harvested or Supplemental Water", "1000 gal/yr", "##.##")]
         public double HarvestedWater { get; set; }      // input: Harvested or Supplemental Water 1000 gal /yr
+
+        [Meta("Annual BMP Maintenance Cost", "$/yr", "##.##")]
         public double MaintenanceCost { get; set; }     // input: Annual BMP Maintenance Cost $/yr
+
+        [Meta("Present Value of Maintenance Cost", "$/yr", "##.##")]
         public double PVofMaintenanceCost { get; set; }
         public double PVOfAnnualCost { get; set; }
+
+        [Meta("Annual Cost Recovery", "$/yr", "##.##")]
         public double AnnualCostRecovery { get; set; }      // Caclulated: $/yr Harvested Water * Water Cost
+
+        [Meta("Total Annual Cost", "$", "##.##")]
         public double TotalAnnualCost { get; set; }         // Calculated: Annual Cost recovery + Maintenance Cost
+
+        [Meta("Future Replacement Cost", "$", "##.##")]
         public double FutureReplacementCost { get; set; }   // input: $
+
+        [Meta("Present Value of Replacement", "$", "##.##")]
         public double PresentValueOfReplacement { get; set; }   // Calculated: Present Value of Replacement Cost
+
+        [Meta("Present Value/Life Cycle Cost", "$", "##.##")]
         public double PresentWorth { get; set; }                // Calculated: BMP Cost + Land Cost + Present Value - PV of Total Annual Cost
         public double CostPerPoundNRemoved { get; set; }
         public double CostPerPoundPRemoved { get; set; }
@@ -155,14 +221,21 @@ namespace BMPTrains_2020.DomainCode
 
         // Supplied Additional Media
         public double MediaVolume { get; set; }
+
+        
         private string mediaMixType;
+
+        [Meta("Type of Media Mix", "", "##.##")]
         public string MediaMixType
         {
             get { return mediaMixType.Replace('_', '&'); }
             set { mediaMixType = value; }
         }
 
+        [Meta("Media N Reduction", "%", "##.##")]
         public double MediaNPercentReduction { get; set; }
+
+        [Meta("Media P Reduction", "%", "##.##")]
         public double MediaPPercentReduction { get; set; }
 
         public double PostMediaNTreatmentEfficiency { get; set; }
@@ -174,7 +247,7 @@ namespace BMPTrains_2020.DomainCode
         // Can use if meta properties are defined (Follow Meta Print for Details)
         public string Print(string property_name)
         {
-            return Meta.Print(this, property_name);
+            return InterfaceCommon.PrintProperty(this, property_name);
         }
         #endregion
 
@@ -206,6 +279,42 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting Tools"
+
+        // Useful for a report which is simply a list of variables not divided into sections
+        public string MetaReport(string[] vars, string title = "", Boolean showHeader = true)
+        {
+            string s = "";
+            if (showHeader) {
+                s += ReportHeader();
+            }
+                s += InterfaceCommon.PrintPropertySection(this, vars, title);
+            
+            return s;
+        }
+        
+        public string ReportHeader()
+        {
+            string s = "";
+            s += "<b>Project:</b> " + Globals.Project.ProjectName + "<br/>";
+            s += "<b>Date:</b> " + DateTime.Now.ToString("d") + "<br/><br/>";
+            s += "<b>" + BMPTypeTitle() + " Design</b><br/>";
+            return s;
+        }
+
+        // This uses a Dictionary where the key is the section title like "Watershed Properties"
+        // and the dictionary item is the list of properties that go into that section. 
+
+        public string MetaReport(Dictionary<string, string[]> d)
+        {
+            string s = ReportHeader();
+            foreach (KeyValuePair<string, string[]> kvp in d)
+            {
+                InterfaceCommon.PrintPropertySection(this, kvp.Value, kvp.Key);
+            }
+            return s;
+        }
+
+
         public virtual string BMPReport()
         {
             string s = "<b>Project:</b> " + Globals.Project.ProjectName + "<br/>";

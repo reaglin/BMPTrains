@@ -15,25 +15,51 @@ namespace BMPTrains_2020.DomainCode
         public static string sHarvestRate = "Harvest Rate";
         public static string[] SolveForChoices => new string[] { sHarvestEfficiency , sHarvestRate };
 
+        [Meta("Available Harvest Volume", "gallons", "##.##")]
         public double HarvestVolume { get; set; }
+
+        [Meta("Harvest Efficiency", "%", "##.##")]
         public double HarvestEfficiency { get; set; }
+
+        [Meta("Harvest Efficiency", "%", "##.##")]
         public double CalculatedHarvestEfficiency { get; set; }
+
+        [Meta("Total Area Available for Irrigation", "acres", "##.##")]
         public double IrrigationArea { get; set; }
 
         public double ContributingAreaSF { get; set; }
+
+        [Meta("Equivalent Impervious Area", "acres", "##.##")]
         public double EquivalentImperviousArea { get; set; } //acres
+
+        [Meta("Harvest Volume", "in over EIA", "##.##")]
         public double HarvestVolumeOverEIA { get; set; }
 
+        [Meta("Available Harvest Rate", "0.1-4.0 in/week over EIA", "##.##")]
         public double AvailableHarvestRate { get; set; }    // INPUT (0.1 - 4 in/week over EIA)
+
+        [Meta("Harvest Rate", "cf/day", "##.##")]
         public double HarvestRate { get; set; }             // CALCULATED  cf/day
+
+        [Meta("Harvest Rate", "in/day over EIA", "##.##")]
         public double HarvestRateOverEIA { get; set; }      // CALCULATED in day over EIA
 
+        [Meta("Required Harvest Rate", "cf/day", "##.##")]
         public double RequiredHarvestRateCFD { get; set; }
+
+        [Meta("Required Harvest Rate", "in/week", "##.##")]
         public double RequiredHarvestRateINWEEK { get; set; }
 
+        [Meta("Average yearly demand for harvested water", "MGY", "##.##")]
         public double HarvestWaterDemand { get; set; }  // MGY
+
+        [Meta("Average potential supply for harvested water", "MGY", "##.##")]
         public double HarvestWaterSupply { get; set; }  //MGY
+
+        [Meta("Average supplemental water needed per year", "MGY", "##.##")]
         public double SupplementalWater { get; set; }   //MGY
+
+
 
         public double[,] REVXValues = new double[8,116];
         public double[,] REVYValues = new double[8,116];
@@ -103,7 +129,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.0031400, 0.0212000, 0.0528000, 0.0592000, 0.0516000},
                 {0.00, 0.0020000, 0.0172000, 0.0544000, 0.0737000, 0.0791000},
                 {-0.000890, 0.0111000, 0.0526000, 0.1181000, 0.1290000, 0.1229000},
-                {-0.0001542405,0.0032245262,-0.0254227472,0.093820545,-0.1638103135,0.2016530820},
+                {-0.0001542405,0.0032245262,0.0254227472,0.093820545,0.1638103135,0.2016530820},
                 {-0.000500, 0.0090000, 0.0622700, 0.2048300, 0.3246000, 0.3194000},
                 {0.00, 0.0011000, 0.0173800, 0.1008000, 0.2614000, 0.3983000},
                 {0.00, 0.0005250, 0.0098000, 0.0703000, 0.2407000, 0.5054000},
@@ -331,18 +357,12 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
-        public string[] plotLegend()
-        {
-            string[] legend = { "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%" };
-            return legend;
-        }
-
-
         public new void Calculate()
         {
             
         }
 
+        // This fills in an REV curve in the passed Chart object. 
         public void CreateREVScatterPlot(Chart chart)
         {
 
@@ -483,8 +503,6 @@ namespace BMPTrains_2020.DomainCode
             chart.AntiAliasing = AntiAliasingStyles.All;
             
         }
-
-
     }
 }
 

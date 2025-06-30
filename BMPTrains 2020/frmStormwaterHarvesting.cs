@@ -49,8 +49,6 @@ namespace BMPTrains_2020
 
         private void getValues()
         {
-
-
             currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
             currentBMP().ContributingArea = Common.getDouble(tbContributingArea) * 43560;
             if (currentBMP().ContributingArea > currentCatchment().PostArea) currentBMP().ContributingArea = currentCatchment().PostArea;
@@ -60,8 +58,6 @@ namespace BMPTrains_2020
 
         private void setValues()
         {
-
-
             rbHarvestEfficiency.Checked = true;
             lblHarvest.Text = "Harvest Rate (0.1 - 4.0 in/week)";
             Common.setValue(tbHarvestRate, currentBMP().AvailableHarvestRate);
