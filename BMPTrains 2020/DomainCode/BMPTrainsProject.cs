@@ -21,6 +21,8 @@ namespace BMPTrains_2020.DomainCode
         public const string sStormwaterHarvesting = "Stormwater Harvesting";
         public const string sRainwaterHarvesting = "Rainwater Harvesting";
         public const string sPerviousPavement = "Pervious Pavement";
+//        public const string sPermeablesPavement = "Permeable Pavement";
+
         public const string sFiltration = "Filtration";
         public const string sSwale = "Swale";
         public const string sTreeWell = "Tree Well";
@@ -1267,16 +1269,16 @@ namespace BMPTrains_2020.DomainCode
 
             if (BMPTrainsProject.PrintPrePostResults(AnalysisType))
             {
-                // 
-                if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad/TotalOutletNLoad;
-                if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad/TotalOutletPLoad;
-                // 
+                //// Changed the PrePost_TreatmentEfficiency to Target_Percent _ refers to N or P
+                if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad / TotalOutletNLoad;
+                if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad / TotalOutletPLoad;
+                //// 
                 s += "<h3>Pre vs. Post Removals</h3>";
-                s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, PrePostNTreatmentEfficiency, 3))
-                    + " (Required: " + PrePostNTreatmentEfficiency.ToString("##.##") + "% "
+                s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPercent, 3))
+                    + " (Required: " + TargetNPercent.ToString("##.##") + "% "
                     + " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
-                s += "Is % less than predevelopment system loading for TP met? " + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, PrePostPTreatmentEfficiency, 3))
-                    + " (Required: " + PrePostPTreatmentEfficiency.ToString("##.##") + "% "
+                s += "Is % less than predevelopment system loading for TP met? " + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPercent, 3))
+                    + " (Required: " + TargetPPercent.ToString("##.##") + "% "
                     + " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
             }
 

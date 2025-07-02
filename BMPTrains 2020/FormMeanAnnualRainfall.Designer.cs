@@ -88,7 +88,7 @@
             this.btnInfo.Name = "btnInfo";
             this.btnInfo.Size = new System.Drawing.Size(112, 30);
             this.btnInfo.TabIndex = 5;
-            this.btnInfo.Text = "Updates";
+            this.btnInfo.Text = "2024 Data";
             this.btnInfo.UseVisualStyleBackColor = true;
             this.btnInfo.Click += new System.EventHandler(this.btnInfo_Click);
             // 

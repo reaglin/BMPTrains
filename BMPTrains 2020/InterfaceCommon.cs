@@ -9,6 +9,17 @@ namespace BMPTrains_2020
 {
     public class InterfaceCommon
     {
+        public static Boolean IsNotInArray(string value, string[] array)
+        {
+            foreach (string s in array)
+            {
+                if (s == value)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public static void BuildCatchmentMenu(MenuStrip m, EventHandler e, bool IsBMP = false)
         {
             m.CanOverflow = true;

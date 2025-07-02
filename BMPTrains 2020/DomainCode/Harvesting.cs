@@ -67,12 +67,14 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Water Use", "(MGY)", "##.##")]
         public double WaterUse { get; set; }
 
+        public const int plot_value_percents = 8;
+        public const int plot_value_range = 84;
 
+        // Uzed to hold the plotting values
+        public double[,] REVXValues = new double[plot_value_percents, plot_value_range];
+        public double[,] REVYValues = new double[plot_value_percents, plot_value_range];
 
-        public double[,] REVXValues = new double[8,116];
-        public double[,] REVYValues = new double[8,116];
-
-        public double[,] FlZone1R = new double[,]
+        public static double[,] FlZone1R = new double[,]
     {
                 {0.00, 0.0090000, 0.0568000, 0.1275000, 0.1220000, 0.0860000},
                 {0.00, 0.0050000, 0.0389000, 0.1089000, 0.1311000, 0.1153000},
@@ -84,7 +86,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.0002000, 0.0048350, 0.0478000, 0.2322000, 0.6710000}
     };
 
-        public double[,] FlZone2R = new double[,]
+        public static double[,] FlZone2R = new double[,]
             {
                 {0.00, 0.00, 0.0031000, 0.0182000, 0.0358000, 0.0436000},
                 {0.00, 0.0013000, 0.0111000, 0.0341000, 0.0454000, 0.0638000},
@@ -96,7 +98,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.0004600, 0.0099600, 0.0810000, 0.3060000, 0.6366000}
             };
 
-        public double[,] FlZone3R = new double[,]
+        public static double[,] FlZone3R = new double[,]
             {
                 {0.00, 0.0018000, 0.0106400, 0.0239000, 0.0284000, 0.0416000},
                 {0.00, 0.0012000, 0.0102000, 0.0306000, 0.0408000, 0.0623000},
@@ -108,7 +110,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.00, 0.0026000, 0.0576000, 0.4091000, 1.0840000}
             };
 
-        public double[,] FlZone4R = new double[,]
+        public static double[,] FlZone4R = new double[,]
             {
                 {0.00, 0.00, 0.0025000, 0.0157000, 0.0314000, 0.0391000},
                 {0.00, 0.00, 0.0017000, 0.0128000, 0.0306000, 0.0600000},
@@ -132,7 +134,7 @@ namespace BMPTrains_2020.DomainCode
         //        {0.00, 0.00, 0.0020000, 0.0354000, 0.2239000, 0.7061000}
         //    };
 
-        public double[,] FlZone5R = new double[,]
+        public static double[,] FlZone5R = new double[,]
             {
                 {0.00, 0.0031400, 0.0212000, 0.0528000, 0.0592000, 0.0516000},
                 {0.00, 0.0020000, 0.0172000, 0.0544000, 0.0737000, 0.0791000},
@@ -143,7 +145,7 @@ namespace BMPTrains_2020.DomainCode
                 {0.00, 0.0005250, 0.0098000, 0.0703000, 0.2407000, 0.5054000},
                 {0.00, 0.00, 0.0020000, 0.0354000, 0.2239000, 0.7061000}
             };
-        public double[,] FlZone1CurveFitLimit = new double[,]
+        public static double[,] FlZone1CurveFitLimit = new double[,]
             {{1.85, 0.043},
             {2.45, 0.056},
             {3.05, 0.068},
@@ -153,7 +155,7 @@ namespace BMPTrains_2020.DomainCode
             {6.10, 0.158},
             {6.10, 0.213}};
 
-        public double[,] FlZone2CurveFitLimit = new double[,]
+        public static double[,] FlZone2CurveFitLimit = new double[,]
             {{2.45, 0.019},
             {3.05, 0.04},
             {3.05, 0.068},
@@ -163,7 +165,7 @@ namespace BMPTrains_2020.DomainCode
             {5.80, 0.125},
             {6.10, 0.161}};
 
-        public double[,] FlZone3CurveFitLimit = new double[,]
+        public static double[,] FlZone3CurveFitLimit = new double[,]
             {{2.55, 0.024},
             {3.55, 0.037},
             {4.05, 0.047},
@@ -173,7 +175,7 @@ namespace BMPTrains_2020.DomainCode
             {5.05, 0.104},
             {6.10, 0.141}};
 
-        public double[,] FlZone4CurveFitLimit = new double[,] // not correct
+        public static double[,] FlZone4CurveFitLimit = new double[,] // not correct
             {{1.55, 0.018},
             {2.05, 0.036},
             {2.55, 0.049},
@@ -183,7 +185,7 @@ namespace BMPTrains_2020.DomainCode
             {6.10, 0.417},
             {6.10, 0.213}};
 
-        public double[,] FlZone5CurveFitLimit = new double[,] // not correct
+        public static double[,] FlZone5CurveFitLimit = new double[,] // not correct
             {{2.55, 0.025},
             {1.90, 0.043},
             {4.05, 0.060},
@@ -192,6 +194,18 @@ namespace BMPTrains_2020.DomainCode
             {4.55, 0.10},
             {6.10, 0.156},
             {6.10, 0.205}};
+
+        public static double[] plot_x_values = {
+                0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70,
+                0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.05, 1.10, 1.15, 1.20,
+                1.25, 1.30, 1.35, 1.40, 1.45, 1.50, 1.55, 1.60, 1.65, 1.70,
+                1.75, 1.80, 1.85, 1.90, 1.95, 2.00, 2.05, 2.10, 2.15, 2.20,
+                2.25, 2.30, 2.35, 2.40, 2.45, 2.50, 2.55, 2.60, 2.65, 2.70,
+                2.75, 2.80, 2.85, 2.90, 2.95, 3.00, 3.05, 3.10, 3.15, 3.20,
+                3.25, 3.30, 3.35, 3.40, 3.45, 3.50, 3.55, 3.60, 3.65, 3.70,
+                3.75, 3.80, 3.85, 3.90, 3.95, 4.00, 4.25, 4.50, 4.75, 5.00,
+                5.25, 5.50, 5.75, 6.00
+            };
 
         public Harvesting(Catchment c) : base(c) { }
 
@@ -334,9 +348,12 @@ namespace BMPTrains_2020.DomainCode
 
             return lut;
         }
+        public double getPlotLimit(int row)
+        {
+            double[,] limits = CurveFitLimits(RainfallZone);
+            return limits[row, 0];
 
-
-
+        }
         public void SetREVPlottingValues()
         {
             int row = 0;
@@ -344,11 +361,12 @@ namespace BMPTrains_2020.DomainCode
             double[,] v = RValues(RainfallZone);
             double[,] limits = CurveFitLimits(RainfallZone);
 
+
             for (int r = 20; r <= 90; r += 10)
             {
                 col = 0;
                 string l = String.Empty;
-                for (double c = 0.25; c <= 6.0; c += 0.05)
+                foreach (double c in plot_x_values)
                 {
                     double y;
                     if (c < limits[row, 0])
@@ -481,7 +499,8 @@ namespace BMPTrains_2020.DomainCode
                     double yValue = yvalues[lineIndex, pointIndex];
 
                     // Add point to series
-                    series.Points.AddXY(xValue, yValue);
+                    if (xValue < getPlotLimit(lineIndex))
+                        series.Points.AddXY(xValue, yValue);
                 }
 
                 // Add series to chart
@@ -489,27 +508,29 @@ namespace BMPTrains_2020.DomainCode
             }
 
             // Add the single Point to the Plot
-            Series seriesp = new Series(RainfallZone);
+            Series seriesp = new Series(RainfallZone + " Value") ;
             seriesp.ChartType = SeriesChartType.Point;
             seriesp.Color = Color.Red;
-            if ((xv > 6.0) || (yv > 0.5))
-            {
-                seriesp.Points.AddXY(5.1, 0.45);
-                seriesp.Points[0].Label = "(" + xv.ToString("F2") + "," + yv.ToString("F2") + ")";
-            }
-                else
-            {
+
+            //{
+            //    seriesp.Points.AddXY(5.1, 0.45);
+            //    seriesp.Points[0].Label = "(" + xv.ToString("F2") + "," + yv.ToString("F2") + ")";
+            //}
+            //    else
+            //{
                 seriesp.Points.AddXY(xv, yv);
                 seriesp.Points[0].Label = "(" + xv.ToString("F2") + "," + yv.ToString("F2") + ")";
-            }
+            //}
             
             seriesp.MarkerStyle = MarkerStyle.None;
             seriesp.MarkerSize = 6;
             seriesp.MarkerColor = Color.Red;
-            
+
             //series.MarkerBorderColor = Color.Black;
             //series.MarkerBorderWidth = 1;
-            chart.Series.Add(seriesp);
+
+            /// Only add the point (series with one point) if within the chart bounds 
+            if ((xv < 6.0) && (yv < 0.5)) chart.Series.Add(seriesp);
 
             // Additional chart formatting
             chart.BackColor = Color.White;

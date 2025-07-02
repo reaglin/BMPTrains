@@ -23,7 +23,7 @@ namespace BMPTrains_2020
             menuStrip1.Items[currentCatchmentID - 1].BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.MenuHighlight);
 
             List<string> l = currentCatchment().getAvailableBMPs();
-            l.Add("None");
+            //l.Add("None");
             cbBMP1.Items.AddRange(l.ToArray());
             // First BMP cannot be Stormwater Harvesting
             //cbBMP1.Items.Remove(BMPTrainsProject.sStormwaterHarvesting);
@@ -31,6 +31,11 @@ namespace BMPTrains_2020
             cbBMP2.Items.AddRange(l.ToArray());
             cbBMP3.Items.AddRange(l.ToArray());
             cbBMP4.Items.AddRange(l.ToArray());
+
+            if (cbBMP1.Items.Contains(BMPTrainsProject.sMultipleBMP)) cbBMP1.Items.Remove(BMPTrainsProject.sMultipleBMP);
+            if (cbBMP2.Items.Contains(BMPTrainsProject.sMultipleBMP)) cbBMP2.Items.Remove(BMPTrainsProject.sMultipleBMP);
+            if (cbBMP3.Items.Contains(BMPTrainsProject.sMultipleBMP)) cbBMP3.Items.Remove(BMPTrainsProject.sMultipleBMP);
+            if (cbBMP4.Items.Contains(BMPTrainsProject.sMultipleBMP)) cbBMP4.Items.Remove(BMPTrainsProject.sMultipleBMP);
 
             this.Text += " " + currentCatchmentID.ToString();
 

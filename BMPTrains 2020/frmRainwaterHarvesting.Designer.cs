@@ -52,6 +52,7 @@
             this.btnEfficiencyTable = new System.Windows.Forms.Button();
             this.btnCost = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -263,12 +264,24 @@
             this.btnCost.UseVisualStyleBackColor = true;
             this.btnCost.Click += new System.EventHandler(this.btnCost_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label3.Location = new System.Drawing.Point(44, -1);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(634, 19);
+            this.label3.TabIndex = 64;
+            this.label3.Text = "Use this harvesting option when all harvest volume can be used, and the water can" +
+    " be used every day.";
+            // 
             // frmRainwaterHarvesting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(857, 556);
             this.ControlBox = false;
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCost);
             this.Controls.Add(this.btnEfficiencyTable);
             this.Controls.Add(this.cbRoofType);
@@ -327,5 +340,6 @@
         private System.Windows.Forms.Button btnEfficiencyTable;
         private System.Windows.Forms.Button btnCost;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label3;
     }
 }

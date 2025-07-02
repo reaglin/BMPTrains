@@ -55,7 +55,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tbInNonRunoff = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -129,6 +128,7 @@
             this.tbRate.Name = "tbRate";
             this.tbRate.Size = new System.Drawing.Size(89, 35);
             this.tbRate.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.tbRate, "If removal rate is 0.00, this indicates no media used in the BMP");
             // 
             // label8
             // 
@@ -140,6 +140,7 @@
             this.label8.TabIndex = 53;
             this.label8.Text = "Removal Rate in mg OP/g media (0.01-10.0) :";
             this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.toolTip1.SetToolTip(this.label8, "If removal rate is 0.00, this indicates no media used in the BMP");
             // 
             // tbRemovedUpstream
             // 
@@ -244,11 +245,12 @@
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(469, 19);
+            this.lblName.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.lblName.Location = new System.Drawing.Point(470, 39);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(176, 30);
+            this.lblName.Size = new System.Drawing.Size(144, 21);
             this.lblName.TabIndex = 69;
-            this.lblName.Text = "Catchment Name";
+            this.lblName.Text = "Catchment TP Load";
             this.lblName.Visible = false;
             // 
             // label7
@@ -275,7 +277,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.CausesValidation = false;
-            this.label2.Location = new System.Drawing.Point(569, 79);
+            this.label2.Location = new System.Drawing.Point(569, 63);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 32);
             this.label2.TabIndex = 72;
@@ -299,22 +301,11 @@
             this.tbInNonRunoff.Size = new System.Drawing.Size(89, 35);
             this.tbInNonRunoff.TabIndex = 73;
             // 
-            // label10
-            // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.CausesValidation = false;
-            this.label10.Location = new System.Drawing.Point(569, 60);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(100, 32);
-            this.label10.TabIndex = 75;
-            this.label10.Text = "removed";
-            // 
             // frmMediaFilterServiceLife
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(666, 569);
-            this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.tbInNonRunoff);
             this.Controls.Add(this.label2);
@@ -378,6 +369,5 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbInNonRunoff;
-        private System.Windows.Forms.Label label10;
     }
 }

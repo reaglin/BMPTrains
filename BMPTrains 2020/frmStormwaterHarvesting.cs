@@ -159,7 +159,7 @@ namespace BMPTrains_2020
 
         private void showREV()
         {
-            Form plot = new frmPlotting(currentBMP());
+            Form plot = new frmPlottingREVCurves(currentBMP());
             plot.ShowDialog();
         }
         private void showReport()

@@ -49,11 +49,8 @@ C:\Users\Ron\source\repos\BMPTrains 2020\BMPTrains 2020\obj\Debug\BMPTrains_2020
 C:\Users\Ron\source\repos\BMPTrains 2020\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmMediaFilterServiceLife.resources
 C:\Users\Ron\source\repos\BMPTrains 2020\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmOpenFile.resources
 C:\Users\Ron\source\repos\BMPTrains 2020\BMPTrains 2020\obj\Debug\BMPTrains 2020.csprojAssemblyReference.cache
-C:\Users\ronal\Source\Repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.exe
-C:\Users\ronal\Source\Repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.pdb
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.csproj.AssemblyReference.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.csproj.SuggestedBindingRedirects.cache
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.g.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.FormMeanAnnualRainfall.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmCalculators.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmChart.resources
@@ -98,8 +95,12 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.StateRainfallMaps.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.csproj.GenerateResource.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains 2020.csproj.CoreCompileInputs.cache
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.exe.config
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.exe
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains 2020.pdb
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmPlotting.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmTestingPlots.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmPlottingREVCurves.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.exe.config
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.exe
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.g.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.exe
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.pdb

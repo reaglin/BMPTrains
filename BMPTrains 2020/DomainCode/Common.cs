@@ -433,7 +433,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static string WorkingDirectory()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\BMPTrains_2025";
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\BMPTrains";
             Directory.CreateDirectory(path);
             return path;
         }

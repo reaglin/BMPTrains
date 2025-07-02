@@ -124,11 +124,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 136);
+            this.label2.Location = new System.Drawing.Point(56, 136);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(478, 30);
+            this.label2.Size = new System.Drawing.Size(452, 30);
             this.label2.TabIndex = 27;
-            this.label2.Text = "Floating Wetland or Mats Improvement Credit (%):";
+            this.label2.Text = "Floating Wetland or and other MAPs Credit (%):";
             // 
             // tbLittoralCredit
             // 

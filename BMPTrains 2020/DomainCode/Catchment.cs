@@ -32,26 +32,43 @@ namespace BMPTrains_2020.DomainCode
         // Which categorize the AnalysisTypes. 
         public string AnalysisType { get; set; }
 
+        [Meta("Annual Mean Rainfall", "in", "##.##")]
         public double Rainfall { get; set; }
+
+        [Meta("Rainfall Zone", "", "##.##")]
         public string RainfallZone { get; set; }
         public string DoGroundwaterAnalysis { get; set; }
 
         public int PreLandUseId { get; set; }
         public string PreLandUseName { get; set; }
         public int PostLandUseId { get; set; }
+
+        [Meta("Post-Condition Landuse", "", "##.##")]
         public string PostLandUseName { get; set; }
 
+        [Meta("Pre Condition Area", "acres", "##.##")]
         public double PreArea { get; set; }
-        
+
+        [Meta("Pre Rational Coefficient", "0-1", "##.##")]
         public double PreRationalCoefficient { get; set; }
+
+        [Meta("Pre Non DCIA Curve Number", "", "##.##")]
         public double PreNonDCIACurveNumber { get; set; }
+
+        [Meta("Pre DCIA Percent", "0-100", "##.##")]
         public double PreDCIAPercent { get; set; }
 
+        [Meta("Post Condition Area", "acres", "##.##")]
         public double PostArea { get; set; }
         public double BMPArea { get; set; }
-        
+
+        [Meta("Post Rational Coefficient", "0-1", "##.##")]
         public double PostRationalCoefficient { get; set; }
+
+        [Meta("Post Non DCIA Curve Number", "", "##.##")]
         public double PostNonDCIACurveNumber { get; set; }
+
+        [Meta("Post DCIA Percent", "0-100", "##.##")]
         public double PostDCIAPercent { get; set; } // (0-100)
 
         public string PreLoading { get; set; }
@@ -74,22 +91,40 @@ namespace BMPTrains_2020.DomainCode
         public double PrePostPTreatmentEfficiency { get; set; }
 
         // Concentrations
+
+        [Meta("Pre Nitrogen EMC", "mg/l", "##.##")]
         public double PreNConcentration { get; set; } // mg/l
+
+        [Meta("Pre Phosphorus EMC", "mg/l", "##.##")]
         public double PrePConcentration { get; set; } // mg/l
 
+        [Meta("Post Nitrogen EMC", "mg/l", "##.##")]
         public double PostNConcentration { get; set; } // mg/l
+
+        [Meta("Post Phosphorus EMC", "mg/l", "##.##")]
         public double PostPConcentration { get; set; }  //mg/l
 
         // Volumes in ac-ft
+
+        [Meta("Pre Runoff Volume", "ac-ft/yr", "##.##")]
         public double PreRunoffVolume { get; set; }     // ac-ft
+
+        [Meta("Post Runoff Volume", "ac-ft/yr", "##.##")]
         public double PostRunoffVolume { get; set; }    // ac-ft
         public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
 
         // Loadings in kg.year
+
+        [Meta("Pre Nitrogen Loading", "kg/yr", "##.##")]
         public double PreNLoading { get; set; }  // kg/yr
+
+        [Meta("Pre Phosphorus Loading", "kg/yr", "##.##")]
         public double PrePLoading { get; set; }  // kg/yr
 
+        [Meta("Post Nitrogen Loading", "kg/yr", "##.##")]
         public double PostNLoading { get; set; }  //kg/yr
+
+        [Meta("Post Phosphorus Loading", "kg/yr", "##.##")]
         public double PostPLoading { get; set; }  //kg/yr
 
         [Meta("Volume of Runoff Pre-Condition", "inches/yr", "##.##")]
@@ -538,7 +573,7 @@ namespace BMPTrains_2020.DomainCode
         {
             return routing.FlowBalanceReport();
         }
-
+        
 
         #endregion
 

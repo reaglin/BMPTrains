@@ -174,21 +174,10 @@ namespace BMPTrains_2020.DomainCode
             //}
 
             if (HarvestWaterDemand > HarvestWaterSupply) SupplementalWater = HarvestWaterDemand - HarvestWaterSupply; else SupplementalWater = 0.0;
-
-            
+       
             WaterUse = AvailableHarvestRate * 52 * IrrigationArea * 43560 /12 * 7.48052 / 1e6;
-            try
-            {
-                double yv = AvailableHarvestRate * IrrigationArea / 7 / WatershedArea / RationalCoefficient;
-                HarvestedWaterSupply = yv * 365 * WatershedArea * RationalCoefficient * 0.32585 / 12;
-            }
-            catch
-            {
-                HarvestedWaterSupply = 0.0;
-            }
+            HarvestedWaterSupply =  AvailableHarvestRate * EffectiveImperviousArea * 365 * 0.32585 / 12 / 7  ;
             EffectiveImperviousArea = WatershedArea * RationalCoefficient;
-
-
 
             base.Calculate();
 

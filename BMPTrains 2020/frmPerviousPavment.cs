@@ -138,7 +138,7 @@ namespace BMPTrains_2020
 
         private void btnPlot_Click(object sender, EventArgs e)
         {
-            Common.ShowRetentionPlot(currentBMP(), "Pervious Pavement (retention) System Efficiency");
+            Common.ShowRetentionPlot(currentBMP(), "Permeable Pavement (retention) System Efficiency");
         }
 
         private void btnCost_Click(object sender, EventArgs e)

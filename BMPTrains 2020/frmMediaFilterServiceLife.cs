@@ -53,6 +53,9 @@ namespace BMPTrains_2020
 
             cbBMP.Items.Clear();
             cbBMP.Items.AddRange(l.ToArray());
+
+            // Do not do Multiple BMP Option
+            if (cbBMP.Items.Contains(BMPTrainsProject.sMultipleBMP)) cbBMP.Items.Remove(BMPTrainsProject.sMultipleBMP);
         }
 
         private void SetCatchments()
@@ -189,7 +192,8 @@ namespace BMPTrains_2020
             try { 
                 SelectedCatchment = Convert.ToInt32(cbTo.SelectedValue);
                 Catchment c = Globals.Project.getCatchment(SelectedCatchment);
-                lblName.Text = c.CatchmentName;
+                this.Text = "Calculate Media Filter Service life for " + c.CatchmentName;
+                //lblName.Text = c.CatchmentName;
                 SetBMPs();
             }
             catch
@@ -205,7 +209,8 @@ namespace BMPTrains_2020
 
         private void cbBMP_SelectedIndexChanged(object sender, EventArgs e)
         {           
-            Common.setValue(tbRemovedBMP, GetAnnualOP(), 3);
+            //Common.setValue(tbRemovedBMP, GetAnnualOP(), 3);
+            Common.setValue(tbRemovedBMP, currentCatchment().PostPLoading);
             BMP bmp = currentCatchment().getBMP(Common.getString(cbBMP));
             Common.setValue(tbRate, MediaMix.SorptionRate(bmp.MediaMixType),2); //tbRate.Enabled = false;
             Common.setValue(tbMediaWeight, MediaMix.SaturatedWeight(bmp.MediaMixType)); //tbMediaWeight.Enabled = false;
