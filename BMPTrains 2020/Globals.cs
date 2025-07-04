@@ -25,6 +25,8 @@ namespace BMPTrains_2020
         public string Units { get; }
         public string Format { get; }
 
+        public int Places { get; }
+
         public Meta (string description, string units = "", string format = "##.##")
         {
             Description = description;
@@ -32,6 +34,17 @@ namespace BMPTrains_2020
             InterfaceLabel = description;
             Units = units;
             Format = format;
+            Places = Meta.CountSharpSymbolsAfterDot(format);
+        }
+
+        public Meta(string description, string units = "", int places = 2)
+        {
+            Description = description;
+            ReportLabel = description;
+            InterfaceLabel = description;
+            Units = units;
+            Format = CreateStringWithHashes(places);
+            Places = places;
         }
 
         public Meta(string description, string reportLabel, string interfaceLabel, string units, string format = "##.##") : this(description, units, format)
@@ -40,6 +53,22 @@ namespace BMPTrains_2020
             InterfaceLabel = interfaceLabel;
         }
 
+        public static int CountSharpSymbolsAfterDot(string inputString)
+        {
+            int firstDotIndex = inputString.IndexOf('.');
 
+            if (firstDotIndex == -1)
+            {
+                return 0; // No dot found
+            }
+
+            string substringAfterDot = inputString.Substring(firstDotIndex + 1);
+            return substringAfterDot.Count(c => c == '#');
+        }
+
+        public static string CreateStringWithHashes(int n)
+        {
+            return "##." + new string('#', n);
+        }
     }
 }

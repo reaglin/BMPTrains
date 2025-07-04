@@ -60,6 +60,8 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Post Condition Area", "acres", "##.##")]
         public double PostArea { get; set; }
+
+        [Meta("Wet Pond Area", "acres", "##.##")]
         public double BMPArea { get; set; }
 
         [Meta("Post Rational Coefficient", "0-1", "##.##")]

@@ -9,7 +9,7 @@ namespace BMPTrains_2020.DomainCode
     public class AvailablePerviousPavements : ValueDictionary
     {
         public const string DefaultHeader = "Layer\tVoid Space(%)";
-        public const string DefaultName = "Default Pervious Pavement Types";
+        public const string DefaultName = "Default Permeable Pavement Types";
         public const string DefaultDescription = "Concrete Permeable Pavement\t25.00\nFilterPaveTM\t20.00\nFirmaPaveTM\t20.00\n" +
             "FlexiPaveTM\t20.00\nPowerBLOCK(TM)\t5.00\n#57 rock(non-calcareous)\t21.00\n#89 pea rock\t25.00\n#4 rock\t24.00\n" +
             "Recycled (crushed) concrete\t21.00\nBold and GoldTM\t20.00\nOther Reservoir Space\t95.00\nBelgardTM\t20.00\n" +
@@ -56,8 +56,8 @@ namespace BMPTrains_2020.DomainCode
         {
             Dictionary<string, string> d1 = new Dictionary<string, string>
             {
-                {"label0", "<h2>Pervious Pavement</h2>" },
-                {"SurfaceArea", "<u>Area of the Pervious Pavement System (acres)</u>" },
+                {"label0", "<h2>Permeable Pavement</h2>" },
+                {"SurfaceArea", "<u>Area of the Permeable Pavement System (acres)</u>" },
                 {"RetentionDepth", "<u>Provided retention depth for hydraulic capture (in)</u>"},
                 {"RequiredNTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"},
                 {"RequiredPTreatmentEfficiency", "Required Phosphorus Treatment Efficiency (%)"},
@@ -100,7 +100,7 @@ namespace BMPTrains_2020.DomainCode
         }
         public override string BMPTypeTitle()
         {
-            return "Pervious Pavement";
+            return "Permeable Pavement";
         }
 
         public new void Calculate()

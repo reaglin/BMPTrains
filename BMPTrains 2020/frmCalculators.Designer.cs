@@ -58,7 +58,7 @@
             this.btnPerviousPavements.Name = "btnPerviousPavements";
             this.btnPerviousPavements.Size = new System.Drawing.Size(429, 39);
             this.btnPerviousPavements.TabIndex = 1;
-            this.btnPerviousPavements.Text = "Pervious Pavement Storage";
+            this.btnPerviousPavements.Text = "Permeable Pavement Storage";
             this.btnPerviousPavements.UseVisualStyleBackColor = true;
             this.btnPerviousPavements.Click += new System.EventHandler(this.btnPerviousPavements_Click);
             // 

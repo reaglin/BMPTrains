@@ -306,7 +306,8 @@ namespace BMPTrains_2020.Properties {
         ///href=&quot;Event%20Mean%20Concentrations!G7-H21_files/filelist.xml&quot;&gt;
         ///&lt;!--[if !mso]&gt;
         ///&lt;style&gt;
-        ///v\:* {behavior:url(#default#VML);}        /// [rest of string was truncated]&quot;;.
+        ///v\:* {behavior:url(#default#VML);}
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GeneralLanduseCategories {
             get {

@@ -20,7 +20,7 @@ namespace BMPTrains_2020.DomainCode
         public const string sRainGarden = "Rain Garden";
         public const string sStormwaterHarvesting = "Stormwater Harvesting";
         public const string sRainwaterHarvesting = "Rainwater Harvesting";
-        public const string sPerviousPavement = "Pervious Pavement";
+        public const string sPerviousPavement = "Permeable Pavement";
 //        public const string sPermeablesPavement = "Permeable Pavement";
 
         public const string sFiltration = "Filtration";

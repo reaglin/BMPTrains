@@ -17,7 +17,7 @@ namespace BMPTrains_2020.DomainCode
         public static string SAT = "SAT";
         public static string BnG_CTS12 = "B&G CTS12";
         public static string BnG_CTS24 = "B&G CTS24";
-        public static string P_Pavement = "Pervious Pavement";
+        public static string P_Pavement = "Permeable Pavement";
         public static string User_Defined = "User Defined";
 
         public static string defaultMix = NotSpecified;

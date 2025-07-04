@@ -10,13 +10,26 @@ namespace BMPTrains_2020.DomainCode
     {
         public static string SessionId = "GreenroofID";
 
+        [Meta("Selected Rainfall Station", "", "##.##")]
         public string RainfallStation { get; set; }
+
+        [Meta("Greenroof Area", "sf", "##.##")]
         public double GreenroofArea { get; set; } // Surface Area in square feet
         //public double RetentionProvided { get; set; } // inches over greenroof area
+
+        [Meta("Irrigation Demand", "inches/year", "##.##")]
         public double IrrigationDemand { get; set; }  // inches/year
+
+        [Meta("Rainfall Excess - filtrate", "inches/year", "##.##")]
         public double RainfallExcess { get; set; } // filtrate under drain flow
+
+        [Meta("Average Yearly Demand for Harvested Water", "MGY", "##.##")]
         public double AverageYearlyDemand { get; set; }
+
+        [Meta("Average Supply of Harvested Water per year", "MGY", "##.##")]
         public double AverageSupplyHarvested { get; set; }
+
+        [Meta("Average Supplemental Water needed per year", "MGY", "##.##")]
         public double AverageSupplementalWater { get; set; }
 
         public Greenroof(Catchment c) : base(c) {

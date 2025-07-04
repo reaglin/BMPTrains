@@ -10,19 +10,41 @@ namespace BMPTrains_2020.DomainCode
     {
         public static string SessionId = "ExfiltrationID";
 
+        [Meta("Pipe Span", "in", "##.##")]
         public double PipeSpan { get; set; }
+
+        [Meta("Pipe Rise", "in", "##.##")]
         public double PipeRise { get; set; }
+
+        [Meta("Pipe Length", "ft", "##.##")]
         public double PipeLength { get; set; }
+
+        [Meta("Trench Length", "ft", "##.##")]
         public double TrenchLength { get; set; }
+
+        [Meta("Trench/Vault Width", "ft", "##.##")]
         public double TrenchWidth { get; set; }
+
+        [Meta("Trench Depth", "ft", "##.##")]
         public double TrenchDepth { get; set; }
+
+        [Meta("Void Ratio", "fraction", "##.##")]
         public double VoidRatio { get; set; }
+
+        [Meta("Pipe Volume", "cf", "##.##")]
         public double PipeVolumeCF { get; set; }
+
+        [Meta("Trench/Vault Volume", "cf", "##.##")]
         public double TrenchVolumeCF { get; set; }
+
+        [Meta("Storage Volume", "Ac-ft", "##.##")]
         public double StorageVolumeAF { get; set; }
+
+        [Meta("Storage Volume", "in over CA", "##.##")]
         public double StorageVolumeIn { get; set; }
         public bool ExfiltrationUnder3hours { get; set; }
 
+        [Meta("Effectiveness Increase for > 3 hours", "%", "##.##")]
         public double IncreasedEffectiveness { get; set; }
 
 
@@ -85,8 +107,8 @@ namespace BMPTrains_2020.DomainCode
                 {"PipeRise", "Pipe Rise (in)"},
                 {"PipeLength", "Pipe Length (ft)"},
                 {"TrenchWidth", "Trench/Vault Width (ft)"},
-                {"TrenchDepth", "Trench/Vault Depth (ft)"},
-                {"TrenchLength", "Trench/Vault Length (ft)" },
+                {"TrenchDepth", "Trench Depth (ft)"},
+                {"TrenchLength", "Trench Length (ft)" },
                 { "VoidRatio", "Void Ratio (fraction)"},
                 {"label1", "<b>Exfiltration Calculated Values</b>"  },
                 { "PipeVolumeCF", "Pipe Volume (cf)"},

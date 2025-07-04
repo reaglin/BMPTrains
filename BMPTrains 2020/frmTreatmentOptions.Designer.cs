@@ -141,7 +141,7 @@
             this.btnPeriousPavement.Size = new System.Drawing.Size(130, 51);
             this.btnPeriousPavement.TabIndex = 6;
             this.btnPeriousPavement.Text = "Permeable \r\nPavement";
-            this.toolTip1.SetToolTip(this.btnPeriousPavement, "Pervious Pavement");
+            this.toolTip1.SetToolTip(this.btnPeriousPavement, "Permeable Pavement");
             this.btnPeriousPavement.UseVisualStyleBackColor = true;
             this.btnPeriousPavement.Click += new System.EventHandler(this.btnPeriousPavement_Click);
             this.btnPeriousPavement.MouseHover += new System.EventHandler(this.btnPeriousPavement_MouseHover);
