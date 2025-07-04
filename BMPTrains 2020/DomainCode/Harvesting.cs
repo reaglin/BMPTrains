@@ -15,56 +15,56 @@ namespace BMPTrains_2020.DomainCode
         public static string sHarvestRate = "Harvest Rate";
         public static string[] SolveForChoices => new string[] { sHarvestEfficiency , sHarvestRate };
 
-        [Meta("Available Harvest Volume", "gallons", "##.##")]
+        [Meta("Available Harvest Volume", "gallons",  2)]
         public double HarvestVolume { get; set; }
 
-        [Meta("Harvest Efficiency", "%", "##.##")]
+        [Meta("Harvest Efficiency", "%",  2)]
         public double HarvestEfficiency { get; set; }
 
-        [Meta("Harvest Efficiency", "%", "##.##")]
+        [Meta("Harvest Efficiency", "%",  2)]
         public double CalculatedHarvestEfficiency { get; set; }
 
-        [Meta("Total Area Available for Irrigation", "acres", "##.##")]
+        [Meta("Total Area Available for Irrigation", "acres",  2)]
         public double IrrigationArea { get; set; }
 
         public double ContributingAreaSF { get; set; }
 
-        [Meta("Equivalent Impervious Area", "acres", "##.##")]
+        [Meta("Equivalent Impervious Area", "acres",  2)]
         public double EquivalentImperviousArea { get; set; } //acres
 
-        [Meta("Harvest Volume", "in over EIA", "##.##")]
+        [Meta("Harvest Volume", "in over EIA",  2)]
         public double HarvestVolumeOverEIA { get; set; }
 
-        [Meta("Available Harvest Rate", "0.1-4.0 in/week over EIA", "##.##")]
+        [Meta("Available Harvest Rate", "0.1-4.0 in/week over EIA",  2)]
         public double AvailableHarvestRate { get; set; }    // INPUT (0.1 - 4 in/week over EIA)
 
-        [Meta("Harvest Rate", "cf/day", "##.##")]
+        [Meta("Harvest Rate", "cf/day",  2)]
         public double HarvestRate { get; set; }             // CALCULATED  cf/day
 
-        [Meta("Harvest Rate", "in/day over EIA", "##.##")]
+        [Meta("Harvest Rate", "in/day over EIA",  2)]
         public double HarvestRateOverEIA { get; set; }      // CALCULATED in day over EIA
 
-        [Meta("Required Harvest Rate", "cf/day", "##.##")]
+        [Meta("Required Harvest Rate", "cf/day",  2)]
         public double RequiredHarvestRateCFD { get; set; }
 
-        [Meta("Required Harvest Rate", "in/week", "##.##")]
+        [Meta("Required Harvest Rate", "in/week",  2)]
         public double RequiredHarvestRateINWEEK { get; set; }
 
-        [Meta("Average yearly demand for harvested water", "MGY", "##.##")]
+        [Meta("Average yearly demand for harvested water", "MGY",  2)]
         public double HarvestWaterDemand { get; set; }  // MGY
 
-        [Meta("Average potential supply for harvested water", "MGY", "##.##")]
+        [Meta("Average potential supply for harvested water", "MGY",  2)]
         public double HarvestWaterSupply { get; set; }  //MGY
 
-        [Meta("Average supplemental water needed per year", "MGY", "##.##")]
+        [Meta("Average supplemental water needed per year", "MGY",  2)]
         public double SupplementalWater { get; set; }   //MGY
-        [Meta("Effective Impervious Area", "(ac - ft)", "##.##")]
+        [Meta("Effective Impervious Area", "(ac - ft)",  2)]
         public double EffectiveImperviousArea { get; set; }
 
-        [Meta("Harvested Water Supply", "(MGY)", "##.##")]
+        [Meta("Harvested Water Supply", "(MGY)",  2)]
         public double HarvestedWaterSupply { get; set; }
 
-        [Meta("Water Use", "(MGY)", "##.##")]
+        [Meta("Water Use", "(MGY)",  2)]
         public double WaterUse { get; set; }
 
         public const int plot_value_percents = 8;
@@ -530,7 +530,10 @@ namespace BMPTrains_2020.DomainCode
             //series.MarkerBorderWidth = 1;
 
             /// Only add the point (series with one point) if within the chart bounds 
-            if ((xv < 6.0) && (yv < 0.5)) chart.Series.Add(seriesp);
+            if ((xv < 6.0) && (yv < 0.5))
+                chart.Series.Add(seriesp);
+            else
+                chart.Titles.Add("Calculated value outside bounds");
 
             // Additional chart formatting
             chart.BackColor = Color.White;

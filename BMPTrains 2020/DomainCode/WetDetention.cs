@@ -10,17 +10,17 @@ namespace BMPTrains_2020.DomainCode
     {
         public static string SessionId = "WetDetentionID";
 
-        [Meta("Average Residence Time", "days", "##.##")]
+        [Meta("Average Residence Time", "days",  2)]
         public double ResidenceTime { get; set; }
         public double PermanentPoolPondDepth { get; set; } // feet
 
-        [Meta("Permanent Pool Area", "acres", "##.##")]
+        [Meta("Permanent Pool Area", "acres",  2)]
         public double PermanentPoolArea { get; set; } // acres
 
-        [Meta("Permanent Pool Volume", "ac-ft", "##.##")]
+        [Meta("Permanent Pool Volume", "ac-ft",  2)]
         public double PermanentPoolVolume { get; set; } // ac-ft
 
-        [Meta("Permanent Pool Volume for 31 days residence", "ac-ft", "##.##")]
+        [Meta("Permanent Pool Volume for 31 days residence", "ac-ft",  2)]
         public double PermanentPoolVolume31 { get; set; } // ac-ft
 
         public double PermanentPoolVolumeOverWatershed { get; set; }
@@ -29,41 +29,41 @@ namespace BMPTrains_2020.DomainCode
 
         //public double LittoralZoneEfficiencyCredit { get; set; }
 
-        [Meta("Additional N Littoral Removal", "%", "##.##")]
+        [Meta("Additional N Littoral Removal", "%",  2)]
         public double AdditionalPercentNLittoralRemoval { get; set; }
 
-        [Meta("Additional P Littoral Removal", "%", "##.##")]
+        [Meta("Additional P Littoral Removal", "%",  2)]
         public double AdditionalPercentPLittoralRemoval { get; set; }
 
-        [Meta("Has Littoral Zone", "", "##.##")]
+        [Meta("Has Littoral Zone", "",  2)]
         public bool HasLittoralZone { get; set; }
 
-        [Meta("Wetland Efficiency Credit", "", "##.##")]
+        [Meta("Wetland Efficiency Credit", "",  2)]
         public double WetlandEfficiencyCredit { get; set; }
 
-        [Meta("Additional N Wetland Removal", "%", "##.##")]
+        [Meta("Additional N Wetland Removal", "%",  2)]
         public double AdditionalPercentNWetlandRemoval { get; set; }
 
-        [Meta("Additional P Wetland Removal", "%", "##.##")]
+        [Meta("Additional P Wetland Removal", "%",  2)]
         public double AdditionalPercentPWetlandRemoval { get; set; }
 
-        [Meta("Overall Provided Phosphorus Treatment Efficiency", "%", "##.##")]
+        [Meta("Overall Provided Phosphorus Treatment Efficiency", "%",  2)]
         public double DetentionPercentPhosphorusRemoval { get; set; }
 
-        [Meta("Overall Provided Nitrogen Treatment Efficiency", "%", "##.##")]
+        [Meta("Overall Provided Nitrogen Treatment Efficiency", "%",  2)]
         public double DetentionPercentNitrogenRemoval { get; set; }
 
 
-        [Meta("Mean Annual Pond TP Concentration", "ug/l", "##.##")]
+        [Meta("Mean Annual Pond TP Concentration", "ug/l",  2)]
         public double MeanAnnualPondTPConcentration { get; set;}    // ug/l
 
-        [Meta("Mean chlorophyll-a concentration", "mg/m^3", "##.##")]
+        [Meta("Mean chlorophyll-a concentration", "mg/m^3",  2)]
         public double MeanChlorophyllA { get; set;}                 // mg/m^3
 
-        [Meta("Mean Secchi Disk Depth", "m", "##.##")]
+        [Meta("Mean Secchi Disk Depth", "m",  2)]
         public double MeanSecchiDisk { get; set; }                  // m
 
-        [Meta("Anoxic Pool Depth", "ft", "##.##")]
+        [Meta("Anoxic Pool Depth", "ft",  2)]
         public double AnoxicPoolDepth { get; set; }                 // ft
 
         public WetDetention(Catchment c) : base(c)

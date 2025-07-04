@@ -37,13 +37,13 @@ namespace BMPTrains_2020.DomainCode
         public int CatchmentID { get; set; }
         public string CatchmentName { get; set; }
 
-        [Meta("Type of Best Management Practice", "", "##.##")]
+        [Meta("Type of Best Management Practice", "",  2)]
         public string BMPType { get; set; }
 
-        [Meta("BMP Name (use to organize BMP's)", "", "##.##")]
+        [Meta("BMP Name (use to organize BMP's)", "",  2)]
         public string BMPName { get; set; }
 
-        [Meta("Help URL", "", "##.##")]
+        [Meta("Help URL", "",  2)]
         public string HelpURL { get; set; }
        
         public string ReportType { get; set; }
@@ -57,42 +57,42 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Watershed Non-DCIA Curve Number", "(0-100)", "##")]
         public double WatershedNDCIACurveNumber { get; set; }
 
-        [Meta("Watershed DCIA Percent", "%", "##.##")]
+        [Meta("Watershed DCIA Percent", "%",  2)]
         public double WatershedDCIAPercent { get; set; }
 
-        [Meta("Calculated Annual Coefficient (0-1)", "", "##.##")]
+        [Meta("Calculated Annual Coefficient (0-1)", "",  2)]
         public double RationalCoefficient { get; set; }
 
-        [Meta("Rainfall", "in", "##.##")] 
+        [Meta("Rainfall", "in",  2)] 
         public double Rainfall { get; set; } // Rainfall depth ininches
         
-        [Meta("Rainfall Zone", "", "##.##")]
+        [Meta("Rainfall Zone", "",  2)]
         public string RainfallZone { get; set; }
 
-        [Meta("Average Annual Runoff Volume", "ac-ft/yr", "##.##")]
+        [Meta("Average Annual Runoff Volume", "ac-ft/yr",  2)]
         public double RunoffVolume { get; set; } // Average Annual Runoff Volume
 
         // Always use Contributing Area as area contributing to BMP
-        [Meta("Contributing Area to BMP", "ac", "##.##")]
+        [Meta("Contributing Area to BMP", "ac",  2)]
         public double ContributingArea { get; set; }
         //public double ContributingAreaSF { get; set; }
 
         // Treatment Efficiency for N and P
         public double RetentionVolume { get; set; }             // Acre-feet (same as Retention Depth, different units)
 
-        [Meta("Treatment Depth", "in", "##.##")]
+        [Meta("Treatment Depth", "in",  2)]
         public double RetentionDepth { get; set; }             // inches over watershed (also called Treatment Volume or Treatment Depth)
         public double DelayTime { get; set; }
         public double DelayFactor { get; set; }
         public double DelayEfficiency { get; set; }
 
-        [Meta("Hydraulic Capture Efficiency", "%", "##.##")]
+        [Meta("Hydraulic Capture Efficiency", "%",  2)]
         public double HydraulicCaptureEfficiency { get; set; } // Give units
 
-        [Meta("Required Nitrogen Treatment Efficiency", "%", "##.##")]
+        [Meta("Required Nitrogen Treatment Efficiency", "%",  2)]
         public double RequiredNTreatmentEfficiency { get; set; }
 
-        [Meta("Required Phosphorus Treatment Efficiency", "%", "##.##")]
+        [Meta("Required Phosphorus Treatment Efficiency", "%",  2)]
         public double RequiredPTreatmentEfficiency { get; set; }
 
         [Meta("Provided Nitrogen Treatment Efficiency", "%", "##.#")]
@@ -107,10 +107,10 @@ namespace BMPTrains_2020.DomainCode
         public double AdjustedNTreatmentEfficiency { get; set; }
         public double AdjustedPTreatmentEfficiency { get; set; }
 
-        [Meta("Remaining Nitrogen Treatment Efficiency", "%", "##.##")]
+        [Meta("Remaining Nitrogen Treatment Efficiency", "%",  2)]
         public double RemainingNTreatmentEfficiency { get; set; }
 
-        [Meta("Remaining Phosphorus Treatment Efficiency", "%", "##.##")]
+        [Meta("Remaining Phosphorus Treatment Efficiency", "%",  2)]
         public double RemainingPTreatmentEfficiency { get; set; }
 
         public double GroundwaterNTreatmentEfficiency { get; set; }
@@ -119,47 +119,47 @@ namespace BMPTrains_2020.DomainCode
         public double GroundwaterNMassLoadIn { get; set; }
         public double GroundwaterPMassLoadIn { get; set; }
 
-        [Meta("TN Mass Load", "kg/yr", "##.##")]
+        [Meta("TN Mass Load", "kg/yr",  2)]
         public double GroundwaterNMassLoadOut { get; set; }
 
-        [Meta("TP Mass Load", "kg/yr", "##.##")]
+        [Meta("TP Mass Load", "kg/yr",  2)]
         public double GroundwaterPMassLoadOut { get; set; }
 
-        [Meta("TN Concentration", "mg/L", "##.##")]
+        [Meta("TN Concentration", "mg/L",  2)]
         public double GroundwaterTNConcentration { get; set; }
 
-        [Meta("TP Concentration", "mg/L", "##.##")]
+        [Meta("TP Concentration", "mg/L",  2)]
         public double GroundwaterTPConcentration { get; set; }
 
-        [Meta("Treatment Rate", "MG/yr", "##.##")]
+        [Meta("Treatment Rate", "MG/yr",  2)]
         public double RechargeRate { get; set; }
 
         // True of all BMP's
         // Mass loading from Catchment
-        [Meta("Nitrogen Mass Loading into BMP", "kg/yr", "##.##")]
+        [Meta("Nitrogen Mass Loading into BMP", "kg/yr",  2)]
         public double BMPNMassLoadIn { get; set; }
 
-        [Meta("Phosphorus Mass Loading into BMP", "kg/yr", "##.##")]
+        [Meta("Phosphorus Mass Loading into BMP", "kg/yr",  2)]
         public double BMPPMassLoadIn { get; set; }
 
         // Mass Load out to Surface Water unts
-        [Meta("Nitrogen Mass Loading out of BMP", "kg/yr", "##.##")]
+        [Meta("Nitrogen Mass Loading out of BMP", "kg/yr",  2)]
         public double BMPNMassLoadOut { get; set; }
 
-        [Meta("Phosphorus Mass Loading out of BMP", "kg/yr", "##.##")]
+        [Meta("Phosphorus Mass Loading out of BMP", "kg/yr",  2)]
         public double BMPPMassLoadOut { get; set; }
 
-        [Meta("Nitrogen mass reduction", "lb/yr", "##.##")]
+        [Meta("Nitrogen mass reduction", "lb/yr",  2)]
         public double NMassReductionLb { get; set; }
 
-        [Meta("Phosphorus mass reduction", "lb/yr", "##.##")]
+        [Meta("Phosphorus mass reduction", "lb/yr",  2)]
         public double PMassReductionLb { get; set; }
 
         // Volume into the BMP
-        [Meta("Volume into BMP", "ac-ft", "##.##")]
+        [Meta("Volume into BMP", "ac-ft",  2)]
         public double BMPVolumeIn { get; set; }
 
-        [Meta("Volume out of BMP", "ac-ft", "##.##")]
+        [Meta("Volume out of BMP", "ac-ft",  2)]
         public double BMPVolumeOut { get; set; }
 
         public double GWVolumeIn { get; set; }
@@ -170,45 +170,45 @@ namespace BMPTrains_2020.DomainCode
 
         // Cost Variables
 
-        [Meta("Cost of Land Needed for BMP", "$", "##.##")]
+        [Meta("Cost of Land Needed for BMP", "$",  2)]
         public double LandCost { get; set; }            // input: Cost of Land Needed for the BMP - $
         public double UnitCost { get; set; }
 
-        [Meta("Fixed Cost of BMP", "$", "##.##")]
+        [Meta("Fixed Cost of BMP", "$",  2)]
         public double FixedCost { get; set; }   // input: BMP FIxed Cost $
 
-        [Meta("Expected Life of BMP", "years", "##.##")]
+        [Meta("Expected Life of BMP", "years",  2)]
         public double ExpectedLife { get; set; }        // input: yr
 
-        [Meta("BMP Cost Per Acre-Foot", "$", "##.##")]
+        [Meta("BMP Cost Per Acre-Foot", "$",  2)]
         public double CostPerAcreFoot { get; set; }     // input: BMP Cost per ac-ft
 
-        [Meta("Construction Cost of BMP", "$", "##.##")]
+        [Meta("Construction Cost of BMP", "$",  2)]
         public double BMPCost { get; set; }             // Calculated: TreatmentVolume * CostPerAcreFoot + Fixed Cost
 
-        [Meta("Harvested or Supplemental Water", "1000 gal/yr", "##.##")]
+        [Meta("Harvested or Supplemental Water", "1000 gal/yr",  2)]
         public double HarvestedWater { get; set; }      // input: Harvested or Supplemental Water 1000 gal /yr
 
-        [Meta("Annual BMP Maintenance Cost", "$/yr", "##.##")]
+        [Meta("Annual BMP Maintenance Cost", "$/yr",  2)]
         public double MaintenanceCost { get; set; }     // input: Annual BMP Maintenance Cost $/yr
 
-        [Meta("Present Value of Maintenance Cost", "$/yr", "##.##")]
+        [Meta("Present Value of Maintenance Cost", "$/yr",  2)]
         public double PVofMaintenanceCost { get; set; }
         public double PVOfAnnualCost { get; set; }
 
-        [Meta("Annual Cost Recovery", "$/yr", "##.##")]
+        [Meta("Annual Cost Recovery", "$/yr",  2)]
         public double AnnualCostRecovery { get; set; }      // Caclulated: $/yr Harvested Water * Water Cost
 
-        [Meta("Total Annual Cost", "$", "##.##")]
+        [Meta("Total Annual Cost", "$",  2)]
         public double TotalAnnualCost { get; set; }         // Calculated: Annual Cost recovery + Maintenance Cost
 
-        [Meta("Future Replacement Cost", "$", "##.##")]
+        [Meta("Future Replacement Cost", "$",  2)]
         public double FutureReplacementCost { get; set; }   // input: $
 
-        [Meta("Present Value of Replacement", "$", "##.##")]
+        [Meta("Present Value of Replacement", "$",  2)]
         public double PresentValueOfReplacement { get; set; }   // Calculated: Present Value of Replacement Cost
 
-        [Meta("Present Value/Life Cycle Cost", "$", "##.##")]
+        [Meta("Present Value/Life Cycle Cost", "$",  2)]
         public double PresentWorth { get; set; }                // Calculated: BMP Cost + Land Cost + Present Value - PV of Total Annual Cost
         public double CostPerPoundNRemoved { get; set; }
         public double CostPerPoundPRemoved { get; set; }
@@ -225,17 +225,17 @@ namespace BMPTrains_2020.DomainCode
         
         private string mediaMixType;
 
-        [Meta("Type of Media Mix", "", "##.##")]
+        [Meta("Type of Media Mix", "",  2)]
         public string MediaMixType
         {
             get { return mediaMixType.Replace('_', '&'); }
             set { mediaMixType = value; }
         }
 
-        [Meta("Media N Reduction", "%", "##.##")]
+        [Meta("Media N Reduction", "%",  2)]
         public double MediaNPercentReduction { get; set; }
 
-        [Meta("Media P Reduction", "%", "##.##")]
+        [Meta("Media P Reduction", "%",  2)]
         public double MediaPPercentReduction { get; set; }
 
         public double PostMediaNTreatmentEfficiency { get; set; }

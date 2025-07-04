@@ -12,13 +12,14 @@ namespace BMPTrains_2020.DomainCode
         public static string SessionId = "StormwaterHarvestingId";
         public const double maxHarvestTreatmentEfficiency = 90;
 
-
         // Properties inherited from Harvesting
 
-        [Meta("Weighted Annual Coefficient", "", "##.##")]
+        [Meta("Weighted Annual Coefficient", "",  2)]
         public double RationalCforCAreaAt3inches { get; set; }
 
+        public double AreaforLookup { get; set; }
         #endregion
+
 
         public StormwaterHarvesting(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sStormwaterHarvesting;
@@ -83,7 +84,8 @@ namespace BMPTrains_2020.DomainCode
                     {"AvailableHarvestRate", " Harvest Rate (0.1-4.0 in/week)" },
                     {"EffectiveImperviousArea", "Effective Impervious Area (ac-ft)" },
                     {"HarvestedWaterSupply", "Harvested Water Supply (MGY)" },
-                    {"WaterUse", "Water Use (MGY)" }
+                    {"WaterUse", "Water Use (MGY)" },
+                    {"RetentionDepth", "Effective Retention Depth (in)" }
                 });
             }
             else
@@ -96,7 +98,8 @@ namespace BMPTrains_2020.DomainCode
                     {"HarvestEfficiency", "Harvest Efficiency (%)"},
                     {"EffectiveImperviousArea", "Effective Impervious Area (ac-ft)" },
                     {"HarvestedWaterSupply", "Harvested Water Supply (MGY)" },
-                    {"WaterUse", "Water Use (MGY)" }
+                    {"WaterUse", "Water Use (MGY)" },
+                    {"RetentionDepth", "Effective Retention Depth (in)" }
                 });
 
             }
@@ -141,9 +144,10 @@ namespace BMPTrains_2020.DomainCode
         }
 
         public new void Calculate()
-        {         
+        {
+            
             RationalCforCAreaAt3inches = StaticLookupTables.MaxRationalC(Globals.Project.RainfallZone); // Not really at 3 inches
-            EquivalentImperviousArea = ContributingArea * RationalCforCAreaAt3inches; // acres
+            EquivalentImperviousArea = AreaforLookup * RationalCforCAreaAt3inches; // acres
             if (EquivalentImperviousArea == 0) return;
 
             HarvestVolumeOverEIA = 12 * HarvestVolume / EquivalentImperviousArea;   // Harvest Volume (ac-ft) - inches over EIA
@@ -157,9 +161,10 @@ namespace BMPTrains_2020.DomainCode
                 if (CalculatedHarvestEfficiency > maxHarvestTreatmentEfficiency) CalculatedHarvestEfficiency = maxHarvestTreatmentEfficiency;
                 HarvestWaterDemand = AvailableHarvestRate * 52 * 0.325829 * IrrigationArea / 12.0 ;
                 HarvestWaterSupply = CalculatedHarvestEfficiency * EquivalentImperviousArea *  Rainfall * 0.325829 / 1200;
+                
                 ProvidedNTreatmentEfficiency = CalculatedHarvestEfficiency;
                 ProvidedPTreatmentEfficiency = CalculatedHarvestEfficiency;
-                
+                HydraulicCaptureEfficiency = CalculatedHarvestEfficiency;
             //}
 
             //if (SolveForChoice == sHarvestRate)
@@ -176,8 +181,10 @@ namespace BMPTrains_2020.DomainCode
             if (HarvestWaterDemand > HarvestWaterSupply) SupplementalWater = HarvestWaterDemand - HarvestWaterSupply; else SupplementalWater = 0.0;
        
             WaterUse = AvailableHarvestRate * 52 * IrrigationArea * 43560 /12 * 7.48052 / 1e6;
-            HarvestedWaterSupply =  AvailableHarvestRate * EffectiveImperviousArea * 365 * 0.32585 / 12 / 7  ;
+            HarvestedWaterSupply = RunoffVolume * (CalculatedHarvestEfficiency / 100) * 0.32585;
+            //HarvestedWaterSupply =  AvailableHarvestRate * EffectiveImperviousArea * 365 * 0.32585 / 12 / 7  ;
             EffectiveImperviousArea = WatershedArea * RationalCoefficient;
+            RetentionDepth = CaclulateRequiredTreatmentDepth(CalculatedHarvestEfficiency);
 
             base.Calculate();
 
@@ -187,6 +194,7 @@ namespace BMPTrains_2020.DomainCode
 
         public new void SetValuesFromCatchment(Catchment c)
         {
+            AreaforLookup = c.PostArea;
             this.ContributingArea = c.PostArea; // acres
             this.WatershedArea = c.PostArea - c.BMPArea;
             base.SetValuesFromCatchment(c);
@@ -194,6 +202,7 @@ namespace BMPTrains_2020.DomainCode
 
         public new void SetValuesFromProject(BMPTrainsProject p, Catchment c)
         {
+            AreaforLookup = c.PostArea;
             this.HarvestEfficiency = c.RequiredNTreatmentEfficiency;
             this.ContributingArea = c.PostArea; // acres
             this.WatershedArea = c.PostArea - c.BMPArea;

@@ -32,10 +32,10 @@ namespace BMPTrains_2020.DomainCode
         // Which categorize the AnalysisTypes. 
         public string AnalysisType { get; set; }
 
-        [Meta("Annual Mean Rainfall", "in", "##.##")]
+        [Meta("Annual Mean Rainfall", "in",  2)]
         public double Rainfall { get; set; }
 
-        [Meta("Rainfall Zone", "", "##.##")]
+        [Meta("Rainfall Zone", "",  2)]
         public string RainfallZone { get; set; }
         public string DoGroundwaterAnalysis { get; set; }
 
@@ -43,34 +43,34 @@ namespace BMPTrains_2020.DomainCode
         public string PreLandUseName { get; set; }
         public int PostLandUseId { get; set; }
 
-        [Meta("Post-Condition Landuse", "", "##.##")]
+        [Meta("Post-Condition Landuse", "",  2)]
         public string PostLandUseName { get; set; }
 
-        [Meta("Pre Condition Area", "acres", "##.##")]
+        [Meta("Pre Condition Area", "acres",  2)]
         public double PreArea { get; set; }
 
-        [Meta("Pre Rational Coefficient", "0-1", "##.##")]
+        [Meta("Pre Rational Coefficient", "0-1",  2)]
         public double PreRationalCoefficient { get; set; }
 
-        [Meta("Pre Non DCIA Curve Number", "", "##.##")]
+        [Meta("Pre Non DCIA Curve Number", "",  2)]
         public double PreNonDCIACurveNumber { get; set; }
 
-        [Meta("Pre DCIA Percent", "0-100", "##.##")]
+        [Meta("Pre DCIA Percent", "0-100",  2)]
         public double PreDCIAPercent { get; set; }
 
-        [Meta("Post Condition Area", "acres", "##.##")]
+        [Meta("Post Condition Area", "acres",  2)]
         public double PostArea { get; set; }
 
-        [Meta("Wet Pond Area", "acres", "##.##")]
+        [Meta("Wet Pond Area", "acres",  2)]
         public double BMPArea { get; set; }
 
-        [Meta("Post Rational Coefficient", "0-1", "##.##")]
+        [Meta("Post Rational Coefficient", "0-1",  2)]
         public double PostRationalCoefficient { get; set; }
 
-        [Meta("Post Non DCIA Curve Number", "", "##.##")]
+        [Meta("Post Non DCIA Curve Number", "",  2)]
         public double PostNonDCIACurveNumber { get; set; }
 
-        [Meta("Post DCIA Percent", "0-100", "##.##")]
+        [Meta("Post DCIA Percent", "0-100",  2)]
         public double PostDCIAPercent { get; set; } // (0-100)
 
         public string PreLoading { get; set; }
@@ -84,55 +84,55 @@ namespace BMPTrains_2020.DomainCode
         public double RequiredNTreatmentEfficiency { get; set; }
         public double RequiredPTreatmentEfficiency { get; set; }
 
-        [Meta("Provided Nitrogen Treatment Efficiency", "%", "##.##")]
+        [Meta("Provided Nitrogen Treatment Efficiency", "%",  2)]
         public double CalculatedNTreatmentEfficiency { get; set; }
 
-        [Meta("Provided Phosphorus Treatment Efficiency", "%", "##.##")]
+        [Meta("Provided Phosphorus Treatment Efficiency", "%",  2)]
         public double CalculatedPTreatmentEfficiency { get; set; }
         public double PrePostNTreatmentEfficiency { get; set; }
         public double PrePostPTreatmentEfficiency { get; set; }
 
         // Concentrations
 
-        [Meta("Pre Nitrogen EMC", "mg/l", "##.##")]
+        [Meta("Pre Nitrogen EMC", "mg/l",  2)]
         public double PreNConcentration { get; set; } // mg/l
 
-        [Meta("Pre Phosphorus EMC", "mg/l", "##.##")]
+        [Meta("Pre Phosphorus EMC", "mg/l",  2)]
         public double PrePConcentration { get; set; } // mg/l
 
-        [Meta("Post Nitrogen EMC", "mg/l", "##.##")]
+        [Meta("Post Nitrogen EMC", "mg/l",  2)]
         public double PostNConcentration { get; set; } // mg/l
 
-        [Meta("Post Phosphorus EMC", "mg/l", "##.##")]
+        [Meta("Post Phosphorus EMC", "mg/l",  2)]
         public double PostPConcentration { get; set; }  //mg/l
 
         // Volumes in ac-ft
 
-        [Meta("Pre Runoff Volume", "ac-ft/yr", "##.##")]
+        [Meta("Pre Runoff Volume", "ac-ft/yr",  2)]
         public double PreRunoffVolume { get; set; }     // ac-ft
 
-        [Meta("Post Runoff Volume", "ac-ft/yr", "##.##")]
+        [Meta("Post Runoff Volume", "ac-ft/yr",  2)]
         public double PostRunoffVolume { get; set; }    // ac-ft
         public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
 
         // Loadings in kg.year
 
-        [Meta("Pre Nitrogen Loading", "kg/yr", "##.##")]
+        [Meta("Pre Nitrogen Loading", "kg/yr",  2)]
         public double PreNLoading { get; set; }  // kg/yr
 
-        [Meta("Pre Phosphorus Loading", "kg/yr", "##.##")]
+        [Meta("Pre Phosphorus Loading", "kg/yr",  2)]
         public double PrePLoading { get; set; }  // kg/yr
 
-        [Meta("Post Nitrogen Loading", "kg/yr", "##.##")]
+        [Meta("Post Nitrogen Loading", "kg/yr",  2)]
         public double PostNLoading { get; set; }  //kg/yr
 
-        [Meta("Post Phosphorus Loading", "kg/yr", "##.##")]
+        [Meta("Post Phosphorus Loading", "kg/yr",  2)]
         public double PostPLoading { get; set; }  //kg/yr
 
-        [Meta("Volume of Runoff Pre-Condition", "inches/yr", "##.##")]
+        [Meta("Volume of Runoff Pre-Condition", "inches/yr",  2)]
         public double PreRunoffVolumeInches_Yr { get; set; }
 
-        [Meta("Volume of Runoff Post-Condition", "inches/yr", "##.##")]
+        [Meta("Volume of Runoff Post-Condition", "inches/yr",  2)]
         public double PostRunoffVolumeInches_yr { get; set; }
 
         public double GroundwaterNLoading { get; set; }
@@ -337,6 +337,19 @@ namespace BMPTrains_2020.DomainCode
             BMPTrainsProject.OpenSelectedBMPForm(SelectedBMPType, id);
         }
 
+        public double getContributingArea()
+        {
+            double area = 0;
+            return PostArea - BMPArea;
+            if (getSelectedBMPType() == BMPTrainsProject.sStormwaterHarvesting) return this.PostArea;
+            if (BMPArea > PostArea) return 0;
+            return PostArea - BMPArea;
+
+        }
+
+
+
+
         public Dictionary<string, BMP> ImplementedBMPs()
         {
             // This Dictionary makes it easy to Save as XML and Open from XML
@@ -388,6 +401,24 @@ namespace BMPTrains_2020.DomainCode
                 return noBMP;
             }
         }
+
+
+        public string getSelectedBMPType()
+        {
+            return getSelectedBMP().BMPType;
+        }
+
+        public double getCalculatedNTreatmentEfficiency()
+        {
+            getSelectedBMP().Calculate();
+            return getSelectedBMP().ProvidedNTreatmentEfficiency;
+        }
+        public double getCalculatedPTreatmentEfficiency()
+        {
+            getSelectedBMP().Calculate();
+            return getSelectedBMP().ProvidedPTreatmentEfficiency;
+        }
+
 
         //public double GroundwaterNRemovalEfficiency()
         //{
@@ -743,6 +774,7 @@ namespace BMPTrains_2020.DomainCode
 
         // Required Treatment Efficiency is either set by analysis type
         // or it can be calcualted from specific analysis types. 
+        // #Eaglin  - N and P can be collapsed to a single routine
         public double CalculateRequiredNTreatmentEfficiency()
         {
             // Returns as a Percent Efficiency Requirement

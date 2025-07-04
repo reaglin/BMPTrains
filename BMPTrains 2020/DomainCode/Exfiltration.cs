@@ -10,41 +10,41 @@ namespace BMPTrains_2020.DomainCode
     {
         public static string SessionId = "ExfiltrationID";
 
-        [Meta("Pipe Span", "in", "##.##")]
+        [Meta("Pipe Span", "in",  2)]
         public double PipeSpan { get; set; }
 
-        [Meta("Pipe Rise", "in", "##.##")]
+        [Meta("Pipe Rise", "in",  2)]
         public double PipeRise { get; set; }
 
-        [Meta("Pipe Length", "ft", "##.##")]
+        [Meta("Pipe Length", "ft",  2)]
         public double PipeLength { get; set; }
 
-        [Meta("Trench Length", "ft", "##.##")]
+        [Meta("Trench Length", "ft",  2)]
         public double TrenchLength { get; set; }
 
-        [Meta("Trench/Vault Width", "ft", "##.##")]
+        [Meta("Trench/Vault Width", "ft",  2)]
         public double TrenchWidth { get; set; }
 
-        [Meta("Trench Depth", "ft", "##.##")]
+        [Meta("Trench Depth", "ft",  2)]
         public double TrenchDepth { get; set; }
 
-        [Meta("Void Ratio", "fraction", "##.##")]
+        [Meta("Void Ratio", "fraction",  2)]
         public double VoidRatio { get; set; }
 
-        [Meta("Pipe Volume", "cf", "##.##")]
+        [Meta("Pipe Volume", "cf",  2)]
         public double PipeVolumeCF { get; set; }
 
-        [Meta("Trench/Vault Volume", "cf", "##.##")]
+        [Meta("Trench/Vault Volume", "cf",  2)]
         public double TrenchVolumeCF { get; set; }
 
-        [Meta("Storage Volume", "Ac-ft", "##.##")]
+        [Meta("Storage Volume", "Ac-ft",  2)]
         public double StorageVolumeAF { get; set; }
 
-        [Meta("Storage Volume", "in over CA", "##.##")]
+        [Meta("Storage Volume", "in over CA",  2)]
         public double StorageVolumeIn { get; set; }
         public bool ExfiltrationUnder3hours { get; set; }
 
-        [Meta("Effectiveness Increase for > 3 hours", "%", "##.##")]
+        [Meta("Effectiveness Increase for > 3 hours", "%",  2)]
         public double IncreasedEffectiveness { get; set; }
 
 

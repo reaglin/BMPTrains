@@ -76,7 +76,6 @@ namespace BMPTrains_2020
             dataGridView1.Columns.Add(c1b);
             dataGridView1.Columns.Add(c2);
             dataGridView1.Columns.Add(c3);
-
         }
 
         private void DisplayCurrentRouting()
@@ -120,8 +119,6 @@ namespace BMPTrains_2020
                     dataGridView1.Rows[i - 1].Cells[3].Style = sEnabled;
                 }
             }
-
-
         }
 
         private void cbOptions_SelectedIndexChanged(object sender, EventArgs e)
@@ -210,6 +207,7 @@ namespace BMPTrains_2020
 
         private void btnReport_Click(object sender, EventArgs e)
         {
+
             Globals.Project.Calculate();
             Form form = new frmReport(Globals.Project.getRoutingReport());
             form.ShowDialog();
@@ -227,6 +225,7 @@ namespace BMPTrains_2020
 
         private void btnFlowBalance_Click(object sender, EventArgs e)
         {
+            DisplayCurrentRouting();
             Globals.Project.Calculate();
             Form form = new frmReport(Globals.Project.FlowBalanceReport(), false);
             form.ShowDialog();

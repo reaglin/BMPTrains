@@ -12,6 +12,8 @@ namespace BMPTrains_2020.DomainCode
 {
     public class Common
     {
+        // Common is routines used by different classes that are able to be
+        // reused
         public static string HomePage = "~/DefaultLoggedIn.aspx";
 
         public static string ManagePage(string className)

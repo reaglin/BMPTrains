@@ -41,9 +41,9 @@
             this.lblActive = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tbDelayTime = new System.Windows.Forms.TextBox();
+            this.btnBalance = new System.Windows.Forms.Button();
             this.btnEditBMP = new System.Windows.Forms.Button();
             this.lblDelay = new System.Windows.Forms.Label();
-            this.btnBalance = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblFrom
@@ -155,6 +155,19 @@
             this.tbDelayTime.TabIndex = 31;
             this.toolTip1.SetToolTip(this.tbDelayTime, "Commingling Delay time only used if routing to Retention System.");
             // 
+            // btnBalance
+            // 
+            this.btnBalance.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBalance.Location = new System.Drawing.Point(557, 259);
+            this.btnBalance.Name = "btnBalance";
+            this.btnBalance.Size = new System.Drawing.Size(170, 39);
+            this.btnBalance.TabIndex = 32;
+            this.btnBalance.Text = "Flow Balance";
+            this.toolTip1.SetToolTip(this.btnBalance, "Exit the Current Worksheet");
+            this.btnBalance.UseVisualStyleBackColor = true;
+            this.btnBalance.Visible = false;
+            this.btnBalance.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btnEditBMP
             // 
             this.btnEditBMP.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -174,18 +187,6 @@
             this.lblDelay.Size = new System.Drawing.Size(144, 25);
             this.lblDelay.TabIndex = 30;
             this.lblDelay.Text = "Delay Time (hr):";
-            // 
-            // btnBalance
-            // 
-            this.btnBalance.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBalance.Location = new System.Drawing.Point(557, 259);
-            this.btnBalance.Name = "btnBalance";
-            this.btnBalance.Size = new System.Drawing.Size(170, 39);
-            this.btnBalance.TabIndex = 32;
-            this.btnBalance.Text = "Flow Balance";
-            this.toolTip1.SetToolTip(this.btnBalance, "Exit the Current Worksheet");
-            this.btnBalance.UseVisualStyleBackColor = true;
-            this.btnBalance.Click += new System.EventHandler(this.button1_Click);
             // 
             // frmRouting
             // 

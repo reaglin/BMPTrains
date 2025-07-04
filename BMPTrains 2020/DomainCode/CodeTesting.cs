@@ -9,7 +9,8 @@ namespace BMPTrains_2020.DomainCode
 {
     internal class CodeTesting
     {
-
+        // This is a class used solely for testing pieces of code within the 
+        // solution
 public void CreateScatterPlot(WebBrowser wb, double[,] xvalues, double[,] yvalues)
     {
         // Validate input arrays

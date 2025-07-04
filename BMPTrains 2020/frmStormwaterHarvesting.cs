@@ -32,6 +32,7 @@ namespace BMPTrains_2020
 
             // Now only doing 
             currentBMP().SolveForChoice = RainwaterHarvesting.sHarvestEfficiency;
+
         }
 
         private Catchment currentCatchment()
@@ -50,7 +51,7 @@ namespace BMPTrains_2020
         private void getValues()
         {
             currentBMP().AvailableHarvestRate = Common.getDouble(tbHarvestRate);
-            currentBMP().ContributingArea = Common.getDouble(tbContributingArea) * 43560;
+            currentBMP().ContributingArea = Common.getDouble(tbContributingArea);
             if (currentBMP().ContributingArea > currentCatchment().PostArea) currentBMP().ContributingArea = currentCatchment().PostArea;
             currentBMP().IrrigationArea = Common.getDouble(tbIrrigationArea);            
             currentBMP().HarvestVolume = Common.getDouble(tbHarvestVolume);
@@ -65,8 +66,9 @@ namespace BMPTrains_2020
 
             Common.setValue(tbHarvestVolume, currentBMP().HarvestVolume);
             Common.setValue(tbIrrigationArea, currentBMP().IrrigationArea);
-            Common.setValue(tbContributingArea, currentBMP().ContributingArea * 43560.0);
+            Common.setValue(tbContributingArea, currentBMP().ContributingArea);
 
+            currentBMP().Calculate();
             //wbOutput.DocumentText = currentBMP().BasicReport();
             wbOutput.DocumentText = currentBMP().BMPReport();
 

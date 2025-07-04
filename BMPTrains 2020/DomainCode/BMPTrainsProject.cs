@@ -174,16 +174,16 @@ namespace BMPTrains_2020.DomainCode
         public int RequiredPTreatmentEfficiency { get; set; }
 
         // Used for Target Load Calculations
-        [Meta("Total Nitrogen Discharge Load", "kg/yr", "##.##")]
+        [Meta("Total Nitrogen Discharge Load", "kg/yr",  2)]
         public double TargetNMassLoad { get; set; }
 
-        [Meta("Total Phosphrous Discharge Load", "kg/yr", "##.##")]
+        [Meta("Total Phosphrous Discharge Load", "kg/yr",  2)]
         public double TargetPMassLoad { get; set; }
 
-        [Meta("Total Catchement Nitrogen Loading", "kg/yr", "##.##")]
+        [Meta("Total Catchement Nitrogen Loading", "kg/yr",  2)]
         public double TotalCatchmentNLoad { get; set; }
 
-        [Meta("Total Catchement Phosphorus Loading", "kg/yr", "##.##")]
+        [Meta("Total Catchement Phosphorus Loading", "kg/yr",  2)]
         public double TotalCatchmentPLoad { get; set; }
         public double TotalGroundwaterNRemoved { get; set; }
         public double TotalGroundwaterPRemoved { get; set; }
@@ -1015,6 +1015,28 @@ namespace BMPTrains_2020.DomainCode
             // No Catchments - do not Calculate
             if (Catchments.Count == 0) return;
 
+            if (Catchments.Count == 1)
+            {
+                TotalCatchmentNLoad += Catchments[1].PostNLoading;
+                TotalCatchmentPLoad += Catchments[1].PostPLoading;
+                TotalCatchmentPreNLoad += Catchments[1].PreNLoading;
+                TotalCatchmentPrePLoad += Catchments[1].PrePLoading;
+                PreCatchmentAreaAcres += Catchments[1].PreArea;
+                PostCatchmentAreaAcres += Catchments[1].getContributingArea();
+                //PostCatchmentAreaAcres += Catchments[1].PostArea - Catchments[1].BMPArea;
+                PreRunoffVolume += Catchments[1].PreRunoffVolume;
+                if (Catchments[1].ToID == 0) PostRunoffVolume += Catchments[1].routing.VolumeOut;
+
+                TotalGroundwaterNRemoved += Catchments[1].GroundwaterNRemoved;
+                TotalGroundwaterPRemoved += Catchments[1].GroundwaterPRemoved;
+                TotalGroundwaterNLoading += Catchments[1].GroundwaterNLoading;
+                TotalGroundwaterPLoading += Catchments[1].GroundwaterPLoading;
+                TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[1].getRouting().VolumeGW;
+                CalculatedNTreatmentEfficiency = Catchments[1].getCalculatedNTreatmentEfficiency();
+                CalculatedPTreatmentEfficiency = Catchments[1].getCalculatedPTreatmentEfficiency();
+            }
+            else
+            { 
             // For all catchments
             for (int i = 1; i <= Catchments.Count; i++)
             {
@@ -1023,7 +1045,8 @@ namespace BMPTrains_2020.DomainCode
                 TotalCatchmentPreNLoad += Catchments[i].PreNLoading;
                 TotalCatchmentPrePLoad += Catchments[i].PrePLoading;
                 PreCatchmentAreaAcres += Catchments[i].PreArea;
-                PostCatchmentAreaAcres += Catchments[i].PostArea - Catchments[i].BMPArea;
+                PostCatchmentAreaAcres += Catchments[i].getContributingArea();
+                
                 PreRunoffVolume += Catchments[i].PreRunoffVolume;
                 if (Catchments[i].ToID == 0) PostRunoffVolume += Catchments[i].routing.VolumeOut;
 
@@ -1038,9 +1061,11 @@ namespace BMPTrains_2020.DomainCode
                 //    if (!kvp.Value.Disabled)
 
             }
+            }
+
             if (TotalGroundwaterNRemoved != 0)
             {
-                TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // TOtal mass discharged from media into GW
+                TotalGroundwaterNFromMedia = TotalGroundwaterNLoading - TotalGroundwaterNRemoved; // Total mass discharged from media into GW
             }
             else
             {
@@ -1051,7 +1076,7 @@ namespace BMPTrains_2020.DomainCode
 
             if (TotalGroundwaterPRemoved != 0)
             {
-                TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // TOtal mass discharged from media into GW
+                TotalGroundwaterPFromMedia = TotalGroundwaterPLoading - TotalGroundwaterPRemoved;      // Total mass discharged from media into GW
             }
             else
             {
@@ -1059,10 +1084,13 @@ namespace BMPTrains_2020.DomainCode
             }
 
             if (Double.IsNaN(TotalOutletNLoad)) TotalOutletNLoad = 0;
-            CalculatedNTreatmentEfficiency = 0.0;
-            if (TotalCatchmentNLoad > 0) CalculatedNTreatmentEfficiency = 100 * (TotalCatchmentNLoad - TotalOutletNLoad) / TotalCatchmentNLoad;
-            CalculatedPTreatmentEfficiency = 0.0;
-            if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
+
+            if (Catchments.Count > 1) { 
+                CalculatedNTreatmentEfficiency = 0.0;
+                if (TotalCatchmentNLoad > 0) CalculatedNTreatmentEfficiency = 100 * (TotalCatchmentNLoad - TotalOutletNLoad) / TotalCatchmentNLoad;
+                CalculatedPTreatmentEfficiency = 0.0;
+                if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
+            }
 
         }
 
