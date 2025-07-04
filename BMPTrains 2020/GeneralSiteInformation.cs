@@ -408,8 +408,14 @@ namespace BMPTrains_2020
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            Form frmTestingPlots = new frmTestingPlots();
-            frmTestingPlots.ShowDialog();
+            Cursor.Current = Cursors.WaitCursor;
+            string s = Globals.Project.PrintAll();
+            s += Globals.Project.PrintAllCatchments();
+
+            Form form = new frmReport(s);
+            form.ShowDialog();
+            Cursor.Current = Cursors.Default;
+
         }
     }
 }

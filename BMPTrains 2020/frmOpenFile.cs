@@ -126,5 +126,16 @@ namespace BMPTrains_2020
                 MessageBox.Show("File Not Found");
             }
         }
+
+        private void btnProperties_Click(object sender, EventArgs e)
+        {
+            this.UseWaitCursor = true;
+            string s = Globals.Project.PrintAll();
+            s += Globals.Project.PrintAllCatchments();
+
+            Form form = new frmReport(s);
+            this.UseWaitCursor = false;
+            form.ShowDialog();
+        }
     }
 }

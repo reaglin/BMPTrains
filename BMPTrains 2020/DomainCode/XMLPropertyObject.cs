@@ -751,6 +751,36 @@ namespace BMPTrains_2020.DomainCode
 
         #endregion
 
+        #region "Print"
+        public virtual string PrintAll()
+        {
+            // Produces a pintout of the properties also using Meta Information for the 
+            // objects
+            string s = "<hr/>";
+            s += "<h3>" + this.Name + "</h3>";
+            foreach (var property in this.GetType().GetProperties())
+            {          
+                s += "<h4>Name : " + property.Name + "</h4>";
+                if (property != null && Attribute.IsDefined(property, typeof(Meta)))
+                {
+                    // Retrieve the custom attribute
+                    Meta meta = (Meta)Attribute.GetCustomAttribute(property, typeof(Meta));
+                    s += "Meta Description      : " + meta.Description + "<br/>";
+                    s += "Meta ReportLabel      : " + meta.ReportLabel + "<br/>";
+                    s += "Meta InterfaceLabel   : " + meta.InterfaceLabel + "<br/>";
+                    s += "Meta Units            : " + meta.Units + "<br/>";
+                    s += "Meta Format           : " + meta.Format + "<br/>";
+                    s += "Meta Places           : " + meta.Places.ToString() + "<br/>";
+                }
+                string value = GetValue(property);
+                    s += "Value                 : " + value.ToString() + "<br/>";
+
+            }
+            return s;
+        }
+
+        #endregion
+
         #region Static Helper Methods
 
         public Dictionary<string, string> Add(Dictionary<string, string> original, Dictionary<string, string> toBeAdded)
@@ -1631,6 +1661,7 @@ namespace BMPTrains_2020.DomainCode
         } // End Update
 
         #endregion
+
 
 
     } // End Class

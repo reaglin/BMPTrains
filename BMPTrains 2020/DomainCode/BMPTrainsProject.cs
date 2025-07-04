@@ -726,6 +726,13 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
+        public override string PrintAll()
+        {
+            string s = base.PrintAll();
+            s += PrintAllCatchments();
+            return s;
+        }
+
         public new string AsXML()
         {
             // Add any embedded objects here - they
@@ -734,9 +741,6 @@ namespace BMPTrains_2020.DomainCode
                 CatchmentsAsXML(), 
                 CostScenariosAsXML()
             });
-
-
-
             s = s.Replace("&", "&amp;");
 
             return s;
@@ -749,6 +753,18 @@ namespace BMPTrains_2020.DomainCode
             {
                 Catchment c = (Catchment)kvp.Value;
                 s += c.AsXML(Convert.ToString(kvp.Key));
+            }
+            return s;
+        }
+
+        public string PrintAllCatchments()
+        {
+            string s = "";
+            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+            {
+                s += "<h2> Catchment: " + kvp.Key.ToString() + "</h2>";
+                Catchment c = (Catchment)kvp.Value;
+                s += c.PrintAll();
             }
             return s;
         }

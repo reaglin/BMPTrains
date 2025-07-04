@@ -1263,6 +1263,18 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
+        public override string PrintAll()
+        {          
+            string s = base.PrintAll();
+
+            foreach (KeyValuePair<string, BMP> kvp in this.ImplementedBMPs())
+            {
+                s += "<h3>BMP: " + kvp.Key + "</h3>";
+                s += kvp.Value.PrintAll();
+            }
+            return s;
+        }
+
         public new void fromXML(string xml)
         {
             // This method is passed an XML string and will populate all the object properties

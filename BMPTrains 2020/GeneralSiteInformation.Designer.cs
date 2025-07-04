@@ -267,7 +267,7 @@
             // 
             // btnPre
             // 
-            this.btnPre.Location = new System.Drawing.Point(16, 225);
+            this.btnPre.Location = new System.Drawing.Point(214, 226);
             this.btnPre.Name = "btnPre";
             this.btnPre.Size = new System.Drawing.Size(108, 25);
             this.btnPre.TabIndex = 29;
@@ -353,7 +353,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(138, 190);
+            this.btnOpen.Location = new System.Drawing.Point(17, 92);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(71, 47);
             this.btnOpen.TabIndex = 17;
@@ -397,12 +397,12 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(209, 193);
+            this.label6.Location = new System.Drawing.Point(235, 193);
             this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(418, 30);
+            this.label6.Size = new System.Drawing.Size(401, 30);
             this.label6.TabIndex = 21;
-            this.label6.Text = "Conduct a Groundwater Discharge Analysis:";
+            this.label6.Text = "Conduct Groundwater Discharge Analysis:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // btnNewProject
@@ -446,13 +446,12 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(11, 176);
+            this.btnTest.Location = new System.Drawing.Point(44, 193);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(98, 43);
+            this.btnTest.Size = new System.Drawing.Size(165, 43);
             this.btnTest.TabIndex = 36;
-            this.btnTest.Text = "Testing Button";
+            this.btnTest.Text = "Print All";
             this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Visible = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // GeneralSiteInformation

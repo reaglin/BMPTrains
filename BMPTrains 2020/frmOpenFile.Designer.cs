@@ -35,6 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lbFiles = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.btnProperties = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOpen
@@ -76,8 +77,8 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(412, 100);
             this.label4.TabIndex = 32;
-            this.label4.Text = "This will open a BMPTrains  project file and set all values to the pre values of" +
-    " the BMPTrains file.";
+            this.label4.Text = "This will open a BMPTrains  project file and set all values to the pre values of " +
+    "the BMPTrains file.";
             // 
             // label1
             // 
@@ -88,8 +89,8 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(412, 100);
             this.label1.TabIndex = 33;
-            this.label1.Text = "This will open new BMPTrains  project file any unsaved values of the current fil" +
-    "e will be lost. ";
+            this.label1.Text = "This will open new BMPTrains  project file any unsaved values of the current file" +
+    " will be lost. ";
             // 
             // lbFiles
             // 
@@ -113,11 +114,22 @@
             this.label2.TabIndex = 35;
             this.label2.Text = "Recent Projects: Double Click a File to Open";
             // 
+            // btnProperties
+            // 
+            this.btnProperties.Location = new System.Drawing.Point(367, 479);
+            this.btnProperties.Name = "btnProperties";
+            this.btnProperties.Size = new System.Drawing.Size(170, 48);
+            this.btnProperties.TabIndex = 36;
+            this.btnProperties.Text = "Properties";
+            this.btnProperties.UseVisualStyleBackColor = true;
+            this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
+            // 
             // frmOpenFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 539);
+            this.Controls.Add(this.btnProperties);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbFiles);
             this.Controls.Add(this.label1);
@@ -143,5 +155,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListBox lbFiles;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnProperties;
     }
 }

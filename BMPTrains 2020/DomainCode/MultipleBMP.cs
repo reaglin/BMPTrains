@@ -115,6 +115,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedNTreatmentEfficiency, bmp2.ProvidedNTreatmentEfficiency);
                 ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedPTreatmentEfficiency, bmp2.ProvidedPTreatmentEfficiency);
+                HydraulicCaptureEfficiency = bmp2.ProvidedNTreatmentEfficiency;
                 CalculateMassLoading();
                 CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
 
@@ -123,12 +124,14 @@ namespace BMPTrains_2020.DomainCode
                 if (bmp3.BMPType == BMPTrainsProject.sNone) return;
                 ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
                 ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
+                
                 CalculateMassLoading();
                 CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
 
                 if (bmp4.BMPType == BMPTrainsProject.sNone) return;
                 ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
                 ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
+                
                 CalculateMassLoading();
                 CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
                 return;
