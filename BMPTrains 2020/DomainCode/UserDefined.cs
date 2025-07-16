@@ -8,6 +8,9 @@ namespace BMPTrains_2020.DomainCode
 {
     public class UserDefinedBMP : Storage
     {
+
+        public new static readonly string[] InputVariables = {
+            "ContributingArea", "CalculatedNTreatmentEfficiency", "CalculatedPTreatmentEfficiency"};
         public UserDefinedBMP(Catchment c) : base(c)
         {
             BMPType = BMPTrainsProject.sUserDefinedBMP;

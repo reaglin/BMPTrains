@@ -602,7 +602,7 @@ namespace BMPTrains_2020.DomainCode
             if (bmp3.isDefined()) s += SpecificBMPReport(3, bmp3);
             if (bmp4.isDefined()) s += SpecificBMPReport(4, bmp4);
 
-            s += WatershedCharacteristics();
+            s += PrintWatershedCharacteristics();
             s += SurfaceWaterAnalysis();
             if ((DoGroundwaterAnalysis == "Yes") || (MediaMixType != MediaMix.None)) s += GroundwaterAnalysis();
             s += LoadDiagram();

@@ -78,6 +78,7 @@ namespace BMPTrains_2020.DomainCode
         //public double ContributingAreaSF { get; set; }
 
         // Treatment Efficiency for N and P
+        [Meta("Retention Volume", "ac-ft", 2)]
         public double RetentionVolume { get; set; }             // Acre-feet (same as Retention Depth, different units)
 
         [Meta("Treatment Depth", "in",  2)]
@@ -113,10 +114,16 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Remaining Phosphorus Treatment Efficiency", "%",  2)]
         public double RemainingPTreatmentEfficiency { get; set; }
 
+        [Meta("Remaining Phosphorus Treatment Efficiency", "%", 2)]
         public double GroundwaterNTreatmentEfficiency { get; set; }
+
+        [Meta("Remaining Phosphorus Treatment Efficiency", "%", 2)]
         public double GroundwaterPTreatmentEfficiency { get; set; }
 
+        [Meta("Groundwater Nitrogen Mass Load in", "kg/yr", 2)]
         public double GroundwaterNMassLoadIn { get; set; }
+
+        [Meta("Groundwater Phosphorus Mass Load in", "kg/yr", 2)]
         public double GroundwaterPMassLoadIn { get; set; }
 
         [Meta("TN Mass Load", "kg/yr",  2)]
@@ -133,13 +140,13 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Treatment Rate", "MG/yr",  2)]
         public double RechargeRate { get; set; }
-
+        [Meta("Volume out of BMP", "ac-ft", 2)]
         // True of all BMP's
         // Mass loading from Catchment
-        [Meta("Nitrogen Mass Loading into BMP", "kg/yr",  2)]
+       // [Meta("Nitrogen Mass Loading into BMP", "kg/yr",  2)]
         public double BMPNMassLoadIn { get; set; }
 
-        [Meta("Phosphorus Mass Loading into BMP", "kg/yr",  2)]
+       // [Meta("Phosphorus Mass Loading into BMP", "kg/yr",  2)]
         public double BMPPMassLoadIn { get; set; }
 
         // Mass Load out to Surface Water unts
@@ -162,10 +169,16 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Volume out of BMP", "ac-ft",  2)]
         public double BMPVolumeOut { get; set; }
 
+        [Meta("Groundwater Volume In", "ac-ft", 2)]
         public double GWVolumeIn { get; set; }
+
+        [Meta("Groundwater VOlume Out", "ac-ft", 2)]
         public double GWVolumeOut { get; set; }
 
+        [Meta("Nitrogen Retained", "kg/yr", 2)]
         public double NRetained { get; set; }
+
+        [Meta("Phosphorus Retained", "kg/yr", 2)]
         public double PRetained { get; set; }
 
         // Cost Variables
@@ -238,11 +251,16 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Media P Reduction", "%",  2)]
         public double MediaPPercentReduction { get; set; }
 
+        [Meta("Nitrogen Mass Reduction in Groundwater Discharge", "%", 2)]
         public double PostMediaNTreatmentEfficiency { get; set; }
+
+        [Meta("Phosphorus Mass Reduction in Groundwater Discharge", "%", 2)]
         public double PostMediaPTreatmentEfficiency { get; set; }
 
         public double TNEMC { get; set; }
         public double TPEMC { get; set; }
+
+        public static readonly string[] InputVariables = {  };
 
         // Can use if meta properties are defined (Follow Meta Print for Details)
         public string Print(string property_name)
@@ -317,12 +335,14 @@ namespace BMPTrains_2020.DomainCode
 
         public virtual string BMPReport()
         {
-            string s = "<b>Project:</b> " + Globals.Project.ProjectName + "<br/>";
-            s += "<b>Date:</b> " + DateTime.Now.ToString("d") + "<br/><br/>";
-            s += "<b>" + BMPTypeTitle() + " Design</b><br/>";
-            s += BMPInputVariables();
-            s += WatershedCharacteristics();
-            s += SurfaceWaterAnalysis();
+            string s = "<h1>Project:  " + Globals.Project.ProjectName + "</h1>";
+            s += "<h2>" + BMPTypeTitle() + " Design ";
+
+            s += "Report Date: " + DateTime.Now.ToString("d") + "</h2><br/>";
+            //s += BMPInputVariables();
+            s += PrintInputVariables();
+            s += PrintWatershedCharacteristics();
+            s += PrintSurfaceWaterDischarge();
             if ((DoGroundwaterAnalysis == "Yes")||(MediaMixType != MediaMix.None)) s += GroundwaterAnalysis();
             s += LoadDiagram();
             return s;
@@ -333,20 +353,26 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        public string WatershedCharacteristics()
+        //public string WatershedCharacteristics()
+        //{
+        //    string s = "<br/><b>Watershed Characteristics</b><br/>";
+        //    s += AsHtmlTable(
+        //        new Dictionary<string, string>
+        //    {
+        //        {"WatershedArea", "Catchment Area (acres)"},
+        //        {"ContributingArea","Contributing Area (acres)" },
+        //        {"WatershedNDCIACurveNumber", "Non-DCIA Curve Number"},
+        //        {"WatershedDCIAPercent", "DCIA Percent"},
+        //        {"RainfallZone", "Rainfall Zone"},
+        //        {"Rainfall", "Rainfall (in)" },
+        //    });
+        //    return s;
+        //}
+
+        public string PrintWatershedCharacteristics()
         {
-            string s = "<br/><b>Watershed Characteristics</b><br/>";
-            s += AsHtmlTable(
-                new Dictionary<string, string>
-            {
-                {"WatershedArea", "Catchment Area (acres)"},
-                {"ContributingArea","Contributing Area (acres)" },
-                {"WatershedNDCIACurveNumber", "Non-DCIA Curve Number"},
-                {"WatershedDCIAPercent", "DCIA Percent"},
-                {"RainfallZone", "Rainfall Zone"},
-                {"Rainfall", "Rainfall (in)" },
-            });
-            return s;
+            string[] values = { "WatershedArea", "ContributingArea", "WatershedNDCIACurveNumber", "WatershedDCIAPercent", "RainfallZone", "Rainfall" };
+            return InterfaceCommon.PrintPropertyTable(this, values, "Watershed Characteristics");
         }
 
         public string SurfaceWaterAnalysis()
@@ -367,6 +393,16 @@ namespace BMPTrains_2020.DomainCode
 
             return s;
         }
+
+        public string PrintSurfaceWaterDischarge()
+        {
+            if (ProvidedNTreatmentEfficiency >= 100) ProvidedNTreatmentEfficiency = 99;
+            if (ProvidedPTreatmentEfficiency >= 100) ProvidedPTreatmentEfficiency = 99;
+            // Give each property as a string 
+            string[] values = { "RequiredNTreatmentEfficiency", "ProvidedNTreatmentEfficiency", "RequiredPTreatmentEfficiency", "ProvidedPTreatmentEfficiency" };
+            return InterfaceCommon.PrintPropertyTable(this, values, "Surface Water Discharge");
+        }
+
 
         public virtual string GroundwaterAnalysis()
         {

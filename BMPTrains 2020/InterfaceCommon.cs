@@ -158,7 +158,24 @@ namespace BMPTrains_2020
             }
             return s;
         }
-        public static string PrintProperty(object o, string propertyName)
+        public static string PrintPropertyTable(object o, string[] properties, string Label)
+        {
+            string s = "<h2>" + Label + "</h2>";
+            s += "<table>";
+            foreach (var property in properties)
+            {
+                s += PrintPropertyRow(o, property);
+            }
+            s += "</table><br/>";
+            return s;
+        }
+        public static string PrintPropertyRow(object o, string property)
+        {
+            return PrintProperty(o, property, true);
+        }
+
+        // Does both rows and tables
+        public static string PrintProperty(object o, string propertyName, bool AsTableRow = false)
         {
             // v is the object that has the property, propertyName is the name of the property
             string s = "";
@@ -171,19 +188,30 @@ namespace BMPTrains_2020
                 var metaInfo = (Meta)Attribute.GetCustomAttribute(property, typeof(Meta));
                 try
                 {
-                    s = metaInfo.Description;
-                    if (metaInfo.Units != "") s += " (" + metaInfo.Units + "): ";
+                    if (AsTableRow) s += "<tr><td>";
+                    s += metaInfo.Description;
+                    if (metaInfo.Units != "") s += " (" + metaInfo.Units + ")";
+                    if (AsTableRow) s += "</td><td>"; else s += ": ";
 
-                    if (property_type == typeof(Double)) s += ((Double)property.GetValue(o)).ToString(metaInfo.Format);
+                    if (property_type == typeof(string)) s += ((string)property.GetValue(o));
+                    if (property_type == typeof(Double)) s += AsString((Double)property.GetValue(o), (int)metaInfo.Places);
                     if (property_type == typeof(int)) s += ((int)property.GetValue(o)).ToString(metaInfo.Format);
+                    if (property_type == typeof(bool)) s += ((bool)property.GetValue(o)).ToString();
+                    if (AsTableRow) s += "</td></tr>";
                     return s;
                 }
                 catch
                 {
-                    return $"Print Info not found for {propertyName}.";
+                    return $"Print Information not found for Property {propertyName}.";
                 }
             }
             return s;
+        }
+
+        public static string AsString(double value, int decimalPlaces)
+        {
+            string formatString = "{0:N" + decimalPlaces.ToString().Trim() + "}";
+            return String.Format(formatString, value);
         }
     }   
 }

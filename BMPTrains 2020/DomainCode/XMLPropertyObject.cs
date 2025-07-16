@@ -100,6 +100,11 @@ namespace BMPTrains_2020.DomainCode
             }
             return fc;
         }
+
+        public virtual string PrintInputVariables()
+        {
+            return "";
+        }
         public object CreateInstanceOf(string strFullyQualifiedName)
         {
             Type t = Type.GetType(strFullyQualifiedName);

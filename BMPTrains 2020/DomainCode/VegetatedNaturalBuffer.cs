@@ -75,15 +75,40 @@ namespace BMPTrains_2020.DomainCode
 
     public class VegetatedNaturalBuffer : Storage
     {
+
+        [Meta("Buffer Width", "ft", 2)]
         public double BufferW { get; set; }                 // Width ft
+
+        [Meta("Buffer Length", "ft", 2)]
         public double BufferL { get; set; }                 // Length ft
+
+        [Meta("Buffer Depth", "ft", 2)]
         public double BufferDepth { get; set; }             // Depth
-        public double BufferFeederWidth { get; set; }                                                 
+
+        [Meta("Width of Area Feeding Buffer", "ft", 2)]
+        public double BufferFeederWidth { get; set; }
+
+        [Meta("Water storage capacity of soil", "in/in", 2)]
         public double SoilStorageCapacity { get; set; }     // in/in
+
+        [Meta("Slope of Buffer under 20%", "%", 2)]
         public double BufferWidthSlope { get; set; }        // %
+
+        [Meta("Nitrogen Removal Efficiency in Buffer", "%", 2)]
         public double BufferNRemovalEfficiency { get; set; }
+
+        [Meta("Phosphorus Removal Efficiency in Buffer", "%", 2)]
         public double BufferPRemovalEfficiency { get; set; }
-        public double AnnualCaptureEfficiency { get; set; }
+        //public double AnnualCaptureEfficiency { get; set; }
+
+        public new static readonly string[] InputVariables = {
+                "BufferW", "BufferL", "BufferDepth", "BufferFeederWidth",
+                "SoilStorageCapacity", "BufferWidthSlope" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Vegetated Natural Buffer Input Variables");
+        }
 
         public VegetatedNaturalBuffer(Catchment c): base(c) {
             BMPType = BMPTrainsProject.sVegetatedNaturalBuffer;

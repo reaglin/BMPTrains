@@ -7,7 +7,14 @@ namespace BMPTrains_2020.DomainCode
         #region "Properties"
         public static string SessionId = "RetentionID"; 
 
-        public double RetentionArea { get; set; } // Surface Area in acres        
+        public double RetentionArea { get; set; } // Surface Area in acres
+                                                  // 
+        public new static readonly string[] InputVariables = { "RetentionDepth", "RetentionVolume" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Retention Input Variables");
+        }
         #endregion
 
         #region "Contructors"
@@ -28,6 +35,7 @@ namespace BMPTrains_2020.DomainCode
         #region "Reporting"
         public override string BMPInputVariables()
         {
+            
             string s = "";
             s += AsHtmlTable(
                 new Dictionary<string, string>
@@ -37,7 +45,6 @@ namespace BMPTrains_2020.DomainCode
             });
             return s;            
         }
-
         public override Dictionary<string, string> PropertyLabels()
         {
             var current = new Dictionary<string, string>

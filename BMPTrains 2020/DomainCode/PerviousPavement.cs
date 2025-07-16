@@ -15,6 +15,9 @@ namespace BMPTrains_2020.DomainCode
             "Recycled (crushed) concrete\t21.00\nBold and GoldTM\t20.00\nOther Reservoir Space\t95.00\nBelgardTM\t20.00\n" +
             "User Defined(5)\t5.00\nUser Defined(20)\t20.00\nUser Defined(25)\t25.00\nUser Defined(30)\t30.00\n";
 
+        public static readonly string[] InputVariables = {
+         "SurfaceArea", "RetentionDepth"
+        };
         public AvailablePerviousPavements()
         {            
             Name = DefaultName;
@@ -79,7 +82,6 @@ namespace BMPTrains_2020.DomainCode
                 new Dictionary<string, string>
             {
                 {"SurfaceArea", "Surface Area of Pavement (acres)"},
-               // {"RetentionVolume", "Retention Volume (ac-ft)"},
                 {"RetentionDepth", "Treatment Volume (in over watershed)"}
             });
             s += PavementsAsHtml();

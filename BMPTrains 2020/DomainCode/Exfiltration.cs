@@ -47,6 +47,13 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Effectiveness Increase for > 3 hours", "%",  2)]
         public double IncreasedEffectiveness { get; set; }
 
+        public new static readonly string[] InputVariables = {"PipeSpan", "PipeRise", "PipeLength", "TrenchWidth", "TrenchDepth", "TrenchLength",
+                "VoidRatio", "PipeVolumeCF", "TrenchVolumeCF", "StorageVolumeAF", "StorageVolumeIn"};
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Exfiltration System Input Variables");
+        }
 
         public Exfiltration(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sExfiltration;
@@ -140,6 +147,7 @@ namespace BMPTrains_2020.DomainCode
                 });
             return s;
         }
+
 
         public override Dictionary<string, int> PropertyDecimalPlaces()
         {

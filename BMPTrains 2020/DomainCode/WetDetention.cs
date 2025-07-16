@@ -24,6 +24,8 @@ namespace BMPTrains_2020.DomainCode
         public double PermanentPoolVolume31 { get; set; } // ac-ft
 
         public double PermanentPoolVolumeOverWatershed { get; set; }
+
+        [Meta("Minimum Permanent Pool Volume", "ac-ft", 2)]
         public double MinimumPermanentPoolVolume { get; set; }
 
 
@@ -65,6 +67,15 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Anoxic Pool Depth", "ft",  2)]
         public double AnoxicPoolDepth { get; set; }                 // ft
+
+        public new static readonly string[] InputVariables = {
+                "PermanentPoolVolume", "PermanentPoolVolume31", "ResidenceTime",
+                "HasLittoralZone", "WetlandEfficiencyCredit" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Wet Detention Input Variables");
+        }
 
         public WetDetention(Catchment c) : base(c)
         {

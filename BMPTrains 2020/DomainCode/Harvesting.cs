@@ -27,6 +27,7 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Total Area Available for Irrigation", "acres",  2)]
         public double IrrigationArea { get; set; }
 
+        [Meta("Contributing Area", "sf", 2)]
         public double ContributingAreaSF { get; set; }
 
         [Meta("Equivalent Impervious Area", "acres",  2)]

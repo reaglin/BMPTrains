@@ -32,6 +32,14 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Average Supplemental Water needed per year", "MGY",  2)]
         public double AverageSupplementalWater { get; set; }
 
+        public new static readonly string[] InputVariables = {
+            "RainfallStation", "GreenroofArea", "RetentionDepth", "IrrigationDemand", "RainfallExcess"};
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Greenroof Input Variables");
+        }
+
         public Greenroof(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sGreenroof;
         }

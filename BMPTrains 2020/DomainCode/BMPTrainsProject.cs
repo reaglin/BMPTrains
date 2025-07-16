@@ -44,57 +44,68 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Analysis Types Constants and Static Methods"
+//These are the all the Analysis Types, these also fit into categories, each of these
+// Have target removals and possibly additional criteria. 
+
+
         public const string AT_AllSites = "All sites non-exempted";
         public const string AT_OFW = "OFW";
         public const string AT_ImpairedWater = "Impaired Water";
         public const string AT_ImpairedWater_OFW = "Impaired Water + OFW";
+        public const string AT_ImpairedWater_IMP = "Impaired Water + IMP";
         public const string AT_Redevelopment = "Redevelopment";
         public const string AT_Redevelopment_OFW = "Redevelopment + OFW";
         public const string AT_SpecifiedRemovalEfficiency = "Specified Removal Efficiency";
         public const string AT_NetImprovement = "Net Improvement";
         public const string AT_BMPAnalysis = "BMP Analysis";
         public const string AT_PreReductionPercent = "Specified % Less than Pre-Development Conditions";
+
+
+        //public static List<string> AnalysisTypes() => new List<string> {
+        //    AT_AllSites, AT_OFW, AT_ImpairedWater, AT_ImpairedWater_OFW, AT_ImpairedWater_IMP, AT_Redevelopment, AT_Redevelopment_OFW,
+        //    AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis };
         //        public const string sExistingBMPInput = "Existing Loading in Pre-Development";
 
+
+        // These are the additional criteria for each of the analysis types.  There are 4 categories
         public const string AT_Criteria_PvP_GO = "Post = Greater of Pre-Conditions";
         public const string AT_Criteria_PvP = "Post = Pre-Conditions";
+        public const string AT_Criteria_WQ = "Water Quality Targets";
         public const string AT_Criteria_None = "No Post Condition Requirements";
 
-        public static List<string> AnalysisTypes() => new List<string> { 
-            AT_AllSites, AT_OFW, AT_ImpairedWater, AT_ImpairedWater_OFW, AT_Redevelopment, AT_Redevelopment_OFW,
-            AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis };
-            // Note , AT_PreReductionPercent removed
+        // This represents the criteria that each of the analysis types must meet
+
+        public static readonly Dictionary<string, (int TN, int TP, string Criteria, bool PrintPrePost, bool PrintTargets)> AT_Values =
+    new Dictionary<string, (int TN, int TP, string Criteria, bool PrintPrePost, bool PrintTargets)>
+    {
+            { AT_AllSites, (80, 55, AT_Criteria_PvP_GO ,true, true) },
+            { AT_OFW, (90, 80, AT_Criteria_PvP_GO,true, true) },
+            { AT_ImpairedWater, (80, 80, AT_Criteria_PvP,true, true) },
+            { AT_ImpairedWater_OFW, (95, 95, AT_Criteria_PvP,false, true)},
+            { AT_ImpairedWater_IMP, (80, 45, AT_Criteria_WQ,true, true) },
+            { AT_Redevelopment, (80, 45, AT_Criteria_None,false, true) },
+            { AT_Redevelopment_OFW, (90, 60, AT_Criteria_None,false, true) },
+            { AT_SpecifiedRemovalEfficiency, (0, 0, AT_Criteria_None,true, true) },
+            { AT_NetImprovement, (0, 0, AT_Criteria_None,true, false) },
+            { AT_BMPAnalysis, (0, 0, AT_Criteria_None,true, false) },
+            { AT_PreReductionPercent, (0, 0, AT_Criteria_None,true, true) }
+    };
+
+        // The method is retained for backward compatibility. 
+        public static readonly List<string> AllAnalysisTypes = new List<string>(AT_Values.Keys);
+        public static List<string> AnalysisTypes()
+        {
+            return AllAnalysisTypes;
+        }
+
+        // Note , AT_PreReductionPercent removed
 
         // Opens documentation in program in browser
         public static void openURL(string url) { System.Diagnostics.Process.Start(URL_Documentation_Base + url); }
 
         public static string AT_Criteria_For_Scenario(string analysisType)
         {
-            switch (analysisType)
-            {
-                case AT_AllSites:
-                    return AT_Criteria_PvP_GO;
-                case AT_OFW:
-                    return AT_Criteria_PvP_GO; 
-                case AT_ImpairedWater:
-                    return AT_Criteria_PvP;
-                case AT_ImpairedWater_OFW:
-                    return AT_Criteria_PvP;
-                case AT_Redevelopment:
-                    return AT_Criteria_None;
-                case AT_Redevelopment_OFW:
-                    return AT_Criteria_None;
-                case AT_SpecifiedRemovalEfficiency:
-                    return AT_Criteria_None; 
-                case AT_NetImprovement:
-                    return AT_Criteria_None; 
-                case AT_BMPAnalysis:
-                    return AT_Criteria_None; 
-                case AT_PreReductionPercent:
-                    return AT_Criteria_None; 
-                default:
-                    return "Unknown Analysis Type"; // Handle the default case
-            }
+            return AT_Values[analysisType].Criteria.ToString();
         }
 
         public static int AT_Removal_For_Scenario(string analysisType, string NorP = "N")
@@ -102,56 +113,20 @@ namespace BMPTrains_2020.DomainCode
             // These could be put into extrnal table, kept inside
             // code to avoid modifications, user entered cases all return
             // 0 and must be checked against in operational code. 
-            if (NorP == "N") { 
-            switch (analysisType)
-            {
-                case AT_AllSites:
-                    return 55;
-                case AT_OFW:
-                    return 80;
-                case AT_ImpairedWater:
-                    return 80;
-                case AT_ImpairedWater_OFW:
-                    return 95;;
-                case AT_Redevelopment:
-                    return 45;
-                case AT_Redevelopment_OFW:
-                    return 60;
-            }
-                return 0;
+            if (NorP == "N") {
+                return AT_Values[analysisType].TN;
             }
             // Any value other than N (is P)
-            switch (analysisType)
-            {
-                case AT_AllSites:
-                    return 80;
-                case AT_OFW:
-                    return 90;
-                case AT_ImpairedWater:
-                    return 80;
-                case AT_ImpairedWater_OFW:
-                    return 95;
-                case AT_Redevelopment:
-                    return 80;
-                case AT_Redevelopment_OFW:
-                    return 90;
-            }
-            return 0;
+            return AT_Values[analysisType].TP;
         }
         public static bool PrintPrePostResults(string analysisType)
         {
-            if (analysisType == BMPTrainsProject.AT_BMPAnalysis) return false;
-            if (analysisType == BMPTrainsProject.AT_Redevelopment) return false;
-            if (analysisType == BMPTrainsProject.AT_Redevelopment_OFW) return false;
-            if (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) return false;
-            return true;
+            return AT_Values[analysisType].PrintPrePost;
         }
 
         public static bool PrintTargetAnalysis(string analysisType)
         {
-            if (analysisType == BMPTrainsProject.AT_BMPAnalysis) return false;
-            if (analysisType == BMPTrainsProject.AT_NetImprovement) return false;
-            return true;
+            return AT_Values[analysisType].PrintTargets;
         }
         #endregion
 
@@ -1153,6 +1128,9 @@ namespace BMPTrains_2020.DomainCode
 
             if (TargetNPercent < 0) TargetNPercent = 0;
             if (TargetPPercent < 0) TargetPPercent = 0;
+
+            if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad / TotalOutletNLoad;
+            if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad / TotalOutletPLoad;
         }
 
         #endregion
@@ -1291,11 +1269,13 @@ namespace BMPTrains_2020.DomainCode
 
             s += "<h3>Summary Loading Anlysis</h3>";
 
+
+            // Target Analysis is if the targets are met. Compares Calculated vs. Target Efficiencies
             if (PrintTargetAnalysis(AnalysisType))
             {
                 //s += "Nitrogen Removal Required: " + Globals.Project.RequiredNTreatmentEfficiency.ToString("##") + "%<br/>";
                 //s += "Nitrogen Removal Provided: " + anr.ToString("##");
-                s += "<h3>Target Removals</h3>";
+                s += "<h3>% Target Removals</h3>";
                 s += "Is system total nitrogen target removal met? ";
                 s += InterfaceCommon.YesNo((TargetMet(CalculatedNTreatmentEfficiency, TargetNPercent, 3)));
 
@@ -1311,13 +1291,14 @@ namespace BMPTrains_2020.DomainCode
                 s += "<br/>";
             }
 
+            // Pre-Post Analysis compares Target vs Pre-Post 
             if (BMPTrainsProject.PrintPrePostResults(AnalysisType))
             {
                 //// Changed the PrePost_TreatmentEfficiency to Target_Percent _ refers to N or P
                 if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad / TotalOutletNLoad;
                 if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad / TotalOutletPLoad;
                 //// 
-                s += "<h3>Pre vs. Post Removals</h3>";
+                s += "<h3>Additional Criteria Pre vs. Post Removals</h3>";
                 s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPercent, 3))
                     + " (Required: " + TargetNPercent.ToString("##.##") + "% "
                     + " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";

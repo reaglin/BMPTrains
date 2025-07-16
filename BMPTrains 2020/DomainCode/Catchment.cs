@@ -15,13 +15,12 @@ namespace BMPTrains_2020.DomainCode
 
         #region "Properties"
 
-
-
         public const string SessionId = "CatchmentID";
         // Catchment ID is id inherited from XmlPropertyObject
         public int ToID { get; set; }
         public bool Disabled { get; set; }
 
+        [Meta("Catchment Name", "", 2)]
         public string CatchmentName { get; set; }
         
         // AnalysisType determines the analysis that is done for pre/post
@@ -81,7 +80,11 @@ namespace BMPTrains_2020.DomainCode
         // Required - given by user or as Analysis Type
         // Calculated - Treatment efficiency of BMP
         // PrePost - Treatment efficiency (Post after Trreatment compared to Pre)
+
+        [Meta("Required Nitrogen Treatment Efficiency", "%", 2)]
         public double RequiredNTreatmentEfficiency { get; set; }
+
+        [Meta("Required Nitrogen Treatment Efficiency", "%", 2)]
         public double RequiredPTreatmentEfficiency { get; set; }
 
         [Meta("Provided Nitrogen Treatment Efficiency", "%",  2)]
@@ -113,6 +116,8 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Post Runoff Volume", "ac-ft/yr",  2)]
         public double PostRunoffVolume { get; set; }    // ac-ft
+
+        [Meta("Post Treatment Discharge Volume", "ac-ft", 2)]
         public double PostVolumeOut { get; set; } // ac-ft after all treatments, volume out
 
         // Loadings in kg.year
@@ -173,11 +178,24 @@ namespace BMPTrains_2020.DomainCode
         public double PreReductionPercent { get; set; }
         public CatchmentRouting routing { get; set; }
 
+
+        public static readonly string[] InputVariables = {
+            "CatchmentName", "RainfallZone", "Rainfall" };
+
+        public static readonly string[] PreConditionVariables = {
+            "PreLandUseName", "PreArea", "PreRationalCoefficient", "PreNonDCIACurveNumber", "PreDCIAPercent", "PreNConcentration",
+        "PrePConcentration", "PreRunoffVolume", "PreNLoading", "PrePLoading" };
+
+        public static readonly string[] PostConditionVariables = {
+            "PostLandUseName", "PostArea", "PostRationalCoefficient", "PostNonDCIACurveNumber", "PostDCIAPercent",
+            "PostNConcentration", "PostPConcentration", "PostRunoffVolume", "PostNLoading", "PostPLoading"};
         // Can use if meta properties are defined (Follow Meta Print for Details)
         public string Print(string property_name)
         {
             return InterfaceCommon.PrintProperty(this, property_name);
         }
+
+
         #region "BMP Properties"
         // Need to add a single instance of each BMP a Catchment Can have - this
         // will be about 20

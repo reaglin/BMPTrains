@@ -7,8 +7,15 @@ using System.Threading.Tasks;
 namespace BMPTrains_2020.DomainCode
 {
     public class Filtration : Storage
-    {               
-        
+    {
+        public new static readonly string[] InputVariables = {
+                "RetentionDepth", "HydraulicCaptureEfficiency", "MediaMixType", "MediaNPercentReduction", "MediaPPercentReduction" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Filtration Input Variables");
+        }
+
         public Filtration(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sFiltration;           
         }
@@ -45,7 +52,7 @@ namespace BMPTrains_2020.DomainCode
                 {"RetentionDepth", "Treatment Depth (in)"},
                 {"HydraulicCaptureEfficiency", "Hydraulic Capture Efficiency (%)"},
                 {"MediaMixType", "Media Type" },
-                {"MediaNPercentReduction", "Media N Reduction (%)"}, //Eaglin Added 4/26/21
+                {"MediaNPercentReduction", "Media N Reduction (%)"}, 
                 {"MediaPPercentReduction", "Media P Reduction (%)"}
             });
             return s;

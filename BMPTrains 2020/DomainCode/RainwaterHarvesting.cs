@@ -12,6 +12,15 @@ namespace BMPTrains_2020.DomainCode
 
         public string RoofType { get; set; }
 
+        public new static readonly string[] InputVariables = {
+            "ContributingAreaSF", "IrrigationArea", "HarvestVolume", "AvailableHarvestRate", "EquivalentImperviousArea",
+            "HarvestVolumeOverEIA" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rainwater Harvesting Input Variables");
+        }
+
         public static Dictionary<string, double> RoofTypes() => new Dictionary<string, double>
             {
                 {"ASPHALT, 0.2% SLOPE", 0.4175},

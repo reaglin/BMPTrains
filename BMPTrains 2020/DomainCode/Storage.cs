@@ -34,6 +34,8 @@ namespace BMPTrains_2020.DomainCode
         public double RequiredRetentionVolume { get; set; }     // ac-ft
         public double RemainingDepthNeeded { get; set; }
         public double TreatmentMediaVolume { get; set; }
+
+        [Meta("Provided Media Treatment Depth", "in", "##.##")]
         public double TreatmentMediaDepth { get; set; }
 
         #endregion

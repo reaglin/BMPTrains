@@ -9,47 +9,104 @@ namespace BMPTrains_2020.DomainCode
     public class Swale : Storage
     {
         #region "Input Properties"
+
+        [Meta("Swale Top Width for Flood Conditions - W", "ft", 2)]
         public double SwaleW { get; set; }                      // Width (ft)
+
+        [Meta("Swale Bottom Width - B", "ft", 2)]
         public double SwaleB { get; set; }                      // Bottom Width (ft)
+
+        [Meta("Swale Length - L", "ft", 2)]
         public double SwaleL { get; set; }                      // Length (ft)
+
+        [Meta("Average Impervious Length", "ft", 2)]
         public double ImperviousL { get; set; }                 // Impervious Length (ft)
+
+        [Meta("Average Impervious Width", "ft", 2)]
         public double ImperviousW { get; set; }                 // Impervious Width (ft)
+
+        [Meta("Average Pervious Width", "ft", 2)]
         public double PerviousW { get; set; }
 
-
+        [Meta("Swale Slope (foot drop/foot length) - S", "", 2)]
         public double SwaleS { get; set; }                      // Slope drop/length
+
+        [Meta("Mannings N", "", 2)]
         public double ManningsN { get; set; }
+
+        [Meta("Soil Infiltration Rate", "in/hr", 2)]
         public double InfiltrationRate { get; set; }            // in/hr
+
+        [Meta("Side Slope of Swale horizontal/vertical - Z", "", 2)]
         public double SwaleZ { get; set; }
 
+
         public double InfiltratedStorageDepth { get; set; }
+
+        [Meta("Average Height of Swale Block - H", "", 2)]
         public double SwaleH { get; set; }                      // Average height of swale blocks ft
+
+        [Meta("Length of Berm Upstream of Crest - Lb", "", 2)]
         public double SwaleLb { get; set; }                     // Length of berm upstream of swale crest
+
+        [Meta("Number of Swale Blocks", "", 2)]
         public double SwaleNb { get; set; }                     // Number of Swale Blocks
         #endregion
 
         // Caclulated Properties
+
+        [Meta("Swale Catchment Area", "sf", 2)]
         public double ContributingAreaSF { get; set; }
+
+        [Meta("Runoff Area", "acres", 2)]
         public double TreatmentAreaAcres { get; set; }
 
         public double RainfallIntensity { get; set; }
+
+        [Meta("Rainfall Excess Area", "", 2)]
         public double RainfallExcessArea { get; set; }
+
+        [Meta("Rainfall Excess Area", "sf", 2)]
         public double RainfallExcessAreaSF { get; set; }
+
+        [Meta("Flow in Swale", "cfs", 2)]
         public double FlowInSwale { get; set; }     // cfs
+
+        [Meta("Calculated Flow in Swale", "cfs", 2)]
         public double CalculatedFlowInSwale { get; set; }
+
+        [Meta("Depth of Flow in Swale", "ft", 2)]
         public double DepthOfFlow { get; set; }
+
+        [Meta("Wetted Perimeter", "ft", 2)]
         public double WettedPerimeter {get; set;}
         public double UpstreamSwaleBlockVolume { get; set; }
         public double TotalSwaleBlockVolume { get; set; }
 
 
         public string UseConcentrationReduction { get; set; }
+
+        [Meta("Surface Discharge Nitrogen Treatment Efficiency", "%", 2)]
         public double SurfaceDischargeNReduction { get; set; }
+
+        [Meta("Surface Discharge Phosphorus Treatment Efficiency", "%", 2)]
         public double SurfaceDischargePReduction { get; set; }
 
+        [Meta("Groundwater Discharge Nitrogen Treatment Efficiency", "%", 2)]
         public double GroundwaterNReduction { get; set; }
+
+        [Meta("Groundwater Discharge Phosphorus Treatment Efficiency", "%", 2)]
         public double GroundwaterPReduction { get; set; }
 
+        public new static readonly string[] InputVariables = {
+            "SwaleW", "SwaleB", "SwaleL", "ImperviousL", "ImperviousW",
+            "PerviousW", "SwaleS", "ManningsN", "InfiltrationRate", "SwaleZ",
+            "SwaleH", "SwaleLb", "TreatmentAreaAcres", "SwaleNb" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Swale Input Variables");
+        }
 
         public Swale(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sSwale;

@@ -20,6 +20,14 @@ namespace BMPTrains_2020.DomainCode
         public double AreaforLookup { get; set; }
         #endregion
 
+        public new static readonly string[] InputVariables = {
+            "ContributingArea", "IrrigationArea", "HarvestVolume", "AvailableHarvestRate", "EffectiveImperviousArea",
+            "HarvestedWaterSupply", "WaterUse", "RetentionDepth" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Stormwater Harvesting Input Variables");
+        }
 
         public StormwaterHarvesting(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sStormwaterHarvesting;

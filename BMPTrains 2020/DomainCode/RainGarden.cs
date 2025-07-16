@@ -11,18 +11,41 @@ namespace BMPTrains_2020.DomainCode
         public static string SessionId = "RainGardenID";
 
         //public double ProvidedRetentionDepth { get; set; } // inches over watershed use RetentionDepth
+
+        [Meta("Provided retention volume for efficiency", "ac-ft", "##.##")]
         public double ProvidedRetentionVolume { get; set; } // acre-feet
 
         public static string[] SystemTypes => new string[] { sRetention, sDetention };
 
+        [Meta("Sustainable Void Fraction", "0-1", 2)]
         public double VoidFraction { get; set; }
+
+        [Meta("Water Above Media", "cubic feet", 2)]
         public double WaterAboveMedia { get; set; }
+
+        [Meta("Volume of Storage", "cubic feet", 0)]
         public double VolumeStorageCF { get; set; }
+
+        [Meta("Volume of Storage", "inches", 2)]
         public double VolumeStorageIn { get; set; }
-        public double MediaAreaSF { get; set; }
+
+
+        //public double MediaAreaSF { get; set; }
+
+
         public double MinimumMediaArea { get; set; }
+
+        [Meta("Credit For Cover Crop", "%", "##.##")]
         public double CreditForCoverCrop { get; set; }
 
+        public new static readonly string[] InputVariables = {
+            "RetentionOrDetention", "MediaMixType", "VoidFraction", "MediaVolume", "WaterAboveMedia",
+            "ProvidedRetentionVolume", "TreatmentMediaDepth", "CreditForCoverCrop" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rain Garden Input Variables");
+        }
 
         public RainGarden(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sRainGarden;
@@ -74,9 +97,6 @@ namespace BMPTrains_2020.DomainCode
                 {"WaterAboveMedia", "<u>Water Above Media (cubic feet)</u>"},
                 {"VolumeStorageCF", "Volume of Storage (cubic feet)"},
                 {"VolumeStorageIn", "Volume of Storage (inches)"}
-
-
-            
             };
             return d1;
         }

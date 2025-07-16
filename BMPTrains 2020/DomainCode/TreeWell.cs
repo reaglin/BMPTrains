@@ -8,12 +8,33 @@ namespace BMPTrains_2020.DomainCode
 {
     public class TreeWell : Storage
     {
+
+        [Meta("Vegetated Area (Tree Well) depth", "ft", 2)]
         public double WellDepth { get; set; }           // ft
+
+        [Meta("Tree Well Storage (above media + canopy capture)", "ft", 2)]
         public double WellStorage { get; set; }         // ft
+
+        [Meta("Vegetated Area (Tree Well) Length", "ft", 2)]
         public double WellLength { get; set; }          // ft
+
+        [Meta("Vegetated Area (Tree Well) Width", "ft", 2)]
         public double WellWidth { get; set; }           // ft
+
+        [Meta("Sustainable water storage capacity of the soil", "ft", 2)]
         public double SoilStorageCapacity { get; set; } // ft
+
+        [Meta("Number of Similar Areas in Watershed", "", 2)]
         public int NumWells { get; set; }
+
+        public new static readonly string[] InputVariables = {
+            "WellDepth", "WellStorage", "WellLength", "WellWidth", "SoilStorageCapacity",
+            "NumWells", "RetentionDepth", "RetentionOrDetention" };
+
+        public override string PrintInputVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Tree Well Input Variables");
+        }
 
         // Used as retention or detention
 
