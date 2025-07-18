@@ -39,6 +39,8 @@ namespace BMPTrains_2020.DomainCode
         public string DoGroundwaterAnalysis { get; set; }
 
         public int PreLandUseId { get; set; }
+
+        [Meta("Pre-Condition Landuse", "", 2)]
         public string PreLandUseName { get; set; }
         public int PostLandUseId { get; set; }
 
@@ -178,6 +180,11 @@ namespace BMPTrains_2020.DomainCode
         public double PreReductionPercent { get; set; }
         public CatchmentRouting routing { get; set; }
 
+        // The variables are represented as strings here for the reports. The reports convert these to a table
+        // using the description defined in the Meta tags for each variable. 
+
+        // Reports can also be defined in a library that uses these string arrays and the title used for the report 
+        // as the key. 
 
         public static readonly string[] InputVariables = {
             "CatchmentName", "RainfallZone", "Rainfall" };
@@ -190,9 +197,14 @@ namespace BMPTrains_2020.DomainCode
             "PostLandUseName", "PostArea", "PostRationalCoefficient", "PostNonDCIACurveNumber", "PostDCIAPercent",
             "PostNConcentration", "PostPConcentration", "PostRunoffVolume", "PostNLoading", "PostPLoading"};
         // Can use if meta properties are defined (Follow Meta Print for Details)
-        public string Print(string property_name)
+
+        public string PrintWatershedCharacteristics()
         {
-            return InterfaceCommon.PrintProperty(this, property_name);
+            string s = InterfaceCommon.PrintPropertyTable(this, InputVariables, "Catchment Characteristics");
+            s += InterfaceCommon.PrintPropertyTable(this, PreConditionVariables, "Pre-Condition Watershed Characteristics");
+            s += InterfaceCommon.PrintPropertyTable(this, PostConditionVariables, "Post-Condition Watershed Characteristics");
+
+            return s;
         }
 
 
@@ -498,27 +510,27 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting"
-        public string CatchmentReport()
+        public string PrintCatchmentReport()
         {
-            string s = getSelectedBMP().BMPReport();
+            string s = getSelectedBMP().PrintBMPReport();
             return s;
         }
 
-        public string WatershedCharacteristics()
-        {
-            string s = "<br/><b>Watershed Characteristics</b><br/>";
-            s += AsHtmlTable(
-                new Dictionary<string, string>
-            {
-                {"CatchmentName", "Catchment Name" },
-                {"PostArea", "Contributing Area (acres)"},
-                {"PostNonDCIACurveNumber", "Non DCIA Curve Number"},
-                {"PostDCIAPercent", "DCIA Percent"},
-                {"RainfallZone", "Rainfall Zone"},
-                {"Rainfall", "Annual Rainfall (in)"}
-            });
-            return s;
-        }
+        //public string WatershedCharacteristics()
+        //{
+        //    string s = "<br/><b>Watershed Characteristics</b><br/>";
+        //    s += AsHtmlTable(
+        //        new Dictionary<string, string>
+        //    {
+        //        {"CatchmentName", "Catchment Name" },
+        //        {"PostArea", "Contributing Area (acres)"},
+        //        {"PostNonDCIACurveNumber", "Non DCIA Curve Number"},
+        //        {"PostDCIAPercent", "DCIA Percent"},
+        //        {"RainfallZone", "Rainfall Zone"},
+        //        {"Rainfall", "Annual Rainfall (in)"}
+        //    });
+        //    return s;
+        //}
 
         public override Dictionary<string, string> PropertyLabels()
         {
@@ -1482,6 +1494,8 @@ namespace BMPTrains_2020.DomainCode
         public double VolumeFromCatchment { get; set; }
         public double VolumeFromUpstream { get; set; }
         public double VolumeIn { get; set; }
+
+        
         public double VolumeOut { get; set; }
         public double VolumeTreated { get; set; }
         public double VolumeIntoMedia { get; set; }
@@ -1849,7 +1863,8 @@ namespace BMPTrains_2020.DomainCode
             cr.HydraulicEfficiency = 100;
             BMP bmp = cr.getCatchment().getSelectedBMP();
 
-            if (bmp.isRetention())
+            // Retention and multiple BMP can have retention
+            if (bmp.hasRetention())
             {
                 cr.HydraulicEfficiency = 100 - bmp.ProvidedNTreatmentEfficiency;
             }

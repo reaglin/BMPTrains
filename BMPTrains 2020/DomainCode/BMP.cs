@@ -333,13 +333,12 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        public virtual string BMPReport()
+        public virtual string PrintBMPReport()
         {
             string s = "<h1>Project:  " + Globals.Project.ProjectName + "</h1>";
             s += "<h2>" + BMPTypeTitle() + " Design ";
-
             s += "Report Date: " + DateTime.Now.ToString("d") + "</h2><br/>";
-            //s += BMPInputVariables();
+
             s += PrintInputVariables();
             s += PrintWatershedCharacteristics();
             s += PrintSurfaceWaterDischarge();
@@ -727,6 +726,12 @@ namespace BMPTrains_2020.DomainCode
         {
             return false;
         }
+
+        public virtual bool hasRetention()
+        {
+            return isRetention();
+        }
+
 
         public virtual bool isDefined()
         {

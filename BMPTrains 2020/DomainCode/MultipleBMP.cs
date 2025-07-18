@@ -54,16 +54,22 @@ namespace BMPTrains_2020.DomainCode
             // lastRetentionBMPId will be the last Retention BMP
             // lastBMPId is the last BMP used in calculation
 
+            //
+           // Special Case: All bmp in series are retention 
+           //
 
-            if (isRetention())
-            {
-                double d = CalculateEffectiveRetentionTreatmentEfficiency();
-                ProvidedNTreatmentEfficiency = d;
-                ProvidedPTreatmentEfficiency = d;
-                RechargeRate = RunoffVolume * 0.3258724 * HydraulicCaptureEfficiency / 100;
-                CalculateRetentionGroundwaterTreatmentEfficiency();
-                return;
-            }
+            if (CalculateAllRetention()) return;
+
+            //
+            // Special Case Wet Detention to Stormwater Harvesting (possibly following a retention system)
+            //
+
+            if (CalculateDetentionToHarvesting()) return;
+
+
+            //
+            //  Spcial Caase Retention to Wet Detention  
+            //
 
             int lastRetentionBMPId = CalculateRetention();
             int lastBMPId = lastRetentionBMPId;
@@ -73,6 +79,7 @@ namespace BMPTrains_2020.DomainCode
             if ((lastRetentionBMPId == 1) && (bmp2.BMPType == BMPTrainsProject.sWetDetention)) { RouteRetentionToWetDetention(bmp1, bmp2); lastBMPId++; }
             if ((lastRetentionBMPId == 2) && (bmp3.BMPType == BMPTrainsProject.sWetDetention)) { RouteRetentionToWetDetention(bmp2, bmp3); lastBMPId++; }
             if ((lastRetentionBMPId == 3) && (bmp4.BMPType == BMPTrainsProject.sWetDetention)) { RouteRetentionToWetDetention(bmp3, bmp4); lastBMPId++; }
+
 
             // After Retention (or not) multiple Wet Detention can route to each other
             if ((bmp1.BMPType == BMPTrainsProject.sWetDetention) && (bmp2.BMPType == BMPTrainsProject.sWetDetention)) { lastBMPId = RouteWetDetentionToWetDetention(1);  }
@@ -109,52 +116,33 @@ namespace BMPTrains_2020.DomainCode
                 return;
             }
 
-            // Common Case Wet Detention to Stormwater Harvesting 
-            if ((bmp1.BMPType == BMPTrainsProject.sWetDetention) 
-                && (bmp2.BMPType == BMPTrainsProject.sStormwaterHarvesting))
-            {
-                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedNTreatmentEfficiency, bmp2.ProvidedNTreatmentEfficiency);
-                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedPTreatmentEfficiency, bmp2.ProvidedPTreatmentEfficiency);
-                HydraulicCaptureEfficiency = bmp2.ProvidedNTreatmentEfficiency;
-                CalculateMassLoading();
-                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
 
-                // For situations where there are additional BMP's after the Detention to Stormwater Harvesting Scenario
 
-                if (bmp3.BMPType == BMPTrainsProject.sNone) return;
-                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
-                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
-                
-                CalculateMassLoading();
-                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
 
-                if (bmp4.BMPType == BMPTrainsProject.sNone) return;
-                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
-                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
-                
-                CalculateMassLoading();
-                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
-                return;
-            }
 
-            // Common Case Wet Detention to Stormwater Harvesting 
-            if ((bmp2.BMPType == BMPTrainsProject.sWetDetention)
-                && (bmp3.BMPType == BMPTrainsProject.sStormwaterHarvesting))
-            {
-                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
-                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
-                CalculateMassLoading();
-                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+            //Common Case Wet Detention to Stormwater Harvesting
+            //if ((bmp2.BMPType == BMPTrainsProject.sWetDetention)
+            //    && (bmp3.BMPType == BMPTrainsProject.sStormwaterHarvesting))
+            //{
+            //    ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
+            //    ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
+            //    HydraulicCaptureEfficiency = bmp2.ProvidedNTreatmentEfficiency;
+            //    BMPVolumeOut = BMPVolumeIn * HydraulicCaptureEfficiency / 100;
 
-                // For situations where there are additional BMP's after the Detention to Stormwater Harvesting Scenario
+            //    CalculateMassLoading();
+            //    CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+            //    if (bmp4.BMPType == BMPTrainsProject.sNone) return;
 
-                if (bmp4.BMPType == BMPTrainsProject.sNone) return;
-                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
-                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
-                CalculateMassLoading();
-                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
-                return;
-            }
+
+            //    For situations where there are additional BMP's after the Detention to Stormwater Harvesting Scenario
+
+
+            //    ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
+            //    ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
+            //    CalculateMassLoading();
+            //    CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+            //    return;
+            //}
 
             CalculateTraditional();
 
@@ -163,6 +151,75 @@ namespace BMPTrains_2020.DomainCode
             CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
 
 
+        }
+
+
+        public bool CalculateAllRetention()
+        {
+            if (isRetention())
+            {
+                double d = CalculateEffectiveRetentionTreatmentEfficiency();
+                ProvidedNTreatmentEfficiency = d;
+                ProvidedPTreatmentEfficiency = d;
+                RechargeRate = RunoffVolume * 0.3258724 * HydraulicCaptureEfficiency / 100;
+                CalculateRetentionGroundwaterTreatmentEfficiency();
+                return true;
+            }
+            return false;
+        }
+
+        public bool CalculateDetentionToHarvesting()
+        {
+            // Wet Detention to Stormwater Harvesting (common case)
+            if ((bmp1.BMPType == BMPTrainsProject.sWetDetention)
+                   && (bmp2.BMPType == BMPTrainsProject.sStormwaterHarvesting))
+            {
+                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedNTreatmentEfficiency, bmp2.ProvidedNTreatmentEfficiency);
+                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(bmp1.ProvidedPTreatmentEfficiency, bmp2.ProvidedPTreatmentEfficiency);
+                HydraulicCaptureEfficiency = bmp2.ProvidedNTreatmentEfficiency;
+                BMPVolumeOut = BMPVolumeIn * HydraulicCaptureEfficiency / 100;
+
+                CalculateMassLoading();
+                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+
+                // For situations where there are additional BMP's after the Detention to Stormwater Harvesting Scenario
+
+                if (bmp3.BMPType == BMPTrainsProject.sNone) return true;
+
+                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
+                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
+
+                CalculateMassLoading();
+                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+                HydraulicCaptureEfficiency = bmp3.ProvidedNTreatmentEfficiency;
+                BMPVolumeOut = BMPVolumeIn * HydraulicCaptureEfficiency / 100;
+
+                if (bmp4.BMPType == BMPTrainsProject.sNone) return true;
+
+                ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
+                ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
+
+                CalculateMassLoading();
+                CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
+                HydraulicCaptureEfficiency = bmp4.ProvidedNTreatmentEfficiency;
+                BMPVolumeOut = BMPVolumeIn * HydraulicCaptureEfficiency / 100;
+                return true;
+            }
+
+            // The opther case is retention to detention to Stormwater Harvesting
+
+            if (bmp1.isRetention()
+                && (bmp2.BMPType == BMPTrainsProject.sWetDetention)
+                    && (bmp3.BMPType == BMPTrainsProject.sStormwaterHarvesting))
+            {
+                RouteRetentionToWetDetention(bmp1, bmp2);
+                RouteThisToStormwaterHarvesting(bmp3);
+
+                return true;
+            }
+
+
+            return false;
         }
 
         private void CalculateTraditional()
@@ -226,10 +283,21 @@ namespace BMPTrains_2020.DomainCode
 
         public override bool isRetention()
         {
-            // If the last BMP is retention - system is retention
+            // If the last BMP is retention - system is retention - These means all types are retention
             if (bmp1.isRetention()) { if (bmp2.BMPType == BMPTrainsProject.sNone) return true; } else return false;
             if (bmp2.isRetention()) { if (bmp3.BMPType == BMPTrainsProject.sNone) return true; } else return false;
             if (bmp3.isRetention()) { if (bmp4.BMPType == BMPTrainsProject.sNone) return true; } else return false;
+            if (bmp4.isRetention()) return true;
+
+            return false;
+        }
+
+        public override bool hasRetention()
+        {
+            // If any bmp is retention, it has retention
+            if (bmp1.isRetention()) return true;
+            if (bmp2.isRetention()) return true;
+            if (bmp3.isRetention()) return true;
             if (bmp4.isRetention()) return true;
 
             return false;
@@ -470,6 +538,17 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        private void RouteThisToStormwaterHarvesting(BMP bmp)
+        {
+            // Used when there are upstream systems that end in Stormwater Harvesting
+            ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp.ProvidedNTreatmentEfficiency);
+            ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp.ProvidedPTreatmentEfficiency);
+            double AdditionalHydraulicCaptureEfficiency = bmp.ProvidedNTreatmentEfficiency;
+            HydraulicCaptureEfficiency = CalculateAdjustedEfficiency(AdditionalHydraulicCaptureEfficiency, HydraulicCaptureEfficiency);
+            BMPVolumeOut = BMPVolumeIn * (100 - HydraulicCaptureEfficiency) / 100;      
+        }
+
+
         private int CalculateRetention()
         {
             // For retention based systems - treatment is simply the sum of retention depth
@@ -500,6 +579,17 @@ namespace BMPTrains_2020.DomainCode
             }
 
             return RetentionCount;
+        }
+
+        private int LastRetention()
+        {
+            int RetentionCount = 0;
+            if (bmp1.isRetention()) RetentionCount = 1;
+            if (bmp2.isRetention()) RetentionCount = 2;
+            if (bmp3.isRetention()) RetentionCount = 3;
+            if (bmp4.isRetention()) RetentionCount = 4;
+            return RetentionCount;
+
         }
 
         public override void CalculateGroundwaterDischarge()
@@ -592,7 +682,7 @@ namespace BMPTrains_2020.DomainCode
 
         #region "Reporting"
 
-        public override string BMPReport()
+        public override string PrintBMPReport()
         {
             string s = "<b>Project:</b> " + Globals.Project.ProjectName + "<br/>";
             s += "<b>Date:</b> " + DateTime.Now.ToString("d") + "<br/><br/>";
@@ -632,8 +722,8 @@ namespace BMPTrains_2020.DomainCode
                 {"RainfallZone", "Rainfall Zone"},
                 {"RationalCoefficient", "Calculated Annual Coefficient (0-1)"},
                 {"RetentionDepth", "Total (accumulated) Retention Depth (in over watershed)"},
-                {"CalculatedNTreatmentEfficiency", "Overall Provided Nitrogen Treatment Efficiency (%)"},
-                {"CalculatedPTreatmentEfficiency", "Overall Provided Phosphorus Treatment Efficiency (%)"},
+                {"ProvidedNTreatmentEfficiency", "Overall Provided Nitrogen Treatment Efficiency (%)"},
+                {"ProvidedPTreatmentEfficiency", "Overall Provided Phosphorus Treatment Efficiency (%)"},
                 {"BMPNMassLoadOut", "Overall Nitrogen Load (kg/yr)"},
                 {"BMPPMassLoadOut", "Overall Phosphorus Load (kg/yr)"}
             };
@@ -656,6 +746,19 @@ namespace BMPTrains_2020.DomainCode
             //if (bmpExists(3) && bmp3.BMPType != BMPTrainsProject.sNone) s += bmp3.EfficiencyReport();
             //if (bmpExists(4) && bmp4.BMPType != BMPTrainsProject.sNone) s += bmp4.EfficiencyReport();
             s += EfficiencyReport();
+            return s;
+        }
+
+        public string PrintFullReport()
+        {
+            string s = "<h1>Multiple BMP Report</h1>";
+            s += "Each BMP rreported in routing order";
+            s += PrintWatershedCharacteristics();
+
+            if (bmp1.isDefined()) { s += "<h2>BMP 1</h2>"+ bmp1.PrintInputVariables(); }
+            if (bmp2.isDefined()) { s += "<h2>BMP 2</h2>" + bmp2.PrintInputVariables(); }
+            if (bmp3.isDefined()) { s += "<h2>BMP 3</h2>" + bmp3.PrintInputVariables(); }
+            if (bmp4.isDefined()) { s += "<h2>BMP 4</h2>" + bmp4.PrintInputVariables(); }
             return s;
         }
 

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.wbOutput = new System.Windows.Forms.WebBrowser();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
@@ -53,18 +52,10 @@
             this.btnAnoxicDepth = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // wbOutput
-            // 
-            this.wbOutput.Location = new System.Drawing.Point(25, 328);
-            this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
-            this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(602, 237);
-            this.wbOutput.TabIndex = 6;
-            // 
             // btnClose
             // 
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(515, 254);
+            this.btnClose.Location = new System.Drawing.Point(515, 269);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 7;
@@ -75,22 +66,23 @@
             // btnReport
             // 
             this.btnReport.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReport.Location = new System.Drawing.Point(515, 209);
+            this.btnReport.Location = new System.Drawing.Point(515, 201);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(112, 39);
             this.btnReport.TabIndex = 8;
             this.btnReport.Text = "Copy";
             this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Visible = false;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // btnPrint
             // 
-            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(515, 164);
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new System.Drawing.Point(515, 147);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 9;
-            this.btnPrint.Text = "Print";
+            this.btnPrint.Text = "Full Report";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
@@ -107,7 +99,7 @@
             // btnCalculate
             // 
             this.btnCalculate.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCalculate.Location = new System.Drawing.Point(515, 74);
+            this.btnCalculate.Location = new System.Drawing.Point(515, 57);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(112, 39);
             this.btnCalculate.TabIndex = 18;
@@ -271,7 +263,7 @@
             // btnAnoxicDepth
             // 
             this.btnAnoxicDepth.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 119);
+            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 102);
             this.btnAnoxicDepth.Name = "btnAnoxicDepth";
             this.btnAnoxicDepth.Size = new System.Drawing.Size(112, 39);
             this.btnAnoxicDepth.TabIndex = 62;
@@ -284,7 +276,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 580);
+            this.ClientSize = new System.Drawing.Size(652, 347);
             this.ControlBox = false;
             this.Controls.Add(this.btnAnoxicDepth);
             this.Controls.Add(this.btnOpen4);
@@ -305,7 +297,6 @@
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.btnReport);
             this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.wbOutput);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -321,7 +312,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.WebBrowser wbOutput;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.Button btnPrint;

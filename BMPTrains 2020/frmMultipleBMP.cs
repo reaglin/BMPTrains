@@ -43,7 +43,7 @@ namespace BMPTrains_2020
 
             setValues();
             Calculate();
-            setOutputText();
+//            setOutputText();
         }
 
         private Catchment currentCatchment()
@@ -60,7 +60,7 @@ namespace BMPTrains_2020
         private void setOutputText()
         {
             // Add to each form
-            wbOutput.DocumentText = currentBMP().getReport();
+            //wbOutput.DocumentText = currentBMP().getReport();
         }
 
 
@@ -154,10 +154,10 @@ namespace BMPTrains_2020
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            this.wbOutput.Document.Focus();
-            SendKeys.SendWait("^a");
-            SendKeys.SendWait("^a^c");
-            DialogResult dialogResult = MessageBox.Show("Report has been copied to the clipboard as HTML text", "Copy Report", MessageBoxButtons.OK);
+            //this.wbOutput.Document.Focus();
+            //SendKeys.SendWait("^a");
+            //SendKeys.SendWait("^a^c");
+            //DialogResult dialogResult = MessageBox.Show("Report has been copied to the clipboard as HTML text", "Copy Report", MessageBoxButtons.OK);
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)
@@ -166,6 +166,8 @@ namespace BMPTrains_2020
             Calculate();
             if (lastBMPID() == 0) return;
             if (lastBMP().BMPType == BMPTrainsProject.sWetDetention) btnAnoxicDepth.Visible = true; else btnAnoxicDepth.Visible = false;
+            Form form = new frmReport(currentBMP().getReport());
+            form.ShowDialog();
         }
 
         private void Calculate()
@@ -174,13 +176,14 @@ namespace BMPTrains_2020
             
             currentCatchment().Calculate();
             //currentBMP().Calculate();
-            setOutputText();
+            //setOutputText();
 
         }
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            // Same for every edit form
-            wbOutput.Print();
+            Form form = new frmReport(currentBMP().PrintFullReport());
+            form.ShowDialog();
+
         }
 
         private void btnHelp_Click(object sender, EventArgs e)
@@ -358,7 +361,9 @@ namespace BMPTrains_2020
             getValues();
             Calculate();
             if (lastBMPID() == 0) return;
-            wbOutput.DocumentText = currentBMP().reportAnoxicDepth(lastBMPID(), currentBMP().ProvidedPTreatmentEfficiency);
+            
+            Form form = new frmReport(currentBMP().reportAnoxicDepth(lastBMPID(), currentBMP().ProvidedPTreatmentEfficiency));
+            form.ShowDialog();
         }
     }
 }

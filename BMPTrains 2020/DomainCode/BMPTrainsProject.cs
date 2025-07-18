@@ -52,7 +52,7 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_OFW = "OFW";
         public const string AT_ImpairedWater = "Impaired Water";
         public const string AT_ImpairedWater_OFW = "Impaired Water + OFW";
-        public const string AT_ImpairedWater_IMP = "Impaired Water + IMP";
+        public const string AT_ImpairedWater_IMP = "Impaired Water + Impaired";
         public const string AT_Redevelopment = "Redevelopment";
         public const string AT_Redevelopment_OFW = "Redevelopment + OFW";
         public const string AT_SpecifiedRemovalEfficiency = "Specified Removal Efficiency";
@@ -155,15 +155,22 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Total Phosphrous Discharge Load", "kg/yr",  2)]
         public double TargetPMassLoad { get; set; }
 
-        [Meta("Total Catchement Nitrogen Loading", "kg/yr",  2)]
+        [Meta("Total Catchment Nitrogen Loading", "kg/yr",  2)]
         public double TotalCatchmentNLoad { get; set; }
 
-        [Meta("Total Catchement Phosphorus Loading", "kg/yr",  2)]
+        [Meta("Total Catchment Phosphorus Loading", "kg/yr",  2)]
         public double TotalCatchmentPLoad { get; set; }
+
+        [Meta("Total Groundwater Nitrogen Removed", "kg/yr", 2)]
         public double TotalGroundwaterNRemoved { get; set; }
+
+        [Meta("Total Groundwater Phosphorus Removed", "kg/yr", 2)]
         public double TotalGroundwaterPRemoved { get; set; }
 
+        [Meta("Total Groundwater Nitrogen Loading", "kg/yr", 2)]
         public double TotalGroundwaterNLoading { get; set; }
+
+        [Meta("Total Groundwater Phosphorus Loading", "kg/yr", 2)]
         public double TotalGroundwaterPLoading { get; set; }
         
         public double TotalCatchmentPreNLoad { get; set; }
@@ -178,8 +185,15 @@ namespace BMPTrains_2020.DomainCode
 
         public double PreCatchmentAreaAcres { get; set; }
         public double PostCatchmentAreaAcres { get; set; }
+
+        [Meta("Pre-Runoff Volume from Catchment", "ac-ft", 2)]
         public double PreRunoffVolume { get; set; }
+
+        [Meta("Post-Runoff Volume from Catchment", "ac-ft", 2)]
         public double PostRunoffVolume { get; set; }
+
+        [Meta("Post-Runoff Volume from System", "ac-ft", 2)]
+        public double OutflowVolume { get; set; }
 
 
         // Used only if a pre-condition is loaded and then used 
@@ -219,11 +233,6 @@ namespace BMPTrains_2020.DomainCode
         public double ProjectDuration { get; set; }     // Years
         public double CostOfWater { get; set; }         // $ / 1000 gal-water
 
-        // Can use if meta properties are defined (Follow Meta Print for Details)
-        public string Print(string property_name)
-        {
-            return InterfaceCommon.PrintProperty(this, property_name);
-        }
         #endregion
 
         // Constructor
@@ -1016,6 +1025,8 @@ namespace BMPTrains_2020.DomainCode
                 PostCatchmentAreaAcres += Catchments[1].getContributingArea();
                 //PostCatchmentAreaAcres += Catchments[1].PostArea - Catchments[1].BMPArea;
                 PreRunoffVolume += Catchments[1].PreRunoffVolume;
+
+                // Sums up volumes from all upstream catchments
                 if (Catchments[1].ToID == 0) PostRunoffVolume += Catchments[1].routing.VolumeOut;
 
                 TotalGroundwaterNRemoved += Catchments[1].GroundwaterNRemoved;
@@ -1039,6 +1050,8 @@ namespace BMPTrains_2020.DomainCode
                 PostCatchmentAreaAcres += Catchments[i].getContributingArea();
                 
                 PreRunoffVolume += Catchments[i].PreRunoffVolume;
+
+                // Sums up volumes from all upstream catchments
                 if (Catchments[i].ToID == 0) PostRunoffVolume += Catchments[i].routing.VolumeOut;
 
                 TotalGroundwaterNRemoved += Catchments[i].GroundwaterNRemoved;
@@ -1198,7 +1211,7 @@ namespace BMPTrains_2020.DomainCode
             return p;
         }
 
-        public string summaryReport(bool print_catchments = false)
+        public string PrintSummaryReport(bool print_catchments = false)
         {
             Calculate();
 
@@ -1255,24 +1268,36 @@ namespace BMPTrains_2020.DomainCode
             s += "</td>";
             s += "</tr></table>";
 
-
-            // For the printout only
-            double pnlr = TotalCatchmentNLoad - TotalOutletNLoad;
-
-
             s += "<br/><h2>Summary Report for System (All Catchments)</h2><br/>";
             s += "<h3>Volume of Runoff</h3>";
             if (PreCatchmentAreaAcres != 0)  
                 s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") +"<br/>";
             if (PostCatchmentAreaAcres != 0) 
+                
                 s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##")+"<br/>";
 
-            s += "<h3>Summary Loading Anlysis</h3>";
+            s += PrintSummaryLoadingAnalysis();
 
+            s += PrintPrePostAnalysis();
 
+            // Nitrogen Loading - Surface and Groundwater
+            s += PrintNitrogenLoading();
+
+            // Phosphorus Loading Surface Water and Groundwater
+            s += PrintPhosphorusLoading();
+
+            return s;
+        }
+        
+
+        public string PrintSummaryLoadingAnalysis()
+        {
+            // This is the Summary Loading Analyysis 
+            string s = "";
             // Target Analysis is if the targets are met. Compares Calculated vs. Target Efficiencies
             if (PrintTargetAnalysis(AnalysisType))
             {
+                s += "<h3>Summary Loading Analysis</h3>";
                 //s += "Nitrogen Removal Required: " + Globals.Project.RequiredNTreatmentEfficiency.ToString("##") + "%<br/>";
                 //s += "Nitrogen Removal Provided: " + anr.ToString("##");
                 s += "<h3>% Target Removals</h3>";
@@ -1290,7 +1315,16 @@ namespace BMPTrains_2020.DomainCode
                 s += "<br/>";
                 s += "<br/>";
             }
+            else
+            {
+                s += "No Target Removals for Analysis Type: " + AnalysisType + "<br/><br/>";
+            }
+            return s;
+        }
 
+        public string PrintPrePostAnalysis()
+        {
+            string s = "";
             // Pre-Post Analysis compares Target vs Pre-Post 
             if (BMPTrainsProject.PrintPrePostResults(AnalysisType))
             {
@@ -1306,34 +1340,46 @@ namespace BMPTrains_2020.DomainCode
                     + " (Required: " + TargetPPercent.ToString("##.##") + "% "
                     + " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
             }
+            else
+            {
+                s += "No Pre/Post Analysis for Analysis Type: " + AnalysisType + "<br/>";
+            }
+
+            return s;
+        }
+        
+        public string PrintNitrogenLoading()
+        {
+            string s = "";
+            string td = "<td style='padding-right:30px'>";
+            string decimal_removal = "##";
+            // For the printout only
+            double pnlr = TotalCatchmentNLoad - TotalOutletNLoad;
 
             s += "<h3>Nitrogen Loading</h3>";
             s += "<table style='margin:10px'>";
-            string td = "<td style='padding-right:30px'>";
+            
             s += "<tr><td><h4>Surface Water Discharge</h4></td><td></td><td></td></tr>";
 
             // Pre loads do not show in the case of BMP Analysis
             if (Globals.Project.AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
-            { 
+            {
                 s += "<tr>" + td + "Total N pre load</td>" + td + "" + TotalCatchmentPreNLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
 
             s += "<tr>" + td + "Total N post load</td>" + td + "" + TotalCatchmentNLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
 
-            string decimal_removal = "##";
             if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement) decimal_removal = "##.##";
             // Targets only exist in the case of Specified removal efficiency
-            if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) 
+            if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
                 || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
-            { 
+            {
                 s += "<tr>" + td + "Target N load reduction</td>" + td + "" + TargetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
             }
+
             string PNLR = (Double.IsNaN(CalculatedNTreatmentEfficiency) ? "99+" : CalculatedNTreatmentEfficiency.ToString(decimal_removal));
-
-
-
             s += "<tr>" + td + "Percent N load reduction</td>" + td + "" + PNLR + " %</td><td></td></tr>";
             s += "<tr>" + td + "Provided N discharge load</td>" + td + "" + TotalOutletNLoad.ToString("##.##") + " kg/yr</td><td>" + (TotalOutletNLoad * 2.205).ToString("##.##") + " lb/yr</td></tr>";
             s += "<tr>" + td + "Provided N load removed</td>" + td + "" + (pnlr).ToString("##.##") + " kg/yr</td><td>" + ((pnlr) * 2.205).ToString("##.##") + " lb/yr</td></tr>";
@@ -1346,18 +1392,25 @@ namespace BMPTrains_2020.DomainCode
             {
                 s += "<tr><td><h4><br/>Groundwater Discharge</h4></td><td></td><td></td></tr>";
 
-
                 //double gwpr = 0.0;
-                if (TotalGroundwaterNLoading != 0) TotalGroundwaterPRemoved = 100* TotalGroundwaterNFromMedia / TotalGroundwaterNLoading;
-                double Nconcentration = (TotalCatchmentGWRechargeRate != 0 ? (TotalGroundwaterNFromMedia * 1e6)  / (TotalCatchmentGWRechargeRate * 3785411.78) : 0.0);
+                if (TotalGroundwaterNLoading != 0) TotalGroundwaterPRemoved = 100 * TotalGroundwaterNFromMedia / TotalGroundwaterNLoading;
+                double Nconcentration = (TotalCatchmentGWRechargeRate != 0 ? (TotalGroundwaterNFromMedia * 1e6) / (TotalCatchmentGWRechargeRate * 3785411.78) : 0.0);
                 //double NConcentration = (tn-OutletNLoad)
                 s += "<tr>" + td + "Average Annual Recharge</td>" + td + "" + TotalCatchmentGWRechargeRate.ToString("##.###") + " MG/yr</td><td></td></tr>";
                 s += "<tr>" + td + "Provided N recharge load</td>" + td + "" + TotalGroundwaterNFromMedia.ToString("##.###") + " kg/yr</td><td>" + (TotalGroundwaterNFromMedia * 2.205).ToString("##.##") + " lb/yr</td></tr>";
                 s += "<tr>" + td + "Provided N Concentration</td>" + td + "" + Nconcentration.ToString("##.###") + " mg/l</td><td></td></tr>";
                 //s += "<tr>" + td + "Provided N load removed</td>" + td + "" + gwnr.ToString("##.##") + " kg/yr</td><td>" + (gwnr * 2.205).ToString("##.##") + " lb/yr</td></tr>";
             }
-
             s += "</table><br/>";
+            return s;
+        }
+
+        public string PrintPhosphorusLoading()
+        {
+            string s = "";
+            string td = "<td style='padding-right:30px'>";
+            string decimal_removal = "##"; 
+
             s += "<h3>Phosphorus Loading</h3>";
             s += "<table style='margin:10px'>";
             s += "<tr><td><h4><br/>Surface Water Discharge</h4></td><td></td><td></td></tr>";
@@ -1389,7 +1442,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 s += "<tr><td><br/><h4>Groundwater Discharge<h4></td><td></td><td></td></tr>";
 
-                
+
                 if (TotalGroundwaterPLoading != 0) TotalGroundwaterPRemoved = 100 * TotalGroundwaterPFromMedia / TotalGroundwaterPLoading;
                 double Pconcentration = (TotalCatchmentGWRechargeRate != 0 ? (TotalGroundwaterPFromMedia * 1e6) / (TotalCatchmentGWRechargeRate * 3785411.78) : 0.0);
 
@@ -1414,7 +1467,6 @@ namespace BMPTrains_2020.DomainCode
             s += "</table>";
             return s;
         }
-        
 
         public bool TargetMet(double actual, double target, int places)
         {
@@ -1455,13 +1507,13 @@ namespace BMPTrains_2020.DomainCode
             for (int i = 1; i <= numCatchments; i++)
             {
                 s += "<h2>Catchment Number: " + i.ToString() + "  Name: " + Catchments[i].CatchmentName + "</h2>";
-                s += Catchments[i].CatchmentReport();
+                s += Catchments[i].PrintCatchmentReport();
                 s += "<br/>";
                 s += Catchments[i].getRoutingBalanceReport();
                 s += "<br/>";
             }
             s += "<br/>";
-            s += summaryReport(true);
+            s += PrintSummaryReport(true);
             return s;
         }
 
@@ -1478,6 +1530,21 @@ namespace BMPTrains_2020.DomainCode
 
         public string CatchmentTable()
         {
+            string[] a1 = {
+                "CatchmentName", "RainfallZone", "Rainfall" }; 
+
+            string[] a2 = {
+                "PreLandUseName", "PreArea",
+                "PreRationalCoefficient", "PreNonDCIACurveNumber", "PreDCIAPercent", "PreNConcentration", "PrePConcentration",
+                "PreRunoffVolume", "PreGWN", "PreGWP", "PreNLoading", "PrePLoading" };
+
+            string[] a3 = {
+                "PostLandUseName", "PostArea", "PostRationalCoefficient", "PostNonDCIACurveNumber", "PostDCIAPercent",
+                "BMPArea", "PostNConcentration", "PostPConcentration", "PostRunoffVolume", "PostGWN",
+                "PostGWP", "PostNLoading", "PostPLoading" };
+
+            
+
             // Returns an HTML table as a string
             string s = "<table>";
             // Simply Put the title and the property and places (if decimal)
@@ -1544,18 +1611,21 @@ namespace BMPTrains_2020.DomainCode
             // cn is the Catchment number
             string s = "<br/><h1>Catchment Information</h1>";
             s += "<b>" + Catchments[cn].TitleHeader() + "</b>";
-            s += "<table>";           
-            foreach (KeyValuePair<string, string> kvp in Catchments[cn].PropertyLabels())
-            {
-                s += CatchmentReportRow(cn, kvp.Key);
-            }
-            //if (AnalysisType == BMPTrainsProject.AT_NetImprovement)
+            s += Catchments[cn].PrintWatershedCharacteristics();
+
+
+            //s += "<table>";           
+            //foreach (KeyValuePair<string, string> kvp in Catchments[cn].PropertyLabels())
             //{
-            //    s += "<tr><td><b>" + AnalysisType  + "</b></td><td></td></tr>";
-            //    s += "<tr><td>Nitrogen Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredNTreatmentEfficiency()) + "</td></tr>";
-            //    s += "<tr><td>Phosphorus Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredPTreatmentEfficiency()) + "</td></tr>";
+            //    s += CatchmentReportRow(cn, kvp.Key);
             //}
-            s += "</table>";
+            ////if (AnalysisType == BMPTrainsProject.AT_NetImprovement)
+            ////{
+            ////    s += "<tr><td><b>" + AnalysisType  + "</b></td><td></td></tr>";
+            ////    s += "<tr><td>Nitrogen Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredNTreatmentEfficiency()) + "</td></tr>";
+            ////    s += "<tr><td>Phosphorus Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredPTreatmentEfficiency()) + "</td></tr>";
+            ////}
+            //s += "</table>";
             return s;
         }
 

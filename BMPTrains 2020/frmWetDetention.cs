@@ -67,7 +67,7 @@ namespace BMPTrains_2020
             Common.setValue(tbWetlandCredit, currentBMP().WetlandEfficiencyCredit);
 
             //wbOutput.DocumentText = currentBMP().BasicReport();
-            wbOutput.DocumentText = currentBMP().BMPReport();
+            wbOutput.DocumentText = currentBMP().PrintBMPReport();
 
         }
 

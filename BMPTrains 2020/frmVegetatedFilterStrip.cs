@@ -45,7 +45,7 @@ namespace BMPTrains_2020
         {
             // Add to each form
             //wbOutput.DocumentText = currentBMP().BasicReport();
-            wbOutput.DocumentText = currentBMP().BMPReport();
+            wbOutput.DocumentText = currentBMP().PrintBMPReport();
         }
 
         private void setValues()

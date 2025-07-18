@@ -101,7 +101,7 @@ namespace BMPTrains_2020.DomainCode
             return Add(d1, d2);
         }
 
-        public Dictionary<string, string> ReportHeader()
+        public new Dictionary<string, string> ReportHeader()
         {
             return ReportHeader("Retention");         
         }

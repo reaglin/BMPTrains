@@ -68,7 +68,7 @@ namespace BMPTrains_2020
             Common.setValue(tbContributingArea, currentBMP().ContributingAreaSF);
 
             ///wbOutput.DocumentText = currentBMP().BasicReport();
-            wbOutput.DocumentText = currentBMP().BMPReport();
+            wbOutput.DocumentText = currentBMP().PrintBMPReport();
 
         }
 

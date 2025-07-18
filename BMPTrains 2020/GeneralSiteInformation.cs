@@ -284,7 +284,7 @@ namespace BMPTrains_2020
         {
             getValues();
             Globals.Project.Calculate();
-            Form form = new frmReport(Globals.Project.summaryReport(),false);
+            Form form = new frmReport(Globals.Project.PrintSummaryReport(),false);
             form.ShowDialog();
         }
 

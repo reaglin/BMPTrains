@@ -70,7 +70,7 @@ namespace BMPTrains_2020
 
             currentBMP().Calculate();
             //wbOutput.DocumentText = currentBMP().BasicReport();
-            wbOutput.DocumentText = currentBMP().BMPReport();
+            wbOutput.DocumentText = currentBMP().PrintBMPReport();
 
         }
 
