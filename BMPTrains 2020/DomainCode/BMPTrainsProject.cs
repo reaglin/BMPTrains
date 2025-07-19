@@ -58,14 +58,7 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_SpecifiedRemovalEfficiency = "Specified Removal Efficiency";
         public const string AT_NetImprovement = "Net Improvement";
         public const string AT_BMPAnalysis = "BMP Analysis";
-        public const string AT_PreReductionPercent = "Specified % Less than Pre-Development Conditions";
-
-
-        //public static List<string> AnalysisTypes() => new List<string> {
-        //    AT_AllSites, AT_OFW, AT_ImpairedWater, AT_ImpairedWater_OFW, AT_ImpairedWater_IMP, AT_Redevelopment, AT_Redevelopment_OFW,
-        //    AT_SpecifiedRemovalEfficiency, AT_NetImprovement, AT_BMPAnalysis };
-        //        public const string sExistingBMPInput = "Existing Loading in Pre-Development";
-
+        //public const string AT_PreReductionPercent = "Specified % Less than Pre-Development Conditions";
 
         // These are the additional criteria for each of the analysis types.  There are 4 categories
         public const string AT_Criteria_PvP_GO = "Post = Greater of Pre-Conditions";
@@ -78,17 +71,16 @@ namespace BMPTrains_2020.DomainCode
         public static readonly Dictionary<string, (int TN, int TP, string Criteria, bool PrintPrePost, bool PrintTargets)> AT_Values =
     new Dictionary<string, (int TN, int TP, string Criteria, bool PrintPrePost, bool PrintTargets)>
     {
-            { AT_AllSites, (80, 55, AT_Criteria_PvP_GO ,true, true) },
-            { AT_OFW, (90, 80, AT_Criteria_PvP_GO,true, true) },
+            { AT_AllSites, (55, 80, AT_Criteria_PvP_GO ,true, true) },
+            { AT_OFW, (80, 90, AT_Criteria_PvP_GO,true, true) },
             { AT_ImpairedWater, (80, 80, AT_Criteria_PvP,true, true) },
             { AT_ImpairedWater_OFW, (95, 95, AT_Criteria_PvP,false, true)},
-            { AT_ImpairedWater_IMP, (80, 45, AT_Criteria_WQ,true, true) },
-            { AT_Redevelopment, (80, 45, AT_Criteria_None,false, true) },
-            { AT_Redevelopment_OFW, (90, 60, AT_Criteria_None,false, true) },
-            { AT_SpecifiedRemovalEfficiency, (0, 0, AT_Criteria_None,true, true) },
+            { AT_ImpairedWater_IMP, (45, 80, AT_Criteria_WQ,true, true) },
+            { AT_Redevelopment, (45, 80, AT_Criteria_None,false, true) },
+            { AT_Redevelopment_OFW, (60, 90, AT_Criteria_None,true, true) },
+            { AT_SpecifiedRemovalEfficiency, (0, 0, AT_Criteria_None, false, true) },
             { AT_NetImprovement, (0, 0, AT_Criteria_None,true, false) },
-            { AT_BMPAnalysis, (0, 0, AT_Criteria_None,true, false) },
-            { AT_PreReductionPercent, (0, 0, AT_Criteria_None,true, true) }
+            { AT_BMPAnalysis, (0, 0, AT_Criteria_None,true, false) }
     };
 
         // The method is retained for backward compatibility. 
@@ -1131,13 +1123,13 @@ namespace BMPTrains_2020.DomainCode
             }
 
             //
-            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent)
-            {
-                TargetNMassLoad = 0.9 * TotalCatchmentPreNLoad;
-                TargetPMassLoad = 0.9 * TotalCatchmentPrePLoad;
-                if (TotalCatchmentNLoad != 0) TargetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
-                if (TotalCatchmentPLoad != 0) TargetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
-            }
+            //if (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent)
+            //{
+            //    TargetNMassLoad = 0.9 * TotalCatchmentPreNLoad;
+            //    TargetPMassLoad = 0.9 * TotalCatchmentPrePLoad;
+            //    if (TotalCatchmentNLoad != 0) TargetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
+            //    if (TotalCatchmentPLoad != 0) TargetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
+            //}
 
             if (TargetNPercent < 0) TargetNPercent = 0;
             if (TargetPPercent < 0) TargetPPercent = 0;
@@ -1211,84 +1203,109 @@ namespace BMPTrains_2020.DomainCode
             return p;
         }
 
+        public string PrintRoutingDestination(Catchment c)
+        {
+            string s = "";
+            s +=  " Routed to ";
+            if (c.ToID != 0)
+            {
+                s += "Catchment " + c.ToID.ToString();
+            }
+            else
+            {
+                s += "Outlet";
+            }
+            return s;
+        }
+
         public string PrintSummaryReport(bool print_catchments = false)
         {
             Calculate();
 
-            string s  = "<h1 style='text-align:left'>Summary Treatment Report</h1>";
-            s += "<table style='width:80%'><tr><td style='width:60%'>";
+            // Report Header
 
-            s += "<div <h2>Project: " + ProjectName + "</h2><br/>";
-            s += "<b>Analysis Type:</b> " +  AnalysisType +"<br/>";
-        
-            //s += "  " + RequiredNTreatmentEfficiency.ToString("##") + "% TN  ";
-            //s +=  RequiredPTreatmentEfficiency.ToString("##") +"% TP<br/>";
-            s += "<b>BMP Types: </b><br/>";
+            string s = "<h1 style='text-align:left'>Summary Treatment Report </h1>";
+            //s += "<table style='width:80%'><tr><td style='width:60%'>";
 
+            s += "<h2>Project: " + ProjectName + "</h2>";
+            s += "<h2>Analysis Type: " + AnalysisType + "</h2>";
+            s += "Report Date: " + Common.getDateString() + "<br/>";
+
+            // Catchments 
+
+            s += "<h3>Catchments and Associated BMP Types: </h3>";
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                s += Common.Spaces(5);
-                s += "Catchment " + kvp.Key.ToString() + " - (" + kvp.Value.CatchmentName +") " ;
-                s += kvp.Value.SelectedBMPTitle() +"<br/>";
+                //s += Common.Spaces(5);
+                s += "<b>Catchment #" + kvp.Key.ToString() + "</b> Catchment Name: " + kvp.Value.CatchmentName + "<br/>";
+                s += "Catchment BMP: " + kvp.Value.PrintBMPSummary() + "<br/>";
+                s += "Routing for Catchment:" + PrintRoutingDestination(kvp.Value);
+                if (print_catchments)
+                {
+                    kvp.Value.PrintWatershedCharacteristics();
+                    kvp.Value.PrintBMPReport();
+                }
+                s += "<br/>";
+            }
 
                 // For all Types other that BMPAnalysis
-                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
-                    s += "Volume of Runoff Pre-Condition " + kvp.Value.PreRunoffVolumeInches_Yr.ToString("##.##") + " inches/yr<br/>";
-                else 
-                    s += "No Pre-Condition for Analysis Type: " + AnalysisType;
+                //if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
+                //    s += "Volume of Runoff Pre-Condition " + kvp.Value.PreRunoffVolumeInches_Yr.ToString("##.##") + " inches/yr<br/>";
+                //else 
+                //    s += "No Pre-Condition for Analysis Type: " + AnalysisType;
 
-                s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
+                //s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
 
                 // Pre Post Analsyis Removal (Not Required for a number of analysis types)
                 // This is turned off, but is usefule for debugging if needed. 
-                
-                if (print_catchments) { 
-                if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
-                    s += "Is % less than predevelopment catchment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
-                        + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
-                        + " Provided: " + kvp.Value.CalculatedNTreatmentEfficiency.ToString("##") +"%<br/>";
-                    s += "Is % less than predevelopment catchment loading for TP met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTPMet())
-                        + "<br/> Required: " + kvp.Value.RequiredPTreatmentEfficiency.ToString("##") +"% "
-                        + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
-                }
-                s += "</br>";
-                }
-            }
-//            if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
-//                s += "Based on discharge load to 3 decimal places<br/>";
-////            else
-////                s += "Based on % removal values to the nearest percent<br/>";
-    
-            s += "</td>";
-            s += "<td style='width:40%;'>";
-            s += Common.getDateString();
-            s += "<b>Routing Summary</b><br/>";
 
-            s += RoutingTable();
-            s += "</td>";
-            s += "</tr></table>";
+                //    if (print_catchments) { 
+                //        if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
+                //        s += "Is % less than predevelopment catchment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
+                //            + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
+                //            + " Provided: " + kvp.Value.CalculatedNTreatmentEfficiency.ToString("##") +"%<br/>";
+                //        s += "Is % less than predevelopment catchment loading for TP met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTPMet())
+                //            + "<br/> Required: " + kvp.Value.RequiredPTreatmentEfficiency.ToString("##") +"% "
+                //            + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
+                //        }
+                //    s += "</br>";
+                //    }
+                //}
 
-            s += "<br/><h2>Summary Report for System (All Catchments)</h2><br/>";
-            s += "<h3>Volume of Runoff</h3>";
-            if (PreCatchmentAreaAcres != 0)  
-                s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") +"<br/>";
-            if (PostCatchmentAreaAcres != 0) 
-                
-                s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): " + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##")+"<br/>";
+                //s += "</td>";
+                //s += "<td style='width:40%;'>";
+                //s += Common.getDateString();
+                //s += "<b>Routing Summary</b><br/>";
 
-            s += PrintSummaryLoadingAnalysis();
+                //s += RoutingTable();
+                //s += "</td>";
+                //s += "</tr></table>";
 
-            s += PrintPrePostAnalysis();
+                // The following prints the summary for the system 
 
-            // Nitrogen Loading - Surface and Groundwater
-            s += PrintNitrogenLoading();
+                s += "<h2>Summary Report for System (All Catchments)</h2>";
+                s += "<h3>Volume of Runoff</h3>";
+                if (PreCatchmentAreaAcres != 0)
+                    s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): " 
+                        + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") + "<br/>";
+                if (PostCatchmentAreaAcres != 0)
+                    s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): " 
+                        + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
+                s += "<br/><br/>";
 
-            // Phosphorus Loading Surface Water and Groundwater
-            s += PrintPhosphorusLoading();
+                s += PrintSummaryLoadingAnalysis();
 
-            return s;
+                s += PrintPrePostAnalysis();
+
+                // Nitrogen Loading - Surface and Groundwater
+                s += PrintNitrogenLoading();
+
+                // Phosphorus Loading Surface Water and Groundwater
+                s += PrintPhosphorusLoading();
+
+                return s;
+            
         }
-        
 
         public string PrintSummaryLoadingAnalysis()
         {
@@ -1317,7 +1334,7 @@ namespace BMPTrains_2020.DomainCode
             }
             else
             {
-                s += "No Target Removals for Analysis Type: " + AnalysisType + "<br/><br/>";
+                s += "<b>No Target Removals for Analysis Type: " + AnalysisType + "</b><br/><br/>";
             }
             return s;
         }
@@ -1372,8 +1389,7 @@ namespace BMPTrains_2020.DomainCode
             if (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement) decimal_removal = "##.##";
             // Targets only exist in the case of Specified removal efficiency
             if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement))
             {
                 s += "<tr>" + td + "Target N load reduction</td>" + td + "" + TargetNPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target N discharge load</td>" + td + "" + TargetNMassLoad.ToString("##.##") + " kg/yr</td><td></td></tr>";
@@ -1423,8 +1439,7 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr>" + td + "Total P post load</td>" + td + "" + TotalCatchmentPLoad.ToString("##.###") + " kg/yr</td><td></td></tr>";
 
             if ((Globals.Project.AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement)
-                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
+                || (Globals.Project.AnalysisType == BMPTrainsProject.AT_NetImprovement))
             {
                 s += "<tr>" + td + "Target P load reduction</td>" + td + "" + TargetPPercent.ToString(decimal_removal) + " %</td><td></td></tr>";
                 s += "<tr>" + td + "Target P discharge load</td>" + td + "" + TargetPMassLoad.ToString("##.###") + " kg/yr</td><td></td></tr>";
@@ -1645,7 +1660,7 @@ namespace BMPTrains_2020.DomainCode
         public string TitleHeader()
         {
             string s = " Analysis: " + AnalysisType;
-            if ((AnalysisType == AT_SpecifiedRemovalEfficiency) || (AnalysisType == AT_NetImprovement) || (AnalysisType == AT_PreReductionPercent))
+            if ((AnalysisType == AT_SpecifiedRemovalEfficiency) || (AnalysisType == AT_NetImprovement) )
                 return s + " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
 
             //if (AnalysisType == sExistingBMPInput)

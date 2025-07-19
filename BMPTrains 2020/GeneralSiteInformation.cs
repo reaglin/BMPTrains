@@ -78,10 +78,6 @@ namespace BMPTrains_2020
                 showNP = true;
             }
 
-            if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_PreReductionPercent)
-            {
-                showLP = true;
-            }
 
             tbN.Enabled = enableNP;
             tbP.Enabled = enableNP;

@@ -116,33 +116,7 @@ namespace BMPTrains_2020.DomainCode
                 return;
             }
 
-
-
-
-
-            //Common Case Wet Detention to Stormwater Harvesting
-            //if ((bmp2.BMPType == BMPTrainsProject.sWetDetention)
-            //    && (bmp3.BMPType == BMPTrainsProject.sStormwaterHarvesting))
-            //{
-            //    ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp3.ProvidedNTreatmentEfficiency);
-            //    ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp3.ProvidedPTreatmentEfficiency);
-            //    HydraulicCaptureEfficiency = bmp2.ProvidedNTreatmentEfficiency;
-            //    BMPVolumeOut = BMPVolumeIn * HydraulicCaptureEfficiency / 100;
-
-            //    CalculateMassLoading();
-            //    CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
-            //    if (bmp4.BMPType == BMPTrainsProject.sNone) return;
-
-
-            //    For situations where there are additional BMP's after the Detention to Stormwater Harvesting Scenario
-
-
-            //    ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedNTreatmentEfficiency, bmp4.ProvidedNTreatmentEfficiency);
-            //    ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, bmp4.ProvidedPTreatmentEfficiency);
-            //    CalculateMassLoading();
-            //    CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
-            //    return;
-            //}
+            // All other scenarios
 
             CalculateTraditional();
 
@@ -218,6 +192,25 @@ namespace BMPTrains_2020.DomainCode
                 return true;
             }
 
+            if ((bmp1.BMPType == BMPTrainsProject.sWetDetention)
+                && (bmp2.BMPType == BMPTrainsProject.sWetDetention)
+                    && (bmp3.BMPType == BMPTrainsProject.sStormwaterHarvesting)) {
+
+                RouteWetDetentionToWetDetention(2);
+                RouteThisToStormwaterHarvesting(bmp3);
+                return true;
+            }
+
+            if ((bmp1.BMPType == BMPTrainsProject.sWetDetention)
+                && (bmp2.BMPType == BMPTrainsProject.sWetDetention)
+                    && (bmp3.BMPType == BMPTrainsProject.sWetDetention)
+                        && (bmp4.BMPType == BMPTrainsProject.sStormwaterHarvesting))
+            {
+
+                RouteWetDetentionToWetDetention(3);
+                RouteThisToStormwaterHarvesting(bmp4);
+                return true;
+            }
 
             return false;
         }
@@ -681,6 +674,17 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting"
+
+        public override string PrintBMPSummary(bool inputVariables = false, bool outputVariables = false)
+        {
+            string s= BMPType;
+            if (bmp1.isDefined()) s += " 1: " + bmp1.BMPType;
+            if (bmp2.isDefined()) s += " 2: " + bmp2.BMPType;
+            if (bmp3.isDefined()) s += " 3: " + bmp3.BMPType;
+            if (bmp4.isDefined()) s += " 4: " + bmp4.BMPType;
+
+            return s;
+        }
 
         public override string PrintBMPReport()
         {

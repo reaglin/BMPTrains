@@ -362,6 +362,16 @@ namespace BMPTrains_2020.DomainCode
             return getSelectedBMP().BMPTypeTitle();
         }
 
+        public string PrintBMPSummary(bool inputVariables = false, bool outputVariables = false)
+        {
+            return getSelectedBMP().PrintBMPSummary();
+        }
+
+        public string PrintBMPReport()
+        {
+            return getSelectedBMP().PrintBMPReport();
+        }
+
         public void OpenSelectedBMPForm()
         {
             BMPTrainsProject.OpenSelectedBMPForm(SelectedBMPType, id);
@@ -584,8 +594,7 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = " Analysis: " + AnalysisType;
             if ((AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
-                (AnalysisType == BMPTrainsProject.AT_NetImprovement) ||
-                (AnalysisType == BMPTrainsProject.AT_PreReductionPercent))
+                (AnalysisType == BMPTrainsProject.AT_NetImprovement) )
                 return s + " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
 
             return s;
@@ -704,8 +713,7 @@ namespace BMPTrains_2020.DomainCode
 
             // For specific types of analysis you must have a pre watershed condition
             if (((analysisType == BMPTrainsProject.AT_NetImprovement) || 
-                (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
-                (analysisType == BMPTrainsProject.AT_PreReductionPercent)) && 
+                (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)) && 
                 PreLandUseName == "")
             {
                 return "For this Analysis Method (" + analysisType + ") you must specify a Pre watershed condition";
@@ -826,9 +834,6 @@ namespace BMPTrains_2020.DomainCode
                     ni = 100 * (PostNLoading - PreNLoading) / PostNLoading; 
                     break;
                 case BMPTrainsProject.AT_BMPAnalysis: break;
-                case BMPTrainsProject.AT_PreReductionPercent:
-                    ni = 100 * (100.0 - (double)PreReductionPercent) / 100.0;
-                    break;
                 default:
                     break;
             }
@@ -857,9 +862,9 @@ namespace BMPTrains_2020.DomainCode
                     ni = 100 * (PostPLoading - PrePLoading) / PostPLoading;
                     break;
                 case BMPTrainsProject.AT_BMPAnalysis: break;
-                case BMPTrainsProject.AT_PreReductionPercent:
-                    ni = 100 * (100.0 - (double)PreReductionPercent) / 100.0;
-                    break;
+                //case BMPTrainsProject.AT_PreReductionPercent:
+                //    ni = 100 * (100.0 - (double)PreReductionPercent) / 100.0;
+                //    break;
                 default:
                     break;
             }

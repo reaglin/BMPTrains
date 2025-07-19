@@ -776,6 +776,11 @@ namespace BMPTrains_2020.DomainCode
             return BMPType;
         }
 
+        public virtual string PrintBMPSummary(bool inputVariables = false, bool outputVariables = false)
+        {
+            return BMPType;
+        }
+
         public void ResetCost()
         {
             // Multiple BMP is sum of BMP's
