@@ -52,7 +52,7 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_OFW = "OFW";
         public const string AT_ImpairedWater = "Impaired Water";
         public const string AT_ImpairedWater_OFW = "Impaired Water + OFW";
-        public const string AT_ImpairedWater_IMP = "Impaired Water + Impaired";
+        public const string AT_ImpairedWater_IMP = "Redevelopment + Impaired";
         public const string AT_Redevelopment = "Redevelopment";
         public const string AT_Redevelopment_OFW = "Redevelopment + OFW";
         public const string AT_SpecifiedRemovalEfficiency = "Specified Removal Efficiency";
@@ -74,10 +74,10 @@ namespace BMPTrains_2020.DomainCode
             { AT_AllSites, (55, 80, AT_Criteria_PvP_GO ,true, true) },
             { AT_OFW, (80, 90, AT_Criteria_PvP_GO,true, true) },
             { AT_ImpairedWater, (80, 80, AT_Criteria_PvP,true, true) },
-            { AT_ImpairedWater_OFW, (95, 95, AT_Criteria_PvP,false, true)},
-            { AT_ImpairedWater_IMP, (45, 80, AT_Criteria_WQ,true, true) },
+            { AT_ImpairedWater_OFW, (95, 95, AT_Criteria_PvP,true, true)},         
             { AT_Redevelopment, (45, 80, AT_Criteria_None,false, true) },
-            { AT_Redevelopment_OFW, (60, 90, AT_Criteria_None,true, true) },
+            { AT_Redevelopment_OFW, (60, 90, AT_Criteria_None,false, true) },
+            { AT_ImpairedWater_IMP, (45, 80, AT_Criteria_WQ,true, true) },
             { AT_SpecifiedRemovalEfficiency, (0, 0, AT_Criteria_None, false, true) },
             { AT_NetImprovement, (0, 0, AT_Criteria_None,true, false) },
             { AT_BMPAnalysis, (0, 0, AT_Criteria_None,true, false) }
@@ -137,6 +137,7 @@ namespace BMPTrains_2020.DomainCode
         // Meta class added to simplify printing and output
         [Meta("Nitrogen Removal Required", "%", "##")]
         public int RequiredNTreatmentEfficiency { get; set; }
+
         [Meta("Phosphorus Removal Required", "%", "##")]
         public int RequiredPTreatmentEfficiency { get; set; }
 
@@ -172,10 +173,11 @@ namespace BMPTrains_2020.DomainCode
         public double CalculatedNTreatmentEfficiency { get; set; }
         public double CalculatedPTreatmentEfficiency { get; set; }
 
-        public double PrePostNTreatmentEfficiency { get; set; }
-        public double PrePostPTreatmentEfficiency { get; set; }
 
+        [Meta("Pre-Condition Catchment Area", "acres", 2)]
         public double PreCatchmentAreaAcres { get; set; }
+
+        [Meta("Post Condition Catchment Area", "acres", 2)]
         public double PostCatchmentAreaAcres { get; set; }
 
         [Meta("Pre-Runoff Volume from Catchment", "ac-ft", 2)]
@@ -191,12 +193,29 @@ namespace BMPTrains_2020.DomainCode
         // Used only if a pre-condition is loaded and then used 
         // in a second analysis
 
+        [Meta("Target Nitrogen Mass from Pre-Condition", "kg/yr", 2)]
         public double TargetNFromPreLoad { get; set; }
+
+        [Meta("Target Phosphorus Mass from Pre-Condition", "kg/yr", 2)]
         public double TargetPFromPreLoad { get; set; }
+
+
         public double RequiredPreReductionPercent { get; set; }
 
+        //
+        // These are user entered numbers
+        //
+        [Meta("Analysis Type Target Nitrogen Reduction", "%", 2)]
         public double TargetNPercent { get; set; }
+
+        [Meta("Analysis Type Target Phosphorus Reduction", "%", 2)]
         public double TargetPPercent { get; set; }
+
+        [Meta("Calculated Target Nitrogen Reduction", "%", 2)]
+        public double TargetNPrePostPercent { get; set; }
+
+        [Meta("Calculated Target Phosphorus Reduction", "%", 2)]
+        public double TargetPPrePostPercent { get; set; }
 
 
         public double TotalGroundwaterNFromMedia { get; set; }
@@ -1092,10 +1111,17 @@ namespace BMPTrains_2020.DomainCode
 
         public void CalculateTargets()
         {
+            // 2 targets 
+            // TargetNPercent (taken from analysis type)
+            // TargetNPrePostPercent (comparison of pre-condition)
+
             // These need to be removed from reporting and added to the calculation routines
             
             TargetNPercent = BMPTrainsProject.AT_Removal_For_Scenario(Globals.Project.AnalysisType,"N");
-            TargetPPercent = BMPTrainsProject.AT_Removal_For_Scenario(Globals.Project.AnalysisType, "P"); ;
+            TargetPPercent = BMPTrainsProject.AT_Removal_For_Scenario(Globals.Project.AnalysisType,"P");
+
+            if (TotalCatchmentNLoad != 0) TargetNPrePostPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
+            if (TotalCatchmentPLoad != 0) TargetPPrePostPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
 
 
             // Target only used for AT_PreReductionPercent and Specified Removal Efficiency
@@ -1118,8 +1144,8 @@ namespace BMPTrains_2020.DomainCode
             {
                 TargetNMassLoad = TotalCatchmentPreNLoad;
                 TargetPMassLoad = TotalCatchmentPrePLoad;
-                if (TotalCatchmentNLoad != 0) TargetNPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
-                if (TotalCatchmentPLoad != 0) TargetPPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
+                if (TotalCatchmentNLoad != 0) TargetNPrePostPercent = 100 * (TotalCatchmentNLoad - TotalCatchmentPreNLoad) / TotalCatchmentNLoad;
+                if (TotalCatchmentPLoad != 0) TargetPPrePostPercent = 100 * (TotalCatchmentPLoad - TotalCatchmentPrePLoad) / TotalCatchmentPLoad;
             }
 
             //
@@ -1134,8 +1160,11 @@ namespace BMPTrains_2020.DomainCode
             if (TargetNPercent < 0) TargetNPercent = 0;
             if (TargetPPercent < 0) TargetPPercent = 0;
 
-            if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad / TotalOutletNLoad;
-            if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad / TotalOutletPLoad;
+            if (TargetNPrePostPercent < 0) TargetNPrePostPercent = 0;
+            if (TargetNPrePostPercent < 0) TargetNPrePostPercent = 0;
+            if (TargetNPrePostPercent > 100) TargetNPrePostPercent = 100;
+            if (TargetNPrePostPercent > 100) TargetNPrePostPercent = 100;
+
         }
 
         #endregion
@@ -1334,7 +1363,7 @@ namespace BMPTrains_2020.DomainCode
             }
             else
             {
-                s += "<b>No Target Removals for Analysis Type: " + AnalysisType + "</b><br/><br/>";
+                s += "<h3>No Target Removals for Analysis Type: " + AnalysisType + "</h3><br/>";
             }
             return s;
         }
@@ -1345,21 +1374,19 @@ namespace BMPTrains_2020.DomainCode
             // Pre-Post Analysis compares Target vs Pre-Post 
             if (BMPTrainsProject.PrintPrePostResults(AnalysisType))
             {
-                //// Changed the PrePost_TreatmentEfficiency to Target_Percent _ refers to N or P
-                if (TotalOutletNLoad != 0) PrePostNTreatmentEfficiency = 100 * TotalCatchmentPreNLoad / TotalOutletNLoad;
-                if (TotalOutletPLoad != 0) PrePostPTreatmentEfficiency = 100 * TotalCatchmentPrePLoad / TotalOutletPLoad;
                 //// 
                 s += "<h3>Additional Criteria Pre vs. Post Removals</h3>";
-                s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPercent, 3))
-                    + " (Required: " + TargetNPercent.ToString("##.##") + "% "
-                    + " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
-                s += "Is % less than predevelopment system loading for TP met? " + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPercent, 3))
-                    + " (Required: " + TargetPPercent.ToString("##.##") + "% "
-                    + " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
+                s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPrePostPercent, 3)) +" (";
+                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)  s += " Required: " + TargetNPrePostPercent.ToString("##.##") + "% ";
+                s += " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
+
+                s += "Is % less than predevelopment system loading for TP met? " + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPrePostPercent, 3)) +" (";
+                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis) s += " Required: " + TargetPPrePostPercent.ToString("##.##") + "% ";
+                s += " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
             }
             else
             {
-                s += "No Pre/Post Analysis for Analysis Type: " + AnalysisType + "<br/>";
+                s += "<h3>No Pre/Post Analysis for Analysis Type: " + AnalysisType + "</h3><br/>";
             }
 
             return s;

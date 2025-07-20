@@ -1704,6 +1704,7 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr><td>Volume From Catchment</td><td>" + GetValue(VolumeFromCatchment, 2) + "</td></tr>";
             s += "<tr><td>Volume From Upstream</td><td>" + GetValue(VolumeFromUpstream, 2) + "</td></tr>";
             s += "<tr><td>Total Volume In</td><td>" + GetValue(VolumeIn, 2) + "</td></tr>";
+            //s += "<tr><td>Post Condition Runoff Volume</td><td>" + GetValue(, 2) + "</td></tr>";
             s += "<tr><td>Volume Into GW (or Media)</td><td>" + GetValue(VolumeGW, 2) + "</td></tr>";
             s += "<tr><td>Volume Out (to next node)</td><td>" + GetValue(VolumeOut, 2) + "</td></tr>";
             s += "</table>";
@@ -1871,7 +1872,8 @@ namespace BMPTrains_2020.DomainCode
             // Retention and multiple BMP can have retention
             if (bmp.hasRetention())
             {
-                cr.HydraulicEfficiency = 100 - bmp.ProvidedNTreatmentEfficiency;
+                //cr.HydraulicEfficiency = 100 - bmp.ProvidedNTreatmentEfficiency;
+                cr.HydraulicEfficiency = 100 - bmp.HydraulicCaptureEfficiency;
             }
 
             cr.VolumeOut = cr.HydraulicEfficiency * cr.VolumeIn / 100;
