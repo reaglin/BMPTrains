@@ -77,8 +77,6 @@ namespace BMPTrains_2020
                 enableNP = true;
                 showNP = true;
             }
-
-
             tbN.Enabled = enableNP;
             tbP.Enabled = enableNP;
             lblN.Visible = showNP;
@@ -88,8 +86,6 @@ namespace BMPTrains_2020
             lblPercentLessThanPre.Visible = showLP;
             tbPercentLessThanPre.Visible = showLP;
             tbPercentLessThanPre.Enabled = showLP;
-
-
             setValues();
         }
 
@@ -333,6 +329,7 @@ namespace BMPTrains_2020
         }
         private void btnUserManual_Click(object sender, EventArgs e)
         {
+            // CHange to say - upcoming in new version
             System.Diagnostics.Process.Start("http://roneaglin.online/bmptrains");
         }
 

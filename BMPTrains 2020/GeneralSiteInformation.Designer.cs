@@ -250,6 +250,7 @@
             this.btnFDEP.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolTip1.SetToolTip(this.btnFDEP, "FDEP 2010 Draft Rule");
             this.btnFDEP.UseVisualStyleBackColor = false;
+            this.btnFDEP.Visible = false;
             this.btnFDEP.Click += new System.EventHandler(this.btnFDEP_Click);
             // 
             // btnCatchmentReport
@@ -267,9 +268,9 @@
             // 
             // btnPre
             // 
-            this.btnPre.Location = new System.Drawing.Point(214, 226);
+            this.btnPre.Location = new System.Drawing.Point(120, 180);
             this.btnPre.Name = "btnPre";
-            this.btnPre.Size = new System.Drawing.Size(108, 25);
+            this.btnPre.Size = new System.Drawing.Size(108, 34);
             this.btnPre.TabIndex = 29;
             this.btnPre.Text = "Open Pre BMP";
             this.toolTip1.SetToolTip(this.btnPre, "Opens a file and reads precondition information from file");
@@ -353,9 +354,9 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(17, 92);
+            this.btnOpen.Location = new System.Drawing.Point(90, 220);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(71, 47);
+            this.btnOpen.Size = new System.Drawing.Size(71, 30);
             this.btnOpen.TabIndex = 17;
             this.btnOpen.Text = "Old Open Project";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -446,12 +447,13 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(44, 193);
+            this.btnTest.Location = new System.Drawing.Point(12, 180);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(165, 43);
+            this.btnTest.Size = new System.Drawing.Size(102, 34);
             this.btnTest.TabIndex = 36;
             this.btnTest.Text = "Print All";
             this.btnTest.UseVisualStyleBackColor = true;
+            this.btnTest.Visible = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
             // GeneralSiteInformation

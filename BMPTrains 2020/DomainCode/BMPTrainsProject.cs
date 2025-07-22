@@ -126,11 +126,19 @@ namespace BMPTrains_2020.DomainCode
         public const string SessionId = "BMPTrainsProjectID";
         public const string DefaultCatchmentConfiguration = "A";
 
+        [Meta("Project Name", "", "")]
         public string ProjectName { get; set; }
+
+        [Meta("Project File Name", "", "")]
         public string FileName { get; set; }
+
+        [Meta("Rainfall Zone", "", "")]
         public string RainfallZone { get; set; }
+
+        [Meta("Mean Annual Rainfall", "in", "2")]
         public double MeanAnnualRainfall { get; set; }
 
+        [Meta("Type of System Analysis", "", "")]
         public string AnalysisType { get; set; }
 
         // Used for Target Efficicency
@@ -576,6 +584,25 @@ namespace BMPTrains_2020.DomainCode
                 c.CatchmentName = kvp.Value.CatchmentName;
             }
 
+        }
+
+        public Image getRainfallZoneREVPlot()
+        {
+            switch (RainfallZone)
+            {
+                case StaticLookupTables.FlZone1:
+                    return Properties.Resources.REV_Zone1;
+                case StaticLookupTables.FlZone2:
+                    return Properties.Resources.REV_Zone2;
+                case StaticLookupTables.FlZone3:
+                    return Properties.Resources.REV_Zone3;
+                case StaticLookupTables.FlZone4:
+                    return Properties.Resources.REV_Zone4;
+                case StaticLookupTables.FlZone5:
+                    return Properties.Resources.REV_Zone5;
+                default:
+                    return Properties.Resources.REV_Zone1;
+            }
         }
         #endregion
 
@@ -1313,14 +1340,8 @@ namespace BMPTrains_2020.DomainCode
                 // The following prints the summary for the system 
 
                 s += "<h2>Summary Report for System (All Catchments)</h2>";
-                s += "<h3>Volume of Runoff</h3>";
-                if (PreCatchmentAreaAcres != 0)
-                    s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): " 
-                        + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") + "<br/>";
-                if (PostCatchmentAreaAcres != 0)
-                    s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): " 
-                        + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
-                s += "<br/><br/>";
+
+            s += PrintVolumeOfRunoff();
 
                 s += PrintSummaryLoadingAnalysis();
 
@@ -1334,6 +1355,21 @@ namespace BMPTrains_2020.DomainCode
 
                 return s;
             
+        }
+
+        public string PrintVolumeOfRunoff()
+        {
+            string s = "<h3>Volume of Runoff</h3>";
+            if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis) { 
+                if (PreCatchmentAreaAcres != 0)
+                    s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): "
+                        + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") + "<br/>";
+            }
+            if (PostCatchmentAreaAcres != 0)
+                s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
+                    + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
+            s += "<br/><br/>";
+            return s;
         }
 
         public string PrintSummaryLoadingAnalysis()
@@ -1363,7 +1399,7 @@ namespace BMPTrains_2020.DomainCode
             }
             else
             {
-                s += "<h3>No Target Removals for Analysis Type: " + AnalysisType + "</h3><br/>";
+                s += "<h3>No Target % Removals for Analysis Type: " + AnalysisType + "</h3><br/>";
             }
             return s;
         }
@@ -1372,24 +1408,30 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "";
             // Pre-Post Analysis compares Target vs Pre-Post 
-            if (BMPTrainsProject.PrintPrePostResults(AnalysisType))
-            {
+            if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
                 //// 
                 s += "<h3>Additional Criteria Pre vs. Post Removals</h3>";
-                s += "Is % less than predevelopment system loading for TN met? " + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPrePostPercent, 3)) +" (";
-                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)  s += " Required: " + TargetNPrePostPercent.ToString("##.##") + "% ";
-                s += " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
+                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
+                {
+                    s += "Is % less than predevelopment system loading for TN met? "
+                       + InterfaceCommon.YesNo(TargetMet(CalculatedNTreatmentEfficiency, TargetNPrePostPercent, 3)) + " (";
+                    s += " Required: " + TargetNPrePostPercent.ToString("##.##") + "% ";
+                    s += " Provided: " + CalculatedNTreatmentEfficiency.ToString("##.##") + "%)<br/>";
 
-                s += "Is % less than predevelopment system loading for TP met? " + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPrePostPercent, 3)) +" (";
-                if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis) s += " Required: " + TargetPPrePostPercent.ToString("##.##") + "% ";
-                s += " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
+                    s += "Is % less than predevelopment system loading for TP met? "
+                       + InterfaceCommon.YesNo(TargetMet(CalculatedPTreatmentEfficiency, TargetPPrePostPercent, 3)) + " (";
+                    s += " Required: " + TargetPPrePostPercent.ToString("##.##") + "% ";
+                    s += " Provided: " + CalculatedPTreatmentEfficiency.ToString("##.##") + "%)<br/>";
+                }
+                if (AnalysisType == BMPTrainsProject.AT_BMPAnalysis)
+                {
+                    s += " System Removal for TN: " + CalculatedNTreatmentEfficiency.ToString("##.#") + " %<br/>";
+                    s += " System Removal for TP: " + CalculatedPTreatmentEfficiency.ToString("##.#") + " %<br/>";
+                }
+                return s;
             }
-            else
-            {
-                s += "<h3>No Pre/Post Analysis for Analysis Type: " + AnalysisType + "</h3><br/>";
-            }
+            return "<h3>No Pre/Post Analysis for Analysis Type: " + AnalysisType + "</h3><br/>";
 
-            return s;
         }
         
         public string PrintNitrogenLoading()

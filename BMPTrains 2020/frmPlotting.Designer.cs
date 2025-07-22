@@ -35,7 +35,11 @@
             this.blnClose = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
+            this.btnSource = new System.Windows.Forms.Button();
+            this.pb = new System.Windows.Forms.PictureBox();
+            this.pd = new System.Drawing.Printing.PrintDocument();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb)).BeginInit();
             this.SuspendLayout();
             // 
             // chart1
@@ -87,11 +91,38 @@
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
+            // btnSource
+            // 
+            this.btnSource.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.btnSource.Location = new System.Drawing.Point(452, 637);
+            this.btnSource.Name = "btnSource";
+            this.btnSource.Size = new System.Drawing.Size(122, 38);
+            this.btnSource.TabIndex = 5;
+            this.btnSource.Text = "Source";
+            this.btnSource.UseVisualStyleBackColor = true;
+            this.btnSource.Click += new System.EventHandler(this.btnSource_Click);
+            // 
+            // pb
+            // 
+            this.pb.Location = new System.Drawing.Point(631, 626);
+            this.pb.Name = "pb";
+            this.pb.Size = new System.Drawing.Size(100, 50);
+            this.pb.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pb.TabIndex = 6;
+            this.pb.TabStop = false;
+            this.pb.Visible = false;
+            // 
+            // pd
+            // 
+            this.pd.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pd_PrintPage);
+            // 
             // frmPlotting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(933, 687);
+            this.Controls.Add(this.pb);
+            this.Controls.Add(this.btnSource);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.blnClose);
@@ -103,6 +134,7 @@
             this.Text = "Plot Form";
             this.Load += new System.EventHandler(this.Plotting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -113,5 +145,8 @@
         private System.Windows.Forms.Button blnClose;
         private System.Windows.Forms.Button btnPrint;
         private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnSource;
+        private System.Windows.Forms.PictureBox pb;
+        private System.Drawing.Printing.PrintDocument pd;
     }
 }

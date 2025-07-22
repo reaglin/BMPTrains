@@ -66,10 +66,10 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 63);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(608, 20);
+            this.label2.Size = new System.Drawing.Size(658, 20);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Software by: Dr. Marty Wanielista, Ron Eaglin, Harvey Harper, and Dr. Dingbao Wan" +
-    "g\r\n";
+            this.label2.Text = "Software by: Dr. Marty Wanielista, Dr. Ron Eaglin, Dr. Harvey Harper, and Dr. Din" +
+    "gbao Wang\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
@@ -95,7 +95,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(654, 79);
+            this.pictureBox1.Location = new System.Drawing.Point(654, 100);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(257, 190);
             this.pictureBox1.TabIndex = 8;

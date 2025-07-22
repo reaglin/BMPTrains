@@ -29,5 +29,13 @@ namespace BMPTrains_2020
         {
             harvest.CreateREVScatterPlot(base.BaseChart());
         }
+
+        public override Image getImage()
+        {
+            return Globals.Project.getRainfallZoneREVPlot();
+            
+        }
+
+
     }
 }
