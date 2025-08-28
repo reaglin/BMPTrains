@@ -13,7 +13,56 @@ namespace BMPTrains_2020
 
         public static BMPTrainsProject Project { get => project; set => project = value; }
 
-        public static string HelpURL = "http://roneaglin.online/bmptrains/";
+        public static string HelpURL = "http://bmptrains.com/";
+
+        public static string UserEmail = "";
+
+        public static Boolean IsValidatedUser = false;
+
+        public static bool ValidateUser(string EnteredEmail, string EnteredCode)
+        {
+            string ValidCode = GenerateCodeFromEmail(EnteredEmail);
+            if ( ValidCode == EnteredCode)
+            {
+                UserEmail = EnteredEmail;
+                IsValidatedUser = true;
+                return true;
+            }
+            return false;
+        }
+
+        public static string GenerateCodeFromEmail(string email)
+        {
+            // Extract first 6 alphabetic characters
+            var alphabeticChars = new List<char>();
+            foreach (char c in email.ToLower())
+            {
+                if (char.IsLetter(c))
+                {
+                    alphabeticChars.Add(c);
+                    if (alphabeticChars.Count == 6)
+                        break;
+                }
+            }
+
+            // Pad with 'a' if we have fewer than 6 characters
+            while (alphabeticChars.Count < 6)
+            {
+                alphabeticChars.Add('a');
+            }
+
+            // Convert each character to its corresponding digit
+            var result = new StringBuilder();
+            foreach (char c in alphabeticChars)
+            {
+                int alphabeticOrder = c - 'a' + 1; // a=1, b=2, ..., z=26
+                int digit = alphabeticOrder % 10;   // Use ones place value
+                result.Append(digit);
+            }
+
+            return result.ToString();
+        }
+
     }
 
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]

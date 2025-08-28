@@ -108,6 +108,12 @@
     <Compile Include="FormMeanAnnualRainfall.Designer.cs">
       <DependentUpon>FormMeanAnnualRainfall.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAboutValidation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAboutValidation.Designer.cs">
+      <DependentUpon>frmAboutValidation.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCalculators.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -372,6 +378,9 @@
     </Compile>
     <EmbeddedResource Include="FormMeanAnnualRainfall.resx">
       <DependentUpon>FormMeanAnnualRainfall.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAboutValidation.resx">
+      <DependentUpon>frmAboutValidation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmCalculators.resx">
       <DependentUpon>frmCalculators.cs</DependentUpon>

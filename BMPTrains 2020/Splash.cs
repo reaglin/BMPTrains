@@ -32,6 +32,15 @@ namespace BMPTrains_2020
 
         private void buttonContinue_Click(object sender, EventArgs e)
         {
+            string u = tbUserEmail.Text;
+            string c = tbCode.Text;
+
+            if (!Globals.ValidateUser(u, c))
+            {
+                Form about = new frmAboutValidation();
+                about.ShowDialog();
+            }
+
             Form siteInfo = new GeneralSiteInformation();
             siteInfo.Show();
 
@@ -56,6 +65,25 @@ namespace BMPTrains_2020
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            Form about = new frmAboutValidation();
+            about.ShowDialog();
+        }
+
+        private void btnNoValidation_Click(object sender, EventArgs e)
+        {
+            Form siteInfo = new GeneralSiteInformation();
+            siteInfo.Show();
+
+            this.Hide();
         }
     }
 }

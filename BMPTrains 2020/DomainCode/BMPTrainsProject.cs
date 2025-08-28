@@ -34,18 +34,20 @@ namespace BMPTrains_2020.DomainCode
 
         #region "URL Locations for Documentation"
         // Hard Coded URL References
-        public const string URL_Documentation_Base = "http://roneaglin.online/BMPTrainsDocumentation/";
+        public const string URL_BMPTrains = "http://bmptrains.com/";
+        public const string URL_Documentation_Base = "http://bmptrains.com/BMPTrainsDocumentation/";
         public const string URL_Harper_Report = "Harper2007Report.pdf";
         public const string URL_FDEP_Rules = "FDEPRule.pdf";
-        public const string URL_Applicants_Handbook = "Applicants_handbook_vol_1.pdf";
+        public const string URL_Applicants_Handbook = "Applicants_Handbook.pdf";
         public const string URL_Mass_Loading = "MassLoadingMethodology.pdf";
         public const string URL_Performance_Summary = "Type_of_Discharge.pdf";
+        public const string URL_Performance_Standards = "Performance_Standards.pdf";
 
         #endregion
 
         #region "Analysis Types Constants and Static Methods"
-//These are the all the Analysis Types, these also fit into categories, each of these
-// Have target removals and possibly additional criteria. 
+        //These are the all the Analysis Types, these also fit into categories, each of these
+        // Have target removals and possibly additional criteria. 
 
 
         public const string AT_AllSites = "All sites non-exempted";
@@ -94,6 +96,7 @@ namespace BMPTrains_2020.DomainCode
 
         // Opens documentation in program in browser
         public static void openURL(string url) { System.Diagnostics.Process.Start(URL_Documentation_Base + url); }
+        public static void openRawURL(string url) { System.Diagnostics.Process.Start( url); }
 
         public static string AT_Criteria_For_Scenario(string analysisType)
         {

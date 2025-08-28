@@ -35,6 +35,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbUserEmail = new System.Windows.Forms.TextBox();
+            this.tbCode = new System.Windows.Forms.TextBox();
+            this.btnNoValidation = new System.Windows.Forms.Button();
+            this.btnAbout = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,11 +58,11 @@
             // buttonContinue
             // 
             this.buttonContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonContinue.Location = new System.Drawing.Point(354, 276);
+            this.buttonContinue.Location = new System.Drawing.Point(224, 387);
             this.buttonContinue.Name = "buttonContinue";
-            this.buttonContinue.Size = new System.Drawing.Size(164, 47);
+            this.buttonContinue.Size = new System.Drawing.Size(346, 47);
             this.buttonContinue.TabIndex = 2;
-            this.buttonContinue.Text = "Continue";
+            this.buttonContinue.Text = "Continue with Validation";
             this.buttonContinue.UseVisualStyleBackColor = true;
             this.buttonContinue.Click += new System.EventHandler(this.buttonContinue_Click);
             // 
@@ -66,21 +72,20 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 63);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(658, 20);
+            this.label2.Size = new System.Drawing.Size(558, 20);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Software by: Dr. Marty Wanielista, Dr. Ron Eaglin, Dr. Harvey Harper, and Dr. Din" +
-    "gbao Wang\r\n";
+            this.label2.Text = "Software by: Marty Wanielista, Ron Eaglin, Harvey Harper, and Dingbao Wang\r\n";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 200);
+            this.label3.Location = new System.Drawing.Point(12, 216);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(636, 57);
             this.label3.TabIndex = 5;
-            this.label3.Text = "Disclaimer:  The user is responsible for all input data and an understanding of t" +
-    "he program details in the User Manual.";
+            this.label3.Text = "Disclaimer:  The user is responsible for all input data and an understanding and " +
+    "navigation of the software.";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
@@ -95,19 +100,82 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(654, 100);
+            this.pictureBox1.Location = new System.Drawing.Point(654, 63);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(257, 190);
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
+            // 
+            // label5
+            // 
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(12, 316);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(255, 30);
+            this.label5.TabIndex = 9;
+            this.label5.Text = " Enter Valid User Email:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // label6
+            // 
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(22, 346);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(226, 30);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Enter Validation Code:";
+            // 
+            // tbUserEmail
+            // 
+            this.tbUserEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUserEmail.Location = new System.Drawing.Point(248, 316);
+            this.tbUserEmail.Name = "tbUserEmail";
+            this.tbUserEmail.Size = new System.Drawing.Size(322, 26);
+            this.tbUserEmail.TabIndex = 11;
+            // 
+            // tbCode
+            // 
+            this.tbCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbCode.Location = new System.Drawing.Point(248, 346);
+            this.tbCode.Name = "tbCode";
+            this.tbCode.Size = new System.Drawing.Size(322, 26);
+            this.tbCode.TabIndex = 12;
+            // 
+            // btnNoValidation
+            // 
+            this.btnNoValidation.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNoValidation.Location = new System.Drawing.Point(576, 387);
+            this.btnNoValidation.Name = "btnNoValidation";
+            this.btnNoValidation.Size = new System.Drawing.Size(346, 47);
+            this.btnNoValidation.TabIndex = 13;
+            this.btnNoValidation.Text = "Continue without Validation";
+            this.btnNoValidation.UseVisualStyleBackColor = true;
+            this.btnNoValidation.Click += new System.EventHandler(this.btnNoValidation_Click);
+            // 
+            // btnAbout
+            // 
+            this.btnAbout.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAbout.Location = new System.Drawing.Point(576, 316);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(346, 56);
+            this.btnAbout.TabIndex = 14;
+            this.btnAbout.Text = "About BMPTrains Validation";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // Splash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(954, 349);
+            this.ClientSize = new System.Drawing.Size(954, 446);
             this.ControlBox = false;
+            this.Controls.Add(this.btnAbout);
+            this.Controls.Add(this.btnNoValidation);
+            this.Controls.Add(this.tbCode);
+            this.Controls.Add(this.tbUserEmail);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -130,6 +198,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbUserEmail;
+        private System.Windows.Forms.TextBox tbCode;
+        private System.Windows.Forms.Button btnNoValidation;
+        private System.Windows.Forms.Button btnAbout;
     }
 }
 

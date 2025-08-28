@@ -180,8 +180,16 @@ namespace BMPTrains_2020
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Save();
-            Globals.Project.Modified = false;
+            if (Globals.IsValidatedUser)
+            {
+                Save();
+                Globals.Project.Modified = false;
+            }
+            else
+            {
+                Form about = new frmAboutValidation();
+                about.ShowDialog();
+            }
         }
 
         private void Save()
@@ -316,7 +324,7 @@ namespace BMPTrains_2020
 
         private void btnPerformanceSummary_Click(object sender, EventArgs e)
         {
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_Performance_Summary);
+            BMPTrainsProject.openURL(BMPTrainsProject.URL_Performance_Standards);
         }
 
         #endregion

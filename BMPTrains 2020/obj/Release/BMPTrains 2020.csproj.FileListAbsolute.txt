@@ -104,3 +104,4 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Release\BMPTrai
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.g.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains_2020.frmAboutValidation.resources
