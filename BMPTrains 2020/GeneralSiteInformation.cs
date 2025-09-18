@@ -160,6 +160,14 @@ namespace BMPTrains_2020
 
         private void setValues()
         {
+            // This code can be added to bypass action for Non registered users
+            if (!Globals.IsValidatedUser)
+            {
+                Globals.Project.RainfallZone = StaticLookupTables.DefaultRainfallZone;
+            }
+
+            // This code can be added to bypass action for 
+            // Non registered users
             tbProjectName.Text = Globals.Project.ProjectName;
             Common.setValue(cbMetZone, Globals.Project.RainfallZone);
             Common.setValue(tbMeanAnnualRainfall, Globals.Project.MeanAnnualRainfall);
@@ -180,16 +188,23 @@ namespace BMPTrains_2020
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (Globals.IsValidatedUser)
+            // This code can be added to bypass action for 
+            // Non registered users
+            if (!Globals.IsValidatedUser)
             {
+                ShowvalidationForm();
+                return;
+            }
+
                 Save();
                 Globals.Project.Modified = false;
-            }
-            else
-            {
-                Form about = new frmAboutValidation();
-                about.ShowDialog();
-            }
+  
+        }
+
+        private void ShowvalidationForm()
+        {
+            Form about = new frmAboutValidation();
+            about.ShowDialog();
         }
 
         private void Save()
@@ -282,6 +297,14 @@ namespace BMPTrains_2020
 
         private void btnReport_Click(object sender, EventArgs e)
         {
+            // This code can be added to bypass action for 
+            // Non registered users
+            if (!Globals.IsValidatedUser)
+            {
+                ShowvalidationForm();
+                return;
+            }
+
             getValues();
             Globals.Project.Calculate();
             Form form = new frmReport(Globals.Project.PrintSummaryReport(),false);
@@ -290,14 +313,19 @@ namespace BMPTrains_2020
 
         private void btnCostReport_Click(object sender, EventArgs e)
         {
+            // This code can be added to bypass action for 
+            // Non registered users
+            if (!Globals.IsValidatedUser)
+            {
+                ShowvalidationForm();
+                return;
+            }
 
             System.Windows.Forms.Clipboard.SetText(Globals.Project.FullCostCopy());
 
             Form form = new frmReport(Globals.Project.FullCostReport());
             form.ShowDialog();
 
-            //Form form = new frmCostScenario();
-            //form.ShowDialog();
         }
 
         private void cbMetZone_SelectedIndexChanged(object sender, EventArgs e)
@@ -330,6 +358,14 @@ namespace BMPTrains_2020
         #endregion
         private void btnCatchmentReport_Click(object sender, EventArgs e)
         {
+            // This code can be added to bypass action for 
+            // Non registered users
+            if (!Globals.IsValidatedUser)
+            {
+                ShowvalidationForm();
+                return;
+            }
+
             getValues();
             Globals.Project.Calculate();
             Form form = new frmReport(Globals.Project.CatchmentReport(), false);

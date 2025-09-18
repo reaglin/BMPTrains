@@ -150,6 +150,12 @@
     <Compile Include="frmCostScenario.Designer.cs">
       <DependentUpon>frmCostScenario.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCreateCodes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCreateCodes.Designer.cs">
+      <DependentUpon>frmCreateCodes.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmExfiltration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -399,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCostScenario.resx">
       <DependentUpon>frmCostScenario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCreateCodes.resx">
+      <DependentUpon>frmCreateCodes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmExfiltration.resx">
       <DependentUpon>frmExfiltration.cs</DependentUpon>

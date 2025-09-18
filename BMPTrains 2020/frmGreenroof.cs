@@ -31,6 +31,8 @@ namespace BMPTrains_2020
             InterfaceCommon.BuildCatchmentMenu(menuStrip1, MenuItemClickHandler,true);
             menuStrip1.Items[currentCatchmentID - 1].BackColor = System.Drawing.Color.FromKnownColor(System.Drawing.KnownColor.MenuHighlight);
 
+            // Set default value
+            currentBMP().GreenroofArea = currentCatchment().PostArea * 43560;
             setValues();
 
             this.Text +=currentCatchment().TitleHeader();
@@ -57,11 +59,13 @@ namespace BMPTrains_2020
 
         private void setValues()
         {
+            
             Common.setValue(cbRainfallStation, currentBMP().RainfallStation);
             Common.setValue(tbDepth, currentBMP().RetentionDepth);
             Common.setValue(tbGreenroofArea, currentBMP().GreenroofArea);
             Common.setValue(tbIrrigationDemand, currentBMP().IrrigationDemand);
             Common.setValue(tbRainfallExcess, currentBMP().RainfallExcess);
+            Common.setValue(chkCistern, currentBMP().CisternIsUsed);
             
             setOutputText();
         }
@@ -74,6 +78,7 @@ namespace BMPTrains_2020
             currentBMP().IrrigationDemand = Common.getDouble(tbIrrigationDemand);
             currentBMP().RainfallExcess = Common.getDouble(tbRainfallExcess);
             currentBMP().RainfallStation = Common.getString(cbRainfallStation);
+            currentBMP().CisternIsUsed = Common.getBoolean(chkCistern);
         }
 
         private void MenuItemClickHandler(object sender, EventArgs e)
@@ -130,6 +135,14 @@ namespace BMPTrains_2020
         {
             Form form = new frmCostAnalysis(currentBMP());
             form.ShowDialog();
+        }
+
+        private void chkCistern_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkCistern.Checked)
+                currentBMP().GreenroofArea = currentCatchment().PostArea * 43560;
+          setValues();
+
         }
     }
 }

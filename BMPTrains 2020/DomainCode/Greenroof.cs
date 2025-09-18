@@ -10,6 +10,8 @@ namespace BMPTrains_2020.DomainCode
     {
         public static string SessionId = "GreenroofID";
 
+        public bool CisternIsUsed { get; set; }
+
         [Meta("Selected Rainfall Station", "",  2)]
         public string RainfallStation { get; set; }
 
@@ -42,6 +44,7 @@ namespace BMPTrains_2020.DomainCode
 
         public Greenroof(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sGreenroof;
+            CisternIsUsed = false;
         }
 
         public override Dictionary<string, string> PropertyLabels()

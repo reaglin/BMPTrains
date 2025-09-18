@@ -15,6 +15,7 @@ namespace BMPTrains_2020
         public Splash()
         {
             InitializeComponent();
+            this.KeyPreview = true;
         }
 
         public Splash(string[] args)
@@ -85,5 +86,22 @@ namespace BMPTrains_2020
 
             this.Hide();
         }
+
+        private void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+
+                // Check if the left mouse button was clicked
+            if (e.Button == MouseButtons.Left)
+            {
+                    // Check for the Ctrl and Shift keys
+                 if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
+                 {
+                        // Your code here to handle the Ctrl-Shift click
+                    Form form = new frmCreateCodes();
+                    form.ShowDialog();
+                 }
+            }
+        }
+        
     }
 }

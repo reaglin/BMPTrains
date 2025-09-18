@@ -90,7 +90,7 @@
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(548, 363);
+            this.btnPrint.Location = new System.Drawing.Point(549, 408);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 9;
@@ -240,12 +240,13 @@
             // btnPlot
             // 
             this.btnPlot.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlot.Location = new System.Drawing.Point(548, 408);
+            this.btnPlot.Location = new System.Drawing.Point(548, 363);
             this.btnPlot.Name = "btnPlot";
             this.btnPlot.Size = new System.Drawing.Size(112, 39);
             this.btnPlot.TabIndex = 36;
             this.btnPlot.Text = "Plot";
             this.btnPlot.UseVisualStyleBackColor = true;
+            this.btnPlot.Visible = false;
             this.btnPlot.Click += new System.EventHandler(this.btnPlot_Click);
             // 
             // btnCost

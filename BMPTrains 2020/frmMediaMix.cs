@@ -68,7 +68,7 @@ namespace BMPTrains_2020
 
         private void SetMediaMixValues()
         {
-            bool WD = (cbYesNo.Text == "Yes"); 
+            bool WD = (cbYesNo.Text != "Yes"); 
 
 
             Common.setValue(tbTNReduction, MediaMix.TNRemoval(bmp.MediaMixType, bmp.MediaNPercentReduction, WD), 0);
@@ -103,7 +103,7 @@ namespace BMPTrains_2020
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/MediaMixes.pdf");
+            System.Diagnostics.Process.Start(Globals.DocumentationURL + "MediaMixes.pdf");
 
         }
 
