@@ -164,6 +164,7 @@ namespace BMPTrains_2020
             if (!Globals.IsValidatedUser)
             {
                 Globals.Project.RainfallZone = StaticLookupTables.DefaultRainfallZone;
+                Globals.Project.MeanAnnualRainfall = BMPTrainsProject.DefaultMeanAnnualRainfall;
             }
 
             // This code can be added to bypass action for 

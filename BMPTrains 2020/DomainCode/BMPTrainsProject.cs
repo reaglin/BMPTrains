@@ -140,6 +140,7 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Mean Annual Rainfall", "in", "2")]
         public double MeanAnnualRainfall { get; set; }
+        public static double DefaultMeanAnnualRainfall = 52;
 
         [Meta("Type of System Analysis", "", "")]
         public string AnalysisType { get; set; }

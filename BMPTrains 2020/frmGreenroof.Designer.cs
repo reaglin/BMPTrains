@@ -163,6 +163,7 @@
             // 
             // tbGreenroofArea
             // 
+            this.tbGreenroofArea.Enabled = false;
             this.tbGreenroofArea.Location = new System.Drawing.Point(593, 78);
             this.tbGreenroofArea.Name = "tbGreenroofArea";
             this.tbGreenroofArea.Size = new System.Drawing.Size(89, 31);

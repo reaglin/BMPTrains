@@ -14,7 +14,6 @@ namespace BMPTrains_2020
         public static BMPTrainsProject Project { get => project; set => project = value; }
 
         public static string HelpURL = "http://bmptrains.com/";
-        public static string DocumentationURL = HelpURL + "Documentation/";
 
         public static string UserEmail = "";
 

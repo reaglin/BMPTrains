@@ -152,11 +152,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(96, 20);
+            this.label1.Location = new System.Drawing.Point(82, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(507, 30);
+            this.label1.Size = new System.Drawing.Size(521, 30);
             this.label1.TabIndex = 66;
-            this.label1.Text = "Is the media design residence time less than 2 hours?";
+            this.label1.Text = "Is the media design residence time more than 2 hours?";
             // 
             // cbYesNo
             // 

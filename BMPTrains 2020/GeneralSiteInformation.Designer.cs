@@ -135,6 +135,7 @@
             this.tbMeanAnnualRainfall.Name = "tbMeanAnnualRainfall";
             this.tbMeanAnnualRainfall.Size = new System.Drawing.Size(54, 35);
             this.tbMeanAnnualRainfall.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.tbMeanAnnualRainfall, "Mean Annual Rainfall can only be changed in the full version.");
             // 
             // label5
             // 
