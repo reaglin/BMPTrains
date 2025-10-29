@@ -771,17 +771,22 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "<br/><h2>Load for  Multiple BMP in Series</h2><br/><table>";
             s += "<table><tr>";         // 5 Cells per row
-            s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
+            //s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
+            s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, RunoffVolume, 2, "kg/yr", "kg/yr", "ac-ft/yr","Load");
+
             s += EfficiencyReportCell("&rarr;");
             s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency, 0, "%", "Treatment", 1);
             s += EfficiencyReportCell("&rarr;");
-            s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, 2, "kg/yr", "Surface Discharge");
+            if (BMPNMassLoadOut == 0.0) BMPNMassLoadOut = (1 - ProvidedNTreatmentEfficiency / 100) * BMPNMassLoadIn;
+            if (BMPPMassLoadOut == 0.0) BMPPMassLoadOut = (1 - ProvidedPTreatmentEfficiency / 100) * BMPPMassLoadIn;
+            double SurfaceDischarge = (1 - ProvidedNTreatmentEfficiency / 100) * RunoffVolume;
+            s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, SurfaceDischarge, 2, "kg/yr", "kg/yr","ac-ft/yr" ,"Surface Discharge");
             s += "</tr>";
 
             s += "<tr><td></td><td></td>";
             s += EfficiencyReportCell("&darr;");
             s += "<td></td></tr><tr><td></td><td></td>";
-            s += EfficiencyReportCell(BMPNMassLoadIn - BMPNMassLoadOut, BMPPMassLoadIn - BMPPMassLoadOut, 2, "kg/yr", "Mass Reduction");
+            s += EfficiencyReportCell(BMPNMassLoadIn - BMPNMassLoadOut, BMPPMassLoadIn - BMPPMassLoadOut, RunoffVolume-SurfaceDischarge, 2, "kg/yr", "kg/yr","ac-ft/yr", "Mass Reduction");
             s += "<td></td></tr>";
             if (Globals.Project.DoGroundwaterAnalysis == "Yes")
             {

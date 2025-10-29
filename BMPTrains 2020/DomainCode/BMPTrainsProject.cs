@@ -1414,7 +1414,7 @@ namespace BMPTrains_2020.DomainCode
             // Pre-Post Analysis compares Target vs Pre-Post 
             if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
                 //// 
-                s += "<h3>Additional Criteria Pre vs. Post Removals</h3>";
+                s += "<h3>Pre vs. Post Removals</h3>";
                 if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
                 {
                     s += "Is % less than predevelopment system loading for TN met? "
