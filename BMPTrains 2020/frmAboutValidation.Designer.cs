@@ -77,7 +77,7 @@
             this.Controls.Add(this.btnWebsite);
             this.Controls.Add(this.label1);
             this.Name = "frmAboutValidation";
-            this.Text = "About BMPTrains Validation";
+            this.Text = "About BMPFast Validation";
             this.ResumeLayout(false);
             this.PerformLayout();
 

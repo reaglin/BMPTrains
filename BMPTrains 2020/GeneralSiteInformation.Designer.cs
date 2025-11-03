@@ -108,9 +108,9 @@
             this.label4.Location = new System.Drawing.Point(6, 144);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(412, 30);
+            this.label4.Size = new System.Drawing.Size(502, 30);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Specify Type of Surface Discharge Analysis:";
+            this.label4.Text = "Performance Standard of Surface Discharge Analysis:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbProjectName
@@ -151,9 +151,9 @@
             // cbAnalysisType
             // 
             this.cbAnalysisType.FormattingEnabled = true;
-            this.cbAnalysisType.Location = new System.Drawing.Point(427, 141);
+            this.cbAnalysisType.Location = new System.Drawing.Point(507, 141);
             this.cbAnalysisType.Name = "cbAnalysisType";
-            this.cbAnalysisType.Size = new System.Drawing.Size(311, 38);
+            this.cbAnalysisType.Size = new System.Drawing.Size(231, 38);
             this.cbAnalysisType.TabIndex = 8;
             this.cbAnalysisType.SelectedIndexChanged += new System.EventHandler(this.cbAnalysisType_SelectedIndexChanged);
             // 

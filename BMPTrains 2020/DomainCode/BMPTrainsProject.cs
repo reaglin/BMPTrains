@@ -198,8 +198,12 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Post-Runoff Volume from Catchment", "ac-ft", 2)]
         public double PostRunoffVolume { get; set; }
 
-        [Meta("Post-Runoff Volume from System", "ac-ft", 2)]
+        [Meta("Post-Runoff Volume from System (after BMP)", "ac-ft", 2)]
         public double OutflowVolume { get; set; }
+
+        [Meta("Overall System Hydraulic Efficiency", "%", 2)]
+        public double SystemHydraulicEfficiency { get; set; }
+
 
 
         // Used only if a pre-condition is loaded and then used 
@@ -967,8 +971,16 @@ namespace BMPTrains_2020.DomainCode
             outlet.resetCatchmentRouting(); // Clears Values
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                if (kvp.Value.getRouting().ToID == 0) kvp.Value.getRouting().CalculateOutlet(outlet);
+                // 
+                if (kvp.Value.getRouting().ToID == 0)
+                {
+                    kvp.Value.getRouting().CalculateOutlet(outlet);
+                    outlet.HydraulicEfficiency = kvp.Value.getSelectedBMP().ProvidedNTreatmentEfficiency;
+                   
+                }
+                OutflowVolume = (1-outlet.HydraulicEfficiency/100)*outlet.VolumeIn;
             }
+
         }
 
         //public double CalculateTotalCatchmentGWRechargeRate()
@@ -1069,7 +1081,11 @@ namespace BMPTrains_2020.DomainCode
                 PreRunoffVolume += Catchments[1].PreRunoffVolume;
 
                 // Sums up volumes from all upstream catchments
-                if (Catchments[1].ToID == 0) PostRunoffVolume += Catchments[1].routing.VolumeOut;
+                if (Catchments[1].ToID == 0)
+                {
+                    PostRunoffVolume += Catchments[1].routing.VolumeOut;
+                    //OutflowVolume += PostRunoffVolume * Catchments[1].getCalculatedHydraulicEfficiency() / 100;
+                }
 
                 TotalGroundwaterNRemoved += Catchments[1].GroundwaterNRemoved;
                 TotalGroundwaterPRemoved += Catchments[1].GroundwaterPRemoved;
@@ -1101,12 +1117,12 @@ namespace BMPTrains_2020.DomainCode
                 TotalGroundwaterNLoading += Catchments[i].GroundwaterNLoading;
                 TotalGroundwaterPLoading += Catchments[i].GroundwaterPLoading;
                 TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[i].getRouting().VolumeGW;
+                //OutflowVolume += PostRunoffVolume * Catchments[1].getCalculatedHydraulicEfficiency() / 100;
+                    //foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+                    //{
+                    //    if (!kvp.Value.Disabled)
 
-                //foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-                //{
-                //    if (!kvp.Value.Disabled)
-
-            }
+                }
             }
 
             if (TotalGroundwaterNRemoved != 0)
@@ -1137,6 +1153,7 @@ namespace BMPTrains_2020.DomainCode
                 CalculatedPTreatmentEfficiency = 0.0;
                 if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
             }
+
 
         }
 
@@ -1371,7 +1388,7 @@ namespace BMPTrains_2020.DomainCode
             }
             if (PostCatchmentAreaAcres != 0)
                 s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
-                    + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
+                    + (12 * OutflowVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
             s += "<br/><br/>";
             return s;
         }

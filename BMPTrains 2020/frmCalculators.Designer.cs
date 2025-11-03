@@ -182,7 +182,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "frmCalculators";
-            this.Text = "BMPTrains Calculators";
+            this.Text = "BMPTFast Calculators";
             this.ResumeLayout(false);
             this.PerformLayout();
 

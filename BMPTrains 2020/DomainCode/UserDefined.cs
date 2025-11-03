@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,26 @@ namespace BMPTrains_2020.DomainCode
 {
     public class UserDefinedBMP : Storage
     {
-
+        public static Dictionary<string,int> UserDefinedOptions()
+        {
+        return new Dictionary<string,int>
+            {
+                {"Baffle Boxes", 1},
+                {"Baffle Boxes 2nd Gen",2},
+                {"Hydrodynamic Separators",3},
+                {"Catch Basin Inserts",4},
+                {"Alum Treating",5},
+                {"Street Sweeping",6},
+                {"Other",7 }
+            };
+        }
+        public static void PopulateUserDefinedOptions(ComboBox cb)
+        {
+            cb.DataSource = new System.Windows.Forms.BindingSource(UserDefinedOptions(), null);
+            cb.DisplayMember = "Key";
+            cb.ValueMember = "Key";
+        }
+       
         public new static readonly string[] InputVariables = {
             "ContributingArea", "CalculatedNTreatmentEfficiency", "CalculatedPTreatmentEfficiency"};
         public UserDefinedBMP(Catchment c) : base(c)

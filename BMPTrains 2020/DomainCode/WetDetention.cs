@@ -295,8 +295,8 @@ namespace BMPTrains_2020.DomainCode
 
             if (!HasLittoralZone)
             {
-                ProvidedNTreatmentEfficiency = Math.Max(ProvidedNTreatmentEfficiency - 10, 0.0);
-                ProvidedPTreatmentEfficiency = Math.Max(ProvidedPTreatmentEfficiency - 10, 0.0);
+                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency/1.10;//Math.Max(ProvidedNTreatmentEfficiency - 10, 0.0);
+                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency/1.10;//Math.Max(ProvidedPTreatmentEfficiency - 10, 0.0);
             }
 
             NRemaining = 100 - ProvidedNTreatmentEfficiency;

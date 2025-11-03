@@ -52,7 +52,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(332, 24);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Welcome to BMPTrains 2025";
+            this.label1.Text = "Welcome to BMPFast 2025";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // buttonContinue
@@ -161,7 +161,7 @@
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(346, 56);
             this.btnAbout.TabIndex = 14;
-            this.btnAbout.Text = "About BMPTrains Validation";
+            this.btnAbout.Text = "About BMPFast Validation";
             this.btnAbout.UseVisualStyleBackColor = true;
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
@@ -185,7 +185,7 @@
             this.Controls.Add(this.buttonContinue);
             this.Controls.Add(this.label1);
             this.Name = "Splash";
-            this.Text = "BMPTrains 2025";
+            this.Text = "BMPFast 2025";
             this.Load += new System.EventHandler(this.Splash_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

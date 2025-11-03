@@ -45,13 +45,14 @@
             this.label8 = new System.Windows.Forms.Label();
             this.cbRetentionOrDetention = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.tbName = new System.Windows.Forms.TextBox();
+            this.cbName = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // tbN
             // 
             this.tbN.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbN.Location = new System.Drawing.Point(439, 82);
+            this.tbN.Location = new System.Drawing.Point(610, 61);
             this.tbN.Name = "tbN";
             this.tbN.Size = new System.Drawing.Size(89, 35);
             this.tbN.TabIndex = 1;
@@ -60,7 +61,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(112, 85);
+            this.label2.Location = new System.Drawing.Point(275, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(321, 30);
             this.label2.TabIndex = 5;
@@ -68,17 +69,17 @@
             // 
             // wbOutput
             // 
-            this.wbOutput.Location = new System.Drawing.Point(12, 304);
+            this.wbOutput.Location = new System.Drawing.Point(12, 208);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(516, 200);
+            this.wbOutput.Size = new System.Drawing.Size(553, 296);
             this.wbOutput.TabIndex = 6;
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(547, 465);
+            this.btnClose.Location = new System.Drawing.Point(600, 433);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 7;
@@ -90,7 +91,7 @@
             // btnReport
             // 
             this.btnReport.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReport.Location = new System.Drawing.Point(547, 420);
+            this.btnReport.Location = new System.Drawing.Point(600, 388);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(112, 39);
             this.btnReport.TabIndex = 6;
@@ -101,7 +102,7 @@
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(547, 375);
+            this.btnPrint.Location = new System.Drawing.Point(600, 343);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 5;
@@ -122,7 +123,7 @@
             // btnCalculate
             // 
             this.btnCalculate.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCalculate.Location = new System.Drawing.Point(547, 330);
+            this.btnCalculate.Location = new System.Drawing.Point(600, 298);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(112, 39);
             this.btnCalculate.TabIndex = 4;
@@ -133,7 +134,7 @@
             // btnHelp
             // 
             this.btnHelp.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHelp.Location = new System.Drawing.Point(547, 285);
+            this.btnHelp.Location = new System.Drawing.Point(600, 253);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(112, 39);
             this.btnHelp.TabIndex = 3;
@@ -145,7 +146,7 @@
             // tbP
             // 
             this.tbP.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbP.Location = new System.Drawing.Point(440, 123);
+            this.tbP.Location = new System.Drawing.Point(610, 102);
             this.tbP.Name = "tbP";
             this.tbP.Size = new System.Drawing.Size(88, 35);
             this.tbP.TabIndex = 2;
@@ -154,7 +155,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(86, 126);
+            this.label1.Location = new System.Drawing.Point(249, 105);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(348, 30);
             this.label1.TabIndex = 22;
@@ -163,7 +164,7 @@
             // btnMedia
             // 
             this.btnMedia.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMedia.Location = new System.Drawing.Point(547, 240);
+            this.btnMedia.Location = new System.Drawing.Point(600, 208);
             this.btnMedia.Name = "btnMedia";
             this.btnMedia.Size = new System.Drawing.Size(112, 39);
             this.btnMedia.TabIndex = 39;
@@ -176,20 +177,21 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(12, 161);
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(9, 515);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(589, 90);
+            this.label8.Size = new System.Drawing.Size(541, 68);
             this.label8.TabIndex = 38;
-            this.label8.Text = "Nitrogen and Phosphorus Treatment must both be entered as \r\npositive numbers. The" +
-    "se are considered to be flow through \r\ndevices, not retention.";
+            this.label8.Text = "Nitrogen and Phosphorus Treatment must both be entered as positive numbers. These" +
+    " are \r\nconsidered to be flow through devices, not retention.\r\n\r\nJustify your rea" +
+    "soning in your ERP support documents.";
             // 
             // cbRetentionOrDetention
             // 
             this.cbRetentionOrDetention.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbRetentionOrDetention.FormattingEnabled = true;
             this.cbRetentionOrDetention.ItemHeight = 30;
-            this.cbRetentionOrDetention.Location = new System.Drawing.Point(583, 169);
+            this.cbRetentionOrDetention.Location = new System.Drawing.Point(623, 143);
             this.cbRetentionOrDetention.Name = "cbRetentionOrDetention";
             this.cbRetentionOrDetention.Size = new System.Drawing.Size(76, 38);
             this.cbRetentionOrDetention.TabIndex = 37;
@@ -199,29 +201,43 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(7, 41);
+            this.label3.Location = new System.Drawing.Point(7, 20);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(281, 30);
+            this.label3.Size = new System.Drawing.Size(342, 30);
             this.label3.TabIndex = 41;
-            this.label3.Text = "BMP Name for User Defined:";
+            this.label3.Text = "Select BMP Name for User Defined:";
             // 
-            // tbName
+            // cbName
             // 
-            this.tbName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbName.Location = new System.Drawing.Point(294, 41);
-            this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(365, 35);
-            this.tbName.TabIndex = 40;
+            this.cbName.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbName.FormattingEnabled = true;
+            this.cbName.ItemHeight = 30;
+            this.cbName.Location = new System.Drawing.Point(355, 12);
+            this.cbName.Name = "cbName";
+            this.cbName.Size = new System.Drawing.Size(344, 38);
+            this.cbName.TabIndex = 42;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(371, 151);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(234, 30);
+            this.label4.TabIndex = 44;
+            this.label4.Text = "Retention or Detention?";
+            this.label4.Visible = false;
             // 
             // frmUserDefined
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(671, 520);
+            this.ClientSize = new System.Drawing.Size(724, 601);
             this.ControlBox = false;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.cbName);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.tbName);
             this.Controls.Add(this.btnMedia);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.cbRetentionOrDetention);
@@ -265,6 +281,7 @@
         private System.Windows.Forms.ComboBox cbRetentionOrDetention;
         private System.Windows.Forms.Button btnMedia;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbName;
+        private System.Windows.Forms.ComboBox cbName;
+        private System.Windows.Forms.Label label4;
     }
 }

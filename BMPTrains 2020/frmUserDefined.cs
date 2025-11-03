@@ -23,7 +23,7 @@ namespace BMPTrains_2020
 
             cbRetentionOrDetention.Items.Add(Storage.sRetention);
             cbRetentionOrDetention.Items.Add(Storage.sDetention);
-
+            UserDefinedBMP.PopulateUserDefinedOptions(cbName);
 
             setValues();
         }
@@ -52,7 +52,7 @@ namespace BMPTrains_2020
         {
             Common.setValue(tbN, currentBMP().ProvidedNTreatmentEfficiency);
             Common.setValue(tbP, currentBMP().ProvidedPTreatmentEfficiency);
-            Common.setValue(tbName, currentBMP().BMPName);
+            Common.setValue(cbName, currentBMP().Name);
             Common.setValue(cbRetentionOrDetention, currentBMP().RetentionOrDetention);
 
             setOutputText();
@@ -62,7 +62,7 @@ namespace BMPTrains_2020
         {
             currentBMP().ProvidedNTreatmentEfficiency = Common.getDouble(tbN);
             currentBMP().ProvidedPTreatmentEfficiency = Common.getDouble(tbP);
-            currentBMP().BMPName = Common.getString(tbName);
+            currentBMP().Name = Common.getString(cbName);
             currentBMP().RetentionOrDetention = Storage.sRetention;
         }
 

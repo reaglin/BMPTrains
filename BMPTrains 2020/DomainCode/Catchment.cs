@@ -448,6 +448,12 @@ namespace BMPTrains_2020.DomainCode
             return getSelectedBMP().BMPType;
         }
 
+        public double getCalculatedHydraulicEfficiency()
+        {
+            getSelectedBMP().Calculate();
+            return getSelectedBMP().HydraulicCaptureEfficiency;
+        }
+
         public double getCalculatedNTreatmentEfficiency()
         {
             getSelectedBMP().Calculate();
@@ -1580,7 +1586,7 @@ namespace BMPTrains_2020.DomainCode
             VolumeFromCatchment = c.PostRunoffVolume;
             VolumeIn = VolumeFromCatchment;                         // This is the starting point, more will be added
             VolumeFromUpstream = 0;
-            HydraulicEfficiency = 100;
+            HydraulicEfficiency = bmp.HydraulicCaptureEfficiency;
 
             // Removal Efficiency proided by the BMP
             Nitrogen.ProvidedRemovalEfficiency = bmp.ProvidedNTreatmentEfficiency;
@@ -1616,7 +1622,7 @@ namespace BMPTrains_2020.DomainCode
             FromID = 0;
 
             IsValid = true;
-            HydraulicEfficiency = 0;
+            //HydraulicEfficiency = 0;
 
             Nitrogen = new RoutingParameters();
             Phosphorus = new RoutingParameters();
@@ -1922,65 +1928,66 @@ namespace BMPTrains_2020.DomainCode
             if (!Globals.Project.CatchmentExists(up.FromID)) return;
 
             up.VolumeOut = up.VolumeIn;
-            Catchment downC = Globals.Project.getCatchment(FromID);  // Same as Up.ToID (This Catchment)
-            Catchment upC = Globals.Project.getCatchment(up.FromID);
+            Catchment downstreamCatchment = Globals.Project.getCatchment(FromID);  // Same as Up.ToID (This Catchment)
+            Catchment upstreamCatchment = Globals.Project.getCatchment(up.FromID);
             // This is the complex case  
             //   
             //   For the DCIA % use a Aerial weighted average
-            double WeightedDCIAPercent = ((downC.PostDCIAPercent * downC.PostArea) + (upC.PostDCIAPercent * upC.PostArea)) / (downC.PostArea + upC.PostArea);
+            double WeightedDCIAPercent = ((downstreamCatchment.PostDCIAPercent * downstreamCatchment.PostArea) + (upstreamCatchment.PostDCIAPercent * upstreamCatchment.PostArea))
+                / (downstreamCatchment.PostArea + upstreamCatchment.PostArea);
 
             // For NDCIA Curve Number it needs to be flow weighted
             // So need to calculate flow from NDCIA based on the CN and area 
             // 
             // Weighting Factor = Rational C * Pervious Area
-            double retentionDepth = downC.getSelectedBMP().RetentionDepth;
+            double retentionDepth = downstreamCatchment.getSelectedBMP().RetentionDepth;
 
             //            double upArea = upC.PostArea * (100 - upC.PostDCIAPercent) / 100;
             //            double downArea = (downC.PostArea - downC.BMPArea) * (100 - downC.PostDCIAPercent) / 100;
 
-            double upArea = upC.PostArea;
-            double downArea = (downC.PostArea - downC.BMPArea);
+            double upArea = upstreamCatchment.PostArea;
+            double downArea = (downstreamCatchment.PostArea - downstreamCatchment.BMPArea);
 
 
             double totArea = upArea + downArea;
            
-            double upRC = upC.CalculateRationalCoefficient(upC.PostNonDCIACurveNumber, upC.PostDCIAPercent);    // This needs to be post annual flow from upstream
-            double downRC = downC.CalculateRationalCoefficient(downC.PostNonDCIACurveNumber, downC.PostDCIAPercent);  // This needs to be post annual flow from downstream
+            double upRC = upstreamCatchment.CalculateRationalCoefficient(upstreamCatchment.PostNonDCIACurveNumber, upstreamCatchment.PostDCIAPercent);    // This needs to be post annual flow from upstream
+            double downRC = downstreamCatchment.CalculateRationalCoefficient(downstreamCatchment.PostNonDCIACurveNumber, downstreamCatchment.PostDCIAPercent);  // This needs to be post annual flow from downstream
 
             double upFraction = upArea * upRC;
             double downFraction = downArea * downRC;
             double totFraction = upFraction + downFraction;
 
             // Sum of up and down ratio will be 1.0
-            double upRatio = upFraction / totFraction;
-            double downRatio = downFraction / totFraction;
+            // double upRatio = upFraction / totFraction;
+            // double downRatio = downFraction / totFraction;
 
-            double netVolume = retentionDepth * (downC.PostArea - downC.BMPArea) / 12;
+            double netVolume = retentionDepth * (downstreamCatchment.PostArea - downstreamCatchment.BMPArea) / 12;
             double newStorage = downFraction * netVolume / totFraction;
 
             // This is an adjusted retention to take into account the flow from the upstream
-            double newRetention = newStorage / (downC.PostArea - downC.BMPArea) * 12;
+            double adjustedDepth = newStorage / (downstreamCatchment.PostArea - downstreamCatchment.BMPArea) * 12;
 
             double WeightedC = ((upArea * upRC) + (downArea * downRC)) / (upArea + downArea);
 
             // Do a Reverse lookup in the Lookup table
-            double WeightedNDCIACN = upC.CalculateNDCIACN(WeightedDCIAPercent, WeightedC);
+            double WeightedNDCIACN = upstreamCatchment.CalculateNDCIACN(WeightedDCIAPercent, WeightedC);
 
-            double t = RetentionEfficiencyLookupTables.CalculateEfficiency(newRetention,
+            double t = RetentionEfficiencyLookupTables.CalculateEfficiency(adjustedDepth,
                                                                            WeightedNDCIACN,
                                                                            WeightedDCIAPercent,
                                                                            Globals.Project.RainfallZone);
             Nitrogen.ProvidedRemovalEfficiency = t;
             Phosphorus.ProvidedRemovalEfficiency = t;
 
-            if ((upC.getSelectedBMP().DelayTime > 0)&&(upC.getSelectedBMP().DelayTime < 15)) 
+            if ((upstreamCatchment.getSelectedBMP().DelayTime > 0)&&(upstreamCatchment.getSelectedBMP().DelayTime < 15)) 
             {
                 up.HydraulicEfficiency = 100;  // Hydraulic Efficiency of No BMP
-                Nitrogen.ProvidedRemovalEfficiency += BMP.CalculateDelayEfficiency(upC.getSelectedBMP().DelayTime);
-                Phosphorus.ProvidedRemovalEfficiency += BMP.CalculateDelayEfficiency(upC.getSelectedBMP().DelayTime); ;
+                Nitrogen.ProvidedRemovalEfficiency += BMP.CalculateDelayEfficiency(upstreamCatchment.getSelectedBMP().DelayTime);
+                Phosphorus.ProvidedRemovalEfficiency += BMP.CalculateDelayEfficiency(upstreamCatchment.getSelectedBMP().DelayTime); ;
             }
 
-            if (upC.getSelectedBMP().DelayTime >= 15)
+            if (upstreamCatchment.getSelectedBMP().DelayTime >= 15)
             {
                 // Special Case Commingling to Retention
                 up.HydraulicEfficiency = 100;  // Hydraulic Efficiency of No BMP

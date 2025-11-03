@@ -91,7 +91,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmHelp";
-            this.Text = "BMPTrains Help";
+            this.Text = "BMPFast Help";
             this.Load += new System.EventHandler(this.frmHelp_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
