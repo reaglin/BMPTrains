@@ -336,24 +336,24 @@ namespace BMPTrains_2020
         #region "User Documentation Links"
         private void btnHarper_Click(object sender, EventArgs e)
         {
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_Harper_Report);
+            BMPTrainsProject.OpenDocumentation();
         }
 
         private void btnFDEP_Click(object sender, EventArgs e)
         {
             // Link to FDEP Rules
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_FDEP_Rules);
+            BMPTrainsProject.OpenDocumentation();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // Should be link to Applicants Handbook
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_Applicants_Handbook);
+            BMPTrainsProject.OpenDocumentation();
         }
 
         private void btnPerformanceSummary_Click(object sender, EventArgs e)
         {
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_Performance_Standards);
+            BMPTrainsProject.OpenDocumentation();
         }
 
         #endregion

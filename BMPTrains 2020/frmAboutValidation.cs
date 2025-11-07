@@ -25,7 +25,7 @@ namespace BMPTrains_2020
 
         private void btnWebsite_Click(object sender, EventArgs e)
         {
-            BMPTrainsProject.openRawURL(BMPTrainsProject.URL_BMPTrains);
+            BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Website);
         }
 
         private void btnContinue_Click(object sender, EventArgs e)

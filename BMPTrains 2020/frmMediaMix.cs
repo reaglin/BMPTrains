@@ -103,7 +103,7 @@ namespace BMPTrains_2020
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(BMPTrainsProject.URL_Documentation_Base + "MediaMixes.pdf");
+            System.Diagnostics.Process.Start(BMPTrainsProject.URL_Documentation);
 
         }
 

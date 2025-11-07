@@ -2,7 +2,6 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Release\BMPTrai
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Release\BMPTrains.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Release\BMPTrains.pdb
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPFast.csproj.AssemblyReference.cache
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPFast.csproj.SuggestedBindingRedirects.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.g.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains_2020.FormMeanAnnualRainfall.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains_2020.frmAboutValidation.resources
@@ -55,3 +54,4 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPFast
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPFast.csproj.CoreCompileInputs.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Release\BMPTrains.exe.config

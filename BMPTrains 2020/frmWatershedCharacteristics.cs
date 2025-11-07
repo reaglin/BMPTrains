@@ -370,7 +370,7 @@ namespace BMPTrains_2020
 
         private void btnMassLoadingDoc_Click(object sender, EventArgs e)
         {
-            BMPTrainsProject.openURL(BMPTrainsProject.URL_Mass_Loading);
+            BMPTrainsProject.OpenDocumentation();
         }
 
         private void btnEMCPreN_Click(object sender, EventArgs e)

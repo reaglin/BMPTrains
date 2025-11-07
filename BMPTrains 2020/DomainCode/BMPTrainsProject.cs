@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -34,14 +35,14 @@ namespace BMPTrains_2020.DomainCode
 
         #region "URL Locations for Documentation"
         // Hard Coded URL References
-        public const string URL_BMPTrains = "http://bmptrains.com/";
-        public const string URL_Documentation_Base = "http://bmptrains.com/BMPTrainsDocumentation/";
-        public const string URL_Harper_Report = "Harper2007Report.pdf";
-        public const string URL_FDEP_Rules = "FDEPRule.pdf";
-        public const string URL_Applicants_Handbook = "Applicants_Handbook.pdf";
-        public const string URL_Mass_Loading = "MassLoadingMethodology.pdf";
-        public const string URL_Performance_Summary = "Type_of_Discharge.pdf";
-        public const string URL_Performance_Standards = "Performance_Standards.pdf";
+        public const string URL_Website = "http://bmpfast.com/";
+        public const string URL_Documentation = "https://bmpfast.com/documents/";
+        //public const string URL_Harper_Report = "Harper2007Report.pdf";
+        //public const string URL_FDEP_Rules = "FDEPRule.pdf";
+        //public const string URL_Applicants_Handbook = "Applicants_Handbook.pdf";
+        //public const string URL_Mass_Loading = "MassLoadingMethodology.pdf";
+        //public const string URL_Performance_Summary = "Type_of_Discharge.pdf";
+        //public const string URL_Performance_Standards = "Performance_Standards.pdf";
 
         #endregion
 
@@ -95,7 +96,11 @@ namespace BMPTrains_2020.DomainCode
         // Note , AT_PreReductionPercent removed
 
         // Opens documentation in program in browser
-        public static void openURL(string url) { System.Diagnostics.Process.Start(URL_Documentation_Base + url); }
+
+        public static void OpenDocumentation() { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Documentation); }
+
+        public static void OpenWebsite() { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Website); }
+        //public static void openURL(string url = "") { System.Diagnostics.Process.Start(URL_Documentation + url); }
         public static void openRawURL(string url) { System.Diagnostics.Process.Start( url); }
 
         public static string AT_Criteria_For_Scenario(string analysisType)

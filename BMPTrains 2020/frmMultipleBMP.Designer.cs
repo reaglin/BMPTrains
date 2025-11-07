@@ -66,7 +66,7 @@
             // btnReport
             // 
             this.btnReport.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReport.Location = new System.Drawing.Point(515, 201);
+            this.btnReport.Location = new System.Drawing.Point(515, 153);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(112, 39);
             this.btnReport.TabIndex = 8;
@@ -77,12 +77,12 @@
             // 
             // btnPrint
             // 
-            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(515, 147);
+            this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new System.Drawing.Point(515, 108);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 9;
-            this.btnPrint.Text = "Full Report";
+            this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
@@ -99,7 +99,7 @@
             // btnCalculate
             // 
             this.btnCalculate.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCalculate.Location = new System.Drawing.Point(515, 57);
+            this.btnCalculate.Location = new System.Drawing.Point(515, 63);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(112, 39);
             this.btnCalculate.TabIndex = 18;
@@ -263,7 +263,7 @@
             // btnAnoxicDepth
             // 
             this.btnAnoxicDepth.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 102);
+            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 206);
             this.btnAnoxicDepth.Name = "btnAnoxicDepth";
             this.btnAnoxicDepth.Size = new System.Drawing.Size(112, 39);
             this.btnAnoxicDepth.TabIndex = 62;

@@ -165,7 +165,7 @@ namespace BMPTrains_2020
             getValues();
             Calculate();
             if (lastBMPID() == 0) return;
-            if (lastBMP().BMPType == BMPTrainsProject.sWetDetention) btnAnoxicDepth.Visible = true; else btnAnoxicDepth.Visible = false;
+            //if (lastBMP().BMPType == BMPTrainsProject.sWetDetention) btnAnoxicDepth.Visible = true; else btnAnoxicDepth.Visible = false;
             Form form = new frmReport(currentBMP().getReport());
             form.ShowDialog();
         }

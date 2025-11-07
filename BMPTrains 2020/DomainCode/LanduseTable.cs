@@ -28,7 +28,7 @@ namespace BMPTrains_2020.DomainCode
                 new LanduseTableRow() {D = "High-Intensity Commercial: TN=2.40 TP=0.345", N =2.4, P =0.345},
                 new LanduseTableRow() {D = "Highway: TN=1.520 TP=0.200", N =1.52, P =0.2},
                 new LanduseTableRow() {D = "Light Industrial: TN=1.200 TP=0.260", N =1.2, P =0.26},
-                new LanduseTableRow() {D = "Low-Density Residential: TN=1.645 TP= 0.27", N =1.645, P =0.27},
+                new LanduseTableRow() {D = "Low-Density Residential: TN=1.65 TP= 0.27", N =1.65, P =0.27},
                 new LanduseTableRow() {D = "Low-Intensity Commercial: TN=1.13 TP=0.188", N =1.13, P =0.188},
                 new LanduseTableRow() {D = "Mining / Extractive: TN=1.180 TP=0.150", N =1.18, P =0.15},
                 new LanduseTableRow() {D = "Multi-Family: TN=2.320 TP=0.520", N =2.32, P =0.52},
