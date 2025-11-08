@@ -76,6 +76,7 @@ namespace BMPTrains_2020.DomainCode
         }
         public static string getString(ComboBox cb)
         {
+            // keyOnly returns the key, not the text in the combobox.
             try
             {
                 return cb.Text;
@@ -352,7 +353,37 @@ namespace BMPTrains_2020.DomainCode
         //    }
         //    return new KeyValuePair<string, string>();
         //}
+        #region "Tables"
+        public static string TableCell(string s, string styles = "", bool border = false)
+        {
+            if (border) styles += "border: 2px solid black; padding: 10px;";
+            return "<td style='text-align:center; "+ styles +"'>" + s + "</td>";
+        }
 
+        public static string BlankTableRows(int n = 1)
+        {
+            string s = "<tr>";
+            for (int i = 0; i <= n; i++)
+                s += "<td></td>";
+            s+= "</tr>";
+            return s;
+        }
+
+        public static string FilledTableRows(params string[] cells)
+        {
+            string s = "<tr>";
+            foreach (string cell in cells)
+            {
+                s += "<td style='text-align:center; font-size: 150%'>" + cell + "</td>";
+            }
+            s += "</tr>";
+            return s;
+        }
+
+
+
+
+        #endregion
         #region "Validation Routines"
         public static bool ValidateGE(double v, double lower, string message, bool allowZero = true)
         {

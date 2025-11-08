@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>To access all features of BMPTrains, you must receive a validation code. 
+    <value>To access all features of BMPFast, you must receive a validation code. 
  Validation codes are available to engineers who have completed the BMPFast training. 
 
-For details about this training visit bmptrains.com or click the web site button below. </value>
+For details about this training visit bmpfast.com or click the web site button below. </value>
   </data>
 </root>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Xml.Schema;
 
 namespace BMPTrains_2020.DomainCode
 {
@@ -1367,16 +1368,35 @@ namespace BMPTrains_2020.DomainCode
 
     public class RoutingParameters : XmlPropertyObject
     {
+
+        // This is a specific class to encapsulate the parameters of Nitrogen 
+        // and Phosphorus in routing. 
+
+        // This is specificall for mass balance calculations for these specific 
+        // pollutants.
+
         #region "Properties"
-        public double PreMassLoad { get; set; }
-        public double PostMassLoad { get; set; }                // This is from the catchment
+
+        [Meta("Pre Mass Load From Catchment ", "kg/yr", 2)]
+        public double PreMassLoadCatchment { get; set; }
+
+        [Meta("Post Mass Load From Catchment ", "kg/yr", 2)]
+        public double PostMassLoadCatchment { get; set; }                
+
+        [Meta("Pre Mass Load From Upstream ", "kg/yr", 2)]
         public double UpstreamPreMassLoad { get; set; }
-        public double UpstreamMassLoad { get; set; }
+
+        [Meta("Post Mass Load From Upstream ", "kg/yr", 2)]
+        public double UpstreamPostMassLoad { get; set; }
+
+        [Meta("Total Mass Load", "kg/yr", 2)]
         public double TotalMassLoad { get; set; }  // Catchment + Incoming (from upstream)
         public double TotalUpstreamPreMassLoad { get; set; }
         public double TotalMassLoadLbYr { get; set; }
         public double TargetRemovalEfficiency { get; set; }
         public double TargetDischargeLoad { get; set; }
+
+        [Meta("Removal Efficiency of Pollutant", "kg/yr", 2)]
         public double ProvidedRemovalEfficiency { get; set; }
         public double DischargedLoad { get; set; }
         public double DischargedLoadLbYr { get; set; }
@@ -1393,6 +1413,9 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting"
+
+
+
         public override Dictionary<string, string> PropertyLabels()
         {
             return new Dictionary<string, string>
@@ -1452,18 +1475,25 @@ namespace BMPTrains_2020.DomainCode
 
             return this.Add(c,d);
         }
+
         #endregion
 
         #region "Calculations"
         public RoutingParameters Calculate()
         {
-            TotalMassLoad = PostMassLoad + UpstreamMassLoad;
-            TotalUpstreamPreMassLoad = PreMassLoad + UpstreamPreMassLoad;
+            // Calculate total mass load for pollutant into routing
+            TotalMassLoad = PostMassLoadCatchment + UpstreamPostMassLoad;
+            TotalUpstreamPreMassLoad = PreMassLoadCatchment + UpstreamPreMassLoad;
             TotalMassLoadLbYr = TotalMassLoad * 2.2046;
+
+            // If targets are used
             TargetDischargeLoad = (100 - TargetRemovalEfficiency) * TotalMassLoad / 100;
+
+            // Provided Removal Efficiency is read from the BMP
             DischargedLoad = (100 - ProvidedRemovalEfficiency) * TotalMassLoad / 100;
             DischargedLoadLbYr = DischargedLoad * 2.2046;
 
+            // Removed Load is the difference
             RemovedLoad = TotalMassLoad - DischargedLoad;
             RemovedLoadLbYr = RemovedLoad * 2.2046;
 
@@ -1491,6 +1521,8 @@ namespace BMPTrains_2020.DomainCode
         public RoutingParameters Phosphorus { get; set; }
 
         // In routing Hydraulic Efficiency is the % that passes through the BMP
+
+        [Meta("Routing Node Hydraulic Efficiency", "%", 2)]
         public double HydraulicEfficiency { get; set; } // Given as %
 
         // Each Catchment Routing has these volumes
@@ -1502,11 +1534,16 @@ namespace BMPTrains_2020.DomainCode
         // VolumeIntoMedia - If media exists then it will capture some of the load before GW
         // VolumeGW - Total Volume of water going into the ground 
 
+        [Meta("Total Volume From Catchment", "ac-ft/yr", 2)]
         public double VolumeFromCatchment { get; set; }
+
+        [Meta("Total Volume From Upstream", "ac-ft/yr", 2)]
         public double VolumeFromUpstream { get; set; }
+
+        [Meta("Total Volume Into Routing Node", "ac-ft/yr", 2)]
         public double VolumeIn { get; set; }
 
-        
+        [Meta("Total Volume Out of Routing Node", "ac-ft/yr", 2)]
         public double VolumeOut { get; set; }
         public double VolumeTreated { get; set; }
         public double VolumeIntoMedia { get; set; }
@@ -1592,11 +1629,11 @@ namespace BMPTrains_2020.DomainCode
             Nitrogen.ProvidedRemovalEfficiency = bmp.ProvidedNTreatmentEfficiency;
             Phosphorus.ProvidedRemovalEfficiency = bmp.ProvidedPTreatmentEfficiency;
 
-            Nitrogen.PreMassLoad = c.PreNLoading;
-            Phosphorus.PreMassLoad = c.PrePLoading;
+            Nitrogen.PreMassLoadCatchment = c.PreNLoading;
+            Phosphorus.PreMassLoadCatchment = c.PrePLoading;
 
-            Nitrogen.PostMassLoad = c.PostNLoading;
-            Phosphorus.PostMassLoad = c.PostPLoading;
+            Nitrogen.PostMassLoadCatchment = c.PostNLoading;
+            Phosphorus.PostMassLoadCatchment = c.PostPLoading;
 
             Nitrogen.TotalMassLoad = c.PostNLoading;
             Phosphorus.TotalMassLoad = c.PostPLoading;
@@ -1624,6 +1661,8 @@ namespace BMPTrains_2020.DomainCode
             IsValid = true;
             //HydraulicEfficiency = 0;
 
+            VolumeIn = 0;
+
             Nitrogen = new RoutingParameters();
             Phosphorus = new RoutingParameters();
 
@@ -1633,14 +1672,14 @@ namespace BMPTrains_2020.DomainCode
             Nitrogen.ProvidedRemovalEfficiency = 0;
             Phosphorus.ProvidedRemovalEfficiency = 0;
 
-            Nitrogen.PreMassLoad = 0;
-            Phosphorus.PreMassLoad = 0;
+            Nitrogen.PreMassLoadCatchment = 0;
+            Phosphorus.PreMassLoadCatchment = 0;
 
-            Nitrogen.PostMassLoad = 0;
-            Phosphorus.PostMassLoad = 0;
+            Nitrogen.PostMassLoadCatchment = 0;
+            Phosphorus.PostMassLoadCatchment = 0;
 
-            Nitrogen.UpstreamMassLoad = 0;
-            Phosphorus.UpstreamMassLoad = 0;
+            Nitrogen.UpstreamPostMassLoad = 0;
+            Phosphorus.UpstreamPostMassLoad = 0;
 
             Nitrogen.UpstreamPreMassLoad = 0;
             Phosphorus.UpstreamPreMassLoad = 0;
@@ -1718,36 +1757,40 @@ namespace BMPTrains_2020.DomainCode
         }
         public string getBalanceReport()
         {
+            
             RoutingParameters n =  Nitrogen.Calculate();
             RoutingParameters p = Phosphorus.Calculate();
             string upNodes = (UpstreamNodes == "" ? "None" : UpstreamNodes);
 
-            string s = "<br/><h3>Load Diagram for " + BMPType + " ( As Used In Routing)</h3><br/><table>";
-            s += "<tr>";         // 5 Cells per row
-            s += "<td>Upstream Nodes<br/>" + upNodes + "</td>";
-            s += MassBalanceReportCell(n.TotalMassLoad, p.TotalMassLoad, VolumeIn, 2,  "Load");
-            s += EfficiencyReportCell("&rarr;");
-            s += EfficiencyReportCell(n.ProvidedRemovalEfficiency, p.ProvidedRemovalEfficiency, 1, "%", "Treatment", 1);
-            s += EfficiencyReportCell("&rarr;");
-            s += MassBalanceReportCell(n.DischargedLoad, p.DischargedLoad, VolumeOut, 2, "Mass Discharged");
+            string s = "<br/><h3>Load Diagram for " + BMPType + " ( As Used In Routing)</h3><br/>";
+            s += "<table><tr>";         // 5 Cells per row
+            s += Common.TableCell("Upstream Nodes<br/>" + upNodes);            
+            s += Common.TableCell(InputBalanceReport("Load In"));
+            s += Common.TableCell("&rarr;");
+            s += Common.TableCell(EfficiencyBalanceReport("Treatment"),"", true);
+
+            //s += EfficiencyReportCell(n.ProvidedRemovalEfficiency, p.ProvidedRemovalEfficiency, 1, "%", "Treatment", 1);
+            s += Common.TableCell("&rarr;");
+            
+            //s += MassBalanceReportCell(n.DischargedLoad, p.DischargedLoad, VolumeOut, 2, "Mass Discharged");
+            s += Common.TableCell(OutputBalanceReport("Mass Discharged"));
             s += "</tr>";
-            s += "<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
-            s += "<tr><td></td><td></td><td></td>";
-            s += EfficiencyReportCell("&darr;");
-            s += "<td></td><td></td></tr>";
-            s += "<tr><td></td><td></td><td></td>";
-            s += MassBalanceReportCell(n.RemovedLoad, p.RemovedLoad, VolumeGW, 2, "Mass Removed");
-            // s += EfficiencyReportCell(n.RemovedLoad, p.RemovedLoad, 2, "kg/yr", "Mass Removed");
-            s += "<td></td><td></td></tr>";
+            s += Common.BlankTableRows(6);
+            s += Common.FilledTableRows(new string[6]{ "","", "", "&darr;", "",""});
+            s += Common.FilledTableRows(new string[6] { "", "",  Common.TableCell(RemovedBalanceReport("Mass Reduction")), "", "", "" });
+            //s += "<tr><td></td> <td></td ><td></td>";
+            //s += TableCell("&darr;");
+            //s += "<td></td><td></td></tr>";
+            //s += "<tr><td></td><td></td><td></td>";
+            //s += MassBalanceReportCell(n.RemovedLoad, p.RemovedLoad, VolumeGW, 2, "Mass Removed");
+            //s += EfficiencyReportCell(n.RemovedLoad, p.RemovedLoad, 2, "kg/yr", "Mass Removed");
+            //s += "<td></td><td></td></tr>";
             s += "</table>";
 
             return s;
         }
 
-        public string EfficiencyReportCell(string s)
-        {
-            return "<td style='text-align:center; font-size: 150%'>" + s + "</td>";
-        }
+
 
         public string EfficiencyReportCell(double val1, double val2, int places = 2, string units = "", string label = "", int border = 0)
         {
@@ -1767,6 +1810,45 @@ namespace BMPTrains_2020.DomainCode
             retval += Common.FormattedString(val3, places) + " ac-ft</td>";
             return retval;
         }
+
+        public string InputBalanceReport(string title ="")
+        {
+            string s = title + "<br/>";
+            s += "N: " + Common.FormattedString(Nitrogen.TotalMassLoad, 2) + " kg/yr<br/>";
+            s += "P: " + Common.FormattedString(Phosphorus.TotalMassLoad, 2) + " kg/yr<br/>";
+            s += "Q: " + Common.FormattedString(VolumeIn, 2) + " ac-ft/yr<br/>";
+
+            return s;
+        }
+
+        public string OutputBalanceReport(string title = "")
+        {
+            string s = title + "<br/>";
+            s += "N: " + Common.FormattedString(Nitrogen.DischargedLoad, 2) + " kg/yr<br/>";
+            s += "P: " + Common.FormattedString(Phosphorus.DischargedLoad, 2) + " kg/yr<br/>";
+            s += "Q: " + Common.FormattedString(VolumeOut, 2) + " ac-ft/yr<br/>";
+            return s;
+        }
+
+        public string EfficiencyBalanceReport(string title = "")
+        {
+            string s = title + "<br/>";
+            s += "N: " + Common.FormattedString(Nitrogen.ProvidedRemovalEfficiency, 2) + " %<br/>";
+            s += "P: " + Common.FormattedString(Phosphorus.ProvidedRemovalEfficiency, 2) + " %<br/>";
+            s += "Q: " + Common.FormattedString(100-HydraulicEfficiency, 2) + " %<br/>";
+            return s;
+        }
+
+        public string RemovedBalanceReport(string title = "")
+        {
+            string s = title +"<br/>";
+            s += "N: " + Common.FormattedString(Nitrogen.RemovedLoad, 2) + " kg/yr<br/>";
+            s += "P: " + Common.FormattedString(Phosphorus.RemovedLoad, 2) + " kg/yr<br/>";
+            s += "Q: " + Common.FormattedString(VolumeGW, 2) + " ac-ft/yr<br/>";
+            return s;
+        }
+
+
 
 
         public string outletReport()
@@ -1800,8 +1882,15 @@ namespace BMPTrains_2020.DomainCode
             // current CatchmentRouting is attached to the current catchment associated with the the routing
             // Most routing will simply accumulate the load
 
-            BMP upstreamBMP = up.getCatchment().getSelectedBMP();
+            // The scenario where there is no upstream routing and there is only a single catchment in the routing is a special case
+            // that must be handled. #eaglin
 
+
+            BMP upstreamBMP = up.getCatchment().getSelectedBMP();
+            UpstreamBMPType = up.BMPType;
+
+
+            VolumeIn += upstreamBMP.RunoffVolume; 
             if (BMPType == null)
             {
                 if (up.BMPType == null) return;
@@ -1823,7 +1912,6 @@ namespace BMPTrains_2020.DomainCode
                 return;
             }
 
-            UpstreamBMPType = up.BMPType;
             // Special Case Wet Detention to Wet Detention
             if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sWetDetention))
             {
@@ -1853,7 +1941,9 @@ namespace BMPTrains_2020.DomainCode
             // Special Case No Upstream BMP Downstream Retention 
             if ((BMPType == BMPTrainsProject.sRetention) && (UpstreamBMPType == BMPTrainsProject.sNone))
             {
+                
                 RouteNoneToRetention(up);
+
                 CalculateSummations(up);
                 upstreamBMP.CalculateMassLoading();
 
@@ -1872,17 +1962,17 @@ namespace BMPTrains_2020.DomainCode
         {
             // This is the default routing situation - for retention systems Hydraulic Efficiency is tied
             // to N treatment, this Calculates Volume out of 
-            cr.HydraulicEfficiency = 100;
+            cr.HydraulicEfficiency = 100; // Default case for Detention
             BMP bmp = cr.getCatchment().getSelectedBMP();
 
             // Retention and multiple BMP can have retention
             if (bmp.hasRetention())
             {
-                //cr.HydraulicEfficiency = 100 - bmp.ProvidedNTreatmentEfficiency;
-                cr.HydraulicEfficiency = 100 - bmp.HydraulicCaptureEfficiency;
+                cr.HydraulicEfficiency = bmp.ProvidedNTreatmentEfficiency;
+                //cr.HydraulicEfficiency = 100 - bmp.HydraulicCaptureEfficiency;
             }
 
-            cr.VolumeOut = cr.HydraulicEfficiency * cr.VolumeIn / 100;
+            cr.VolumeOut = (100 - cr.HydraulicEfficiency) * cr.VolumeIn / 100;
             cr.VolumeIntoMedia = cr.VolumeIn - cr.VolumeOut;
             cr.VolumeGW = cr.VolumeIn - cr.VolumeOut;
 
@@ -1903,17 +1993,11 @@ namespace BMPTrains_2020.DomainCode
             VolumeOut = HydraulicEfficiency * VolumeIn / 100;
 
             // Sum Upstream
-            Nitrogen.UpstreamMassLoad += cr.Nitrogen.DischargedLoad;
-            Phosphorus.UpstreamMassLoad += cr.Phosphorus.DischargedLoad;
+            Nitrogen.UpstreamPostMassLoad += cr.Nitrogen.DischargedLoad;
+            Phosphorus.UpstreamPostMassLoad += cr.Phosphorus.DischargedLoad;
 
             Nitrogen.UpstreamPreMassLoad += cr.Nitrogen.TotalUpstreamPreMassLoad;
             Phosphorus.UpstreamPreMassLoad += cr.Phosphorus.TotalUpstreamPreMassLoad;
-
-            // And Calculate
-            //getCatchment().getSelectedBMP().CalculatedNTreatmentEfficiency = Nitrogen.ProvidedRemovalEfficiency;
-            //getCatchment().getSelectedBMP().CalculatedPTreatmentEfficiency = Phosphorus.ProvidedRemovalEfficiency;
-            //getCatchment().getSelectedBMP().BMPNMassLoadOut = (100 - Nitrogen.ProvidedRemovalEfficiency) / 100 * getCatchment().getSelectedBMP().BMPNMassLoadIn;
-            //getCatchment().getSelectedBMP().BMPPMassLoadOut = (100 - Phosphorus.ProvidedRemovalEfficiency) / 100 * getCatchment().getSelectedBMP().BMPPMassLoadIn;
 
             CalculateNutrients();
         }
@@ -2117,8 +2201,9 @@ namespace BMPTrains_2020.DomainCode
             Phosphorus.Calculate();
         }
 
-        public void CalculateOutlet(CatchmentRouting outlet)
+        public void CalculateOutletMassLoads(CatchmentRouting outlet)
         {
+            //outlet.VolumeIn = VolumeOut;
             outlet.Nitrogen.TotalMassLoad += Nitrogen.DischargedLoad;
             outlet.Phosphorus.TotalMassLoad += Phosphorus.DischargedLoad;
 

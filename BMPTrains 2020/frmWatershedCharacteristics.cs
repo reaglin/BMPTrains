@@ -32,13 +32,13 @@ namespace BMPTrains_2020
                         
             cbPostLanduse.Items.Clear();
            
-            cbPostLanduse.DataSource = LanduseTable.Values();
-            cbPostLanduse.DisplayMember = "D";
-            cbPostLanduse.ValueMember = "D";
+            cbPostLanduse.DataSource = LanduseTable.DisplayValues();
+            cbPostLanduse.DisplayMember = "Display";
+            cbPostLanduse.ValueMember = "key";
 
-            cbPreLanduse.DataSource = LanduseTable.Values();
-            cbPreLanduse.DisplayMember = "D";
-            cbPostLanduse.ValueMember = "D";
+            cbPreLanduse.DataSource = LanduseTable.DisplayValues();
+            cbPreLanduse.DisplayMember = "Display";
+            cbPostLanduse.ValueMember = "Key";
 
             //this.Text += " Version: " + Application.ProductVersion;
 
@@ -110,11 +110,17 @@ namespace BMPTrains_2020
 
         private void getPandNValues()
         {
-            string preLanduse = Common.getString(cbPreLanduse);
+            if (cbPreLanduse.SelectedValue == null) return;
+            if (cbPostLanduse.SelectedValue == null) return;
+
+            LanduseDisplayRow preludr = cbPreLanduse.SelectedItem as LanduseDisplayRow;
+            string preLanduse = preludr.Key;
             double tPreN = LanduseTable.getN(preLanduse);
             double tPreP = LanduseTable.getP(preLanduse);
 
-            string postLanduse = Common.getString(cbPostLanduse);
+            LanduseDisplayRow postludr = cbPostLanduse.SelectedItem as LanduseDisplayRow;
+            string postLanduse = postludr.Key ;
+
             double tPostN = LanduseTable.getN(postLanduse);
             double tPostP = LanduseTable.getP(postLanduse);
 
@@ -156,6 +162,9 @@ namespace BMPTrains_2020
                 btnEMCPostP.Visible = false;
 
             }
+            
+            c().Calculate();
+            setLoadings();
         }
 
         private void getValues()
@@ -201,8 +210,18 @@ namespace BMPTrains_2020
             Common.setValue(tbPreDCIAPercentage, c().PreDCIAPercent, 2);
             Common.setValue(tbPostDCIAPercent, c().PostDCIAPercent, 2);
             Common.setValue(tbBMPArea, c().BMPArea, 2);
-            Common.setValue(tbPostNConcentration, c().PostNConcentration, 3);
-            Common.setValue(tbPostPConcentration, c().PostPConcentration, 3);
+
+            if (LanduseTable.isUserDefined(c().PostLandUseName)) { 
+                Common.setValue(tbPostNConcentration, c().PostNConcentration, 3);
+                Common.setValue(tbPostPConcentration, c().PostPConcentration, 3);
+            }
+            if (LanduseTable.isUserDefined(c().PreLandUseName))
+            {
+                Common.setValue(tbPreNConcentration, c().PreNConcentration, 3);
+                Common.setValue(tbPrePConcentration, c().PrePConcentration, 3);
+            }
+
+
 
             Common.setValue(tbPreGWN, c().PreGWN, 3);
             Common.setValue(tbPreGWP, c().PreGWP, 3);
@@ -215,22 +234,25 @@ namespace BMPTrains_2020
 
             Common.setValue(tbPostC, c().PostRationalCoefficient,3);
             Common.setValue(tbPostRunoffVolume, c().PostRunoffVolume, 3);
-            Common.setValue(tbPostNLoading, c().PostNLoading, 3);
-            Common.setValue(tbPostPLoading, c().PostPLoading, 3);
-
             Common.setValue(tbPreRunoffVolume, c().PreRunoffVolume, 3);
             Common.setValue(tbPreC, c().PreRationalCoefficient,3);
-            Common.setValue(tbPreNConcentration, c().PreNConcentration, 3);
-            Common.setValue(tbPrePConcentration, c().PrePConcentration, 3);
-            Common.setValue(tbPreNLoading, c().PreNLoading, 3);
-            Common.setValue(tbPrePLoading, c().PrePLoading, 3);
+            setLoadings();
 
-            cbPreLanduse.Enabled = !Globals.Project.LockedPreCondition;
+
+                cbPreLanduse.Enabled = !Globals.Project.LockedPreCondition;
             tbPreArea.Enabled = !Globals.Project.LockedPreCondition;
             tbPreDCIAPercentage.Enabled = !Globals.Project.LockedPreCondition;
             tbPreNonDCIACurveNumber.Enabled = !Globals.Project.LockedPreCondition; 
             tbPreDCIAPercentage.Enabled = !Globals.Project.LockedPreCondition;
             checkErrors();
+        }
+
+        private void setLoadings()
+        {
+            Common.setValue(tbPreNLoading, c().PreNLoading, 3);
+            Common.setValue(tbPrePLoading, c().PrePLoading, 3);
+            Common.setValue(tbPostNLoading, c().PostNLoading, 3);
+            Common.setValue(tbPostPLoading, c().PostPLoading, 3);
         }
 
         private void btnSave_Click(object sender, EventArgs e)

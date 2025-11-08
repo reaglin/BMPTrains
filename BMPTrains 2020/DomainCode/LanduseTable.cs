@@ -8,63 +8,105 @@ namespace BMPTrains_2020.DomainCode
 {
     public class LanduseTableRow
     {
-        public string D { get; set; }
+        // Key is the unique identifier (e.g., "Agricultural - Citrus")
+        public string Key { get; set; }
         public double N { get; set; }
         public double P { get; set; }
+
+        // The Display property is now a calculated getter. 
+        // It always reflects the current N and P values.
+        public string Display
+        {
+            get
+            {
+                // Check if it's the special "User Defined Values" row
+                if (LanduseTable.isUserDefined(this.Key))
+                {
+                    return this.Key;
+                }
+
+                // Format the display string using the current N and P values
+                return $"{this.Key}: (TN={this.N:F3} TP={this.P:F3})";
+            }
+        }
+    }
+
+    // This class remains the same and is used for the ComboBox DataSource
+    public class LanduseDisplayRow
+    {
+        public string Key { get; set; }
+        public string Display { get; set; }
     }
 
     class LanduseTable
     {
+        // Private static field to store the core Landuse data
+        private static List<LanduseTableRow> _values;
 
+        // Static method to initialize and return the core Landuse data (Key, N, P)
         public static List<LanduseTableRow> Values()
         {
-            List<LanduseTableRow> values = new List<LanduseTableRow>
+            if (_values == null)
             {
-                new LanduseTableRow() {D = "Agricultural - Citrus:    TN=2.11 TP=0.18", N =2.11, P =0.18},
-                new LanduseTableRow() {D = "Agricultural - General: TN=2.29 TP=0.381", N =2.29, P =0.381},
-                new LanduseTableRow() {D = "Agricultural - Pasture: TN=3.03 TP=0.593", N =3.03, P =0.593},
-                new LanduseTableRow() {D = "Agricultural - Row Crops: TN=2.50 TP=0.577 ", N =2.5, P =0.577},
-                new LanduseTableRow() {D = "Conventional Roofs: TN=1.050 TP=0.120", N =1.05, P =0.12},
-                new LanduseTableRow() {D = "High-Intensity Commercial: TN=2.40 TP=0.345", N =2.4, P =0.345},
-                new LanduseTableRow() {D = "Highway: TN=1.520 TP=0.200", N =1.52, P =0.2},
-                new LanduseTableRow() {D = "Light Industrial: TN=1.200 TP=0.260", N =1.2, P =0.26},
-                new LanduseTableRow() {D = "Low-Density Residential: TN=1.65 TP= 0.27", N =1.65, P =0.27},
-                new LanduseTableRow() {D = "Low-Intensity Commercial: TN=1.13 TP=0.188", N =1.13, P =0.188},
-                new LanduseTableRow() {D = "Mining / Extractive: TN=1.180 TP=0.150", N =1.18, P =0.15},
-                new LanduseTableRow() {D = "Multi-Family: TN=2.320 TP=0.520", N =2.32, P =0.52},
-                new LanduseTableRow() {D = "Single-Family: TN=2.070 TP=0.327", N =2.07, P =0.327},
-                new LanduseTableRow() {D = "Undeveloped - Dry Prairie: TN=2.025 TP=0.184", N =2.025, P =0.184},
-                new LanduseTableRow() {D = "Undeveloped - Marl Prairie: TN=0.684 TP=0.012", N =0.684, P =0.012},
-                new LanduseTableRow() {D = "Undeveloped - Mesic Flatwoods: TN=1.09 TP=0.043", N =1.09, P =0.043},
-                new LanduseTableRow() {D = "Undeveloped - Ruderal/Upland Pine: TN=1.694 TP=0.162", N =1.694, P =0.162},
-                new LanduseTableRow() {D = "Undeveloped - Scrubby Flatwoods: TN=1.155 TP=0.027 ", N =1.155, P =0.027},
-                new LanduseTableRow() {D = "Undeveloped - Upland Hardwood: TN=1.042 TP=0.346", N =1.042, P =0.346},
-                new LanduseTableRow() {D = "Undeveloped - Wet Flatwoods: TN=1.213 TP=0.021", N =1.213, P =0.021},
-                new LanduseTableRow() {D = "Undeveloped - Wet Prairie: TN=1.095 TP=0.015", N =1.095, P =0.015},
-                new LanduseTableRow() {D = "Undeveloped - Xeric Scrub: TN=1.596 TP=0.156", N =1.596, P =0.156},
-                new LanduseTableRow() {D = "General Natural: TN=1.22 TP=0.213", N =1.22, P =0.213},
-                new LanduseTableRow() {D = "SJRWMD Apopka Open Space/Recreation/Fallow Crop: TN=1.100 TP=0.050", N =1.1, P =0.05},
-                new LanduseTableRow() {D = "SJRWMD Apopka Forests/Abandoned Tree Crops: TN=1.250 TP=0.080", N =1.25, P =0.08},
-                new LanduseTableRow() {D = "Rangeland/Parkland: TN=1.150 TP=0.055", N =1.15, P =0.055},
-                new LanduseTableRow() {D = "User Defined Values", N = 0.00, P =0.00},
-            };
-            return values;
+                // Define data using only the Key, N, and P. 
+                // The Display property is calculated dynamically by LanduseTableRow.
+                _values = new List<LanduseTableRow>
+                {
+                    new LanduseTableRow() {Key = "Agricultural - Citrus", N = 2.11, P = 0.18},
+                    new LanduseTableRow() {Key = "Agricultural - General", N = 2.29, P = 0.381},
+                    new LanduseTableRow() {Key = "Agricultural - Pasture", N = 3.03, P = 0.593},
+                    new LanduseTableRow() {Key = "Agricultural - Row Crops", N = 2.50, P = 0.577},
+                    new LanduseTableRow() {Key = "Conventional Roofs", N = 1.050, P = 0.120},
+                    new LanduseTableRow() {Key = "High-Intensity Commercial", N = 2.40, P = 0.345},
+                    new LanduseTableRow() {Key = "Highway", N = 1.250, P = 0.173},
+                    new LanduseTableRow() {Key = "Light Industrial", N = 1.200, P = 0.260},
+                    new LanduseTableRow() {Key = "Low-Density Residential", N = 1.65, P = 0.27},
+                    new LanduseTableRow() {Key = "Low-Intensity Commercial", N = 0.93, P = 0.188},
+                    new LanduseTableRow() {Key = "Mining / Extractive", N = 1.180, P = 0.150},
+                    new LanduseTableRow() {Key = "Multi-Family", N = 1.84, P = 0.520},
+                    new LanduseTableRow() {Key = "Single-Family", N = 1.77, P = 0.327},
+                    new LanduseTableRow() {Key = "Undeveloped - Dry Prairie", N = 2.025, P = 0.184},
+                    new LanduseTableRow() {Key = "Undeveloped - Marl Prairie", N = 0.684, P = 0.012},
+                    new LanduseTableRow() {Key = "Undeveloped - Mesic Flatwoods", N = 1.087, P = 0.043},
+                    new LanduseTableRow() {Key = "Undeveloped - Ruderal/Upland Pine", N = 1.694, P = 0.162},
+                    new LanduseTableRow() {Key = "Undeveloped - Scrubby Flatwoods", N = 1.155, P = 0.027},
+                    new LanduseTableRow() {Key = "Undeveloped - Upland Hardwood", N = 1.042, P = 0.346},
+                    new LanduseTableRow() {Key = "Undeveloped - Wet Flatwoods", N = 1.213, P = 0.021},
+                    new LanduseTableRow() {Key = "Undeveloped - Wet Prairie", N = 1.095, P = 0.015},
+                    new LanduseTableRow() {Key = "Undeveloped - Xeric Scrub", N = 1.596, P = 0.156},
+                    new LanduseTableRow() {Key = "General Natural", N = 1.22, P = 0.213},
+                    new LanduseTableRow() {Key = "SJRWMD Apopka Open Space/Recreation/Fallow Crop", N = 1.1, P = 0.05},
+                    new LanduseTableRow() {Key = "SJRWMD Apopka Forests/Abandoned Tree Crops", N = 1.25, P = 0.08},
+                    new LanduseTableRow() {Key = "Rangeland/Parkland", N = 1.15, P = 0.055},
+                    new LanduseTableRow() {Key = "User Defined Values", N = 0.00, P = 0.00},
+                };
+            }
+            return _values;
         }
 
+        // Returns a list suitable for the ComboBox DataSource. 
+        // It uses the dynamic LanduseTableRow.Display property.
+        public static List<LanduseDisplayRow> DisplayValues()
+        {
+            return Values()
+                .Select(v => new LanduseDisplayRow { Key = v.Key, Display = v.Display })
+                .ToList();
+        }
+
+        // Checks for the special User Defined Key
         public static bool isUserDefined(string lutValue)
         {
-            if (lutValue == "User Defined Values") return true;
-            return false;
+            return lutValue == "User Defined Values";
         }
 
+        // Get N value by Key
         public static double getN(string lutValue)
         {
-            if (lutValue == "") return 0.0;
+            if (string.IsNullOrEmpty(lutValue)) return 0.0;
             try
             {
-                List<LanduseTableRow> v = LanduseTable.Values();
-                LanduseTableRow l = v.Find(x => x.D.Equals(lutValue));
-                return l.N;
+                LanduseTableRow l = LanduseTable.Values().Find(x => x.Key.Equals(lutValue));
+                return l?.N ?? 0.0;
             }
             catch
             {
@@ -72,20 +114,19 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
+        // Get P value by Key
         public static double getP(string lutValue)
         {
-            if (lutValue == "") return 0.0;
+            if (string.IsNullOrEmpty(lutValue)) return 0.0;
             try
             {
-                List<LanduseTableRow> v = LanduseTable.Values();
-                LanduseTableRow l = v.Find(x => x.D.Equals(lutValue));
-                return l.P;
+                LanduseTableRow l = LanduseTable.Values().Find(x => x.Key.Equals(lutValue));
+                return l?.P ?? 0.0;
             }
             catch
             {
                 return 0.0;
             }
         }
-
     }
 }
