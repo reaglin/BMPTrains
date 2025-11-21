@@ -118,7 +118,7 @@ namespace BMPTrains_2020.DomainCode
 
             // All other scenarios
 
-            CalculateTraditional();
+            CalculateMassLoadReductionsTraditional();
 
             CalculateMassLoading();
 
@@ -216,57 +216,127 @@ namespace BMPTrains_2020.DomainCode
             return false;
         }
 
-        private void CalculateTraditional()
+        //private void CalculateTraditional()
+        //{
+
+        //    if (bmp1.isDefined())
+        //    {
+        //        CalculateMassLoadReductions(bmp1);
+        //        ProvidedNTreatmentEfficiency = bmp1.ProvidedNTreatmentEfficiency;
+        //        ProvidedPTreatmentEfficiency = bmp1.ProvidedPTreatmentEfficiency;
+        //        CalculateMassLoading(false);
+        //        if (bmp2.isDefined())
+        //        {
+        //            bmp2.BMPNMassLoadIn = bmp1.BMPNMassLoadOut;
+        //            bmp2.BMPPMassLoadIn = bmp1.BMPPMassLoadOut;
+        //            CalculateMassLoadReductions(bmp2);
+        //            ProvidedNTreatmentEfficiency = 100 *  (bmp1.BMPNMassLoadIn - bmp2.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
+        //            ProvidedPTreatmentEfficiency = 100 *  (bmp1.BMPPMassLoadIn - bmp2.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
+        //            CalculateMassLoading(false);
+        //            if (bmp3.isDefined())
+        //            {
+        //                bmp3.BMPNMassLoadIn = bmp2.BMPNMassLoadOut;
+        //                bmp3.BMPPMassLoadIn = bmp2.BMPPMassLoadOut;
+        //                CalculateMassLoadReductions(bmp3);
+        //                ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp3.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
+        //                ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp3.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
+        //                CalculateMassLoading(false);
+        //                if (bmp4.isDefined())
+        //                {
+        //                    bmp4.BMPNMassLoadIn = bmp3.BMPNMassLoadOut;
+        //                    bmp4.BMPPMassLoadIn = bmp3.BMPPMassLoadOut;
+        //                    CalculateMassLoadReductions(bmp4);
+        //                    ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp4.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
+        //                    ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp4.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
+        //                    CalculateMassLoading(false);
+        //                }
+
+        //            }
+
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        /// Calculates the Traditional Mass Loading reductions across a chain of up to four BMPs.
+        /// </summary>
+        /// <remarks>
+        /// This method processes BMPs sequentially from <c>bmp1</c> to <c>bmp4</c>.
+        /// The mass load output of one BMP becomes the mass load input of the next.
+        /// The overall treatment efficiency for Nitrogen (N) and Phosphorus (P) 
+        /// is updated after each defined BMP is processed, calculating the cumulative 
+        /// efficiency from the initial <c>bmp1</c> input to the current BMP's output.
+        /// The calculation chain stops immediately if an undefined BMP is encountered.
+        /// </remarks>
+        private void CalculateMassLoadReductionsTraditional()
         {
+            // Create an array/list of the four Bmp objects to iterate over
+            BMP[] bmps = new BMP[] { this.bmp1, this.bmp2, this.bmp3, this.bmp4 };
 
-            if (bmp1.isDefined())
+            // Store the initial mass load from the first defined BMP to use in the final efficiency calculation
+            double initialNLoad = 0.0;
+            double initialPLoad = 0.0;
+
+            // Tracks the output from the previous BMP to be used as the input for the current BMP
+            double previousNLoadOut = 0.0;
+            double previousPLoadOut = 0.0;
+
+            // Iterate over the BMPs
+            for (int i = 0; i < bmps.Length; i++)
             {
-                CalculateReductions(bmp1);
-                ProvidedNTreatmentEfficiency = bmp1.ProvidedNTreatmentEfficiency;
-                ProvidedPTreatmentEfficiency = bmp1.ProvidedPTreatmentEfficiency;
-                CalculateMassLoading(false);
-                if (bmp2.isDefined())
-                {
-                    bmp2.BMPNMassLoadIn = bmp1.BMPNMassLoadOut;
-                    bmp2.BMPPMassLoadIn = bmp1.BMPPMassLoadOut;
-                    CalculateReductions(bmp2);
-                    ProvidedNTreatmentEfficiency = 100 *  (bmp1.BMPNMassLoadIn - bmp2.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-                    ProvidedPTreatmentEfficiency = 100 *  (bmp1.BMPPMassLoadIn - bmp2.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                    CalculateMassLoading(false);
-                    if (bmp3.isDefined())
-                    {
-                        bmp3.BMPNMassLoadIn = bmp2.BMPNMassLoadOut;
-                        bmp3.BMPPMassLoadIn = bmp2.BMPPMassLoadOut;
-                        CalculateReductions(bmp3);
-                        ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp3.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-                        ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp3.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                        CalculateMassLoading(false);
-                        if (bmp4.isDefined())
-                        {
-                            bmp4.BMPNMassLoadIn = bmp3.BMPNMassLoadOut;
-                            bmp4.BMPPMassLoadIn = bmp3.BMPPMassLoadOut;
-                            CalculateReductions(bmp4);
-                            ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp4.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-                            ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp4.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                            CalculateMassLoading(false);
-                        }
+                BMP currentBmp = bmps[i];
 
+                if (currentBmp.isDefined())
+                {
+                    if (i == 0) // Special case for bmp1
+                    {
+                        // bmp1 always sets its own input, so we just calculate reductions directly.
+                        CalculateMassLoadReductions(currentBmp);
+
+                        // Store initial loads for the final efficiency calculation (used in the provided code logic)
+                        initialNLoad = currentBmp.BMPNMassLoadIn;
+                        initialPLoad = currentBmp.BMPPMassLoadIn;
+
+                        // Set the efficiencies based only on bmp1
+                        ProvidedNTreatmentEfficiency = currentBmp.ProvidedNTreatmentEfficiency;
+                        ProvidedPTreatmentEfficiency = currentBmp.ProvidedPTreatmentEfficiency;
+                    }
+                    else // Logic for bmp2, bmp3, and bmp4 (chaining)
+                    {
+                        // The current BMP's input is the previous BMP's output
+                        currentBmp.BMPNMassLoadIn = previousNLoadOut;
+                        currentBmp.BMPPMassLoadIn = previousPLoadOut;
+
+                        // Calculate reductions for the current BMP
+                        CalculateMassLoadReductions(currentBmp);
+
+                        // Calculate overall efficiency from the original input (bmp1.BMPNMassLoadIn)
+                        // to the current BMP's output (currentBmp.BMPNMassLoadOut)
+                        // Note: We use initialNLoad/initialPLoad for the denominator to avoid division by zero
+                        if (initialNLoad != 0.0)
+                        {
+                            ProvidedNTreatmentEfficiency = 100 * (initialNLoad - currentBmp.BMPNMassLoadOut) / initialNLoad;
+                        }
+                        if (initialPLoad != 0.0)
+                        {
+                            ProvidedPTreatmentEfficiency = 100 * (initialPLoad - currentBmp.BMPPMassLoadOut) / initialPLoad;
+                        }
                     }
 
-                }
-            }
-        }
+                    // Update the 'previous' output loads for the next iteration
+                    previousNLoadOut = currentBmp.BMPNMassLoadOut;
+                    previousPLoadOut = currentBmp.BMPPMassLoadOut;
 
-        private void CalculateTraditional(BMP bmp)
-        {
-            if (bmp.isDefined())
-            {
-                bmp.BMPNMassLoadIn = bmp1.BMPNMassLoadOut;
-                bmp.BMPPMassLoadIn = bmp1.BMPPMassLoadOut;
-                CalculateReductions(bmp);
-                ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-                ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-                CalculateMassLoading();
+                    // Recalculate mass loading (this function call appears after every step in the original code)
+                    CalculateMassLoading(false);
+                }
+                else // Stop calculation chain if an undefined BMP is encountered
+                {
+                    // Since the logic relies on chaining, we can break the loop when an undefined BMP is hit.
+                    // Any subsequent BMPs (like bmp3 if bmp2 is undefined) will also be ignored,
+                    // which maintains the cascading behavior of the original nested IFs.
+                    break;
+                }
             }
         }
 
@@ -275,6 +345,17 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        /// <summary>
+        /// Determines if the overall system (or "train") is a Retention System.
+        /// </summary>
+        /// <remarks>
+        /// The system is considered retention if, and only if, the 
+        /// <c>isRetention</c> method returns <c>true</c> for the 
+        /// <strong class="key-concept">last defined BMP object</strong> in the sequence (<c>bmp1</c> through <c>bmp4</c>).
+        /// <para>If no BMP objects are defined (i.e., all equal <c>BMPTrainsProject.sNone</c>), 
+        /// the system is not considered a retention system, and the method returns <c>false</c>.</para>
+        /// </remarks>
+        /// <returns><c>true</c> if the last defined BMP is a retention type; otherwise, <c>false</c>.</returns>
         public override bool isRetention()
         {
             // If the last BMP is retention - system is retention - These means all types are retention
@@ -475,7 +556,7 @@ namespace BMPTrains_2020.DomainCode
             // This does the same thing for both scenarios
 
             ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(ProvidedPTreatmentEfficiency, PEff);
-            CalculateReductions(this);
+            CalculateMassLoadReductions(this);
             return lastBMP;
         }
 
@@ -514,11 +595,11 @@ namespace BMPTrains_2020.DomainCode
             ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
             ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
 
-            CalculateReductions(down);
-            CalculateReductions(this);
+            CalculateMassLoadReductions(down);
+            CalculateMassLoadReductions(this);
         }
 
-        private void CalculateReductions(BMP bmp)
+        private void CalculateMassLoadReductions(BMP bmp)
         {
             bmp.BMPNMassLoadOut = bmp.BMPNMassLoadIn * (100 - bmp.ProvidedNTreatmentEfficiency) / 100;
             bmp.BMPPMassLoadOut = bmp.BMPPMassLoadIn * (100 - bmp.ProvidedPTreatmentEfficiency) / 100;
@@ -603,45 +684,85 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
+        //private double getEquivalentRetentionDepth()
+        //{
+        //    double RD = 0;
+        //    if (bmp1.isDefined())
+        //    {
+        //        if (bmp1.isRetention())
+        //        {
+        //            RD += bmp1.RetentionDepth;
+        //        }
+        //        else
+        //        {
+        //            return 0.0;
+        //        }
+        //    }
+
+        //    if (bmp2.isDefined())
+        //    {
+        //        if (bmp2.isRetention())
+        //        {
+        //            RD += bmp2.RetentionDepth;
+        //        }
+        //        else { return RD; }
+        //    }
+
+        //    if (bmp3.isDefined())
+        //    {
+        //        if (bmp3.isRetention())
+        //        {
+        //            RD += bmp3.RetentionDepth;
+        //        }
+        //        else
+        //        {
+        //            return RD;
+        //        }
+        //    }
+
+        //    if (bmp4.isDefined())
+        //    {
+        //        if (bmp4.isRetention()) { RD += bmp4.RetentionDepth; } else { return RD; }
+        //    }
+        //    return RD;
+        //}
+
+
+        /// <summary>
+        /// Calculates the equivalent retention depth by summing the RetentionDepth 
+        /// of all defined BMPs that are retention types.
+        /// </summary>
+        /// <remarks>
+        /// The process stops immediately and returns the accumulated depth 
+        /// if a defined BMP is encountered that is not a retention type.
+        /// </remarks>
+        /// <returns>A double representing the total equivalent retention depth.</returns>
         private double getEquivalentRetentionDepth()
         {
-            double RD = 0;
-            if (bmp1.isDefined())
+            // Create an array/list of the four Bmp objects to iterate over
+            BMP[] bmps = new BMP[] { this.bmp1, this.bmp2, this.bmp3, this.bmp4 };
+
+            double RD = 0.0;
+
+            foreach (var bmp in bmps)
             {
-                if (bmp1.isRetention())
+                if (bmp.isDefined())
                 {
-                    RD += bmp1.RetentionDepth;
-                }
-                else {
-                    return 0.0;
-                }
-            }
-
-            if (bmp2.isDefined())
-            {
-                if (bmp2.isRetention()) {
-                    RD += bmp2.RetentionDepth;
-                }
-                else { return RD; }
-            }
-
-            if (bmp3.isDefined())
-            {
-                if (bmp3.isRetention()) {
-                    RD += bmp3.RetentionDepth;
-                }
-                else {
-                    return RD;
+                    if (bmp.isRetention())
+                    {
+                        RD += bmp.RetentionDepth;
+                    }
+                    else
+                    {
+                        // This captures the original logic: return accumulated RD if a defined BMP is non-retention.
+                        return RD;
+                    }
                 }
             }
 
-            if (bmp4.isDefined())
-            {
-                if (bmp4.isRetention()) { RD += bmp4.RetentionDepth; } else { return RD; }
-            }
             return RD;
         }
-       
+
         public double CalculateAdjustedEfficiency(double e1, double e2)
         {
             // Not flow weighted

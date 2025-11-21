@@ -140,13 +140,14 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Treatment Rate", "MG/yr",  2)]
         public double RechargeRate { get; set; }
-        [Meta("Volume out of BMP", "ac-ft", 2)]
+
         // True of all BMP's
         // Mass loading from Catchment
-       // [Meta("Nitrogen Mass Loading into BMP", "kg/yr",  2)]
+       
+        [Meta("Nitrogen Mass Loading into BMP", "kg/yr",  2)]
         public double BMPNMassLoadIn { get; set; }
 
-       // [Meta("Phosphorus Mass Loading into BMP", "kg/yr",  2)]
+       [Meta("Phosphorus Mass Loading into BMP", "kg/yr",  2)]
         public double BMPPMassLoadIn { get; set; }
 
         // Mass Load out to Surface Water unts
@@ -720,24 +721,40 @@ namespace BMPTrains_2020.DomainCode
         }
         #endregion
 
-        #region "Caclulation Routines - Calcs Common to all BMPs"
 
+
+        /// <summary>
+        /// Virtual method to determine if BMP is Retention Type
+        /// </summary>
+        /// <returns>true or false (boolean)</returns>
         public virtual bool isRetention()
         {
             return false;
         }
 
+        /// <summary>
+        /// For multiple BMP's in series, returns true if the BMP has retention
+        /// </summary>
+        /// <returns>boolean</returns>
         public virtual bool hasRetention()
         {
             return isRetention();
         }
 
-
+        /// <summary>
+        /// Returns true if BMP is defined, overide by all BMP's would return true
+        /// </summary>
+        /// <returns>boolean</returns>
         public virtual bool isDefined()
         {
             return false;            
         }
 
+        /// <summary>
+        /// Core calculation routine to do all calculations associated with a BMP
+        /// specific BMP's are expected to override this method with their own calculations
+        /// </summary>
+        /// <returns>void</returns>
         public void Calculate()
         {
             CaclulateRemainingEfficiency();
@@ -781,6 +798,7 @@ namespace BMPTrains_2020.DomainCode
             return BMPType;
         }
 
+        #region "Cost Calculations"
         public void ResetCost()
         {
             // Multiple BMP is sum of BMP's
@@ -826,8 +844,9 @@ namespace BMPTrains_2020.DomainCode
             PresentValueOfReplacement += bmp.PresentValueOfReplacement;
             PresentWorth += bmp.PresentWorth;
         }
+        #endregion
 
-
+        #region "Efficiencies and Load Calculations"
         public void CaclulateRemainingEfficiency()
         {
             // Generic algorithm - based on treatment efficiency provided and required, calculates additional treatment required.
@@ -923,7 +942,7 @@ namespace BMPTrains_2020.DomainCode
 
         #endregion
 
-        #region "Load Report"
+        #region "Load Reporting"
         public virtual string EfficiencyReport()
         {
             string s = "<br/><h2>Load Diagram for " + BMPTypeTitle() + " (stand-alone)</h2><br/><table>";
@@ -931,20 +950,28 @@ namespace BMPTrains_2020.DomainCode
 
             double R = RunoffVolume;
             if (HydraulicCaptureEfficiency == 0) HydraulicCaptureEfficiency = ProvidedPTreatmentEfficiency;
-            // Create row for load balance report, 3 columns in the row
-            //if (this.RetentionOrDetention == BMP.sDetention)
-            //{
-            //    s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
-            //    s += EfficiencyReportCell("&rarr;");
-            //    s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency, 0, "%", "Treatment", 1);
-            //    s += EfficiencyReportCell("&rarr;");
-            //}
-            //else 
-            //{ 
-                s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, R, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Load");
-                s += EfficiencyReportCell("&rarr;");
-                s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency,  0, "%", "Treatment", 1);
-                s += EfficiencyReportCell("&rarr;");
+
+            // Create row for load balance report, 5 Columns in the Report
+            // **************************  Row 1 *********************************
+            s += Common.TableCellReport(
+                label: "Load",
+                showBorder: true,
+                customStyle: "", // optional
+                new ReportMetric("N", BMPNMassLoadIn, "kg/yr"),
+                new ReportMetric("P", BMPPMassLoadIn, "kg/yr"),
+                new ReportMetric("P", R, "ac-ft/yr")
+                );
+
+            s += Common.TableCellArrow();
+
+            s += Common.TableCellReport(
+                "Treatment",
+                true,
+                "",
+                new ReportMetric("N", ProvidedNTreatmentEfficiency, "%", 0),
+                new ReportMetric("P", ProvidedPTreatmentEfficiency, "%", 0)
+                );
+            s += Common.TableCellArrow();
             //}
 
 
@@ -953,14 +980,26 @@ namespace BMPTrains_2020.DomainCode
 
             if (this.BMPType == BMPTrainsProject.sWetDetention)
             {
-                s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, 2, "kg/yr", "Surface Discharge");
-                s += "</tr>";
+                s += Common.TableCellReport(
+                    "Surface Discharge",
+                    false,
+                    "",
+                    new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
+                    new ReportMetric("P", BMPPMassLoadOut, "kg/yr")
+                );
             }
             else
             {
-                s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, ((100 - HydraulicCaptureEfficiency) / 100) * R, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Surface Discharge");
-                s += "</tr>";
+                s += Common.TableCellReport(
+                    "Surface Discharge",
+                    false,
+                    "",
+                    new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
+                    new ReportMetric("P", BMPPMassLoadOut, "kg/yr"),
+                    new ReportMetric("Q", ((100 - HydraulicCaptureEfficiency) / 100) * R, "ac-ft/yr")
+                );
             }
+            s += "</tr>";
 
 
             GroundwaterNMassLoadIn = BMPNMassLoadIn * ProvidedNTreatmentEfficiency / 100.0;
@@ -971,16 +1010,34 @@ namespace BMPTrains_2020.DomainCode
 
 
             // Creates second in mass balance report - only Mass reduction in this row
+
+            // **************************  Row 2 Down Arrow Only ***********************************
+
             s += "<tr><td></td><td></td>";
-            s += EfficiencyReportCell("&darr;");
+            s += Common.TableCellArrow(false);
             s += "<td></td>";
+
+
             if (this.BMPType == BMPTrainsProject.sWetDetention)
             {
-                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, 2, "kg/yr", "Mass Reduction");
+                s += Common.TableCellReport(
+                    "Mass Reduction",
+                    false,
+                    "",
+                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr")
+                );
             }
             else
             {
-                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, HydraulicCaptureEfficiency * R / 100, 2, "kg/yr", "kg/yr", "ac-ft/yr", "Mass Reduction");
+                s += Common.TableCellReport(
+                    "Mass Reduction",
+                    false,
+                     "",
+                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr"),
+                    new ReportMetric("Q", HydraulicCaptureEfficiency * R / 100, "ac-ft/yr")
+                );
             }
             s += "</tr>";
 
@@ -1047,6 +1104,45 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
+        /// <param name="label">The header text for the cell.</param>
+        /// <param name="places">Decimal places for number formatting.</param>
+        /// <param name="showBorder">If true, adds a border style.</param>
+        /// <param name="customStyle">Additional CSS styles (e.g., 'font-size: 150%').</param>
+        /// <param name="metrics">A comma-separated list of ReportMetric objects.</param>
+        /// <returns>A formatted HTML string representing a &lt;td&gt;.</returns>
+        public string EfficiencyReportCell(string label, bool showBorder = false, string customStyle = "", params ReportMetric[] metrics)
+        {
+            // 1. Build the Style String
+            var styleBuilder = new System.Text.StringBuilder();
+            styleBuilder.Append(showBorder ? "border: 2px solid black; " : "");
+            styleBuilder.Append(string.IsNullOrEmpty(customStyle) ? "padding: 10px;" : customStyle);
+
+            // 2. Start the TD
+            var html = new System.Text.StringBuilder();
+            html.Append($"<td style='{styleBuilder}'>");
+
+            // 3. Add the Label (if it exists)
+            if (!string.IsNullOrEmpty(label))
+            {
+                html.Append(label);
+            }
+
+            // 4. Loop through variable number of parameters
+            foreach (var metric in metrics)
+            {
+                // Add a break if there is a label or previous items
+                if (html.Length > 4) html.Append("<br/>");
+
+                // Format: "Name: Value Units"
+                // Uses your existing GetValue function
+                html.Append($"{metric.Name}: {GetValue(metric.Value, metric.Places)} {metric.Unit}");
+            }
+
+            // 5. Close TD
+            html.Append("</td>");
+
+            return html.ToString();
+        }
         #endregion
 
         #region "Plotting routines"

@@ -10,6 +10,33 @@ using System.Windows.Forms;
 
 namespace BMPTrains_2020.DomainCode
 {
+    // THis class is used in reporting. It holds a metric name, value and unit.
+    // It is used to pass metrics to reporting routines.
+    public class ReportMetric
+    {
+        public string Name { get; set; }
+        public double Value { get; set; }
+        public string Unit { get; set; }
+        public int Places { get; set; } = 2; // Default value
+
+        // Standard constructor
+        public ReportMetric(string name, double value, string unit = "")
+        {
+            Name = name;
+            Value = value;
+            Unit = unit;
+        }
+
+        // Constructor allowing custom decimal places (used in your call above)
+        public ReportMetric(string name, double value, string unit, int places)
+        {
+            Name = name;
+            Value = value;
+            Unit = unit;
+            Places = places;
+        }
+    }
+
     public class Common
     {
         // Common is routines used by different classes that are able to be
@@ -379,9 +406,56 @@ namespace BMPTrains_2020.DomainCode
             s += "</tr>";
             return s;
         }
+        public static string TableCellReport(string label, bool showBorder = false, string customStyle = "", params ReportMetric[] metrics)
+        {
+            // 1. Build the Style String
+            var styleBuilder = new System.Text.StringBuilder();
+            styleBuilder.Append(showBorder ? "border: 2px solid black; " : "");
+            styleBuilder.Append(string.IsNullOrEmpty(customStyle) ? "padding: 10px;" : customStyle);
+
+            // 2. Start the TD
+            var html = new System.Text.StringBuilder();
+            html.Append($"<td style='{styleBuilder}'>");
+
+            // 3. Add the Label (if it exists)
+            if (!string.IsNullOrEmpty(label))
+            {
+                html.Append(label);
+            }
+
+            // 4. Loop through variable number of parameters
+            foreach (var metric in metrics)
+            {
+                // Add a break if there is a label or previous items
+                if (html.Length > 4) html.Append("<br/>");
+
+                // Format: "Name: Value Units"
+                // Uses your existing GetValue function
+                html.Append($"{metric.Name}: {GetValue(metric.Value, metric.Places)} {metric.Unit}");
+            }
+
+            // 5. Close TD
+            html.Append("</td>");
+
+            return html.ToString();
+        }
+
+        public static string TableCellArrow(bool right = true, string styles = "", bool border = false)
+        {
+            // if right is true, right arrow, else down arrow
+            if (border) styles += "border: 2px solid black; padding: 10px;";
+            string arrow = right ? "&#8594;" : "&#8595;";
+            return "<td style='text-align:center; " + styles + "'>" + arrow + "</td>";
+        }
 
 
+        public static string GetValue(double d, int places)
+        {
+            string formatString = "{0:N" + places.ToString().Trim() + "}";
+            if (places == 0) return d.ToString("#");
 
+            return String.Format(formatString, d);
+        }
 
         #endregion
         #region "Validation Routines"
