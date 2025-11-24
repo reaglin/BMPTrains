@@ -144,5 +144,16 @@ namespace BMPTrains_2020
           setValues();
 
         }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
+            {
+                // Your code here to handle the Ctrl-Shift click
+                Form form1 = new frmReport(currentBMP().DebugReport());
+                form1.ShowDialog();
+                return;
+            }
+        }
     }
 }

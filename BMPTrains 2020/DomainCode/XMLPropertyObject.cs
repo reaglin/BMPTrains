@@ -163,6 +163,11 @@ namespace BMPTrains_2020.DomainCode
             return string.Empty;
         }
 
+        public string DebugReport()
+        {
+            return Common.AllProperties(this, "Full Object Data Dump");
+        }
+
         #region XML Serialize
 
 

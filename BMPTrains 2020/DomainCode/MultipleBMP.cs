@@ -890,48 +890,89 @@ namespace BMPTrains_2020.DomainCode
 
         public override string EfficiencyReport()
         {
-            string s = "<br/><h2>Load for  Multiple BMP in Series</h2><br/><table>";
+            string s = "<br/><h2>Load for  Multiple BMP in Series</h2><br/>";
             s += "<table><tr>";         // 5 Cells per row
-            //s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, 2, "kg/yr", "Load");
-            s += EfficiencyReportCell(BMPNMassLoadIn, BMPPMassLoadIn, RunoffVolume, 2, "kg/yr", "kg/yr", "ac-ft/yr","Load");
-
-            s += EfficiencyReportCell("&rarr;");
-            s += EfficiencyReportCell(ProvidedNTreatmentEfficiency, ProvidedPTreatmentEfficiency, 0, "%", "Treatment", 1);
-            s += EfficiencyReportCell("&rarr;");
+            // ***************************** Row 1 *****************************
+            s += Common.TableCellReport("Load", false, "",
+                new ReportMetric("N", BMPNMassLoadIn, "kg/yr", 2),
+                new ReportMetric("P", BMPPMassLoadIn, "kg/yr", 2),
+                new ReportMetric("Q", RunoffVolume, "ac-ft/yr", 2));
+            s += Common.TableCellRightArrow();
+            s += Common.TableCellReport("Treatment", true, "",
+                new ReportMetric("N", ProvidedNTreatmentEfficiency, "%", 0),
+                new ReportMetric("P", ProvidedPTreatmentEfficiency, "%", 0));
+            s += Common.TableCellRightArrow();
             if (BMPNMassLoadOut == 0.0) BMPNMassLoadOut = (1 - ProvidedNTreatmentEfficiency / 100) * BMPNMassLoadIn;
             if (BMPPMassLoadOut == 0.0) BMPPMassLoadOut = (1 - ProvidedPTreatmentEfficiency / 100) * BMPPMassLoadIn;
             double SurfaceDischarge = (1 - ProvidedNTreatmentEfficiency / 100) * RunoffVolume;
-            s += EfficiencyReportCell(BMPNMassLoadOut, BMPPMassLoadOut, SurfaceDischarge, 2, "kg/yr", "kg/yr","ac-ft/yr" ,"Surface Discharge");
+            s += Common.TableCellReport("Surface Discharge", false, "",
+                new ReportMetric("N", BMPNMassLoadOut, "kg/yr", 2),
+                new ReportMetric("P", BMPPMassLoadOut, "kg/yr", 2),
+                new ReportMetric("Q", SurfaceDischarge, "ac-ft/yr", 2));
             s += "</tr>";
 
-            s += "<tr><td></td><td></td>";
-            s += EfficiencyReportCell("&darr;");
-            s += "<td></td></tr><tr><td></td><td></td>";
-            s += EfficiencyReportCell(BMPNMassLoadIn - BMPNMassLoadOut, BMPPMassLoadIn - BMPPMassLoadOut, RunoffVolume-SurfaceDischarge, 2, "kg/yr", "kg/yr","ac-ft/yr", "Mass Reduction");
-            s += "<td></td></tr>";
+            // ***************************** Row 2 *****************************
+            s += "<tr>" + Common.TableCellBlank(2);
+            s += Common.TableCellDownArrow(); // Assuming this returns a <td>
+            s += Common.TableCellBlank(2) + "</tr>";
+
+            // ***************************** Row 3 *****************************
+            s += "<tr>" + Common.TableCellBlank(2);
+            s += Common.TableCellReport("Mass Reduction", false, "",
+                new ReportMetric("N", BMPNMassLoadIn - BMPNMassLoadOut, "kg/yr", 2),
+                new ReportMetric("P", BMPPMassLoadIn - BMPPMassLoadOut, "kg/yr", 2),
+                new ReportMetric("Q", RunoffVolume - SurfaceDischarge, "ac-ft/yr", 2));
+            s += Common.TableCellBlank(2);
+            s += "</tr>";
+
             if (Globals.Project.DoGroundwaterAnalysis == "Yes")
             {
-                s += "<tr><td>Retention Only</td><td></td><td><h2>Groundwater</h2></td><td></td><td>Treated as System</td></tr>";
+                // Custom header row
+                s += "<tr><td>Retention Only</td>" + Common.TableCellBlank() + "<td><h2>Groundwater</h2></td>" + Common.TableCellBlank() + "<td>Treated as System</td></tr>";
+
+                // ***************************** Row 1 *****************************
                 s += "<tr>";
-                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, 3, "kg/yr", "Retention into Media");
-                s += "<td></td>";
-                s += EfficiencyReportCell(MediaNPercentReduction, MediaPPercentReduction, 0, "%", "Media GW Treatment", 1);
-                s += EfficiencyReportCell("&rarr;");
-                s += EfficiencyReportCell(GroundwaterNMassLoadOut, GroundwaterPMassLoadOut, 3, "kg/yr", "Total GW Discharge");
-                s += "</tr>";
 
-                s += "<tr><td></td><td></td>";
-                s += EfficiencyReportCell("&darr;");
-                s += "<td></td><td></td>";
-                s += "</tr>";
+                // 5. Retention Into Media (3 decimal places)
+                s += Common.TableCellReport("Retention into Media", false, "",
+                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr", 3),
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr", 3));
 
+                s += Common.TableCellBlank();
+
+                // 6. Media GW Treatment (Border = true, Places = 0)
+                s += Common.TableCellReport("Media GW Treatment", true, "",
+                    new ReportMetric("N", MediaNPercentReduction, "%", 0),
+                    new ReportMetric("P", MediaPPercentReduction, "%", 0));
+
+                s += Common.TableCellRightArrow();
+
+                // 7. Total GW Discharge (3 decimal places)
+                s += Common.TableCellReport("Total GW Discharge", false, "",
+                    new ReportMetric("N", GroundwaterNMassLoadOut, "kg/yr", 3),
+                    new ReportMetric("P", GroundwaterPMassLoadOut, "kg/yr", 3));
+
+                s += "</tr>";
+                // ***************************** Row 2 *****************************
+                // --- GW Down Arrow ---
+                s += "<tr>" + Common.TableCellBlank(2);
+                s += Common.TableCellDownArrow();
+                s += Common.TableCellBlank(2) + "</tr>";
+
+                // --- Retained Section ---
                 NRetained = BMPNMassLoadIn - BMPNMassLoadOut - GroundwaterNMassLoadOut;
                 PRetained = BMPPMassLoadIn - BMPPMassLoadOut - GroundwaterPMassLoadOut;
 
-                s += "<tr><td></td><td></td>";
-                s += EfficiencyReportCell(NRetained, PRetained, 3, "kg/yr", "Retained");
-                s += "<td></td><td></td>";
-                s += "</tr>";
+                s += "<tr>";
+                // ***************************** Row 3 *****************************
+                s += Common.TableCellBlank(2);
+
+                // 8. Retained (3 decimal places)
+                s += Common.TableCellReport("Retained", false, "",
+                    new ReportMetric("N", NRetained, "kg/yr", 3),
+                    new ReportMetric("P", PRetained, "kg/yr", 3));
+
+                s += Common.TableCellBlank(2) + "</tr>";
             }
             s += "</table>";
             return s;

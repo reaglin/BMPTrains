@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
@@ -17,9 +19,24 @@ namespace BMPTrains_2020.DomainCode
         public string Name { get; set; }
         public double Value { get; set; }
         public string Unit { get; set; }
-        public int Places { get; set; } = 2; // Default value
 
-        // Standard constructor
+        public int Places { get; set; } = 2;           // Default to 2 decimal places
+        public string FormatString { get; set; } = ""; // Default to empty
+
+        // Logic: Use FormatString if present, otherwise generate standard Number format from Places
+        public string EffectiveFormat
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(FormatString))
+                {
+                    return FormatString;
+                }
+                return "N" + Places;
+            }
+        }
+
+        // Constructor 1: Simple (Defaults to Places=2, Format="")
         public ReportMetric(string name, double value, string unit = "")
         {
             Name = name;
@@ -27,13 +44,32 @@ namespace BMPTrains_2020.DomainCode
             Unit = unit;
         }
 
-        // Constructor allowing custom decimal places (used in your call above)
+        // Constructor 2: Specify Places (Format remains "")
         public ReportMetric(string name, double value, string unit, int places)
         {
             Name = name;
             Value = value;
             Unit = unit;
             Places = places;
+        }
+
+        // Constructor 3: Specify FormatString (Places defaults to 2, but FormatString takes precedence)
+        public ReportMetric(string name, double value, string unit, string formatString)
+        {
+            Name = name;
+            Value = value;
+            Unit = unit;
+            FormatString = formatString;
+        }
+
+        // Constructor 4: Full Control (Sets both)
+        public ReportMetric(string name, double value, string unit, int places, string formatString)
+        {
+            Name = name;
+            Value = value;
+            Unit = unit;
+            Places = places;
+            FormatString = formatString;
         }
     }
 
@@ -406,55 +442,336 @@ namespace BMPTrains_2020.DomainCode
             s += "</tr>";
             return s;
         }
-        public static string TableCellReport(string label, bool showBorder = false, string customStyle = "", params ReportMetric[] metrics)
+        public static string TableCellReport(string label, bool showBorder, string customStyle, params ReportMetric[] metrics)
         {
-            // 1. Build the Style String
             var styleBuilder = new System.Text.StringBuilder();
             styleBuilder.Append(showBorder ? "border: 2px solid black; " : "");
             styleBuilder.Append(string.IsNullOrEmpty(customStyle) ? "padding: 10px;" : customStyle);
 
-            // 2. Start the TD
             var html = new System.Text.StringBuilder();
             html.Append($"<td style='{styleBuilder}'>");
 
-            // 3. Add the Label (if it exists)
             if (!string.IsNullOrEmpty(label))
             {
                 html.Append(label);
             }
 
-            // 4. Loop through variable number of parameters
             foreach (var metric in metrics)
             {
-                // Add a break if there is a label or previous items
                 if (html.Length > 4) html.Append("<br/>");
 
-                // Format: "Name: Value Units"
-                // Uses your existing GetValue function
-                html.Append($"{metric.Name}: {GetValue(metric.Value, metric.Places)} {metric.Unit}");
+                // USE metric.EffectiveFormat HERE
+                html.Append($"{metric.Name}: {GetFormattedValue(metric.Value, metric.EffectiveFormat)} {metric.Unit}");
             }
 
-            // 5. Close TD
             html.Append("</td>");
-
             return html.ToString();
         }
 
-        public static string TableCellArrow(bool right = true, string styles = "", bool border = false)
+        /// <summary>
+        /// Generates a table cell report by reading [Meta] attributes from the provided properties.
+        /// </summary>
+        /// <param name="label">The header label for the cell.</param>
+        /// <param name="showBorder">Whether to show the border.</param>
+        /// <param name="customStyle">Custom CSS style.</param>
+        /// <param name="propertyExpressions">Lambda expressions pointing to the properties (e.g., () => MyProp)  
+        /// example call: Common.TableCellReport("Summary", true, "", () => TotalCost, () => Ratio);</param>
+        public static string TableCellReport(string label, bool showBorder, string customStyle, params Expression<Func<double>>[] propertyExpressions)
+        {
+            var metricsList = new List<ReportMetric>();
+
+            foreach (var expr in propertyExpressions)
+            {
+                double value = expr.Compile().Invoke();
+
+                var memberExpr = expr.Body as MemberExpression;
+                if (memberExpr == null)
+                {
+                    metricsList.Add(new ReportMetric("Unknown", value));
+                    continue;
+                }
+
+                var propInfo = memberExpr.Member as PropertyInfo;
+                var meta = propInfo.GetCustomAttribute<Meta>();
+
+                if (meta != null)
+                {
+                    string metricName = !string.IsNullOrEmpty(meta.ReportLabel) ? meta.ReportLabel :
+                                        (!string.IsNullOrEmpty(meta.Description) ? meta.Description : propInfo.Name);
+
+                    // We pass BOTH Places and Format from the attribute to the Metric
+                    metricsList.Add(new ReportMetric(metricName, value, meta.Units, meta.Places, meta.Format));
+                }
+                else
+                {
+                    metricsList.Add(new ReportMetric(propInfo.Name, value));
+                }
+            }
+
+            return TableCellReport(label, showBorder, customStyle, metricsList.ToArray());
+        }
+
+        public static string TableCellRightArrow( string styles = "", bool border = false)
         {
             // if right is true, right arrow, else down arrow
             if (border) styles += "border: 2px solid black; padding: 10px;";
-            string arrow = right ? "&#8594;" : "&#8595;";
-            return "<td style='text-align:center; " + styles + "'>" + arrow + "</td>";
+            string arrow = "&#8594;"; 
+            return "<td style='text-align:center; font-size: 150%" + styles + "'>" + arrow + "</td>";
         }
 
+        public static string TableCellDownArrow(string styles = "", bool border = false)
+        {
+            if (border) styles += "border: 2px solid black; padding: 10px;";
+            string arrow = "&#8595;";
+            return "<td style='text-align:center; font-size: 150% " + styles + "'>" + arrow + "</td>";
+        }
 
-        public static string GetValue(double d, int places)
+        public static string TableCellBlank(int n = 1)
+        {
+            var sb = new System.Text.StringBuilder();
+            for (int i = 0; i < n; i++)
+            {
+                sb.Append("<td></td>");
+            }
+            return sb.ToString();
+        }
+
+        public static string GetFormattedValue(double d, int places)
         {
             string formatString = "{0:N" + places.ToString().Trim() + "}";
             if (places == 0) return d.ToString("#");
 
             return String.Format(formatString, d);
+        }
+
+        public static string GetFormattedValue(double value, string format)
+        {
+            // Safety check: if format is null or empty, return default string representation
+            if (string.IsNullOrEmpty(format))
+            {
+                return value.ToString();
+            }
+
+            try
+            {
+                return value.ToString(format);
+            }
+            catch (FormatException)
+            {
+                // Fallback if the format string is invalid
+                return value.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Generates an HTML table for a list of objects, with rows defined by the passed property expressions.
+        /// </summary>
+        /// <typeparam name="T">The type of object (e.g., Catchment)</typeparam>
+        /// <param name="items">The list of objects (columns).</param>
+        /// <param name="tableTitle">The header title for the table.</param>
+        /// <param name="properties">A comma-separated list of properties to include as rows.</param>
+        /// <summary>
+        /// Generates a 2-column HTML table (Label | Value) for a single object instance.
+        /// </summary>
+        /// <typeparam name="T">The type of the object (e.g., Catchment)</typeparam>
+        /// <param name="item">The specific instance to report on.</param>
+        /// <param name="tableTitle">Optional header for the table.</param>
+        /// <param name="properties">Comma-separated list of properties to include.</param>
+        public static string GeneratePropertyTable<T>(T item, string tableTitle, params Expression<Func<T, object>>[] properties)
+        {
+            var sb = new StringBuilder();
+
+            // Optional: Wrap in a stylized div or just the table
+            sb.Append("<table border='1' cellpadding='5' style='border-collapse:collapse; width:100%; margin-bottom:15px;'>");
+
+            // 1. Table Header (Optional)
+            if (!string.IsNullOrEmpty(tableTitle))
+            {
+                // Spans 2 columns (Label + Value)
+                sb.Append($"<tr><th colspan='2' style='background-color:#EEE; text-align:left;'>{tableTitle}</th></tr>");
+            }
+
+            // 2. Loop through requested properties
+            foreach (var selector in properties)
+            {
+                // Extract Property Info
+                var propInfo = GetPropertyInfo(selector);
+                if (propInfo == null) continue;
+
+                // Get Meta Attributes
+                var meta = propInfo.GetCustomAttribute<Meta>();
+
+                // Determine Label, Format, Unit
+                string rowLabel = propInfo.Name;
+                string format = "";
+                string unit = "";
+
+                if (meta != null)
+                {
+                    rowLabel = !string.IsNullOrEmpty(meta.ReportLabel) ? meta.ReportLabel :
+                               (!string.IsNullOrEmpty(meta.Description) ? meta.Description : propInfo.Name);
+
+                    // Logic: Format String > Places > Default
+                    format = !string.IsNullOrEmpty(meta.Format) ? meta.Format : "N" + meta.Places;
+                    unit = meta.Units;
+                }
+
+                // Append Unit to Label
+                if (!string.IsNullOrEmpty(unit)) rowLabel += $" ({unit})";
+
+                // 3. Get the Value
+                var func = selector.Compile();
+                object rawValue = func(item);
+
+                string displayValue;
+                if (rawValue is double dVal)
+                {
+                    // Use your existing Common.GetValue logic
+                    displayValue = Common.GetFormattedValue(dVal, format);
+                }
+                else
+                {
+                    displayValue = rawValue?.ToString() ?? "";
+                }
+
+                // 4. Render Row
+                sb.Append("<tr>");
+                sb.Append($"<td style='width:60%;'>{rowLabel}</td>"); // Label Column
+                sb.Append($"<td style='width:40%; text-align:center;'>{displayValue}</td>"); // Value Column
+                sb.Append("</tr>");
+            }
+
+            sb.Append("</table>");
+            return sb.ToString();
+        }
+
+        // Helper to unwrap Expression<Func<T, object>> (handles boxing of value types)
+        private static PropertyInfo GetPropertyInfo<T>(Expression<Func<T, object>> propertyLambda)
+        {
+            MemberExpression member = propertyLambda.Body as MemberExpression;
+            if (member == null)
+            {
+                // If the property is a value type (double/int), it gets wrapped in a Convert() operation.
+                var unary = propertyLambda.Body as UnaryExpression;
+                if (unary != null) member = unary.Operand as MemberExpression;
+            }
+            return member?.Member as PropertyInfo;
+        }
+
+        private static bool IsSimpleType(Type type)
+        {
+            if (type.IsPrimitive || type.IsEnum) return true;
+            if (type == typeof(string)) return true;
+            if (type == typeof(decimal)) return true;
+            if (type == typeof(DateTime)) return true;
+
+            // Handle Nullable types (e.g., double?)
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                return IsSimpleType(Nullable.GetUnderlyingType(type));
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Reflects over an object to print all Primitive properties in a table.
+        /// Recursively calls itself for non-primitive properties.
+        /// </summary>
+        public static string AllProperties(object item, string titleOverride = "")
+        {
+            if (item == null) return "";
+
+            var type = item.GetType();
+            var sb = new StringBuilder();
+
+            // Determine Header Title (Override -> Meta Description -> Class Name)
+            string headerText = titleOverride;
+            if (string.IsNullOrEmpty(headerText))
+            {
+                // Try to find a [Meta] tag on the Class itself (if you use them there) 
+                // or just use the Class Name.
+                headerText = type.Name;
+            }
+
+            // --- PASS 1: Generate Table for Primitive Types ---
+            sb.Append("<table border='1' cellpadding='5' style='border-collapse:collapse; width:100%; margin-bottom:20px;'>");
+
+            // Header Row
+            sb.Append($"<tr><th colspan='2' style='background-color:#CCC; text-align:left;'>{headerText}</th></tr>");
+
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            // We will store complex objects here to process AFTER we close this table
+            var complexProperties = new List<(PropertyInfo prop, object val)>();
+
+            foreach (var prop in properties)
+            {
+                // Skip indexers (properties that require arguments)
+                if (prop.GetIndexParameters().Length > 0) continue;
+
+                var val = prop.GetValue(item);
+
+                // Check if Primitive/Simple
+                if (IsSimpleType(prop.PropertyType))
+                {
+                    // --- Extract Meta Data ---
+                    var meta = prop.GetCustomAttribute<Meta>();
+
+                    string rowLabel = prop.Name;
+                    string format = "";
+                    string unit = "";
+
+                    if (meta != null)
+                    {
+                        // Priority: ReportLabel > Description > Name
+                        rowLabel = !string.IsNullOrEmpty(meta.ReportLabel) ? meta.ReportLabel :
+                                   (!string.IsNullOrEmpty(meta.Description) ? meta.Description : prop.Name);
+
+                        format = !string.IsNullOrEmpty(meta.Format) ? meta.Format : "N" + meta.Places;
+                        unit = meta.Units;
+                    }
+
+                    if (!string.IsNullOrEmpty(unit)) rowLabel += $" ({unit})";
+
+                    // --- Format Value ---
+                    string displayValue;
+                    if (val is double dVal) displayValue = Common.GetFormattedValue(dVal, format);
+                    else if (val is DateTime dtVal) displayValue = dtVal.ToShortDateString();
+                    else displayValue = val?.ToString() ?? "";
+
+                    // --- Render Row ---
+                    sb.Append("<tr>");
+                    sb.Append($"<td style='width:60%; font-weight:bold; background-color:#f9f9f9;'>{rowLabel}</td>");
+                    sb.Append($"<td style='width:40%; text-align:center;'>{displayValue}</td>");
+                    sb.Append("</tr>");
+                }
+                else
+                {
+                    // Valid Non-Primitive? (Ignore Lists/Collections for now to prevent huge dumps, unless desired)
+                    if (val != null && !typeof(System.Collections.IEnumerable).IsAssignableFrom(prop.PropertyType))
+                    {
+                        complexProperties.Add((prop, val));
+                    }
+                }
+            }
+            sb.Append("</table>");
+
+            // --- PASS 2: Recursion for Complex Types ---
+            foreach (var complex in complexProperties)
+            {
+                // Use the Property Name as the title for the sub-table
+                string subTitle = complex.prop.Name;
+
+                // Check for Meta label on the complex property itself
+                var meta = complex.prop.GetCustomAttribute<Meta>();
+                if (meta != null && !string.IsNullOrEmpty(meta.ReportLabel)) subTitle = meta.ReportLabel;
+
+                // RECURSIVE CALL
+                sb.Append(AllProperties(complex.val, subTitle));
+            }
+
+            return sb.ToString();
         }
 
         #endregion

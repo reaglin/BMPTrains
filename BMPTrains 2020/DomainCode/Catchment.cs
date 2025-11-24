@@ -23,19 +23,20 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Catchment Name", "", 2)]
         public string CatchmentName { get; set; }
-        
+
         // AnalysisType determines the analysis that is done for pre/post
         // It comes from BMPTrainsProject. The AnalysisTypes are prefixed with 
         // AT_(Type of Analysis)
 
         // AnalysisType can also have a Criteria (a generalization of AnalysisTypes)
         // Which categorize the AnalysisTypes. 
+        [Meta("Type of Analysis", "", 0)]
         public string AnalysisType { get; set; }
 
-        [Meta("Annual Mean Rainfall", "in",  2)]
+        [Meta("Annual Mean Rainfall", "in", 2)]
         public double Rainfall { get; set; }
 
-        [Meta("Rainfall Zone", "",  2)]
+        [Meta("Rainfall Zone", "", 2)]
         public string RainfallZone { get; set; }
         public string DoGroundwaterAnalysis { get; set; }
 
@@ -45,34 +46,34 @@ namespace BMPTrains_2020.DomainCode
         public string PreLandUseName { get; set; }
         public int PostLandUseId { get; set; }
 
-        [Meta("Post-Condition Landuse", "",  2)]
+        [Meta("Post-Condition Landuse", "", 2)]
         public string PostLandUseName { get; set; }
 
-        [Meta("Pre Condition Area", "acres",  2)]
+        [Meta("Pre Condition Area", "acres", 2)]
         public double PreArea { get; set; }
 
-        [Meta("Pre Rational Coefficient", "0-1",  2)]
+        [Meta("Pre Rational Coefficient", "0-1", 2)]
         public double PreRationalCoefficient { get; set; }
 
-        [Meta("Pre Non DCIA Curve Number", "",  2)]
+        [Meta("Pre Non DCIA Curve Number", "", 2)]
         public double PreNonDCIACurveNumber { get; set; }
 
-        [Meta("Pre DCIA Percent", "0-100",  2)]
+        [Meta("Pre DCIA Percent", "0-100", 2)]
         public double PreDCIAPercent { get; set; }
 
-        [Meta("Post Condition Area", "acres",  2)]
+        [Meta("Post Condition Area", "acres", 2)]
         public double PostArea { get; set; }
 
-        [Meta("Wet Pond Area", "acres",  2)]
+        [Meta("Wet Pond Area", "acres", 2)]
         public double BMPArea { get; set; }
 
-        [Meta("Post Rational Coefficient", "0-1",  2)]
+        [Meta("Post Rational Coefficient", "0-1", 2)]
         public double PostRationalCoefficient { get; set; }
 
-        [Meta("Post Non DCIA Curve Number", "",  2)]
+        [Meta("Post Non DCIA Curve Number", "", 2)]
         public double PostNonDCIACurveNumber { get; set; }
 
-        [Meta("Post DCIA Percent", "0-100",  2)]
+        [Meta("Post DCIA Percent", "0-100", 2)]
         public double PostDCIAPercent { get; set; } // (0-100)
 
         public string PreLoading { get; set; }
@@ -90,34 +91,34 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Required Nitrogen Treatment Efficiency", "%", 2)]
         public double RequiredPTreatmentEfficiency { get; set; }
 
-        [Meta("Provided Nitrogen Treatment Efficiency", "%",  2)]
+        [Meta("Provided Nitrogen Treatment Efficiency", "%", 2)]
         public double CalculatedNTreatmentEfficiency { get; set; }
 
-        [Meta("Provided Phosphorus Treatment Efficiency", "%",  2)]
+        [Meta("Provided Phosphorus Treatment Efficiency", "%", 2)]
         public double CalculatedPTreatmentEfficiency { get; set; }
         public double PrePostNTreatmentEfficiency { get; set; }
         public double PrePostPTreatmentEfficiency { get; set; }
 
         // Concentrations
 
-        [Meta("Pre Nitrogen EMC", "mg/l",  2)]
+        [Meta("Pre Nitrogen EMC", "mg/l", 2)]
         public double PreNConcentration { get; set; } // mg/l
 
-        [Meta("Pre Phosphorus EMC", "mg/l",  2)]
+        [Meta("Pre Phosphorus EMC", "mg/l", 2)]
         public double PrePConcentration { get; set; } // mg/l
 
-        [Meta("Post Nitrogen EMC", "mg/l",  2)]
+        [Meta("Post Nitrogen EMC", "mg/l", 2)]
         public double PostNConcentration { get; set; } // mg/l
 
-        [Meta("Post Phosphorus EMC", "mg/l",  2)]
+        [Meta("Post Phosphorus EMC", "mg/l", 2)]
         public double PostPConcentration { get; set; }  //mg/l
 
         // Volumes in ac-ft
 
-        [Meta("Pre Runoff Volume", "ac-ft/yr",  2)]
+        [Meta("Pre Runoff Volume", "ac-ft/yr", 2)]
         public double PreRunoffVolume { get; set; }     // ac-ft
 
-        [Meta("Post Runoff Volume", "ac-ft/yr",  2)]
+        [Meta("Post Runoff Volume", "ac-ft/yr", 2)]
         public double PostRunoffVolume { get; set; }    // ac-ft
 
         [Meta("Post Treatment Discharge Volume", "ac-ft", 2)]
@@ -125,22 +126,22 @@ namespace BMPTrains_2020.DomainCode
 
         // Loadings in kg.year
 
-        [Meta("Pre Nitrogen Loading", "kg/yr",  2)]
+        [Meta("Pre Nitrogen Loading", "kg/yr", 2)]
         public double PreNLoading { get; set; }  // kg/yr
 
-        [Meta("Pre Phosphorus Loading", "kg/yr",  2)]
+        [Meta("Pre Phosphorus Loading", "kg/yr", 2)]
         public double PrePLoading { get; set; }  // kg/yr
 
-        [Meta("Post Nitrogen Loading", "kg/yr",  2)]
+        [Meta("Post Nitrogen Loading", "kg/yr", 2)]
         public double PostNLoading { get; set; }  //kg/yr
 
-        [Meta("Post Phosphorus Loading", "kg/yr",  2)]
+        [Meta("Post Phosphorus Loading", "kg/yr", 2)]
         public double PostPLoading { get; set; }  //kg/yr
 
-        [Meta("Volume of Runoff Pre-Condition", "inches/yr",  2)]
+        [Meta("Volume of Runoff Pre-Condition", "inches/yr", 2)]
         public double PreRunoffVolumeInches_Yr { get; set; }
 
-        [Meta("Volume of Runoff Post-Condition", "inches/yr",  2)]
+        [Meta("Volume of Runoff Post-Condition", "inches/yr", 2)]
         public double PostRunoffVolumeInches_yr { get; set; }
 
         public double GroundwaterNLoading { get; set; }
@@ -243,7 +244,7 @@ namespace BMPTrains_2020.DomainCode
         {
             ResetAll();
         }
-        
+
         public void ResetAll()
         {
             // Set Default values
@@ -351,8 +352,8 @@ namespace BMPTrains_2020.DomainCode
 
             CalculateRequiredNTreatmentEfficiency();
             CalculateRequiredPTreatmentEfficiency();
- 
-            DoGroundwaterAnalysis = p.getDoGroundwaterAnalysis();           
+
+            DoGroundwaterAnalysis = p.getDoGroundwaterAnalysis();
         }
 
         #endregion
@@ -482,11 +483,11 @@ namespace BMPTrains_2020.DomainCode
         public virtual void CalculateGroundwaterLoading()
         {
             BMP bmp = getSelectedBMP();
-            if (bmp.isRetention()) { 
+            if (bmp.isRetention()) {
                 GroundwaterNLoading = bmp.GroundwaterNLoading();
                 GroundwaterPLoading = bmp.GroundwaterPLoading();
             }
-            else { 
+            else {
                 GroundwaterNLoading = 0.0;
                 GroundwaterPLoading = 0.0;
             }
@@ -597,11 +598,60 @@ namespace BMPTrains_2020.DomainCode
                 };
         }
 
+        public string CatchmentTable()
+        {
+            var s = new System.Text.StringBuilder();
+
+            // Table 1: General Info
+            s.Append(Common.GeneratePropertyTable(this, "General Information",
+                c => c.CatchmentName,
+                c => c.RainfallZone,
+                c => c.Rainfall
+            ));
+
+            // Table 2: Pre-Condition (A separate table creates a visual 'Section')
+            s.Append(Common.GeneratePropertyTable(this, "Pre-Condition Landuse",
+                c => c.PreLandUseName,
+                c => c.PreArea,
+                c => c.PreRationalCoefficient,
+                c => c.PreNonDCIACurveNumber,
+                c => c.PreDCIAPercent,
+                c => c.PreNConcentration,
+                c => c.PrePConcentration,
+                c => c.PreRunoffVolume,
+                c => c.PreGWN,
+                c => c.PreGWP,
+                c => c.PreNLoading,
+                c => c.PrePLoading
+            ));
+
+            // Table 3: Post-Condition
+            s.Append(Common.GeneratePropertyTable(this, "Post-Condition Landuse",
+                c => c.PostLandUseName,
+                c => c.PostArea,
+                c => c.BMPArea,
+                c => c.PostRationalCoefficient,
+                c => c.PostNonDCIACurveNumber,
+                c => c.PostDCIAPercent,
+                c => c.PostNConcentration,
+                c => c.PostPConcentration,
+                c => c.PostRunoffVolume,
+                c => c.PostGWN,
+                c => c.PostGWP,
+                c => c.PostNLoading,
+                c => c.PostPLoading
+            ));
+
+            return s.ToString();
+        }
+
+
+
         public string TitleHeader()
         {
             string s = " Analysis: " + AnalysisType;
             if ((AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
-                (AnalysisType == BMPTrainsProject.AT_NetImprovement) )
+                (AnalysisType == BMPTrainsProject.AT_NetImprovement))
                 return s + " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
 
             return s;
@@ -652,7 +702,7 @@ namespace BMPTrains_2020.DomainCode
         {
             return routing.FlowBalanceReport();
         }
-        
+
 
         #endregion
 
@@ -704,23 +754,23 @@ namespace BMPTrains_2020.DomainCode
             // This checks catchement errors
             if (analysisType == BMPTrainsProject.AT_BMPAnalysis)
             {
-                if ( PreNonDCIACurveNumber > 100)
+                if (PreNonDCIACurveNumber > 100)
                     return "The Pre Non DCIA CN Must be between 30 and 100";
                 if (PreDCIAPercent < 0 || PreDCIAPercent > 100)
                     return "The Pre DCIA Percentage Must be between 0 and 100";
             }
-            if ( PostNonDCIACurveNumber > 100)
+            if (PostNonDCIACurveNumber > 100)
                 return "The Post Non DCIA CN Must be between 30 and 100";
             if (PostDCIAPercent < 0 || PostDCIAPercent > 100)
                 return "The Post DCIA Percentage Must be between 0 and 100";
             if (BMPArea > PostArea)
                 return "The BMP Area Cannot Exceed the Total Post Development Area";
-            if (CatchmentName == "" )
+            if (CatchmentName == "")
                 return "Please Enter a Name for Your Catchment Before Saving";
 
             // For specific types of analysis you must have a pre watershed condition
-            if (((analysisType == BMPTrainsProject.AT_NetImprovement) || 
-                (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)) && 
+            if (((analysisType == BMPTrainsProject.AT_NetImprovement) ||
+                (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)) &&
                 PreLandUseName == "")
             {
                 return "For this Analysis Method (" + analysisType + ") you must specify a Pre watershed condition";
@@ -761,26 +811,26 @@ namespace BMPTrains_2020.DomainCode
             // Rainfall in Inches/yr
             // PreNLoading in kg/yr
 
-            PreRunoffVolume = PreRationalCoefficient * PreArea * Rainfall /12;
-            PostRunoffVolume = PostRationalCoefficient * (PostArea - BMPArea) * Rainfall /12;
+            PreRunoffVolume = PreRationalCoefficient * PreArea * Rainfall / 12;
+            PostRunoffVolume = PostRationalCoefficient * (PostArea - BMPArea) * Rainfall / 12;
 
             PreRunoffVolumeInches_Yr = 12 * PreRunoffVolume / PreArea;
             PostRunoffVolumeInches_yr = 12 * PostRunoffVolume / (PostArea - BMPArea);
 
-            PreNLoading =  1.233 * PreNConcentration * PreRunoffVolume + PreGWN;
+            PreNLoading = 1.233 * PreNConcentration * PreRunoffVolume + PreGWN;
             PostNLoading = 1.233 * PostNConcentration * PostRunoffVolume + PostGWN;
 
             PrePLoading = 1.233 * PrePConcentration * PreRunoffVolume + PreGWP;
             PostPLoading = 1.233 * PostPConcentration * PostRunoffVolume + PostGWP;
 
-            
+
         }
 
         public void CalculateRationalCoefficients()
         {
-            PreRationalCoefficient =  CalculateRationalCoefficient( PreNonDCIACurveNumber, PreDCIAPercent);
+            PreRationalCoefficient = CalculateRationalCoefficient(PreNonDCIACurveNumber, PreDCIAPercent);
             if (PreArea == 0) PreRationalCoefficient = 0;
-            PostRationalCoefficient = CalculateRationalCoefficient( PostNonDCIACurveNumber, PostDCIAPercent);
+            PostRationalCoefficient = CalculateRationalCoefficient(PostNonDCIACurveNumber, PostDCIAPercent);
         }
 
         public double CalculateRationalCoefficient(double NDCIACN, double DCIAP)
@@ -838,7 +888,7 @@ namespace BMPTrains_2020.DomainCode
                     ni = RequiredNTreatmentEfficiency;
                     break;
                 case BMPTrainsProject.AT_NetImprovement:
-                    ni = 100 * (PostNLoading - PreNLoading) / PostNLoading; 
+                    ni = 100 * (PostNLoading - PreNLoading) / PostNLoading;
                     break;
                 case BMPTrainsProject.AT_BMPAnalysis: break;
                 default:
@@ -942,7 +992,7 @@ namespace BMPTrains_2020.DomainCode
 
                 if (nitro)
                     EMCs = XmlPropertyObject.AsDoubleArray(PreNCompositeEMC, maxRows);
-                 else
+                else
                     EMCs = XmlPropertyObject.AsDoubleArray(PrePCompositeEMC, maxRows);
 
                 CCNs = XmlPropertyObject.AsDoubleArray(PreCompositeCN, maxRows);
@@ -1029,7 +1079,7 @@ namespace BMPTrains_2020.DomainCode
 
         public void CalculateCost()
         {
-            foreach (KeyValuePair<string, BMP> kvp in ImplementedBMPs() )
+            foreach (KeyValuePair<string, BMP> kvp in ImplementedBMPs())
             {
                 kvp.Value.CalculateCost();
             }
@@ -1075,7 +1125,7 @@ namespace BMPTrains_2020.DomainCode
         {
             string s = "";
             s = "<table><tr>";
-            foreach(KeyValuePair<string,string> kvp in HorizontalCostTableColumns())
+            foreach (KeyValuePair<string, string> kvp in HorizontalCostTableColumns())
             {
                 s += "<td>" + kvp.Value + "</td>";
             }
@@ -1083,7 +1133,7 @@ namespace BMPTrains_2020.DomainCode
 
             foreach (KeyValuePair<string, BMP> kvp in ImplementedBMPs())
             {
-                if (kvp.Value.isDefined()&&kvp.Value.BMPType != BMPTrainsProject.sNone) s += CostTableReportRow(kvp.Value);
+                if (kvp.Value.isDefined() && kvp.Value.BMPType != BMPTrainsProject.sNone) s += CostTableReportRow(kvp.Value);
             }
 
             s += "</table>";
@@ -1095,7 +1145,7 @@ namespace BMPTrains_2020.DomainCode
             string s = "";
             foreach (KeyValuePair<string, string> kvp in HorizontalCostTableColumns())
             {
-                s +=  kvp.Value + "\t";
+                s += kvp.Value + "\t";
             }
             s += "\n";
 
@@ -1108,14 +1158,14 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
-        public string CostTableReportRow(BMP bmp, string pre = "<tr>", string post="</tr>")
+        public string CostTableReportRow(BMP bmp, string pre = "<tr>", string post = "</tr>")
         {
             string s = "";
             string preCell = "";
             string postCell = "\t";
 
             if (pre == "<tr>") { preCell = "<td>"; postCell = "</td>"; }
-            
+
             s += pre;
             s += preCell + bmp.BMPType + postCell;
             s += CostTableReportCell(bmp.RetentionVolume, 2, preCell, postCell);
@@ -1165,16 +1215,16 @@ namespace BMPTrains_2020.DomainCode
             this.routing.ToID = to;
         }
 
-    public List<string> RainfallZones()
+        public List<string> RainfallZones()
         {
             return StaticLookupTables.RainfallZones();
         }
-       
+
         #region "Get Catchment BMP Options"
         // These public accessors make it easy to get
         // each of the BMPs of the Catchment
         public Retention getRetention()
-        {            
+        {
             return retention;
         }
 
@@ -1259,11 +1309,11 @@ namespace BMPTrains_2020.DomainCode
             // Answers the BMP associated with the string
             if (bmp == "") bmp = BMPTrainsProject.sNone;
             if (bmp == "WetDetention") bmp = BMPTrainsProject.sWetDetention;
-            BMP b =  ImplementedBMPs()[bmp];
+            BMP b = ImplementedBMPs()[bmp];
             b.BMPType = bmp;
             return b;
         }
-       
+
         public List<string> getAvailableBMPs()
         {
             List<string> list = new List<string>();
@@ -1277,7 +1327,7 @@ namespace BMPTrains_2020.DomainCode
             return list;
         }
 
-     
+
         #endregion
 
         #region "Open and Save as XML"
@@ -1292,7 +1342,7 @@ namespace BMPTrains_2020.DomainCode
             int n = ImplementedBMPs().Count;
             string[] array = new string[n + 1];
             int i = 1;
-            foreach(KeyValuePair<string, BMP> kvp in this.ImplementedBMPs())
+            foreach (KeyValuePair<string, BMP> kvp in this.ImplementedBMPs())
             {
                 array[i - 1] = kvp.Value.AsXML(id);
                 i++;
@@ -1301,12 +1351,12 @@ namespace BMPTrains_2020.DomainCode
             // This creates XML with child objects embedded in XML
             string s = base.AsXML(id, array);
 
-            
+
             return s;
         }
 
         public override string PrintAll()
-        {          
+        {
             string s = base.PrintAll();
 
             foreach (KeyValuePair<string, BMP> kvp in this.ImplementedBMPs())
@@ -1342,7 +1392,7 @@ namespace BMPTrains_2020.DomainCode
             // Get the routing
             try { getFromXML(doc, routing.GetType().Name, routing); } catch { }
         }
-      
+
         private void getFromXML(XDocument doc, string ClassName, BMP bmp)
         {
             // There are objects saved as XML that are complex XML types - this is 
@@ -1364,6 +1414,7 @@ namespace BMPTrains_2020.DomainCode
         }
         #endregion
     }
+
 
 
     public class RoutingParameters : XmlPropertyObject
@@ -1739,6 +1790,9 @@ namespace BMPTrains_2020.DomainCode
 
             return s;
         }
+
+       
+
         public string FlowBalanceReport()
         {
             string s = "Catchment Routing ID: " + FromID.ToString() + "<br/>";

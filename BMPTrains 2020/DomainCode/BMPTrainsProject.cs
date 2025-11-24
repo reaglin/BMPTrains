@@ -1015,9 +1015,6 @@ namespace BMPTrains_2020.DomainCode
 
         //}
 
-
-
-
         public void CalculateRouting(int cid, int iteration = 0)
         {
             //cid is the Catchment ID
@@ -1103,12 +1100,7 @@ namespace BMPTrains_2020.DomainCode
                 //PostCatchmentAreaAcres += Catchments[1].PostArea - Catchments[1].BMPArea;
                 PreRunoffVolume += Catchments[1].PreRunoffVolume;
                 PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
-                // Sums up volumes from all upstream catchments
-                //if (Catchments[1].ToID == 0)
-                //{
-                //    PostRunoffVolume += Catchments[1].routing.VolumeOut;
-                //    //OutflowVolume += PostRunoffVolume * Catchments[1].getCalculatedHydraulicEfficiency() / 100;
-                //}
+
 
                 TotalGroundwaterNRemoved += Catchments[1].GroundwaterNRemoved;
                 TotalGroundwaterPRemoved += Catchments[1].GroundwaterPRemoved;
@@ -1134,18 +1126,12 @@ namespace BMPTrains_2020.DomainCode
                 CatchmentPostRunoffVolume += Catchments[i].PostRunoffVolume;
                 PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
 
-                    // Sums up volumes from all upstream catchments
-                    //if (Catchments[i].ToID == 0) PostRunoffVolume += Catchments[i].routing.VolumeOut;
-
                 TotalGroundwaterNRemoved += Catchments[i].GroundwaterNRemoved;
                 TotalGroundwaterPRemoved += Catchments[i].GroundwaterPRemoved;
                 TotalGroundwaterNLoading += Catchments[i].GroundwaterNLoading;
                 TotalGroundwaterPLoading += Catchments[i].GroundwaterPLoading;
                 TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[i].getRouting().VolumeGW;
-                //OutflowVolume += PostRunoffVolume * Catchments[1].getCalculatedHydraulicEfficiency() / 100;
-                    //foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-                    //{
-                    //    if (!kvp.Value.Disabled)
+
 
                 }
             }
@@ -1158,8 +1144,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 TotalGroundwaterNFromMedia = (TotalCatchmentNLoad - TotalOutletNLoad);
             }
-            //double gwp = TotalGroundwaterPLoading;//CalculateTotalCatchmentGWPLoading();
-            //double gwpr = TotalGroundwaterPRemoved; //CalculateTotalCatchmentGWPRemoved();
+
 
             if (TotalGroundwaterPRemoved != 0)
             {
@@ -1666,21 +1651,7 @@ namespace BMPTrains_2020.DomainCode
 
         public string CatchmentTable()
         {
-            string[] a1 = {
-                "CatchmentName", "RainfallZone", "Rainfall" }; 
-
-            string[] a2 = {
-                "PreLandUseName", "PreArea",
-                "PreRationalCoefficient", "PreNonDCIACurveNumber", "PreDCIAPercent", "PreNConcentration", "PrePConcentration",
-                "PreRunoffVolume", "PreGWN", "PreGWP", "PreNLoading", "PrePLoading" };
-
-            string[] a3 = {
-                "PostLandUseName", "PostArea", "PostRationalCoefficient", "PostNonDCIACurveNumber", "PostDCIAPercent",
-                "BMPArea", "PostNConcentration", "PostPConcentration", "PostRunoffVolume", "PostGWN",
-                "PostGWP", "PostNLoading", "PostPLoading" };
-
-            
-
+          
             // Returns an HTML table as a string
             string s = "<table>";
             // Simply Put the title and the property and places (if decimal)
@@ -1749,19 +1720,15 @@ namespace BMPTrains_2020.DomainCode
             s += "<b>" + Catchments[cn].TitleHeader() + "</b>";
             s += Catchments[cn].PrintWatershedCharacteristics();
 
+            return s;
+        }
 
-            //s += "<table>";           
-            //foreach (KeyValuePair<string, string> kvp in Catchments[cn].PropertyLabels())
-            //{
-            //    s += CatchmentReportRow(cn, kvp.Key);
-            //}
-            ////if (AnalysisType == BMPTrainsProject.AT_NetImprovement)
-            ////{
-            ////    s += "<tr><td><b>" + AnalysisType  + "</b></td><td></td></tr>";
-            ////    s += "<tr><td>Nitrogen Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredNTreatmentEfficiency()) + "</td></tr>";
-            ////    s += "<tr><td>Phosphorus Net Improvement (%)</td><td>" + String.Format("{0:N1}", Catchments[cn].CalculateRequiredPTreatmentEfficiency()) + "</td></tr>";
-            ////}
-            //s += "</table>";
+        public string CatchmentDebugReport(int cn)
+        {
+            string s = "<br/><h1>Catchment Information</h1>";
+            s += "<b>" + Catchments[cn].TitleHeader() + "</b>";
+            s += Catchments[cn].DebugReport();
+
             return s;
         }
 

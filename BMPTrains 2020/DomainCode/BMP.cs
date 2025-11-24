@@ -962,7 +962,7 @@ namespace BMPTrains_2020.DomainCode
                 new ReportMetric("P", R, "ac-ft/yr")
                 );
 
-            s += Common.TableCellArrow();
+            s += Common.TableCellRightArrow();
 
             s += Common.TableCellReport(
                 "Treatment",
@@ -971,7 +971,7 @@ namespace BMPTrains_2020.DomainCode
                 new ReportMetric("N", ProvidedNTreatmentEfficiency, "%", 0),
                 new ReportMetric("P", ProvidedPTreatmentEfficiency, "%", 0)
                 );
-            s += Common.TableCellArrow();
+            s += Common.TableCellRightArrow();
             //}
 
 
@@ -982,7 +982,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 s += Common.TableCellReport(
                     "Surface Discharge",
-                    false,
+                    true,
                     "",
                     new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
                     new ReportMetric("P", BMPPMassLoadOut, "kg/yr")
@@ -992,7 +992,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 s += Common.TableCellReport(
                     "Surface Discharge",
-                    false,
+                    true,
                     "",
                     new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
                     new ReportMetric("P", BMPPMassLoadOut, "kg/yr"),
@@ -1011,11 +1011,12 @@ namespace BMPTrains_2020.DomainCode
 
             // Creates second in mass balance report - only Mass reduction in this row
 
-            // **************************  Row 2 Down Arrow Only ***********************************
+            // **************************  Row 2 ***********************************
 
-            s += "<tr><td></td><td></td>";
-            s += Common.TableCellArrow(false);
-            s += "<td></td>";
+            s += "<tr>";
+            s += Common.TableCellBlank(2);
+            s += Common.TableCellDownArrow();
+            s += Common.TableCellBlank();
 
 
             if (this.BMPType == BMPTrainsProject.sWetDetention)
@@ -1041,13 +1042,9 @@ namespace BMPTrains_2020.DomainCode
             }
             s += "</tr>";
 
-            if (BMPType == BMPTrainsProject.sFiltration)
-            {
-                s += "</table>";
-                return s;
-            }
-
-            if (BMPType == BMPTrainsProject.sVegetatedFilterStrip)
+            // #eaglin replace with new report form
+            // Gemini chat https://gemini.google.com/app/644260b50b38b383 
+            if (BMPType == BMPTrainsProject.sFiltration || BMPType == BMPTrainsProject.sVegetatedFilterStrip)
             {
                 s += "</table>";
                 return s;
@@ -1057,33 +1054,40 @@ namespace BMPTrains_2020.DomainCode
             {
                 string tTitle = (BMPType == BMPTrainsProject.sVegetatedFilterStrip ? "Media Treatment" : "GW Treatment");
                 string dTitle = (BMPType == BMPTrainsProject.sVegetatedFilterStrip ? "Ditch Discharge" : "GW Discharge");
-
+                // ***************************Row 1 ********************************
                 s += "<tr>";
-                s += EfficiencyReportCell(GroundwaterNMassLoadIn, GroundwaterPMassLoadIn, 3, "kg/yr", "Into Media");
-                s += "<td></td>";
-                s += EfficiencyReportCell(MediaNPercentReduction, MediaPPercentReduction, 0, "%", tTitle, 1);
-                s += EfficiencyReportCell("&rarr;");
-                s += EfficiencyReportCell(GroundwaterNMassLoadOut, GroundwaterPMassLoadOut, 3, "kg/yr", dTitle);
+                s += Common.TableCellReport("Into Media", false, "",
+                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr", 3),
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr", 3));
+                s += Common.TableCellBlank();
+                s += Common.TableCellReport(tTitle, true, "",
+                    new ReportMetric("N", MediaNPercentReduction, "%", 0),
+                    new ReportMetric("P", MediaPPercentReduction, "%", 0));
+                s += Common.TableCellRightArrow();
+                s += Common.TableCellReport(dTitle, false, "",
+                    new ReportMetric("N", GroundwaterNMassLoadOut, "kg/yr", 3),
+                    new ReportMetric("P", GroundwaterPMassLoadOut, "kg/yr", 3));
                 s += "</tr>";
-
-                s += "<tr><td></td><td></td>";
-                s += EfficiencyReportCell("&darr;");
-                s += "<td></td><td></td>";
+                // ***************************Row 2 ********************************
+                s += "<tr>";
+                s += Common.TableCellBlank(2);
+                s += Common.TableCellDownArrow();
+                s += Common.TableCellBlank(2);
                 s += "</tr>";
-
-                s += "<tr><td></td><td></td>";
-                s += EfficiencyReportCell(NRetained, PRetained, 2, "kg/yr", "Retained");
-                s += "<td></td><td></td>";
+                // ***************************Row 3 ********************************
+                s += "<tr>";
+                s += Common.TableCellBlank(2);
+                s += Common.TableCellReport("Retained", false, "",
+                    new ReportMetric("N", NRetained, "kg/yr", 2),
+                    new ReportMetric("P", PRetained, "kg/yr", 2));
+                s += Common.TableCellBlank(2);
                 s += "</tr>";
             }
            
             s += "</table>";
             return s;
         }
-        public string EfficiencyReportCell(string s)
-        {
-            return "<td style='text-align:center; font-size: 150%'>" + s + "</td>";
-        }
+
 
         public string EfficiencyReportCell(double val1, double val2, int places = 2, string units = "", string label = "", int border = 0)
         {

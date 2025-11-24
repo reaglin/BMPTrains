@@ -273,8 +273,24 @@ namespace BMPTrains_2020
         
         private void btnReport_Click(object sender, EventArgs e)
         {
+            if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
+            {
+                // Your code here to handle the Ctrl-Shift click
+                Form form1 = new frmReport(c().DebugReport());
+                form1.ShowDialog();
+                return;
+            }
+
             Form form = new frmReport(Globals.Project.CatchmentReport(currentCatchmentNum));
             form.ShowDialog();
+        }
+
+        private void btnReport_RightClick(object sender, MouseEventArgs e)
+        {
+            
+                // Check for the Ctrl and Shift keys
+
+            
         }
 
 

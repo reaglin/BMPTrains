@@ -359,6 +359,13 @@ namespace BMPTrains_2020
         #endregion
         private void btnCatchmentReport_Click(object sender, EventArgs e)
         {
+            if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
+            {
+                // Your code here to handle the Ctrl-Shift click
+                Form form1 = new frmReport(Globals.Project.DebugReport());
+                form1.ShowDialog();
+                return;
+            }
             // This code can be added to bypass action for 
             // Non registered users
             if (!Globals.IsValidatedUser)
