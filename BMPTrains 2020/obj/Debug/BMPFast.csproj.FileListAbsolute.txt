@@ -55,3 +55,4 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.c
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.exe
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.pdb
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.exe.config
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmRetentionInSeries.resources

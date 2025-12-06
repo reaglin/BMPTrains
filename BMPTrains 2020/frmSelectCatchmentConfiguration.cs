@@ -230,5 +230,11 @@ namespace BMPTrains_2020
             Form form = new frmReport(Globals.Project.FlowBalanceReport(), false);
             form.ShowDialog();
         }
+
+        private void btn_Retention_Click(object sender, EventArgs e)
+        {
+            Form form = new frmRetentionInSeries();
+            form.ShowDialog();
+        }
     }
 }

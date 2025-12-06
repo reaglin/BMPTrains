@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -630,7 +632,7 @@ namespace BMPTrains_2020.DomainCode
         }
         #endregion
 
-        #region "Interface - Image for routing configuration"
+        #region "Interface - Image for routing configuration - no longer used"
         //Returns an I
         public Image getConfigurationImage() => getConfigurationImage(this.CatchmentConfiguration);
 
@@ -1228,6 +1230,45 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Routing Report"
+
+        public int[] GetRoutingInOrder()
+        {
+            // Answers an array of the catchment IDs in the order of routing (if in series)
+
+            var allDestinations = new HashSet<int>(
+                        Catchments.Values
+                               .Select(x => x.ToID)
+                               .Where(id => id != 0)
+                    );
+
+            int currentId = Catchments.Keys.FirstOrDefault(k => !allDestinations.Contains(k));
+
+            if (currentId == 0 && !Catchments.ContainsKey(0))
+            {
+                if (Catchments.Count == 0) return new int[0];
+            }
+            var resultPath = new List<int>();
+
+            while (currentId != 0)
+            {
+                resultPath.Add(currentId);
+
+                // Get the object to find the next step
+                if (Catchments.TryGetValue(currentId, out Catchment currentObject))
+                {
+                    currentId = currentObject.ToID;
+                }
+                else
+                {
+                    // The chain points to an ID that is missing from the dictionary
+                    return new int[0];
+                }
+            }
+
+            return resultPath.ToArray();
+
+        }
+
         public string getRoutingReport()
         {
             Calculate();
@@ -1304,7 +1345,92 @@ namespace BMPTrains_2020.DomainCode
             }
             return s;
         }
+        public string RetentionInSeriesReport()
+        {
+            int[] r = this.GetRoutingInOrder();
+            StringBuilder sb = new StringBuilder();
 
+            // CSS Styling for a professional engineering look
+            sb.AppendLine("<style>");
+            sb.AppendLine("table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px; }");
+            sb.AppendLine("th { background-color: #4CAF50; color: white; padding: 10px; text-align: left; }");
+            sb.AppendLine("td { border: 1px solid #ddd; padding: 8px; }");
+            sb.AppendLine("tr:nth-child(even) { background-color: #f2f2f2; }");
+            sb.AppendLine(".num { text-align: right; }");
+            sb.AppendLine(".breakdown { font-size: 0.85em; color: #555; }");
+            sb.AppendLine("</style>");
+
+            sb.AppendLine("<table>");
+            sb.AppendLine("<thead>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th>ID</th>");
+            sb.AppendLine("<th class='num'>Area (ac)</th>");
+            sb.AppendLine("<th class='num'>Vol (ac-ft)</th>");
+            sb.AppendLine("<th class='num'>Cum. Vol</th>");
+            sb.AppendLine("<th class='num'>System TD (in)</th>");
+            sb.AppendLine("<th>Contribution Breakdown (TD Allocations)</th>"); // Replaces the expanding columns G-L
+            sb.AppendLine("<th class='num'>TN Load</th>");
+            sb.AppendLine("<th class='num'>TP Load</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</thead>");
+            sb.AppendLine("<tbody>");
+
+            double cumArea = 0;
+            double cumVol = 0;
+
+            // 4. Iterate and Calculate
+            // This handles n objects dynamically
+            for (int i = 0; i < r.Length; i++)
+            {
+                Catchment current = getCatchment(r[i]);
+
+                // Update Cumulative Totals
+                cumArea += current.PostArea;
+                cumVol += current.getRetention().RetentionVolume;
+
+                // Calculate Treatment Depth (TD)
+                // Formula: (Cumulative Volume * 12) / Cumulative Area
+                double systemTD = (cumVol * 12.0) / cumArea;
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine($"<td>{current.Name}</td>");
+                sb.AppendLine($"<td class='num'>{current.PostArea:F2}</td>");
+                sb.AppendLine($"<td class='num'>{current.getRetention().RetentionVolume:F2}</td>");
+                sb.AppendLine($"<td class='num'>{cumVol:F2}</td>");
+                sb.AppendLine($"<td class='num'><strong>{systemTD:F4}</strong></td>");
+
+                // 5. The "Matrix" Logic (Columns G-L in spreadsheet)
+                // Instead of making new columns, we generate a detail string for this cell.
+                sb.Append("<td class='breakdown'>");
+                List<string> allocations = new List<string>();
+
+                // Loop through all PREVIOUS basins (0 to i) to determine their share of the current System TD
+                for (int j = 0; j <= i; j++)
+                {
+                    var contributor = r[j];
+
+                    // Logic: (Contributor Vol / Current Cumulative Vol) * Current System TD
+                    // Simplified Logic: (Contributor Vol * 12) / Current Cumulative Area
+                    double percentContribution = getCatchment(contributor).getRetention().RetentionVolume / cumVol;
+                    double allocatedTD = systemTD * percentContribution;
+
+                    allocations.Add($"Basin {getCatchment(contributor).Name}: <b>{allocatedTD:F3}\"</b> ({percentContribution:P1})");
+                }
+                sb.Append(string.Join("<br/>", allocations));
+                sb.Append("</td>");
+
+                // Load Inputs (V4, V5)
+                sb.AppendLine($"<td class='num'>{current.PostNLoading:F2}</td>");
+                sb.AppendLine($"<td class='num'>{current.PostPLoading:F2}</td>");
+
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine("</tbody>");
+            sb.AppendLine("</table>");
+            return sb.ToString();
+
+        }
         public string PrintSummaryReport(bool print_catchments = false)
         {
             Calculate();

@@ -38,8 +38,11 @@
             this.btnReport = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label4 = new System.Windows.Forms.Label();
             this.btnFlowBalance = new System.Windows.Forms.Button();
+            this.btnRetention = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbOptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -100,7 +103,7 @@
             // 
             // btnAddCatchment
             // 
-            this.btnAddCatchment.Location = new System.Drawing.Point(613, 382);
+            this.btnAddCatchment.Location = new System.Drawing.Point(613, 186);
             this.btnAddCatchment.Name = "btnAddCatchment";
             this.btnAddCatchment.Size = new System.Drawing.Size(255, 42);
             this.btnAddCatchment.TabIndex = 10;
@@ -111,7 +114,7 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(613, 323);
+            this.btnReport.Location = new System.Drawing.Point(613, 138);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(255, 42);
             this.btnReport.TabIndex = 11;
@@ -133,18 +136,9 @@
     "cify default BMP to be used.";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(608, 54);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(272, 162);
-            this.label4.TabIndex = 45;
-            this.label4.Text = "\r\n0 is Outlet";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
             // btnFlowBalance
             // 
-            this.btnFlowBalance.Location = new System.Drawing.Point(613, 266);
+            this.btnFlowBalance.Location = new System.Drawing.Point(613, 90);
             this.btnFlowBalance.Name = "btnFlowBalance";
             this.btnFlowBalance.Size = new System.Drawing.Size(255, 42);
             this.btnFlowBalance.TabIndex = 46;
@@ -153,12 +147,55 @@
             this.btnFlowBalance.UseVisualStyleBackColor = true;
             this.btnFlowBalance.Click += new System.EventHandler(this.btnFlowBalance_Click);
             // 
+            // btnRetention
+            // 
+            this.btnRetention.Location = new System.Drawing.Point(613, 283);
+            this.btnRetention.Name = "btnRetention";
+            this.btnRetention.Size = new System.Drawing.Size(255, 42);
+            this.btnRetention.TabIndex = 48;
+            this.btnRetention.Text = "Retention in Series";
+            this.toolTip1.SetToolTip(this.btnRetention, "Goes to Watershed Characteristic Worksheet");
+            this.btnRetention.UseVisualStyleBackColor = true;
+            this.btnRetention.Click += new System.EventHandler(this.btn_Retention_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(613, 340);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(255, 42);
+            this.button2.TabIndex = 49;
+            this.button2.Text = "Detention in Series";
+            this.toolTip1.SetToolTip(this.button2, "Goes to Watershed Characteristic Worksheet");
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(608, 51);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(272, 62);
+            this.label4.TabIndex = 45;
+            this.label4.Text = "0 is Outlet";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(672, 241);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(137, 30);
+            this.label1.TabIndex = 47;
+            this.label1.Text = "Special Cases";
+            // 
             // frmSelectCatchmentConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 519);
             this.ControlBox = false;
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnRetention);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFlowBalance);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -194,5 +231,8 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnFlowBalance;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnRetention;
+        private System.Windows.Forms.Button button2;
     }
 }

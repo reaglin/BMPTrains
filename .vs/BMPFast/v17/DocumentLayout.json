@@ -3,36 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\generalsiteinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\generalsiteinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\frmretentioninseries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\frmretentioninseries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\generalsiteinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\generalsiteinformation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\frmwatershedcharacteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\frmwatershedcharacteristics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\domaincode\\xmlpropertyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\domaincode\\xmlpropertyobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\frmselectcatchmentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\frmselectcatchmentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\domaincode\\bmptrainsproject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\domaincode\\bmptrainsproject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\bmptrains 2020\\domaincode\\multiplebmp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\domaincode\\multiplebmp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\frmretentioninseries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\frmretentioninseries.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\bmptrains 2020\\domaincode\\catchment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\frmselectcatchmentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\frmselectcatchmentconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|c:\\users\\ronal\\source\\repos\\reaglin\\bmptrains\\bmptrains 2020\\domaincode\\catchment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\domaincode\\catchment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\bmptrains 2020\\domaincode\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36005AB5-91AF-4F0F-8FC2-1D47920D561D}|BMPTrains 2020\\BMPFast.csproj|solutionrelative:bmptrains 2020\\domaincode\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,104 +54,78 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GeneralSiteInformation.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\GeneralSiteInformation.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\GeneralSiteInformation.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\GeneralSiteInformation.cs*",
-              "RelativeToolTip": "BMPTrains 2020\\GeneralSiteInformation.cs*",
-              "ViewState": "AgIAAE8BAAAAAAAAAAAwwHMBAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T19:48:11.248Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GeneralSiteInformation.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\GeneralSiteInformation.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\GeneralSiteInformation.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\GeneralSiteInformation.cs [Design]*",
-              "RelativeToolTip": "BMPTrains 2020\\GeneralSiteInformation.cs [Design]*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T19:48:05.221Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "frmWatershedCharacteristics.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmWatershedCharacteristics.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\frmWatershedCharacteristics.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmWatershedCharacteristics.cs [Design]",
-              "RelativeToolTip": "BMPTrains 2020\\frmWatershedCharacteristics.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T19:25:37.112Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "XMLPropertyObject.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\XMLPropertyObject.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\XMLPropertyObject.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\XMLPropertyObject.cs",
-              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\XMLPropertyObject.cs",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAmwKQAAAAAAAAAAAAAAA==",
+              "Title": "frmRetentionInSeries.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmRetentionInSeries.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\frmRetentionInSeries.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmRetentionInSeries.cs [Design]",
+              "RelativeToolTip": "BMPTrains 2020\\frmRetentionInSeries.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T19:23:03.841Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Catchment.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Catchment.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\Catchment.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Catchment.cs",
-              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\Catchment.cs",
-              "ViewState": "AgIAAOEBAAAAAAAAAAAuwBQCAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T18:47:07.838Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-05T20:49:25.663Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "BMPTrainsProject.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
-              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
-              "ViewState": "AgIAAJwGAAAAAAAAAAAUwLQGAAAIAAAAAAAAAA==",
+              "Title": "frmSelectCatchmentConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "RelativeToolTip": "BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "ViewState": "AgIAANgAAAAAAAAAAAAAAOkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T17:55:04.06Z",
+              "WhenOpened": "2025-12-05T20:48:33.749Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "MultipleBMP.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\MultipleBMP.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\MultipleBMP.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\MultipleBMP.cs",
-              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\MultipleBMP.cs",
-              "ViewState": "AgIAAFkDAAAAAAAAAAAcwGwDAAAAAAAAAAAAAA==",
+              "Title": "Catchment.cs",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Catchment.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\Catchment.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Catchment.cs",
+              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\Catchment.cs",
+              "ViewState": "AgIAACQHAAAAAAAAAAAAADoHAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T17:28:05.64Z",
+              "WhenOpened": "2025-12-05T19:23:58.159Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Common.cs",
-              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Common.cs",
-              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\Common.cs",
-              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\Common.cs",
-              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\Common.cs",
-              "ViewState": "AgIAAJsCAAAAAAAAAAAmwNgCAABlAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "BMPTrainsProject.cs",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
+              "RelativeToolTip": "BMPTrains 2020\\DomainCode\\BMPTrainsProject.cs",
+              "ViewState": "AgIAAF8HAAAAAAAAAADgv2YHAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-21T16:31:40.655Z",
+              "WhenOpened": "2025-12-05T18:59:53.32Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "frmSelectCatchmentConfiguration.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\frmSelectCatchmentConfiguration.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmSelectCatchmentConfiguration.cs [Design]",
+              "RelativeToolTip": "BMPTrains 2020\\frmSelectCatchmentConfiguration.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T18:54:44.892Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "frmRetentionInSeries.cs",
+              "DocumentMoniker": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmRetentionInSeries.cs",
+              "RelativeDocumentMoniker": "BMPTrains 2020\\frmRetentionInSeries.cs",
+              "ToolTip": "C:\\Users\\ronal\\source\\repos\\reaglin\\BMPTrains\\BMPTrains 2020\\frmRetentionInSeries.cs",
+              "RelativeToolTip": "BMPTrains 2020\\frmRetentionInSeries.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAowHkAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-05T18:50:22.372Z",
               "EditorCaption": ""
             }
           ]

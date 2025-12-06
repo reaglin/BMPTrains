@@ -1561,6 +1561,7 @@ namespace BMPTrains_2020.DomainCode
         #region "Properties"
         public bool IsValid { get; set; }
         public string BMPType { get; set; }
+
         public string UpstreamBMPType { get; set; }
 
         public string UpstreamNodes { get; set; }
@@ -1597,7 +1598,10 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Total Volume Out of Routing Node", "ac-ft/yr", 2)]
         public double VolumeOut { get; set; }
         public double VolumeTreated { get; set; }
+        [Meta("Total Into Media", "ac-ft/yr", 2)]
         public double VolumeIntoMedia { get; set; }
+
+        [Meta("Total Volume Into Groundwater", "ac-ft/yr", 2)]
         public double VolumeGW { get; set; }
 
         public string RoutingNotes { get; set; }
@@ -1844,6 +1848,19 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
+
+
+        public string RetetentionInSeriesCatchmentReport()
+        {
+            string s = "<h2>Retention in Series Catchment Report for " + this.Name + " (Catchment " + id.ToString() + ")</h2>";
+            s += "BMP Type: " + BMPType + "<br/>";
+            s += AsHtmlTable(PropertyLabels());
+            s += "<h3>Nitrogen Report</h3>";
+            s += Nitrogen.AsHtmlTable();
+            s += "<h3>Phosphorus Report</h3>";
+            s += Phosphorus.AsHtmlTable();
+            return s;
+        }
 
 
         public string EfficiencyReportCell(double val1, double val2, int places = 2, string units = "", string label = "", int border = 0)
