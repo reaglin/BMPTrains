@@ -12,19 +12,23 @@ namespace BMPTrains_2020
             InitializeComponent();
         }
 
-        public frmReport(string text, bool header = true)
+        public frmReport(string text, string reportHeader = "", string pageHeader = "")
         {
             InitializeComponent();
-
-            String s = "";
-            if (header)
+            string s = "";
+            if (reportHeader == "")
             { 
                 s += "<div style=' font-size: 1.2em '>Project: " + Globals.Project.ProjectName + "</div><br/>";
                 s += "<div style=' font-size: 1.2em'>Date: " + DateTime.Now.ToString("MM/dd/yyyy") + "</div><br/>";
             }
-            s += text;
 
+            s += text;
             wbReport.DocumentText = s;
+
+            if (pageHeader != "")
+            {
+                this.Text = pageHeader;
+            }
         }
 
 
@@ -32,6 +36,7 @@ namespace BMPTrains_2020
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+            
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
@@ -95,7 +100,7 @@ namespace BMPTrains_2020
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            BMPTrainsProject.OpenWebsite();
         }
 
         private void frmReport_Resize(object sender, EventArgs e)

@@ -68,8 +68,10 @@
     <Compile Include="DomainCode\BMP.cs" />
     <Compile Include="DomainCode\BMPReports.cs" />
     <Compile Include="DomainCode\BMPTrainsProject.cs" />
+    <Compile Include="DomainCode\BMPTrainsReports.cs" />
     <Compile Include="DomainCode\Catchment.cs" />
     <Compile Include="DomainCode\CatchmentConfigurations.cs" />
+    <Compile Include="DomainCode\CatchmentRouting.cs" />
     <Compile Include="DomainCode\CodeTesting.cs" />
     <Compile Include="DomainCode\Common.cs" />
     <Compile Include="DomainCode\CostScenario.cs" />

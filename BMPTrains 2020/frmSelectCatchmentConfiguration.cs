@@ -24,6 +24,7 @@ namespace BMPTrains_2020
             AddColumns();
             DisplayCatchmentConfigurationsCombo();
             DisplayCurrentRouting();
+            showAvailableCalculationOptions();
         }
 
         private void DisplayCatchmentConfigurationsCombo()
@@ -85,15 +86,11 @@ namespace BMPTrains_2020
             for (int i = 1; i <= Globals.Project.numCatchments; i++)
             {
                 Catchment c = Globals.Project.getCatchment(i);
-                dataGridView1.Rows.Add(new string[] { i.ToString(),
-                    c.routing.ToID.ToString(),
+                dataGridView1.Rows.Add(new string[] 
+                {   i.ToString(),
+                    c.ToID.ToString(),
                     Common.getString(c.PostArea, 2),
                     c.getSelectedBMP().BMPType });
-
-                //dataGridView1.Rows.Add(new string[] { i.ToString(),                   
-                //    Globals.Project.getCatchment(i).routing.ToID.ToString(),
-                //    Common.getString(Globals.Project.Catchments[i].PostArea, 2),
-                //    Globals.Project.Catchments[i].SelectedBMPType });
             }
 
             DataGridViewCellStyle sDisabled = new DataGridViewCellStyle(dataGridView1.DefaultCellStyle);
@@ -119,6 +116,19 @@ namespace BMPTrains_2020
                     dataGridView1.Rows[i - 1].Cells[3].Style = sEnabled;
                 }
             }
+            showAvailableCalculationOptions();
+        }
+
+       public void showAvailableCalculationOptions()
+        {
+            lblRouting.Text = Globals.Project.RoutingMethod;
+            bool retentionAvailable = Globals.Project.CheckIfRetentionInSeries();
+            bool detentionAvailable = Globals.Project.CheckIfDetentionInSeries();
+            btnRetentionReport.Enabled = retentionAvailable;
+            btnDetentionReport.Enabled = detentionAvailable;
+            btnRetention.Enabled = retentionAvailable;
+            btnDetention.Enabled = detentionAvailable;
+            lblRouting.Text = Globals.Project.RoutingMethod;
         }
 
         private void cbOptions_SelectedIndexChanged(object sender, EventArgs e)
@@ -186,6 +196,7 @@ namespace BMPTrains_2020
             }
 
             DisplayCurrentRouting();
+            showAvailableCalculationOptions();
         }
 
         private void btnAddCatchment_Click(object sender, EventArgs e)
@@ -205,12 +216,16 @@ namespace BMPTrains_2020
 
         }
 
+        public void showReport(string reportText, string reportTitle = "")
+        {
+            Form form = new frmReport(reportText, "", reportTitle);
+            form.ShowDialog();
+        }
+
         private void btnReport_Click(object sender, EventArgs e)
         {
-
             Globals.Project.Calculate();
-            Form form = new frmReport(Globals.Project.getRoutingReport());
-            form.ShowDialog();
+            showReport(Globals.Project.PrintFullRoutingReport(), "Full Routing Report");
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -227,14 +242,16 @@ namespace BMPTrains_2020
         {
             DisplayCurrentRouting();
             Globals.Project.Calculate();
-            Form form = new frmReport(Globals.Project.FlowBalanceReport(), false);
-            form.ShowDialog();
+            showReport(Globals.Project.FlowBalanceReport(), "Flow Balance Report");
+
         }
 
         private void btn_Retention_Click(object sender, EventArgs e)
         {
-            Form form = new frmRetentionInSeries();
-            form.ShowDialog();
+            Globals.Project.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+            Globals.Project.Calculate();
+            showAvailableCalculationOptions();
+            showReport(Globals.Project.PrintRetentionInSeriesReport(), "Retention in Series Report");
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -244,8 +261,33 @@ namespace BMPTrains_2020
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Form form = new frmRetentionInSeries("Detention");
-            form.ShowDialog();
+            Globals.Project.RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
+            Globals.Project.Calculate();
+            showAvailableCalculationOptions();
+            showReport(Globals.Project.PrintDetentionInSeriesReport(), "Detention in Series Report");
+        }
+
+        private void btnRetentionReport_Click(object sender, EventArgs e)
+        {
+            Globals.Project.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+            Globals.Project.Calculate();
+            showAvailableCalculationOptions();
+            showReport(Globals.Project.PrintRetentionInSeriesReport(), "Retention in Series Report");
+        }
+
+        private void btnBasic_Click(object sender, EventArgs e)
+        {
+            Globals.Project.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+            Globals.Project.Calculate();
+            showAvailableCalculationOptions();
+        }
+
+        private void btnDetentionReport_Click(object sender, EventArgs e)
+        {
+            Globals.Project.RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
+            Globals.Project.Calculate();
+            showAvailableCalculationOptions();
+            showReport(Globals.Project.PrintDetentionInSeriesReport(), "Detention in Series Report");
         }
     }
 }

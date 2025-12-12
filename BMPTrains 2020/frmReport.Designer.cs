@@ -46,7 +46,7 @@
             this.wbReport.Location = new System.Drawing.Point(0, 29);
             this.wbReport.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbReport.Name = "wbReport";
-            this.wbReport.Size = new System.Drawing.Size(997, 421);
+            this.wbReport.Size = new System.Drawing.Size(1094, 603);
             this.wbReport.TabIndex = 0;
             this.wbReport.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbReport_DocumentCompleted);
             // 
@@ -60,7 +60,7 @@
             this.exitToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(997, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1094, 29);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -72,7 +72,6 @@
             this.printToolStripMenuItem.Size = new System.Drawing.Size(55, 25);
             this.printToolStripMenuItem.Text = "&Print";
             this.printToolStripMenuItem.ToolTipText = "Print the current report";
-            this.printToolStripMenuItem.Visible = false;
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
@@ -82,7 +81,6 @@
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(55, 25);
             this.saveToolStripMenuItem.Text = "&Save";
             this.saveToolStripMenuItem.ToolTipText = "Save the current report as an HTML file";
-            this.saveToolStripMenuItem.Visible = false;
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
@@ -100,7 +98,6 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(54, 25);
             this.helpToolStripMenuItem.Text = "&Help";
-            this.helpToolStripMenuItem.Visible = false;
             this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
@@ -115,7 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(997, 450);
+            this.ClientSize = new System.Drawing.Size(1094, 632);
             this.ControlBox = false;
             this.Controls.Add(this.wbReport);
             this.Controls.Add(this.menuStrip1);

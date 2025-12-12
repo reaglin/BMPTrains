@@ -308,7 +308,7 @@ namespace BMPTrains_2020
 
             getValues();
             Globals.Project.Calculate();
-            Form form = new frmReport(Globals.Project.PrintSummaryReport(),false);
+            Form form = new frmReport(Globals.Project.PrintSummaryReport());
             form.ShowDialog();
         }
 
@@ -376,7 +376,7 @@ namespace BMPTrains_2020
 
             getValues();
             Globals.Project.Calculate();
-            Form form = new frmReport(Globals.Project.CatchmentReport(), false);
+            Form form = new frmReport(Globals.Project.CatchmentReport());
             form.ShowDialog();
         }
         private void btnUserManual_Click(object sender, EventArgs e)

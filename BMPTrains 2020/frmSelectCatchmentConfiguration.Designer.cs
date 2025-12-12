@@ -40,9 +40,14 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnFlowBalance = new System.Windows.Forms.Button();
             this.btnRetention = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnDetention = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnBasic = new System.Windows.Forms.Button();
+            this.btnRetentionReport = new System.Windows.Forms.Button();
+            this.btnDetentionReport = new System.Windows.Forms.Button();
+            this.lblRouting = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbOptions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +58,7 @@
             this.cbOptions.Location = new System.Drawing.Point(15, 9);
             this.cbOptions.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.cbOptions.Name = "cbOptions";
-            this.cbOptions.Size = new System.Drawing.Size(736, 38);
+            this.cbOptions.Size = new System.Drawing.Size(768, 38);
             this.cbOptions.TabIndex = 5;
             this.cbOptions.Visible = false;
             this.cbOptions.SelectedIndexChanged += new System.EventHandler(this.cbOptions_SelectedIndexChanged);
@@ -83,7 +88,7 @@
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(760, 6);
+            this.btnSelect.Location = new System.Drawing.Point(792, 6);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(108, 42);
             this.btnSelect.TabIndex = 8;
@@ -103,9 +108,9 @@
             // 
             // btnAddCatchment
             // 
-            this.btnAddCatchment.Location = new System.Drawing.Point(613, 186);
+            this.btnAddCatchment.Location = new System.Drawing.Point(729, 51);
             this.btnAddCatchment.Name = "btnAddCatchment";
-            this.btnAddCatchment.Size = new System.Drawing.Size(255, 42);
+            this.btnAddCatchment.Size = new System.Drawing.Size(171, 42);
             this.btnAddCatchment.TabIndex = 10;
             this.btnAddCatchment.Text = "Add Catchment";
             this.toolTip1.SetToolTip(this.btnAddCatchment, "Goes to Watershed Characteristic Worksheet");
@@ -114,11 +119,11 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(613, 138);
+            this.btnReport.Location = new System.Drawing.Point(771, 306);
             this.btnReport.Name = "btnReport";
-            this.btnReport.Size = new System.Drawing.Size(255, 42);
+            this.btnReport.Size = new System.Drawing.Size(141, 42);
             this.btnReport.TabIndex = 11;
-            this.btnReport.Text = "Full Routing Report";
+            this.btnReport.Text = "Full Routing";
             this.toolTip1.SetToolTip(this.btnReport, "This report is a full balance and removal for all catchments in the configuration" +
         ".");
             this.btnReport.UseVisualStyleBackColor = true;
@@ -138,18 +143,18 @@
             // 
             // btnFlowBalance
             // 
-            this.btnFlowBalance.Location = new System.Drawing.Point(613, 90);
+            this.btnFlowBalance.Location = new System.Drawing.Point(613, 306);
             this.btnFlowBalance.Name = "btnFlowBalance";
-            this.btnFlowBalance.Size = new System.Drawing.Size(255, 42);
+            this.btnFlowBalance.Size = new System.Drawing.Size(141, 42);
             this.btnFlowBalance.TabIndex = 46;
-            this.btnFlowBalance.Text = "Flow Balance Report";
+            this.btnFlowBalance.Text = "Flow Balance";
             this.toolTip1.SetToolTip(this.btnFlowBalance, "This report shows the flows into and out of each routing.");
             this.btnFlowBalance.UseVisualStyleBackColor = true;
             this.btnFlowBalance.Click += new System.EventHandler(this.btnFlowBalance_Click);
             // 
             // btnRetention
             // 
-            this.btnRetention.Location = new System.Drawing.Point(613, 283);
+            this.btnRetention.Location = new System.Drawing.Point(631, 177);
             this.btnRetention.Name = "btnRetention";
             this.btnRetention.Size = new System.Drawing.Size(255, 42);
             this.btnRetention.TabIndex = 48;
@@ -158,22 +163,22 @@
             this.btnRetention.UseVisualStyleBackColor = true;
             this.btnRetention.Click += new System.EventHandler(this.btn_Retention_Click);
             // 
-            // button2
+            // btnDetention
             // 
-            this.button2.Location = new System.Drawing.Point(613, 340);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(255, 42);
-            this.button2.TabIndex = 49;
-            this.button2.Text = "Detention in Series";
-            this.toolTip1.SetToolTip(this.button2, "Goes to Watershed Characteristic Worksheet");
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btnDetention.Location = new System.Drawing.Point(631, 228);
+            this.btnDetention.Name = "btnDetention";
+            this.btnDetention.Size = new System.Drawing.Size(255, 42);
+            this.btnDetention.TabIndex = 49;
+            this.btnDetention.Text = "Detention in Series";
+            this.toolTip1.SetToolTip(this.btnDetention, "Goes to Watershed Characteristic Worksheet");
+            this.btnDetention.UseVisualStyleBackColor = true;
+            this.btnDetention.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 
             this.label4.Location = new System.Drawing.Point(608, 51);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(272, 62);
+            this.label4.Size = new System.Drawing.Size(115, 42);
             this.label4.TabIndex = 45;
             this.label4.Text = "0 is Outlet";
             this.label4.Click += new System.EventHandler(this.label4_Click);
@@ -181,21 +186,79 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(647, 240);
+            this.label1.Location = new System.Drawing.Point(689, 273);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(196, 30);
+            this.label1.Size = new System.Drawing.Size(153, 30);
             this.label1.TabIndex = 47;
-            this.label1.Text = "Typical Applications";
+            this.label1.Text = "Report Options";
             this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(673, 96);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(195, 30);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "Calculation Options";
+            // 
+            // btnBasic
+            // 
+            this.btnBasic.Location = new System.Drawing.Point(631, 129);
+            this.btnBasic.Name = "btnBasic";
+            this.btnBasic.Size = new System.Drawing.Size(255, 42);
+            this.btnBasic.TabIndex = 51;
+            this.btnBasic.Text = "Basic Routing";
+            this.toolTip1.SetToolTip(this.btnBasic, "Each Catchment is calculated independently");
+            this.btnBasic.UseVisualStyleBackColor = true;
+            this.btnBasic.Click += new System.EventHandler(this.btnBasic_Click);
+            // 
+            // btnRetentionReport
+            // 
+            this.btnRetentionReport.Location = new System.Drawing.Point(613, 354);
+            this.btnRetentionReport.Name = "btnRetentionReport";
+            this.btnRetentionReport.Size = new System.Drawing.Size(141, 42);
+            this.btnRetentionReport.TabIndex = 52;
+            this.btnRetentionReport.Text = "Retention";
+            this.toolTip1.SetToolTip(this.btnRetentionReport, "Only available for retention in series calculations");
+            this.btnRetentionReport.UseVisualStyleBackColor = true;
+            this.btnRetentionReport.Click += new System.EventHandler(this.btnRetentionReport_Click);
+            // 
+            // btnDetentionReport
+            // 
+            this.btnDetentionReport.Location = new System.Drawing.Point(772, 354);
+            this.btnDetentionReport.Name = "btnDetentionReport";
+            this.btnDetentionReport.Size = new System.Drawing.Size(141, 42);
+            this.btnDetentionReport.TabIndex = 53;
+            this.btnDetentionReport.Text = "Detention";
+            this.toolTip1.SetToolTip(this.btnDetentionReport, "Only available for Detention in Series Calculations");
+            this.btnDetentionReport.UseVisualStyleBackColor = true;
+            this.btnDetentionReport.Click += new System.EventHandler(this.btnDetentionReport_Click);
+            // 
+            // lblRouting
+            // 
+            this.lblRouting.AutoSize = true;
+            this.lblRouting.Location = new System.Drawing.Point(625, 405);
+            this.lblRouting.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.lblRouting.Name = "lblRouting";
+            this.lblRouting.Size = new System.Drawing.Size(85, 30);
+            this.lblRouting.TabIndex = 54;
+            this.lblRouting.Text = "Routing";
             // 
             // frmSelectCatchmentConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 519);
+            this.ClientSize = new System.Drawing.Size(925, 519);
             this.ControlBox = false;
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.lblRouting);
+            this.Controls.Add(this.btnDetentionReport);
+            this.Controls.Add(this.btnRetentionReport);
+            this.Controls.Add(this.btnBasic);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.btnDetention);
             this.Controls.Add(this.btnRetention);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnFlowBalance);
@@ -235,6 +298,11 @@
         private System.Windows.Forms.Button btnFlowBalance;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRetention;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnDetention;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnBasic;
+        private System.Windows.Forms.Button btnRetentionReport;
+        private System.Windows.Forms.Button btnDetentionReport;
+        private System.Windows.Forms.Label lblRouting;
     }
 }

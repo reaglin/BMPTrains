@@ -127,8 +127,8 @@ namespace BMPTrains_2020
             }
 
             string html = "";
-            if (reportType == "Retention") html =Globals.Project.RetentionInSeriesReport() ?? "";
-            if (reportType == "Detention") html = Globals.Project.DetentionInSeriesReport() ?? "";
+            if (reportType == "Retention") html =Globals.Project.PrintRetentionInSeriesReport() ?? "";
+            if (reportType == "Detention") html = Globals.Project.PrintDetentionInSeriesReport() ?? "";
 
             if (string.IsNullOrWhiteSpace(html))
             {

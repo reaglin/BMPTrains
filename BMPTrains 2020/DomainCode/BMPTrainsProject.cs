@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Linq;
 
 namespace BMPTrains_2020.DomainCode
@@ -71,6 +72,12 @@ namespace BMPTrains_2020.DomainCode
         public const string AT_Criteria_PvP = "Post = Pre-Conditions";
         public const string AT_Criteria_WQ = "Water Quality Targets";
         public const string AT_Criteria_None = "No Post Condition Requirements";
+
+        // Different Routing Types
+        public const string routing_RetentionInSeries = "Retention in Series";
+        public const string routing_DetentionInSeries = "Detention in Series";
+        public const string routing_IndependentCatchments = "Independent Catchments";
+        public string RoutingMethod = routing_IndependentCatchments;
 
         // This represents the criteria that each of the analysis types must meet
 
@@ -285,6 +292,7 @@ namespace BMPTrains_2020.DomainCode
         public double ProjectDuration { get; set; }     // Years
         public double CostOfWater { get; set; }         // $ / 1000 gal-water
 
+
         #endregion
 
         // Constructor
@@ -327,19 +335,23 @@ namespace BMPTrains_2020.DomainCode
 
         public Catchment getCatchment(int id, bool CreateNew = true)
         {
-            try
+            // Do not treat id==0 as a catchment
+            if (id == 0) return null;
+
+            if (Catchments == null) Catchments = new Dictionary<int, Catchment>();
+
+            // Try to return an existing catchment
+            if (Catchments.TryGetValue(id, out Catchment c))
             {
-                Catchment c = Catchments[id];
                 c.id = id;
                 return c;
             }
-            catch
-            {
-                Catchment c = getNewCatchment();
-                numCatchments = id;
-                //Catchments.Add(id, c);     // Add this Catchment to the Dictionary
-                return c;
-            }
+
+            // If caller doesn't want creation, return null
+            if (!CreateNew) return null;
+
+            // Create a new catchment via existing factory (which sets numCatchments correctly)
+            return getNewCatchment();
         }
 
         public Catchment getNewCatchment()
@@ -986,29 +998,87 @@ namespace BMPTrains_2020.DomainCode
 
             // Each of these does what it says
 
-            CatchmentRouting.CalculateBasicAll();
+            CalculateRouting();
 //            CalculateOutlet();
 //            CalculateTotalSystemLoading(); 
             CalculateTargets();
         }
 
-        public void CalculateOutlet()
+// Adds a routing dispatcher that chooses the routing algorithm based on RoutingMethod.
+// Performs validation checks for retention/detention before running those algorithms.
+// If a check fails the routing method falls back to independent catchments.
+        public void CalculateRouting()
         {
-
-            if (outlet == null) return;
-            outlet.resetCatchmentRouting(); // Clears Values
+            // Ensure basic catchment calculations are up-to-date (but do NOT call this.Calculate() to avoid re-entering routing)
+            if (Catchments == null || Catchments.Count == 0) return;
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
             {
-                // 
-                if (kvp.Value.getRouting().ToID == 0)
+                try
                 {
-                    kvp.Value.getRouting().CalculateOutletMassLoads(outlet);
-                               
+                    kvp.Value.SetValuesFromProject(this);
+                    kvp.Value.Calculate();
                 }
-
+                catch
+                {
+                    // ignore individual catchment errors here - routing should proceed with available data
+                }
             }
 
+            // Determine requested routing method (default to independent catchments)
+            string method = string.IsNullOrWhiteSpace(this.RoutingMethod) ? BMPTrainsProject.routing_IndependentCatchments : this.RoutingMethod;
+
+            if (method == BMPTrainsProject.routing_RetentionInSeries)
+            {
+                if (this.CheckIfRetentionInSeries())
+                {
+                    // perform retention-in-series routing
+                    CatchmentRouting.CalculateRetentionInSeries(this);
+                    this.RoutingMethod = BMPTrainsProject.routing_RetentionInSeries;
+                    return;
+                }
+                // fallback to independent catchments
+                this.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+                CatchmentRouting.CalculateIndependentCatchments(this);
+                return;
+            }
+
+            if (method == BMPTrainsProject.routing_DetentionInSeries)
+            {
+                if (this.CheckIfDetentionInSeries())
+                {
+                    // perform detention-in-series routing
+                    CatchmentRouting.CalculateDetentionInSeries(this);
+                    this.RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
+                    return;
+                }
+                // fallback to independent catchments
+                this.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+                CatchmentRouting.CalculateIndependentCatchments(this);
+                return;
+            }
+
+            // Default or unknown method -> independent catchments
+            this.RoutingMethod = BMPTrainsProject.routing_IndependentCatchments;
+            CatchmentRouting.CalculateIndependentCatchments(this);
         }
+
+        //public void CalculateOutlet()
+        //{
+
+        //    if (outlet == null) return;
+        //    outlet.resetCatchmentRouting(); // Clears Values
+        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+        //    {
+        //        // 
+        //        if (kvp.Value.getRouting().ToID == 0)
+        //        {
+        //            kvp.Value.getRouting().CalculateOutletMassLoads(outlet);
+
+        //        }
+
+        //    }
+
+        //}
 
         //public double CalculateTotalCatchmentGWRechargeRate()
         //{
@@ -1020,58 +1090,58 @@ namespace BMPTrains_2020.DomainCode
         //        t += 0.3258724* kvp.Value.getRouting().VolumeGW;
         //        //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
         //    }
-            
+
         //    return t;
 
         //}
 
-        public void CalculateRouting(int cid, int iteration = 0)
-        {
-            //cid is the Catchment ID
-            // This is a recursive function
-            // Find all routings that route to cid and calculate them
-            int maxIterations = 2*Catchments.Count + 1;
+        //public void CalculateRouting(int cid, int iteration = 0)
+        //{
+        //    //cid is the Catchment ID
+        //    // This is a recursive function
+        //    // Find all routings that route to cid and calculate them
+        //    int maxIterations = 2*Catchments.Count + 1;
 
-            // Set the Values in CatchmentRouting[cid] to the values from the Catchment
-            // get the routing for the catchment ID and set the Catrchment Routing parameters
-            // These are the parameters for that specific catchment
+        //    // Set the Values in CatchmentRouting[cid] to the values from the Catchment
+        //    // get the routing for the catchment ID and set the Catrchment Routing parameters
+        //    // These are the parameters for that specific catchment
 
-            if (cid != 0) getRouting(cid).InitializeCatchmentRouting(cid);
-            
-            // This will repeat this routine for every upstream Catchment
-            
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                if (kvp.Value.getRouting().ToID == cid)
-                {
-                    int upstreamID = kvp.Key;
-                    if (upstreamID != cid && upstreamID != 0) {
-                        iteration++;
-                        if (iteration > maxIterations)
-                        {
-                            MessageBox.Show("You have a circular reference in your routing. Please check your routing to fix this."
-                                + " This can be cause by 1 routing to 2 and 2 routing to 1 (or similar situation)."
-                                , "Circular Routing Warning"
-                                , MessageBoxButtons.OK
-                                , MessageBoxIcon.Exclamation);
+        //    if (cid != 0) getRouting(cid).InitializeCatchmentRouting(cid);
 
-                            return;
-                        }
+        //    // This will repeat this routine for every upstream Catchment
 
-                        // Recursive Call - goes Upstream and Calculates Routing of Upstream Parameters
-                        // For all noddes upstream
-                        CalculateRouting(upstreamID, iteration);
-                        // Actual Calculation - set N and P loads to sum of Upstream - this is not recursive
+        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+        //    {
+        //        if (kvp.Value.getRouting().ToID == cid)
+        //        {
+        //            int upstreamID = kvp.Key;
+        //            if (upstreamID != cid && upstreamID != 0) {
+        //                iteration++;
+        //                if (iteration > maxIterations)
+        //                {
+        //                    MessageBox.Show("You have a circular reference in your routing. Please check your routing to fix this."
+        //                        + " This can be cause by 1 routing to 2 and 2 routing to 1 (or similar situation)."
+        //                        , "Circular Routing Warning"
+        //                        , MessageBoxButtons.OK
+        //                        , MessageBoxIcon.Exclamation);
 
-                        // getRouting returns the CatchmentRouting object for the specified Catchment ID
-                        // CalculateUpstream uses the CatchmentRouting object to calculate the upstream loads
+        //                    return;
+        //                }
 
-                        getRouting(cid).CalculateUpstream(getRouting(upstreamID));
-                        
-                    }
-                }
-            }
-        }
+        //                // Recursive Call - goes Upstream and Calculates Routing of Upstream Parameters
+        //                // For all noddes upstream
+        //                CalculateRouting(upstreamID, iteration);
+        //                // Actual Calculation - set N and P loads to sum of Upstream - this is not recursive
+
+        //                // getRouting returns the CatchmentRouting object for the specified Catchment ID
+        //                // CalculateUpstream uses the CatchmentRouting object to calculate the upstream loads
+
+        //                getRouting(cid).CalculateUpstream(getRouting(upstreamID));
+
+        //            }
+        //        }
+        //    }
+        //}
 
         public void CalculateTotalSystemLoading()
         {
@@ -1357,368 +1427,54 @@ namespace BMPTrains_2020.DomainCode
             }
             return s;
         }
-        public string RetentionInSeriesReport() 
+        public string PrintRetentionInSeriesReport() 
         {
-            string s = RetentionInSeriesVolumeReport();
-            s+= "<br/><br/>";
-            s+= RetentionInSeriesEffectivenessReport();
-
-            return s;
+            RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
+            return BMPTrainsReports.RetentionInSeriesHtml(this);
+        }
+ 
+        public string PrintDetentionInSeriesReport()
+        {
+            RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
+            return BMPTrainsReports.DetentionInSeriesHtml(this);
         }
 
+        public string PrintFlowBalanceReport() { 
+            return BMPTrainsReports.RoutingFlowBalanceHtml(this);
+        }
 
-        public string RetentionInSeriesVolumeReport()
+        public string PrintFullRoutingReport()
         {
-            int[] r = this.GetRoutingInOrder();
-            StringBuilder sb = new StringBuilder();
-
-            // CSS Styling for a professional engineering look
-            sb.AppendLine("<style>");
-            sb.AppendLine("table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px; }");
-            sb.AppendLine("th { background-color: #4CAF50; color: white; padding: 10px; text-align: left; }");
-            sb.AppendLine("td { border: 1px solid #ddd; padding: 8px; }");
-            sb.AppendLine("tr:nth-child(even) { background-color: #f2f2f2; }");
-            sb.AppendLine(".num { text-align: right; }");
-            sb.AppendLine(".breakdown { font-size: 0.85em; color: #555; }");
-            sb.AppendLine("</style>");
-
-            sb.AppendLine("<table>");
-            sb.AppendLine("<thead>");
-            sb.AppendLine("<tr>");
-            sb.AppendLine("<th>ID</th>");
-            sb.AppendLine("<th class='num'>Area (ac)</th>");
-            sb.AppendLine("<th class='num'>Vol (ac-ft)</th>");
-            sb.AppendLine("<th class='num'>Cum. Vol</th>");
-            sb.AppendLine("<th class='num'>System TD (in)</th>");
-            sb.AppendLine("<th>Contribution Breakdown (TD Allocations)</th>"); // Replaces the expanding columns G-L
-            sb.AppendLine("<th class='num'>TN Load</th>");
-            sb.AppendLine("<th class='num'>TP Load</th>");
-            sb.AppendLine("</tr>");
-            sb.AppendLine("</thead>");
-            sb.AppendLine("<tbody>");
-
-            double cumArea = 0;
-            double cumVol = 0;
-
-            // 4. Iterate and Calculate
-            // This handles n objects dynamically
-            for (int i = 0; i < r.Length; i++)
+            return BMPTrainsReports.RoutingBalanceDiagramForAllHtml(this);
+        }
+        // Added public checks for series report availability
+        public bool CheckIfRetentionInSeries()
+        {
+            for (int i = 1; i <= this.numCatchments; i++)
             {
-                Catchment current = getCatchment(r[i]);
-
-                // Update Cumulative Totals
-                cumArea += current.PostArea;
-                cumVol += current.getRetention().RetentionVolume;
-
-                // Calculate Treatment Depth (TD)
-                // Formula: (Cumulative Volume * 12) / Cumulative Area
-                double systemTD = (cumVol * 12.0) / cumArea;
-
-                sb.AppendLine("<tr>");
-                sb.AppendLine($"<td>{r[i]}</td>");
-                sb.AppendLine($"<td class='num'>{current.PostArea:F2}</td>");
-                sb.AppendLine($"<td class='num'>{current.getRetention().RetentionVolume:F2}</td>");
-                sb.AppendLine($"<td class='num'>{cumVol:F2}</td>");
-                sb.AppendLine($"<td class='num'><strong>{systemTD:F4}</strong></td>");
-
-                // 5. The "Matrix" Logic (Columns G-L in spreadsheet)
-                // Instead of making new columns, we generate a detail string for this cell.
-                sb.Append("<td class='breakdown'>");
-                List<string> allocations = new List<string>();
-
-                // Loop through all PREVIOUS basins (0 to i) to determine their share of the current System TD
-                for (int j = 0; j <= i; j++)
+                Catchment c = this.getCatchment(i);
+                BMP bmp = (c == null) ? null : c.getSelectedBMP();
+                if (bmp == null || !bmp.isRetention())
                 {
-                    var contributor = r[j];
-
-                    // Logic: (Contributor Vol / Current Cumulative Vol) * Current System TD
-                    // Simplified Logic: (Contributor Vol * 12) / Current Cumulative Area
-                    double percentContribution = getCatchment(contributor).getRetention().RetentionVolume / cumVol;
-                    double allocatedTD = systemTD * percentContribution;
-
-                    allocations.Add($"Basin {getCatchment(contributor).Name}: <b>{allocatedTD:F3}\"</b> ({percentContribution:P1})");
+                    return false;
                 }
-                sb.Append(string.Join("<br/>", allocations));
-                sb.Append("</td>");
-
-                // Load Inputs (V4, V5)
-                sb.AppendLine($"<td class='num'>{current.PostNLoading:F2}</td>");
-                sb.AppendLine($"<td class='num'>{current.PostPLoading:F2}</td>");
-
-                sb.AppendLine("</tr>");
             }
-
-            sb.AppendLine("</tbody>");
-            sb.AppendLine("</table>");
-            return sb.ToString();
-
+            return true;
         }
 
-        public string RetentionInSeriesEffectivenessReport()
+        public bool CheckIfDetentionInSeries()
         {
-            int[] r = this.GetRoutingInOrder();
-            StringBuilder sb = new StringBuilder();
-
-            // Reusing the same CSS for consistency
-            sb.AppendLine("<style>");
-            sb.AppendLine("table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px; margin-top: 20px; }");
-            sb.AppendLine("th { background-color: #2196F3; color: white; padding: 10px; text-align: left; }"); // Different color to distinguish from input table
-            sb.AppendLine("td { border: 1px solid #ddd; padding: 8px; }");
-            sb.AppendLine("tr:nth-child(even) { background-color: #f2f2f2; }");
-            sb.AppendLine(".num { text-align: right; }");
-            sb.AppendLine(".total-row { font-weight: bold; background-color: #e3f2fd; }");
-            sb.AppendLine("</style>");
-
-            sb.AppendLine("<h3>Post Loadings & Cumulative Effectiveness</h3>");
-            sb.AppendLine("<table>");
-            sb.AppendLine("<thead>");
-            sb.AppendLine("<tr>");
-            sb.AppendLine("<th>ID</th>");
-            sb.AppendLine("<th class='num'>System TD (in)</th>"); // This is J10, K10, L10
-            sb.AppendLine("<th class='num'>Efficiency (%)</th>"); // This is J11, K11, L11 (Foo of System TD)
-            sb.AppendLine("<th class='num'>TN Load (kg/yr)</th>");
-            sb.AppendLine("<th class='num'>TN Removed</th>");
-            sb.AppendLine("<th class='num'>TP Load (kg/yr)</th>");
-            sb.AppendLine("<th class='num'>TP Removed</th>");
-            sb.AppendLine("</tr>");
-            sb.AppendLine("</thead>");
-            sb.AppendLine("<tbody>");
-
-            double cumArea = 0;
-            double cumVol = 0;
-
-            // Totals for the summary row
-            double totalTNLoad = 0;
-            double totalTNRemoved = 0;
-            double totalTPLoad = 0;
-            double totalTPRemoved = 0;
-
-            // Series Equation Variables (for the row 15 comparison)
-            double inverseSeriesE = 1.0;
-
-            for (int i = 0; i < r.Length; i++)
+            for (int i = 1; i <= this.numCatchments; i++)
             {
-                Catchment current = getCatchment(r[i]);
-
-                // 1. Calculate Cumulative Stats (The "System" values)
-                cumArea += current.PostArea;
-                cumVol += current.getRetention().RetentionVolume;
-
-                // 2. Calculate System Treatment Depth (J10, K10, L10 logic)
-                // Formula: (Cumulative Volume * 12) / Cumulative Area
-                double systemTD = (cumVol * 12.0) / cumArea;
-
-                // 3. Calculate Efficiency (J11, K11... logic)
-                // "Efficiency is a function of Depth" -> Foo(systemTD)
-                double efficiencyDecimal = current.CalulateRetentionEfficiency(systemTD) / 100;
-
-                // 4. Calculate Removals
-                double tnRemoved = current.PostNLoading * efficiencyDecimal;
-                double tpRemoved = current.PostPLoading * efficiencyDecimal;
-
-                // Update Totals
-                totalTNLoad += current.PostNLoading;
-                totalTPLoad += current.PostPLoading;
-                totalTNRemoved += tnRemoved;
-                totalTPRemoved += tpRemoved;
-
-                // --- Optional: Series Equation Calculation for Comparison (Row 15) ---
-                // Calculate individual catchment TD for the "Series" check
-                double individualTD = (current.getRetention().RetentionVolume * 12.0) / current.PostArea;
-                double individualEff = current.CalulateRetentionEfficiency(systemTD)/100; 
-                inverseSeriesE *= (1.0 - individualEff);
-                // --------------------------------------------------------------------
-
-                sb.AppendLine("<tr>");
-                sb.AppendLine($"<td>{r[i]}</td>");
-                sb.AppendLine($"<td class='num'>{systemTD:F4}</td>");
-                sb.AppendLine($"<td class='num'>{(efficiencyDecimal * 100):F1}%</td>");
-                sb.AppendLine($"<td class='num'>{current.PostNLoading:F2}</td>");
-                sb.AppendLine($"<td class='num'>{tnRemoved:F2}</td>");
-                sb.AppendLine($"<td class='num'>{current.PostPLoading:F2}</td>");
-                sb.AppendLine($"<td class='num'>{tpRemoved:F2}</td>");
-                sb.AppendLine("</tr>");
-            }
-
-            // Summary / Total Row
-            sb.AppendLine("<tr class='total-row'>");
-            sb.AppendLine("<td>TOTALS</td>");
-            sb.AppendLine("<td></td>"); // Empty TD
-            sb.AppendLine("<td></td>"); // Empty Eff
-            sb.AppendLine($"<td class='num'>{totalTNLoad:F2}</td>");
-            sb.AppendLine($"<td class='num'>{totalTNRemoved:F2}</td>");
-            sb.AppendLine($"<td class='num'>{totalTPLoad:F2}</td>");
-            sb.AppendLine($"<td class='num'>{totalTPRemoved:F2}</td>");
-            sb.AppendLine("</tr>");
-
-            sb.AppendLine("</tbody>");
-            sb.AppendLine("</table>");
-
-            // Add the "Compared to Series Equation" logic (Row 15 from spreadsheet)
-            // This compares the cumulative method vs the multiplicative series method
-            double seriesEfficiency = 1.0 - inverseSeriesE;
-            double cumulativeMethodEfficiency = (totalTNLoad > 0) ? (totalTNRemoved / totalTNLoad) : 0;
-
-            sb.AppendLine("<div style='margin-top: 15px; font-size: 0.9em; color: #555;'>");
-            sb.AppendLine($"<strong>Comparison:</strong><br/>");
-            sb.AppendLine($"                       Cumulative Volume by Fundamental Relationship: <strong>{cumulativeMethodEfficiency:P2}</strong><br/>");
-            sb.AppendLine($"FDEP A.H. Vol 1 Equation 9.5 overall efficiency (1 - [(1-E1)x(1-E2)...]): <strong>{seriesEfficiency:P2}</strong>");
-            sb.AppendLine("</div>");
-
-            return sb.ToString();
-        }
-        public string DetentionInSeriesReport()
-        {
-            int[] r = this.GetRoutingInOrder();
-            StringBuilder sb = new StringBuilder();
-
-            // Shared CSS styles
-            sb.AppendLine("<style>");
-            sb.AppendLine("table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 14px; margin-top: 20px; }");
-            sb.AppendLine("th { background-color: #00796B; color: white; padding: 10px; text-align: left; }"); // Teal for Wet Detention
-            sb.AppendLine("td { border: 1px solid #ddd; padding: 8px; }");
-            sb.AppendLine("tr:nth-child(even) { background-color: #f2f2f2; }");
-            sb.AppendLine(".num { text-align: right; }");
-            sb.AppendLine(".breakdown { font-size: 0.85em; color: #555; }");
-            sb.AppendLine(".total-row { font-weight: bold; background-color: #b2dfdb; }");
-            sb.AppendLine("</style>");
-
-            sb.AppendLine("<h3>Wet Detention Effectiveness (Series Analysis)</h3>");
-            sb.AppendLine("<table>");
-            sb.AppendLine("<thead>");
-            sb.AppendLine("<tr>");
-            sb.AppendLine("<th>ID</th>");
-            sb.AppendLine("<th class='num'>Perm. Pool (ac-ft)</th>");
-            sb.AppendLine("<th class='num'>Runoff (ac-ft/yr)</th>");
-            sb.AppendLine("<th class='num'>Total ART (days)</th>");
-            sb.AppendLine("<th>ART Contribution Breakdown</th>");
-            sb.AppendLine("<th class='num'>TN Eff (%)</th>");
-            sb.AppendLine("<th class='num'>TN Removed (kg)</th>");
-            sb.AppendLine("<th class='num'>TP Eff (%)</th>");
-            sb.AppendLine("<th class='num'>TP Removed (kg)</th>");
-            sb.AppendLine("</tr>");
-            sb.AppendLine("</thead>");
-            sb.AppendLine("<tbody>");
-
-            // ---------------------------------------------------------
-            // Pass 1: Pre-calculate Series ART for each Basin
-            // ---------------------------------------------------------
-            double[] seriesARTs = new double[r.Length];
-            double[] cumRunoffs = new double[r.Length];
-            double currentCumRunoff = 0;
-
-            for (int i = 0; i < r.Length; i++)
-            {
-                Catchment c = getCatchment(r[i]);
-                double basinRunoff = c.getWetDetention().RunoffVolume; // D7, D8...
-                double basinPPV = c.getWetDetention().PermanentPoolVolume; // C7, C8...
-
-                currentCumRunoff += basinRunoff;
-                cumRunoffs[i] = currentCumRunoff;
-
-                // Series ART = (PPV * 365) / Cumulative Runoff
-                if (currentCumRunoff > 0)
-                    seriesARTs[i] = (basinPPV * 365.0) / currentCumRunoff;
-                else
-                    seriesARTs[i] = 0;
-            }
-
-            // ---------------------------------------------------------
-            // Pass 2: Calculate Total ART for each Catchment and Generate Rows
-            // ---------------------------------------------------------
-            double totalTNLoad = 0;
-            double totalTNRemoved = 0;
-            double totalTPLoad = 0;
-            double totalTPRemoved = 0;
-
-            for (int i = 0; i < r.Length; i++)
-            {
-                Catchment current = getCatchment(r[i]);
-                double myRunoff = current.getWetDetention().RunoffVolume;
-
-                // Calculate Total ART experienced by THIS catchment's runoff
-                // It flows through basin i, i+1, i+2... up to N
-                double totalART = 0;
-                List<string> breakdown = new List<string>();
-
-                for (int j = i; j < r.Length; j++)
+                Catchment c = this.getCatchment(i);
+                BMP bmp = (c == null) ? null : c.getSelectedBMP();
+                if (bmp == null || !bmp.isDetention())
                 {
-                    // The share of the downstream basin 'j' that belongs to catchment 'i'
-                    // Share = Runoff_i / Cumulative_Runoff_j
-                    double share = myRunoff / cumRunoffs[j];
-                    double allocatedART = seriesARTs[j] * share;
-
-                    totalART += allocatedART;
-
-                    // Add to breakdown string
-                    breakdown.Add($"Basin {getCatchment(r[j]).Name}: {allocatedART:F2}d");
+                    return false;
                 }
-
-                // Calculate Efficiency using Logarithmic Regressions derived from spreadsheet data
-                // TN Eff % = 9.335 * ln(ART) + 6.762
-                // TP Eff % = 7.449 * ln(ART) + 38.928
-                double tnEff = (totalART > 0) ? (9.335 * Math.Log(totalART) + 6.762) : 0;
-                double tpEff = (totalART > 0) ? (7.449 * Math.Log(totalART) + 38.928) : 0;
-
-                // Clamp to 0-100%
-                tnEff = Math.Max(0, Math.Min(100, tnEff));
-                tpEff = Math.Max(0, Math.Min(100, tpEff));
-
-                // Calculate Loads
-                double tnLoad = current.PostNLoading;
-                double tpLoad = current.PostPLoading;
-                double tnRem = tnLoad * (tnEff / 100.0);
-                double tpRem = tpLoad * (tpEff / 100.0);
-
-                // Update Totals
-                totalTNLoad += tnLoad;
-                totalTPLoad += tpLoad;
-                totalTNRemoved += tnRem;
-                totalTPRemoved += tpRem;
-
-                // Output Row
-                sb.AppendLine("<tr>");
-                sb.AppendLine($"<td>{r[i]}</td>");
-                sb.AppendLine($"<td class='num'>{current.getWetDetention().PermanentPoolVolume:F2}</td>");
-                sb.AppendLine($"<td class='num'>{myRunoff:F2}</td>");
-                sb.AppendLine($"<td class='num'><strong>{totalART:F2}</strong></td>");
-                sb.AppendLine($"<td class='breakdown'>{string.Join(" + ", breakdown)}</td>");
-                sb.AppendLine($"<td class='num'>{tnEff:F1}%</td>");
-                sb.AppendLine($"<td class='num'>{tnRem:F2}</td>");
-                sb.AppendLine($"<td class='num'>{tpEff:F1}%</td>");
-                sb.AppendLine($"<td class='num'>{tpRem:F2}</td>");
-                sb.AppendLine("</tr>");
             }
-
-            // Summary Row
-            sb.AppendLine("<tr class='total-row'>");
-            sb.AppendLine("<td>TOTALS</td>");
-            sb.AppendLine("<td></td>");
-            sb.AppendLine($"<td class='num'>{cumRunoffs[r.Length - 1]:F2}</td>"); // Total Runoff
-            sb.AppendLine("<td></td>");
-            sb.AppendLine("<td></td>");
-            sb.AppendLine("<td></td>"); // Avg Eff not useful here
-            sb.AppendLine($"<td class='num'>{totalTNRemoved:F2}</td>");
-            sb.AppendLine("<td></td>");
-            sb.AppendLine($"<td class='num'>{totalTPRemoved:F2}</td>");
-            sb.AppendLine("</tr>");
-
-            sb.AppendLine("</tbody>");
-            sb.AppendLine("</table>");
-
-            // Comparison Block (Total System Efficiency)
-            double sysTNEff = (totalTNLoad > 0) ? (totalTNRemoved / totalTNLoad) : 0;
-            double sysTPEff = (totalTPLoad > 0) ? (totalTPRemoved / totalTPLoad) : 0;
-
-            sb.AppendLine("<div style='margin-top: 15px; font-size: 0.9em; color: #555;'>");
-            sb.AppendLine($"<strong>System Summary:</strong><br/>");
-            sb.AppendLine($"Total TN Load: {totalTNLoad:F2} kg/yr | Removed: {totalTNRemoved:F2} kg/yr | <strong>System Eff: {sysTNEff:P1}</strong><br/>");
-            sb.AppendLine($"Total TP Load: {totalTPLoad:F2} kg/yr | Removed: {totalTPRemoved:F2} kg/yr | <strong>System Eff: {sysTPEff:P1}</strong>");
-            sb.AppendLine("</div>");
-
-            return sb.ToString();
+            return true;
         }
-
 
         public string PrintSummaryReport(bool print_catchments = false)
         {
@@ -2055,13 +1811,7 @@ namespace BMPTrains_2020.DomainCode
 
         public string FlowBalanceReport()
         {
-            string s = "<h2>Flow Balance Report</h2>";
-            for (int i = 1; i <= numCatchments; i++)
-            {
-                s += Catchments[i].getFlowBalanceReport();
-                s += "<br/>";
-            }
-            return s;
+            return PrintFlowBalanceReport();
         }
 
         public string CatchmentTable()
