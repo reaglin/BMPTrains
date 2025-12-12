@@ -183,6 +183,8 @@ namespace BMPTrains_2020.DomainCode
 
         public new void Calculate()
         {
+
+
             CalculateDelayEfficiency();
 
             CalculateTreatmentEfficiency(RetentionDepth, WatershedNDCIACurveNumber, WatershedDCIAPercent);
@@ -196,6 +198,22 @@ namespace BMPTrains_2020.DomainCode
             base.Calculate();
 
             CalculateGroundwaterDischarge();
+        }
+
+        public double CalculateRetentionEfficiency()
+        {
+            return RetentionEfficiencyLookupTables.CalculateEfficiency(RetentionDepth,
+                                                                       WatershedNDCIACurveNumber,
+                                                                       WatershedDCIAPercent,
+                                                                       RainfallZone);
+        }
+
+        public double CalculateRetentionEfficiency(double TreatmentDepth)
+        {
+            return RetentionEfficiencyLookupTables.CalculateEfficiency(TreatmentDepth,
+                                                                       WatershedNDCIACurveNumber,
+                                                                       WatershedDCIAPercent,
+                                                                       RainfallZone);
         }
 
         public void CalculateTreatmentEfficiency(double RD, double NDCIACN, double DCIAP)
@@ -270,6 +288,7 @@ namespace BMPTrains_2020.DomainCode
                 if (count > 10000) exit = true;   // failure to converge
                 if (d1 >= 4) { d1 = 4; exit = true; }
             }
+
             return d1;
         }
 

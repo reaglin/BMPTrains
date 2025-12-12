@@ -154,7 +154,7 @@
             this.btnRetention.Size = new System.Drawing.Size(255, 42);
             this.btnRetention.TabIndex = 48;
             this.btnRetention.Text = "Retention in Series";
-            this.toolTip1.SetToolTip(this.btnRetention, "Goes to Watershed Characteristic Worksheet");
+            this.toolTip1.SetToolTip(this.btnRetention, "Shows the calculations for retention systems in series.");
             this.btnRetention.UseVisualStyleBackColor = true;
             this.btnRetention.Click += new System.EventHandler(this.btn_Retention_Click);
             // 
@@ -167,6 +167,7 @@
             this.button2.Text = "Detention in Series";
             this.toolTip1.SetToolTip(this.button2, "Goes to Watershed Characteristic Worksheet");
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 
@@ -180,12 +181,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(672, 241);
+            this.label1.Location = new System.Drawing.Point(647, 240);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(137, 30);
+            this.label1.Size = new System.Drawing.Size(196, 30);
             this.label1.TabIndex = 47;
-            this.label1.Text = "Special Cases";
+            this.label1.Text = "Typical Applications";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // frmSelectCatchmentConfiguration
             // 

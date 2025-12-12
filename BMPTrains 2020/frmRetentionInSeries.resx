@@ -118,8 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>Retention in Series is a special case worksheet for calculating retention systems in series. 
-To use this worksheet, you must define a routing using catchments where each BMP is retention.
-The results of multiple catchments with retention in series will be displayed. </value>
+    <value>For multiple catchments, this is a spreadsheet for a typical application of retention/detention in series.
+To use this worksheet, you must define a routing using catchments where each BMP is retention/detention.
+The results of multiple catchments with retention/detention in series only will be displayed. </value>
   </data>
 </root>

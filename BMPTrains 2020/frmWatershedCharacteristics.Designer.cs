@@ -105,6 +105,7 @@
             this.tbPostGWN = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -747,12 +748,12 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(85, 519);
+            this.label22.Location = new System.Drawing.Point(47, 493);
             this.label22.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(249, 30);
+            this.label22.Size = new System.Drawing.Size(287, 30);
             this.label22.TabIndex = 69;
-            this.label22.Text = "Groundwater Load (kg/yr)";
+            this.label22.Text = "Load from pumped and other";
             this.label22.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // tbPreGWP
@@ -842,6 +843,17 @@
             this.label28.Text = "Post";
             this.label28.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(79, 523);
+            this.label29.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(255, 30);
+            this.label29.TabIndex = 80;
+            this.label29.Text = "non-runoff sources (kg/yr)";
+            this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // frmWatershedCharacteristics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
@@ -849,6 +861,7 @@
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(1107, 611);
             this.ControlBox = false;
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label26);
@@ -1012,5 +1025,6 @@
         private System.Windows.Forms.TextBox tbPostGWN;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
     }
 }

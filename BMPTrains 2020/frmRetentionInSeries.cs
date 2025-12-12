@@ -14,12 +14,19 @@ namespace BMPTrains_2020
         private Label lblError;
         private Button btnSave;
         private WebBrowser wbOutput;
+        private Button btnPrint;
         private Label label2;
+        private string reportType;
 
-        public frmRetentionInSeries()
+        public frmRetentionInSeries(string report = "Retention")
         {
+            reportType = "Retention";
             InitializeComponent();
-            
+            if (report == "Detention")
+            {
+                this.Text = "Detention in Series Worksheet";
+                reportType = "Detention";
+            }
         }
 
         private void InitializeComponent()
@@ -29,6 +36,7 @@ namespace BMPTrains_2020
             this.lblError = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.wbOutput = new System.Windows.Forms.WebBrowser();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label2
@@ -38,7 +46,7 @@ namespace BMPTrains_2020
             this.label2.Location = new System.Drawing.Point(15, 9);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(688, 60);
+            this.label2.Size = new System.Drawing.Size(759, 60);
             this.label2.TabIndex = 13;
             this.label2.Text = resources.GetString("label2.Text");
             // 
@@ -47,7 +55,7 @@ namespace BMPTrains_2020
             this.lblError.AutoSize = true;
             this.lblError.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblError.ForeColor = System.Drawing.Color.Red;
-            this.lblError.Location = new System.Drawing.Point(12, 488);
+            this.lblError.Location = new System.Drawing.Point(12, 630);
             this.lblError.Name = "lblError";
             this.lblError.Size = new System.Drawing.Size(70, 25);
             this.lblError.TabIndex = 14;
@@ -56,9 +64,9 @@ namespace BMPTrains_2020
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(583, 468);
+            this.btnSave.Location = new System.Drawing.Point(663, 621);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(171, 42);
+            this.btnSave.Size = new System.Drawing.Size(111, 42);
             this.btnSave.TabIndex = 15;
             this.btnSave.Text = "Back";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -69,12 +77,24 @@ namespace BMPTrains_2020
             this.wbOutput.Location = new System.Drawing.Point(17, 72);
             this.wbOutput.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbOutput.Name = "wbOutput";
-            this.wbOutput.Size = new System.Drawing.Size(727, 377);
+            this.wbOutput.Size = new System.Drawing.Size(757, 543);
             this.wbOutput.TabIndex = 16;
+            // 
+            // btnPrint
+            // 
+            this.btnPrint.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrint.Location = new System.Drawing.Point(544, 621);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(115, 42);
+            this.btnPrint.TabIndex = 17;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
             // frmRetentionInSeries
             // 
-            this.ClientSize = new System.Drawing.Size(766, 522);
+            this.ClientSize = new System.Drawing.Size(784, 675);
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.wbOutput);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblError);
@@ -90,14 +110,25 @@ namespace BMPTrains_2020
         private void frmRetentionInSeries_Load(object sender, EventArgs e)
         {
             lblError.Text = "";
-
-            if (!checkIfRetentionInSeries())
+            if (reportType == "Retention") { 
+                if (!checkIfRetentionInSeries())
+                {
+                    lblError.Text = "Error: Not all catchments have retention BMPs selected.";
+                    return;
+                }
+            }
+            if (reportType == "Detention")
             {
-                lblError.Text = "Error: Not all catchments have retention BMPs selected.";
-                return;
+                if (!checkIfDetentionInSeries())
+                {
+                    lblError.Text = "Error: Not all catchments have detention BMPs selected.";
+                    return;
+                }
             }
 
-            string html = Globals.Project.RetentionInSeriesReport() ?? "";
+            string html = "";
+            if (reportType == "Retention") html =Globals.Project.RetentionInSeriesReport() ?? "";
+            if (reportType == "Detention") html = Globals.Project.DetentionInSeriesReport() ?? "";
 
             if (string.IsNullOrWhiteSpace(html))
             {
@@ -134,10 +165,26 @@ namespace BMPTrains_2020
             }
             return true;
         }
-
+        private bool checkIfDetentionInSeries()
+        {
+            for (int i = 1; i <= Globals.Project.numCatchments; i++)
+            {
+                Catchment c = Globals.Project.getCatchment(i);
+                if (!c.getSelectedBMP().isDetention())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         private void btnSave_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            wbOutput.Print();
         }
     }
 }

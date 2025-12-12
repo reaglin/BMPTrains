@@ -52,15 +52,19 @@ namespace BMPTrains_2020
 
 
         private void setValues()
-        {            
-            Common.setValue(tbDepth, currentBMP().RetentionDepth);
+        {
+            // We now enter volume in Acre-feet and calculate depth
+            Common.setValue(tbDepth, currentBMP().RetentionVolume);
             currentBMP().Calculate();
             setOutputText();
         }
 
         private void getValues()
         {
-            currentBMP().RetentionDepth = Common.getDouble(tbDepth);
+            // We now enter volume in Acre-feet and calculate depth
+            currentBMP().RetentionVolume = Common.getDouble(tbDepth);
+            currentBMP().RetentionDepth = currentBMP().RetentionVolume / currentBMP().ContributingArea * 12.0;
+            //currentBMP().RetentionDepth = Common.getDouble(tbDepth);
         }
 
         private void MenuItemClickHandler(object sender, EventArgs e)

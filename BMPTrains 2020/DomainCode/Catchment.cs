@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Schema;
 
+
 namespace BMPTrains_2020.DomainCode
 {
     [Serializable]
@@ -381,16 +382,12 @@ namespace BMPTrains_2020.DomainCode
 
         public double getContributingArea()
         {
-            double area = 0;
             return PostArea - BMPArea;
             if (getSelectedBMPType() == BMPTrainsProject.sStormwaterHarvesting) return this.PostArea;
             if (BMPArea > PostArea) return 0;
             return PostArea - BMPArea;
 
         }
-
-
-
 
         public Dictionary<string, BMP> ImplementedBMPs()
         {
@@ -444,7 +441,6 @@ namespace BMPTrains_2020.DomainCode
             }
         }
 
-
         public string getSelectedBMPType()
         {
             return getSelectedBMP().BMPType;
@@ -466,19 +462,6 @@ namespace BMPTrains_2020.DomainCode
             getSelectedBMP().Calculate();
             return getSelectedBMP().ProvidedPTreatmentEfficiency;
         }
-
-
-        //public double GroundwaterNRemovalEfficiency()
-        //{
-        //    BMP bmp = getSelectedBMP();
-        //    return bmp.GroundwaterNRemovalEfficiency();
-        //}
-
-        //public double GroundwaterPRemovalEfficiency()
-        //{
-        //    BMP bmp = getSelectedBMP();
-        //    return bmp.GroundwaterPRemovalEfficiency();
-        //}
 
         public virtual void CalculateGroundwaterLoading()
         {
@@ -528,27 +511,17 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting"
+        //
+        //
+        // Plan to move to a single reporting framework that uses Meta attributes
+        //
+        //
+
         public string PrintCatchmentReport()
         {
             string s = getSelectedBMP().PrintBMPReport();
             return s;
         }
-
-        //public string WatershedCharacteristics()
-        //{
-        //    string s = "<br/><b>Watershed Characteristics</b><br/>";
-        //    s += AsHtmlTable(
-        //        new Dictionary<string, string>
-        //    {
-        //        {"CatchmentName", "Catchment Name" },
-        //        {"PostArea", "Contributing Area (acres)"},
-        //        {"PostNonDCIACurveNumber", "Non DCIA Curve Number"},
-        //        {"PostDCIAPercent", "DCIA Percent"},
-        //        {"RainfallZone", "Rainfall Zone"},
-        //        {"Rainfall", "Annual Rainfall (in)"}
-        //    });
-        //    return s;
-        //}
 
         public override Dictionary<string, string> PropertyLabels()
         {
@@ -598,19 +571,21 @@ namespace BMPTrains_2020.DomainCode
                 };
         }
 
-        public string CatchmentTable()
+
+        // This is anexample of using the 
+        public string Report_CatchmentPrePostAsTable()
         {
             var s = new System.Text.StringBuilder();
 
             // Table 1: General Info
-            s.Append(Common.GeneratePropertyTable(this, "General Information",
+            s.Append(Common.GenerateReportTableFromProperties(this, "General Information",
                 c => c.CatchmentName,
                 c => c.RainfallZone,
                 c => c.Rainfall
             ));
 
             // Table 2: Pre-Condition (A separate table creates a visual 'Section')
-            s.Append(Common.GeneratePropertyTable(this, "Pre-Condition Landuse",
+            s.Append(Common.GenerateReportTableFromProperties(this, "Pre-Condition Landuse",
                 c => c.PreLandUseName,
                 c => c.PreArea,
                 c => c.PreRationalCoefficient,
@@ -626,7 +601,7 @@ namespace BMPTrains_2020.DomainCode
             ));
 
             // Table 3: Post-Condition
-            s.Append(Common.GeneratePropertyTable(this, "Post-Condition Landuse",
+            s.Append(Common.GenerateReportTableFromProperties(this, "Post-Condition Landuse",
                 c => c.PostLandUseName,
                 c => c.PostArea,
                 c => c.BMPArea,
@@ -865,7 +840,10 @@ namespace BMPTrains_2020.DomainCode
         {
             return getSelectedBMP().RechargeRate;
         }
-
+        public double CalulateRetentionEfficiency(double depth)
+        {
+            return RetentionEfficiencyLookupTables.CalculateEfficiency(depth, PostNonDCIACurveNumber, PostDCIAPercent, Globals.Project.RainfallZone);
+        }
 
         // Required Treatment Efficiency is either set by analysis type
         // or it can be calcualted from specific analysis types. 
@@ -1486,7 +1464,7 @@ namespace BMPTrains_2020.DomainCode
         }
     }
 
-
+    
 
     public class RoutingParameters : XmlPropertyObject
     {
@@ -1687,7 +1665,7 @@ namespace BMPTrains_2020.DomainCode
 
         public CatchmentRouting(Catchment c)
         {
-            setCatchmentRouting(c);
+            InitializeCatchmentRouting(c);
         }
 
         public CatchmentRouting(int id)
@@ -1703,14 +1681,14 @@ namespace BMPTrains_2020.DomainCode
 
         public void setCatchmentRouting(int from)
         {
-            setCatchmentRouting(Globals.Project.getCatchment(from));
+            InitializeCatchmentRouting(Globals.Project.getCatchment(from));
         }
 
         public Catchment getCatchment()
         {
             return Globals.Project.getCatchment(FromID);
         }
-        public void setCatchmentRouting(Catchment c)
+        public void InitializeCatchmentRouting(Catchment c)
         {
             // When a catchment routing is initialized these parameters are set
 
@@ -1738,7 +1716,6 @@ namespace BMPTrains_2020.DomainCode
 
             if (c.Disabled)
             {
-
                 Nitrogen.Calculate();
                 Phosphorus.Calculate();
                 return;
@@ -1816,8 +1793,6 @@ namespace BMPTrains_2020.DomainCode
         // Before setting up a routing all the numbers must be reset. 
         public void resetCatchmentRouting()
         {
-            // Used only for output
-            FromID = 0;
 
             IsValid = true;
             //HydraulicEfficiency = 0;
@@ -1859,7 +1834,6 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        }
         #endregion
 
         #region "Reporting"
@@ -1904,8 +1878,6 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-       
-
         public string FlowBalanceReport()
         {
             string s = "Catchment Routing ID: " + FromID.ToString() + "<br/>";
@@ -1916,7 +1888,6 @@ namespace BMPTrains_2020.DomainCode
             s += "<tr><td>Volume From Catchment</td><td>" + GetValue(VolumeFromCatchment, 2) + "</td></tr>";
             s += "<tr><td>Volume From Upstream</td><td>" + GetValue(VolumeFromUpstream, 2) + "</td></tr>";
             s += "<tr><td>Total Volume In</td><td>" + GetValue(VolumeIn, 2) + "</td></tr>";
-            //s += "<tr><td>Post Condition Runoff Volume</td><td>" + GetValue(, 2) + "</td></tr>";
             s += "<tr><td>Volume Into GW (or Media)</td><td>" + GetValue(VolumeGW, 2) + "</td></tr>";
             s += "<tr><td>Volume Out (to next node)</td><td>" + GetValue(VolumeOut, 2) + "</td></tr>";
             s += "</table>";
@@ -1957,40 +1928,6 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-
-
-        public string RetetentionInSeriesCatchmentReport()
-        {
-            string s = "<h2>Retention in Series Catchment Report for " + this.Name + " (Catchment " + id.ToString() + ")</h2>";
-            s += "BMP Type: " + BMPType + "<br/>";
-            s += AsHtmlTable(PropertyLabels());
-            s += "<h3>Nitrogen Report</h3>";
-            s += Nitrogen.AsHtmlTable();
-            s += "<h3>Phosphorus Report</h3>";
-            s += Phosphorus.AsHtmlTable();
-            return s;
-        }
-
-
-        public string EfficiencyReportCell(double val1, double val2, int places = 2, string units = "", string label = "", int border = 0)
-        {
-            //Common.FormattedString(val1, places)
-            string td = "<td style='padding: 10px'>";
-            if (border != 0) td = "<td style='border: 2px solid black; padding: 10px'>";
-            return td + label + "<br/> N: " + GetValue(val1, places) + " " + units + "<br/> P: " + GetValue(val2, places) + " " + units + "</td>";
-        }
-
-        public string MassBalanceReportCell(double val1, double val2, double val3, int places = 2, string label = "", int border = 0)
-        {
-            string td = "<td style='padding: 10px'>";
-            if (border != 0) td = "<td style='border: 2px solid black; padding: 10px'>";
-            string retval = td + label + "<br/> N: ";
-            retval += Common.FormattedString(val1, places) + " kg/yr<br/> P: "; 
-            retval +=  Common.FormattedString(val2, places) + " kg/yr<br/> Q: ";
-            retval += Common.FormattedString(val3, places) + " ac-ft</td>";
-            return retval;
-        }
-
         public string InputBalanceReport(string title ="")
         {
             string s = title + "<br/>";
@@ -2027,9 +1964,6 @@ namespace BMPTrains_2020.DomainCode
             s += "Q: " + Common.FormattedString(VolumeGW, 2) + " ac-ft/yr<br/>";
             return s;
         }
-
-
-
 
         public string outletReport()
         {
@@ -2094,20 +2028,13 @@ namespace BMPTrains_2020.DomainCode
             // The scenario where there is no upstream routing and there is only a single catchment in the routing is a special case
             // that must be handled. #eaglin
 
-
             BMP upstreamBMP = up.getCatchment().getSelectedBMP();
             UpstreamBMPType = up.BMPType;
-
-
-            VolumeIn += upstreamBMP.RunoffVolume; 
+            
             if (BMPType == null)
             {
-                if (up.BMPType == null) return;
-                UpstreamBMPType = up.BMPType;
-                CalculateVolumeFromRouting(up);
                 CalculateSummations(up);
                 upstreamBMP.CalculateMassLoading();
-
                 return;
             }
 
@@ -2115,12 +2042,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 Nitrogen.ProvidedRemovalEfficiency = 0;
                 Phosphorus.ProvidedRemovalEfficiency = 0;
-                CalculateSummations(up);
-                upstreamBMP.CalculateMassLoading();
-
-                return;
             }
-
             // Special Case Wet Detention to Wet Detention
             else if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sWetDetention))
             {
@@ -2128,12 +2050,7 @@ namespace BMPTrains_2020.DomainCode
                 // Hydraulic Efficiency of Wet Detention is 100%
                 HydraulicEfficiency = 99; up.HydraulicEfficiency = 99;
                 RouteWetDetentionToWetDetention(up);
-                CalculateSummations(up);
-                upstreamBMP.CalculateMassLoading();
-
-                return;
             }
-
             // Special Case Retention to Wet Detention
             else if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sRetention))
             {
@@ -2141,16 +2058,10 @@ namespace BMPTrains_2020.DomainCode
                 HydraulicEfficiency = 99;  // Hydraulic Efficiency of Wet Detention
                 up.HydraulicEfficiency = up.getCatchment().getSelectedBMP().HydraulicCaptureEfficiency;
                 RouteRetentionToWetDetention(up);
-                CalculateSummations(up);
-                upstreamBMP.CalculateMassLoading();
-
-                return;
             }
-
             // Special Case No Upstream BMP Downstream Retention 
             else if ((BMPType == BMPTrainsProject.sRetention) && (UpstreamBMPType == BMPTrainsProject.sNone))
             {
-                
                 RouteNoneToRetention(up);
             }
             else
@@ -2158,8 +2069,8 @@ namespace BMPTrains_2020.DomainCode
                 // This is the default case
                 // Does nothing 
             }
-                CalculateSummations(up);
-                upstreamBMP.CalculateMassLoading();
+            CalculateSummations(up);
+            upstreamBMP.CalculateMassLoading();
             VolumeIn = VolumeFromUpstream + VolumeFromCatchment;
         }
 
@@ -2187,7 +2098,7 @@ namespace BMPTrains_2020.DomainCode
         public double CalculateVolumeOutFromRouting(CatchmentRouting cr)
         {
             // This is the default routing situation - for retention systems Hydraulic Efficiency is tied
-            // to N treatment, this Calculates Volume out of 
+            // to N treatment, this Calculates Volume out using hydraulic efficiency 
 
             cr.HydraulicEfficiency = 100; // Default case for Detention
             BMP bmp = cr.getCatchment().getSelectedBMP();
@@ -2196,7 +2107,6 @@ namespace BMPTrains_2020.DomainCode
             if (bmp.hasRetention())
             {
                 cr.HydraulicEfficiency = bmp.ProvidedNTreatmentEfficiency;
-                //cr.HydraulicEfficiency = 100 - bmp.HydraulicCaptureEfficiency;
             }
 
             cr.VolumeOut = (100 - cr.HydraulicEfficiency) * cr.VolumeIn / 100;
@@ -2212,10 +2122,6 @@ namespace BMPTrains_2020.DomainCode
 
             if (Nitrogen.ProvidedRemovalEfficiency >= 100) Nitrogen.ProvidedRemovalEfficiency = 99;
             if (Phosphorus.ProvidedRemovalEfficiency >= 100) Phosphorus.ProvidedRemovalEfficiency = 99;
-
-            // Volume
-            VolumeIn += cr.VolumeOut;  // The Catchment Volume is put in during initialization
-            VolumeFromUpstream += cr.VolumeOut;
 
             VolumeOut = HydraulicEfficiency * VolumeIn / 100;
 

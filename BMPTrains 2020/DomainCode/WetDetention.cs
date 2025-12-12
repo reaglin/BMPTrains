@@ -218,6 +218,11 @@ namespace BMPTrains_2020.DomainCode
             return false;
         }
 
+        public override bool isDetention()
+        {
+            return true;
+        }
+
         public override string BMPTypeTitle()
         {
             string s = "Wet Detention";

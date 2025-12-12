@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -264,6 +265,8 @@ namespace BMPTrains_2020.DomainCode
         public int currentCatchmentNum { get; set; }
 
         public Dictionary<int, Catchment> Catchments;
+
+        // The outlet is a defined Catchment Routing with id of 0. 
         public CatchmentRouting outlet;
 
         public int numCostScenarios;
@@ -974,7 +977,6 @@ namespace BMPTrains_2020.DomainCode
                 kvp.Value.SetValuesFromProject(this);
                 kvp.Value.Calculate();
 
-                CalculateRouting(0);  // This is a recursive routing
             }
 
             // Each of these does what it says
@@ -986,7 +988,7 @@ namespace BMPTrains_2020.DomainCode
 
         public void CalculateOutlet()
         {
-            
+
             if (outlet == null) return;
             outlet.resetCatchmentRouting(); // Clears Values
             foreach (KeyValuePair<int, Catchment> kvp in Catchments)
@@ -1349,7 +1351,7 @@ namespace BMPTrains_2020.DomainCode
             }
             return s;
         }
-        public string RetentionInSeriesReport()
+        public string RetentionInSeriesReport() 
         {
             string s = RetentionInSeriesVolumeReport();
             s+= "<br/><br/>";

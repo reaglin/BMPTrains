@@ -732,6 +732,12 @@ namespace BMPTrains_2020.DomainCode
             return false;
         }
 
+        public virtual bool isDetention()
+        {
+            return false;
+        }   
+
+
         /// <summary>
         /// For multiple BMP's in series, returns true if the BMP has retention
         /// </summary>

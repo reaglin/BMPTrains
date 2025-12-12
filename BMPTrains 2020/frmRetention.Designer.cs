@@ -60,11 +60,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(178, 39);
+            this.label2.Location = new System.Drawing.Point(250, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(445, 30);
+            this.label2.Size = new System.Drawing.Size(371, 30);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Provided Retention Depth (in over Catchment):";
+            this.label2.Text = "Provided Retention Volume (acre-feet):";
             // 
             // wbOutput
             // 
