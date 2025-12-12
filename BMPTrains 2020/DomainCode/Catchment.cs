@@ -1413,6 +1413,77 @@ namespace BMPTrains_2020.DomainCode
             routing.fromXML(XElements.Descendants().First().ToString());
         }
         #endregion
+
+        public string PrePostCatchmentReport()
+        {
+            // Ensure calculations are up-to-date
+            Calculate();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("<h2>Catchment: " + System.Net.WebUtility.HtmlEncode(this.CatchmentName) + "</h2>");
+
+            // Use ReportGenerator overload that accepts a title + list of property names
+            sb.AppendLine(Common.GenerateReportTableFromPropertyNames(this, "Catchment Characteristics", InputVariables));
+            sb.AppendLine(Common.GenerateReportTableFromPropertyNames(this, "Pre-Condition Watershed Characteristics", PreConditionVariables));
+            sb.AppendLine(Common.GenerateReportTableFromPropertyNames(this, "Post-Condition Watershed Characteristics", PostConditionVariables));
+
+            // Preserve existing pollutant table output
+            if (!string.IsNullOrEmpty(PreLoading))
+            {
+                sb.AppendLine("<h3>Pollutant - Pre Condition Loads</h3>");
+                sb.AppendLine(AsHtmlTable(new string[] { "Pollutant", "Load (kg/year)" }, PreLoading));
+            }
+
+            if (!string.IsNullOrEmpty(PostLoading))
+            {
+                sb.AppendLine("<h3>Pollutant - Post Condition Loads</h3>");
+                sb.AppendLine(AsHtmlTable(new string[] { "Pollutant", "Load (kg/year)" }, PostLoading));
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Return all upstream catchment IDs that route (directly or indirectly) to the routing node identified by <paramref name="from"/>.
+        /// Uses DFS and protects against circular routing by tracking visited nodes.
+        /// </summary>
+        public static int[] UpstreamNodes(int from)
+        {
+            var result = new List<int>();
+            var visited = new HashSet<int>();
+
+            if (Globals.Project?.Catchments == null) return result.ToArray();
+
+            void Visit(int target)
+            {
+                // iterate over all catchments and find those whose routing.ToID == target
+                foreach (var kvp in Globals.Project.Catchments)
+                {
+                    int candidateId = kvp.Key;
+                    try
+                    {
+                        var routing = kvp.Value?.getRouting();
+                        if (routing == null) continue;
+
+                        if (routing.ToID == target)
+                        {
+                            // avoid cycles / duplicates
+                            if (!visited.Add(candidateId)) continue;
+
+                            result.Add(candidateId);
+                            Visit(candidateId);
+                        }
+                    }
+                    catch
+                    {
+                        // ignore malformed catchments/routings
+                    }
+                }
+            }
+
+            Visit(from);
+            return result.ToArray();
+        }
     }
 
 
@@ -1567,7 +1638,7 @@ namespace BMPTrains_2020.DomainCode
         public string UpstreamNodes { get; set; }
 
         public int FromID { get; set; }                     // FromID is the ID of the Associated Catchment
-        public int ToID { get; set; }                       // ToID is the ID of the To Catchment
+        public int ToID { get; set; }                       // ToID is the ID of the To Catchment (routed to)
 
         public RoutingParameters Nitrogen { get; set; }
         public RoutingParameters Phosphorus { get; set; }
@@ -1597,7 +1668,7 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Total Volume Out of Routing Node", "ac-ft/yr", 2)]
         public double VolumeOut { get; set; }
-        public double VolumeTreated { get; set; }
+
         [Meta("Total Into Media", "ac-ft/yr", 2)]
         public double VolumeIntoMedia { get; set; }
 
@@ -1644,13 +1715,16 @@ namespace BMPTrains_2020.DomainCode
             // When a catchment routing is initialized these parameters are set
 
             resetCatchmentRouting();
+
             BMP bmp = c.getSelectedBMP();
 
-            FromID = c.id; id = c.id;   // FromID is the associated Catchment
-            ToID = c.ToID;
+            FromID = c.id;  // FromID is the ID of the routing and the Catchment
+            ToID = c.ToID;  // ToID is the ID of the Catchment and routing destination
+            id = c.id;   // FromID is the associated Catchment
+            
             BMPType = c.SelectedBMPType;
 
-            
+            // The Upstream BMP type is important for routing calculations
             if (FromID != 0) UpstreamBMPType = Globals.Project.getCatchment(FromID).getSelectedBMP().BMPType;
 
             // The reason we need Upstream BMPType is the special case
@@ -1675,9 +1749,12 @@ namespace BMPTrains_2020.DomainCode
             // VolumeIn will be VolumeFromCatchment + summation of VolumeOut of upstream nodes
             Name = c.CatchmentName;
             UpstreamNodes = "";
+
+            // The initial volume in is the volume from the catchment
+            VolumeFromUpstream = 0;
             VolumeFromCatchment = c.PostRunoffVolume;
             VolumeIn = VolumeFromCatchment;                         // This is the starting point, more will be added
-            VolumeFromUpstream = 0;
+            
             HydraulicEfficiency = bmp.HydraulicCaptureEfficiency;
 
             // Removal Efficiency proided by the BMP
@@ -1708,6 +1785,35 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        public BMP GetBMP()
+        {
+            Catchment c = getCatchment();
+            return c.getSelectedBMP();
+        }
+
+        public void InitializeCatchmentRouting() {
+
+            Catchment c = getCatchment();
+            InitializeCatchmentRouting(c);
+        }
+
+        //Answers an integer array of all the upstream nodes for the current FromID
+        public int[] GetUpstreamNodeIDs() { 
+            return Catchment.UpstreamNodes(FromID);
+        }
+
+        public CatchmentRouting[] GetUpstreamCatchmentRoutings()
+        {
+            List<CatchmentRouting> list = new List<CatchmentRouting>();
+            int[] ids = GetUpstreamNodeIDs();
+            foreach (int i in ids)
+            {
+                list.Add(Globals.Project.getCatchment(i).getRouting());
+            }
+            return list.ToArray();
+        }
+
+        // Before setting up a routing all the numbers must be reset. 
         public void resetCatchmentRouting()
         {
             // Used only for output
@@ -1750,6 +1856,8 @@ namespace BMPTrains_2020.DomainCode
 
             Phosphorus.GroundwaterLoad = 0;
             Phosphorus.GroundwaterLoadRemoved = 0;
+        }
+
 
         }
         #endregion
@@ -1761,6 +1869,7 @@ namespace BMPTrains_2020.DomainCode
             {
                 {"ToID", "Routing to Catchment:"},
                 {"VolumeFromCatchment", "Volume From Catchment (ac-ft)" },
+                {"VolumeFromUpstream", "Volume From Upstream (ac-ft)" },
                 {"VolumeIn", "Total Volume In (ac-ft)" },
                 {"VolumeOut", "Total Volume Out (ac-ft)" },
                 {"VolumeGW", "Total Volume Groundwater or Media (ac-ft)" },
@@ -1946,6 +2055,35 @@ namespace BMPTrains_2020.DomainCode
         //{
         //    RouteTo(Globals.Project.getRouting(to));
         //}
+        public void Calculate()
+        {
+            // This method finds all upstream CatchmentRoutings and performs the routing
+            // on those, adding their outputs to the current CatchmentRouting
+            InitializeCatchmentRouting();
+
+            CatchmentRouting[] uproutings = GetUpstreamCatchmentRoutings();
+            foreach (CatchmentRouting up in uproutings)
+            {
+                up.Calculate();
+                VolumeIn += up.VolumeOut;
+                UpstreamNodes += "Node: " + up.FromID.ToString("##") + "<br/>";
+
+                if (Nitrogen.ProvidedRemovalEfficiency >= 100) Nitrogen.ProvidedRemovalEfficiency = 99;
+                if (Phosphorus.ProvidedRemovalEfficiency >= 100) Phosphorus.ProvidedRemovalEfficiency = 99;
+
+                // Sum Upstream
+                Nitrogen.UpstreamPostMassLoad += up.Nitrogen.DischargedLoad;
+                Phosphorus.UpstreamPostMassLoad += up.Phosphorus.DischargedLoad;
+
+                Nitrogen.UpstreamPreMassLoad += up.Nitrogen.TotalUpstreamPreMassLoad;
+                Phosphorus.UpstreamPreMassLoad += up.Phosphorus.TotalUpstreamPreMassLoad;
+
+                CalculateNutrients();
+            }
+            CalculateVolumeOut();
+        }
+
+
 
         public void CalculateUpstream(CatchmentRouting up)
         {
@@ -1973,7 +2111,7 @@ namespace BMPTrains_2020.DomainCode
                 return;
             }
 
-            if (BMPType == BMPTrainsProject.sNone)
+            else if (BMPType == BMPTrainsProject.sNone)
             {
                 Nitrogen.ProvidedRemovalEfficiency = 0;
                 Phosphorus.ProvidedRemovalEfficiency = 0;
@@ -1984,7 +2122,7 @@ namespace BMPTrains_2020.DomainCode
             }
 
             // Special Case Wet Detention to Wet Detention
-            if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sWetDetention))
+            else if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sWetDetention))
             {
                 // Special Case Wet Detention to Wet Detention
                 // Hydraulic Efficiency of Wet Detention is 100%
@@ -1997,7 +2135,7 @@ namespace BMPTrains_2020.DomainCode
             }
 
             // Special Case Retention to Wet Detention
-            if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sRetention))
+            else if ((BMPType == BMPTrainsProject.sWetDetention) && (UpstreamBMPType == BMPTrainsProject.sRetention))
             {
                 // Special Case Retention to Wet Detention
                 HydraulicEfficiency = 99;  // Hydraulic Efficiency of Wet Detention
@@ -2010,29 +2148,47 @@ namespace BMPTrains_2020.DomainCode
             }
 
             // Special Case No Upstream BMP Downstream Retention 
-            if ((BMPType == BMPTrainsProject.sRetention) && (UpstreamBMPType == BMPTrainsProject.sNone))
+            else if ((BMPType == BMPTrainsProject.sRetention) && (UpstreamBMPType == BMPTrainsProject.sNone))
             {
                 
                 RouteNoneToRetention(up);
-
+            }
+            else
+            {
+                // This is the default case
+                // Does nothing 
+            }
                 CalculateSummations(up);
                 upstreamBMP.CalculateMassLoading();
-
-                return;
-
-            }
-
-            // This is the default case
-            CalculateVolumeFromRouting(up);
-            CalculateSummations(up);
-            upstreamBMP.CalculateMassLoading();
-
+            VolumeIn = VolumeFromUpstream + VolumeFromCatchment;
         }
 
-        public double CalculateVolumeFromRouting(CatchmentRouting cr)
+        public double CalculateVolumeOut()
+        {
+            // This is the default routing situation - for retention systems Hydraulic Efficiency is tied
+            // to N treatment, this Calculates Volume out using hydraulic efficiency 
+
+            HydraulicEfficiency = 100; // Default case for Detention
+            BMP bmp = getCatchment().getSelectedBMP();
+
+            // Retention and multiple BMP can have retention
+            if (bmp.hasRetention())
+            {
+                HydraulicEfficiency = bmp.ProvidedNTreatmentEfficiency;
+            }
+
+            VolumeOut = (100 - HydraulicEfficiency) * VolumeIn / 100;
+            VolumeIntoMedia = VolumeIn - VolumeOut;
+            VolumeGW = VolumeIn - VolumeOut;
+
+            return VolumeOut;
+        }
+
+        public double CalculateVolumeOutFromRouting(CatchmentRouting cr)
         {
             // This is the default routing situation - for retention systems Hydraulic Efficiency is tied
             // to N treatment, this Calculates Volume out of 
+
             cr.HydraulicEfficiency = 100; // Default case for Detention
             BMP bmp = cr.getCatchment().getSelectedBMP();
 
