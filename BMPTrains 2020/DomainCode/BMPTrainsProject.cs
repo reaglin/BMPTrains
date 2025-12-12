@@ -261,9 +261,14 @@ namespace BMPTrains_2020.DomainCode
         public double TotalGWVolume { get; set; }
         public double TotalCatchmentGWRechargeRate { get; set; }
 
+        [Meta("Number of Catchments", "", 0)]
         public int numCatchments { get; set; }
+
+        // In the Project there is a currentCatchmentNum that is used in the interface
         public int currentCatchmentNum { get; set; }
 
+        // Catchments in the Project are kept in a Dictionary, they are 
+        // accessed by their ID number (1..n)
         public Dictionary<int, Catchment> Catchments;
 
         // The outlet is a defined Catchment Routing with id of 0. 
@@ -981,8 +986,9 @@ namespace BMPTrains_2020.DomainCode
 
             // Each of these does what it says
 
-            CalculateOutlet();
-            CalculateTotalSystemLoading(); 
+            CatchmentRouting.CalculateBasicAll();
+//            CalculateOutlet();
+//            CalculateTotalSystemLoading(); 
             CalculateTargets();
         }
 
@@ -1030,7 +1036,7 @@ namespace BMPTrains_2020.DomainCode
             // get the routing for the catchment ID and set the Catrchment Routing parameters
             // These are the parameters for that specific catchment
 
-            if (cid != 0) getRouting(cid).setCatchmentRouting(cid);
+            if (cid != 0) getRouting(cid).InitializeCatchmentRouting(cid);
             
             // This will repeat this routine for every upstream Catchment
             
