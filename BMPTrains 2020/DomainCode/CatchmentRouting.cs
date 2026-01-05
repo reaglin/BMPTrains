@@ -393,7 +393,8 @@ namespace BMPTrains_2020.DomainCode
             string s = title + "<br/>";
             s += "N: " + Common.FormattedString(Nitrogen.ProvidedRemovalEfficiency, 2) + " %<br/>";
             s += "P: " + Common.FormattedString(Phosphorus.ProvidedRemovalEfficiency, 2) + " %<br/>";
-            s += "Q: " + Common.FormattedString(100 - HydraulicEfficiency, 2) + " %<br/>";
+            s += "<br/>";
+            //s += "Q: " + Common.FormattedString(100 - HydraulicEfficiency, 2) + " %<br/>";
             return s;
         }
 
@@ -833,8 +834,6 @@ public static void CalculateRetentionInSeries(BMPTrainsProject project = null)
 
         public double CalculateVolumeOut()
         {
-            // Default for detention-like systems
-            HydraulicEfficiency = 100;
 
             BMP bmp = null;
             try
@@ -846,6 +845,20 @@ public static void CalculateRetentionInSeries(BMPTrainsProject project = null)
             catch
             {
                 bmp = null;
+            }
+            if (bmp == null)
+            {
+                // No BMP means no treatment, all volume out
+                VolumeOut = VolumeIn;
+                VolumeIntoMedia = 0;
+                VolumeGW = 0;
+                return VolumeOut;
+            }
+
+            if (bmp.isDetention()) 
+            {
+                // Detention-like BMPs have 0% hydraulic efficiency
+                HydraulicEfficiency = 0;
             }
 
             // If a BMP exists and it has retention semantics, use its provided N efficiency

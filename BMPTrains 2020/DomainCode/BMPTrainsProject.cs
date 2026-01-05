@@ -1208,8 +1208,8 @@ namespace BMPTrains_2020.DomainCode
                 
                 PreRunoffVolume += Catchments[i].PreRunoffVolume;
                 CatchmentPostRunoffVolume += Catchments[i].PostRunoffVolume;
-                PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
-
+                //PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
+                PostRunoffVolume += Catchments[i].getSelectedBMP().RunoffVolume;
                 TotalGroundwaterNRemoved += Catchments[i].GroundwaterNRemoved;
                 TotalGroundwaterPRemoved += Catchments[i].GroundwaterPRemoved;
                 TotalGroundwaterNLoading += Catchments[i].GroundwaterNLoading;
@@ -1543,7 +1543,7 @@ namespace BMPTrains_2020.DomainCode
 
                 s += "<h2>Summary Report for System (All Catchments)</h2>";
 
-            s += PrintVolumeOfRunoff();
+                s += PrintVolumeOfRunoff();
 
                 s += PrintSummaryLoadingAnalysis();
 
@@ -1567,16 +1567,28 @@ namespace BMPTrains_2020.DomainCode
                     s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): "
                         + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") + "<br/>";
             }
+
+            CatchmentRouting cr = this.getRoutingOutlet();
+            if (cr != null)
+            {
+                PostRunoffVolume = this.getRoutingOutlet().VolumeIn; // If a routing exists use the Outlet Volume In for the total
+            }
+            else
+            {
+                // No Routing exists, use the Catchment 1 for the total
+                if (Catchments.ContainsKey(1)) { 
+                    PostRunoffVolume = Catchments[1].getSelectedBMP().RunoffVolume;
+                }
+            }
             if (PostCatchmentAreaAcres != 0)
-                s += "Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
+                s += "System Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
                     + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
+
 
             if (PostCatchmentAreaAcres != 0)
                 s += "Post-Condition Runoff no BMP (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
                     + (12 * CatchmentPostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/><br/>";
   
-
-
             return s;
         }
 
@@ -1788,7 +1800,7 @@ namespace BMPTrains_2020.DomainCode
         public string CatchmentReport()
         {
             string br = "<br/>";
-            string s = "<h1>BMPTrains 2025 Complete Report (not including cost)</h1>";
+            string s = "<h1>BMPFast Complete Report (not including cost)</h1>";
             s += Common.getDateString();
             s += "Project: " + ProjectName + br;
             s += "<h2>Site and Catchment Information</h2><br/>";

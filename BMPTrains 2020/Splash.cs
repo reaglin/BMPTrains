@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BMPTrains_2020.DomainCode;
 
 namespace BMPTrains_2020
 {
