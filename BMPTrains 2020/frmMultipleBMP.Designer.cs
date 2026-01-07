@@ -50,12 +50,13 @@
             this.btnOpen3 = new System.Windows.Forms.Button();
             this.btnOpen4 = new System.Windows.Forms.Button();
             this.btnAnoxicDepth = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnClose
             // 
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(515, 269);
+            this.btnClose.Location = new System.Drawing.Point(515, 271);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 7;
@@ -110,7 +111,7 @@
             // btnHelp
             // 
             this.btnHelp.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHelp.Location = new System.Drawing.Point(515, 12);
+            this.btnHelp.Location = new System.Drawing.Point(515, 212);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(112, 39);
             this.btnHelp.TabIndex = 19;
@@ -122,9 +123,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 36);
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(23, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(400, 21);
+            this.label1.Size = new System.Drawing.Size(487, 25);
             this.label1.TabIndex = 20;
             this.label1.Text = "Add up to 4 BMP\'s to each catchment in order of routing";
             // 
@@ -263,7 +265,7 @@
             // btnAnoxicDepth
             // 
             this.btnAnoxicDepth.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 206);
+            this.btnAnoxicDepth.Location = new System.Drawing.Point(515, 181);
             this.btnAnoxicDepth.Name = "btnAnoxicDepth";
             this.btnAnoxicDepth.Size = new System.Drawing.Size(112, 39);
             this.btnAnoxicDepth.TabIndex = 62;
@@ -272,12 +274,25 @@
             this.btnAnoxicDepth.Visible = false;
             this.btnAnoxicDepth.Click += new System.EventHandler(this.btnAnoxicDepth_Click);
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblError.Location = new System.Drawing.Point(12, 323);
+            this.lblError.MaximumSize = new System.Drawing.Size(600, 0);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(170, 31);
+            this.lblError.TabIndex = 63;
+            this.lblError.Text = "No errors detected";
+            this.lblError.UseCompatibleTextRendering = true;
+            // 
             // frmMultipleBMP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(652, 347);
+            this.ClientSize = new System.Drawing.Size(652, 377);
             this.ControlBox = false;
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnAnoxicDepth);
             this.Controls.Add(this.btnOpen4);
             this.Controls.Add(this.btnOpen3);
@@ -333,5 +348,6 @@
         private System.Windows.Forms.Button btnOpen3;
         private System.Windows.Forms.Button btnOpen4;
         private System.Windows.Forms.Button btnAnoxicDepth;
+        private System.Windows.Forms.Label lblError;
     }
 }

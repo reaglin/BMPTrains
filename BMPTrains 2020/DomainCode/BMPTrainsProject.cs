@@ -220,8 +220,8 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Pre-Runoff Volume from Catchment", "ac-ft", 2)]
         public double PreRunoffVolume { get; set; }
 
-        [Meta("Post-Runoff Volume from Catchment", "ac-ft", 2)]
-        public double PostRunoffVolume { get; set; }
+        [Meta("Post-Runoff Volume from System", "ac-ft", 2)]
+        public double SystemPostRunoffVolume { get; set; }
 
         [Meta("Post-Runoff Volume from Catchment", "ac-ft", 2)]
         public double CatchmentPostRunoffVolume { get; set; }
@@ -1062,87 +1062,6 @@ namespace BMPTrains_2020.DomainCode
             CatchmentRouting.CalculateIndependentCatchments(this);
         }
 
-        //public void CalculateOutlet()
-        //{
-
-        //    if (outlet == null) return;
-        //    outlet.resetCatchmentRouting(); // Clears Values
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        // 
-        //        if (kvp.Value.getRouting().ToID == 0)
-        //        {
-        //            kvp.Value.getRouting().CalculateOutletMassLoads(outlet);
-
-        //        }
-
-        //    }
-
-        //}
-
-        //public double CalculateTotalCatchmentGWRechargeRate()
-        //{
-        //    double t = 0.0;
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        //double gw = kvp.Value.getRechargeRate();
-        //        //if (!kvp.Value.Disabled) t += gw;
-        //        t += 0.3258724* kvp.Value.getRouting().VolumeGW;
-        //        //t += 0.3258724 * kvp.Value.getRouting().VolumeGW;
-        //    }
-
-        //    return t;
-
-        //}
-
-        //public void CalculateRouting(int cid, int iteration = 0)
-        //{
-        //    //cid is the Catchment ID
-        //    // This is a recursive function
-        //    // Find all routings that route to cid and calculate them
-        //    int maxIterations = 2*Catchments.Count + 1;
-
-        //    // Set the Values in CatchmentRouting[cid] to the values from the Catchment
-        //    // get the routing for the catchment ID and set the Catrchment Routing parameters
-        //    // These are the parameters for that specific catchment
-
-        //    if (cid != 0) getRouting(cid).InitializeCatchmentRouting(cid);
-
-        //    // This will repeat this routine for every upstream Catchment
-
-        //    foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-        //    {
-        //        if (kvp.Value.getRouting().ToID == cid)
-        //        {
-        //            int upstreamID = kvp.Key;
-        //            if (upstreamID != cid && upstreamID != 0) {
-        //                iteration++;
-        //                if (iteration > maxIterations)
-        //                {
-        //                    MessageBox.Show("You have a circular reference in your routing. Please check your routing to fix this."
-        //                        + " This can be cause by 1 routing to 2 and 2 routing to 1 (or similar situation)."
-        //                        , "Circular Routing Warning"
-        //                        , MessageBoxButtons.OK
-        //                        , MessageBoxIcon.Exclamation);
-
-        //                    return;
-        //                }
-
-        //                // Recursive Call - goes Upstream and Calculates Routing of Upstream Parameters
-        //                // For all noddes upstream
-        //                CalculateRouting(upstreamID, iteration);
-        //                // Actual Calculation - set N and P loads to sum of Upstream - this is not recursive
-
-        //                // getRouting returns the CatchmentRouting object for the specified Catchment ID
-        //                // CalculateUpstream uses the CatchmentRouting object to calculate the upstream loads
-
-        //                getRouting(cid).CalculateUpstream(getRouting(upstreamID));
-
-        //            }
-        //        }
-        //    }
-        //}
-
         public void CalculateTotalSystemLoading()
         {
 
@@ -1167,30 +1086,29 @@ namespace BMPTrains_2020.DomainCode
             TotalCatchmentGWRechargeRate = 0;
             CatchmentPostRunoffVolume = 0;
 
-            PostRunoffVolume = 0; // System Runoff
+            SystemPostRunoffVolume = 0; // System Runoff
 
             // No Catchments - do not Calculate
             if (Catchments.Count == 0) return;
 
+            // Single Catchment scenario
             if (Catchments.Count == 1)
             {
-                TotalCatchmentNLoad += Catchments[1].PostNLoading;
-                TotalCatchmentPLoad += Catchments[1].PostPLoading;
-                TotalCatchmentPreNLoad += Catchments[1].PreNLoading;
-                TotalCatchmentPrePLoad += Catchments[1].PrePLoading;
-                PreCatchmentAreaAcres += Catchments[1].PreArea;
-                PostCatchmentAreaAcres += Catchments[1].getContributingArea();
-                CatchmentPostRunoffVolume += Catchments[1].PostRunoffVolume;
+                TotalCatchmentNLoad = Catchments[1].PostNLoading;
+                TotalCatchmentPLoad = Catchments[1].PostPLoading;
+                TotalCatchmentPreNLoad = Catchments[1].PreNLoading;
+                TotalCatchmentPrePLoad = Catchments[1].PrePLoading;
+                PreCatchmentAreaAcres = Catchments[1].PreArea;
+                PostCatchmentAreaAcres = Catchments[1].getContributingArea();
+                CatchmentPostRunoffVolume = Catchments[1].PostRunoffVolume;
                 //PostCatchmentAreaAcres += Catchments[1].PostArea - Catchments[1].BMPArea;
-                PreRunoffVolume += Catchments[1].PreRunoffVolume;
-                PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
-
-
-                TotalGroundwaterNRemoved += Catchments[1].GroundwaterNRemoved;
-                TotalGroundwaterPRemoved += Catchments[1].GroundwaterPRemoved;
-                TotalGroundwaterNLoading += Catchments[1].GroundwaterNLoading;
-                TotalGroundwaterPLoading += Catchments[1].GroundwaterPLoading;
-                TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[1].getRouting().VolumeGW;
+                PreRunoffVolume = Catchments[1].PreRunoffVolume;
+                SystemPostRunoffVolume = Catchments[1].getSelectedBMP().RunoffVolume;
+                TotalGroundwaterNRemoved = Catchments[1].GroundwaterNRemoved;
+                TotalGroundwaterPRemoved = Catchments[1].GroundwaterPRemoved;
+                TotalGroundwaterNLoading = Catchments[1].GroundwaterNLoading;
+                TotalGroundwaterPLoading = Catchments[1].GroundwaterPLoading;
+                TotalCatchmentGWRechargeRate = 0.3258724 * Catchments[1].getRouting().VolumeGW;
                 CalculatedNTreatmentEfficiency = Catchments[1].getCalculatedNTreatmentEfficiency();
                 CalculatedPTreatmentEfficiency = Catchments[1].getCalculatedPTreatmentEfficiency();
             }
@@ -1208,16 +1126,14 @@ namespace BMPTrains_2020.DomainCode
                 
                 PreRunoffVolume += Catchments[i].PreRunoffVolume;
                 CatchmentPostRunoffVolume += Catchments[i].PostRunoffVolume;
-                //PostRunoffVolume += Catchments[1].getSelectedBMP().RunoffVolume;
-                PostRunoffVolume += Catchments[i].getSelectedBMP().RunoffVolume;
+                
                 TotalGroundwaterNRemoved += Catchments[i].GroundwaterNRemoved;
                 TotalGroundwaterPRemoved += Catchments[i].GroundwaterPRemoved;
                 TotalGroundwaterNLoading += Catchments[i].GroundwaterNLoading;
                 TotalGroundwaterPLoading += Catchments[i].GroundwaterPLoading;
                 TotalCatchmentGWRechargeRate += 0.3258724 * Catchments[i].getRouting().VolumeGW;
-
-
                 }
+                SystemPostRunoffVolume = this.getRoutingOutlet().VolumeIn; 
             }
 
             if (TotalGroundwaterNRemoved != 0)
@@ -1247,8 +1163,6 @@ namespace BMPTrains_2020.DomainCode
                 CalculatedPTreatmentEfficiency = 0.0;
                 if (TotalCatchmentPLoad > 0) CalculatedPTreatmentEfficiency = 100 * (TotalCatchmentPLoad - TotalOutletPLoad) / TotalCatchmentPLoad;
             }
-
-
         }
 
         public void CalculateTargets()
@@ -1307,6 +1221,23 @@ namespace BMPTrains_2020.DomainCode
             if (TargetNPrePostPercent > 100) TargetNPrePostPercent = 100;
             if (TargetNPrePostPercent > 100) TargetNPrePostPercent = 100;
 
+        }
+
+        public void CalculateSystemPostRunoffVolume()
+        {
+            CatchmentRouting cr = this.getRoutingOutlet();
+            if (cr != null)
+            {
+                SystemPostRunoffVolume = this.getRoutingOutlet().VolumeIn; // If a routing exists use the Outlet Volume In for the total
+            }
+            else
+            {
+                // No Routing exists, use the Catchment 1 for the total
+                if (Catchments.ContainsKey(1))
+                {
+                    SystemPostRunoffVolume = Catchments[1].getSelectedBMP().RunoffVolume;
+                }
+            }
         }
 
         #endregion
@@ -1482,68 +1413,67 @@ namespace BMPTrains_2020.DomainCode
 
             // Report Header
 
-            string s = "<h1 style='text-align:left'>Summary Treatment Report </h1>";
+            string s = "<h2 style='text-align:left'>Summary Treatment Report </h2>";
             //s += "<table style='width:80%'><tr><td style='width:60%'>";
 
-            s += "<h2>Project: " + ProjectName + "</h2>";
-            s += "<h2>Analysis Type: " + AnalysisType + "</h2>";
-            s += "Report Date: " + Common.getDateString() + "<br/>";
+            //s += "<h2>Project: " + ProjectName + "</h2>";
+            //s += "<h2>Analysis Type: " + AnalysisType + "</h2>";
+            //s += "Report Date: " + Common.getDateString() + "<br/>";
 
             // Catchments 
 
-            s += "<h3>Catchments and Associated BMP Types: </h3>";
-            foreach (KeyValuePair<int, Catchment> kvp in Catchments)
-            {
-                //s += Common.Spaces(5);
-                s += "<b>Catchment #" + kvp.Key.ToString() + "</b> Catchment Name: " + kvp.Value.CatchmentName + "<br/>";
-                s += "Catchment BMP: " + kvp.Value.PrintBMPSummary() + "<br/>";
-                s += "Routing for Catchment:" + PrintRoutingDestination(kvp.Value);
-                if (print_catchments)
-                {
-                    kvp.Value.PrintWatershedCharacteristics();
-                    kvp.Value.PrintBMPReport();
-                }
-                s += "<br/>";
-            }
+            //s += "<h3>Catchments and Associated BMP Types: </h3>";
+            //foreach (KeyValuePair<int, Catchment> kvp in Catchments)
+            //{
+            //    //s += Common.Spaces(5);
+            //    s += "<b>Catchment #" + kvp.Key.ToString() + "</b> Catchment Name: " + kvp.Value.CatchmentName + "<br/>";
+            //    s += "Catchment BMP: " + kvp.Value.PrintBMPSummary() + "<br/>";
+            //    s += "Routing for Catchment:" + PrintRoutingDestination(kvp.Value);
+            //    if (print_catchments)
+            //    {
+            //        kvp.Value.PrintWatershedCharacteristics();
+            //        kvp.Value.PrintBMPReport();
+            //    }
+            //    s += "<br/>";
+            //}
 
-                // For all Types other that BMPAnalysis
-                //if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
-                //    s += "Volume of Runoff Pre-Condition " + kvp.Value.PreRunoffVolumeInches_Yr.ToString("##.##") + " inches/yr<br/>";
-                //else 
-                //    s += "No Pre-Condition for Analysis Type: " + AnalysisType;
+            // For all Types other that BMPAnalysis
+            //if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
+            //    s += "Volume of Runoff Pre-Condition " + kvp.Value.PreRunoffVolumeInches_Yr.ToString("##.##") + " inches/yr<br/>";
+            //else 
+            //    s += "No Pre-Condition for Analysis Type: " + AnalysisType;
 
-                //s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
+            //s += "Volume of Runoff Post-Condition " + kvp.Value.PostRunoffVolumeInches_yr.ToString("##.##") + " inches/yr<br/>";
 
-                // Pre Post Analsyis Removal (Not Required for a number of analysis types)
-                // This is turned off, but is usefule for debugging if needed. 
+            // Pre Post Analsyis Removal (Not Required for a number of analysis types)
+            // This is turned off, but is usefule for debugging if needed. 
 
-                //    if (print_catchments) { 
-                //        if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
-                //        s += "Is % less than predevelopment catchment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
-                //            + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
-                //            + " Provided: " + kvp.Value.CalculatedNTreatmentEfficiency.ToString("##") +"%<br/>";
-                //        s += "Is % less than predevelopment catchment loading for TP met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTPMet())
-                //            + "<br/> Required: " + kvp.Value.RequiredPTreatmentEfficiency.ToString("##") +"% "
-                //            + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
-                //        }
-                //    s += "</br>";
-                //    }
-                //}
+            //    if (print_catchments) { 
+            //        if (BMPTrainsProject.PrintPrePostResults(AnalysisType)) {
+            //        s += "Is % less than predevelopment catchment loading for TN met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTNMet())
+            //            + "<br/> Required: " + kvp.Value.RequiredNTreatmentEfficiency.ToString("##") + "% "
+            //            + " Provided: " + kvp.Value.CalculatedNTreatmentEfficiency.ToString("##") +"%<br/>";
+            //        s += "Is % less than predevelopment catchment loading for TP met? " + InterfaceCommon.YesNo(kvp.Value.IsPrePostTPMet())
+            //            + "<br/> Required: " + kvp.Value.RequiredPTreatmentEfficiency.ToString("##") +"% "
+            //            + " Provided: " + kvp.Value.CalculatedPTreatmentEfficiency.ToString("##") + "%<br/>";
+            //        }
+            //    s += "</br>";
+            //    }
+            //}
 
-                //s += "</td>";
-                //s += "<td style='width:40%;'>";
-                //s += Common.getDateString();
-                //s += "<b>Routing Summary</b><br/>";
+            //s += "</td>";
+            //s += "<td style='width:40%;'>";
+            //s += Common.getDateString();
+            //s += "<b>Routing Summary</b><br/>";
 
-                //s += RoutingTable();
-                //s += "</td>";
-                //s += "</tr></table>";
+            //s += RoutingTable();
+            //s += "</td>";
+            //s += "</tr></table>";
 
-                // The following prints the summary for the system 
+            // The following prints the summary for the system 
+                s += PrintSummaryOfCatchments(print_catchments, print_catchments);
 
-                s += "<h2>Summary Report for System (All Catchments)</h2>";
-
-                s += PrintVolumeOfRunoff();
+                s += PrintSummaryVolumeOfRunoff();
 
                 s += PrintSummaryLoadingAnalysis();
 
@@ -1559,37 +1489,205 @@ namespace BMPTrains_2020.DomainCode
             
         }
 
-        public string PrintVolumeOfRunoff()
+        public string PrintSummaryOfCatchments(bool print_watershed = false, bool print_bmp = false)
         {
-            string s = "<h3>Volume of Runoff</h3>";
-            if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis) { 
-                if (PreCatchmentAreaAcres != 0)
-                    s += "Pre-Condition Runoff (inches/year over " + PreCatchmentAreaAcres.ToString("###.##") + " acres): "
-                        + (12 * PreRunoffVolume / PreCatchmentAreaAcres).ToString("##.##") + "<br/>";
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<h3>Catchments and Associated BMP Types</h3>");
+
+            sb.AppendLine("<table style='width:100%; border-collapse:collapse; font-family:Arial, sans-serif;'>");
+            sb.AppendLine("<thead>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th style='text-align:left; padding:6px; border-bottom:1px solid #ccc;'>ID</th>");
+            sb.AppendLine("<th style='text-align:left; padding:6px; border-bottom:1px solid #ccc;'>Catchment Name</th>");
+            sb.AppendLine("<th style='text-align:left; padding:6px; border-bottom:1px solid #ccc;'>Catchment BMP</th>");
+            sb.AppendLine("<th style='text-align:left; padding:6px; border-bottom:1px solid #ccc;'>Routing Destination</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</thead>");
+            sb.AppendLine("<tbody>");
+
+            // Iterate catchments in numeric order
+            foreach (var kvp in Catchments.OrderBy(k => k.Key))
+            {
+                var id = kvp.Key;
+                var c = kvp.Value;
+
+                string bmpSummary = "";
+                try
+                {
+                    bmpSummary = c.PrintBMPSummary(); // short summary suitable for a table cell
+                }
+                catch
+                {
+                    bmpSummary = "(no BMP)";
+                }
+
+                string routingDest = PrintRoutingDestination(c);
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine($"<td style='padding:6px; vertical-align:top; border-bottom:1px solid #eee;'>{id}</td>");
+                sb.AppendLine($"<td style='padding:6px; vertical-align:top; border-bottom:1px solid #eee;'>{System.Security.SecurityElement.Escape(c.CatchmentName ?? ("Catchment " + id))}</td>");
+                sb.AppendLine($"<td style='padding:6px; vertical-align:top; border-bottom:1px solid #eee;'>{bmpSummary}</td>");
+                sb.AppendLine($"<td style='padding:6px; vertical-align:top; border-bottom:1px solid #eee;'>{routingDest}</td>");
+                sb.AppendLine("</tr>");
             }
 
-            CatchmentRouting cr = this.getRoutingOutlet();
-            if (cr != null)
+            sb.AppendLine("</tbody>");
+            sb.AppendLine("</table>");
+
+            // Optionally append detailed tables per-catchment
+            if (print_watershed || print_bmp)
             {
-                PostRunoffVolume = this.getRoutingOutlet().VolumeIn; // If a routing exists use the Outlet Volume In for the total
+                foreach (var kvp in Catchments.OrderBy(k => k.Key))
+                {
+                    var id = kvp.Key;
+                    var c = kvp.Value;
+
+                    sb.AppendLine($"<h4 style='margin-top:12px;'>Catchment #{id} - {System.Security.SecurityElement.Escape(c.CatchmentName ?? ("Catchment " + id))}</h4>");
+
+                    if (print_watershed)
+                    {
+                        try
+                        {
+                            sb.AppendLine(c.PrintWatershedCharacteristics());
+                        }
+                        catch
+                        {
+                            // ignore individual catchment print errors
+                        }
+                    }
+
+                    if (print_bmp)
+                    {
+                        try
+                        {
+                            var bmp = c.getSelectedBMP();
+                            if (bmp != null)
+                            {
+                                // Use the BMP's input-variable table for reporting
+                                sb.AppendLine(bmp.PrintInputVariables());
+                            }
+                        }
+                        catch
+                        {
+                            // ignore individual BMP print errors
+                        }
+                    }
+
+                    sb.AppendLine("<hr style='border:none;border-top:1px solid #eee;margin:10px 0;'/>");
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        public string PrintSummaryVolumeOfRunoff()
+        {
+            CalculateSystemPostRunoffVolume();
+
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<h3>Volume of Runoff Summary</h3>");
+
+            // Local styles for this section only
+            sb.AppendLine("<style>");
+            sb.AppendLine(".vr-table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 13px; margin-top:8px; }");
+            sb.AppendLine(".vr-table th { background:#f0f6fb; color:#0b5394; padding:8px; text-align:left; border:1px solid #e1edf7; }");
+            sb.AppendLine(".vr-table td { padding:8px; border:1px solid #e9f2fb; }");
+            sb.AppendLine(".vr-num { text-align:right; font-family: Consolas, monospace; }");
+            sb.AppendLine(".vr-note { font-size:0.9em; color:#444; margin-top:6px; }");
+            sb.AppendLine("</style>");
+
+            sb.AppendLine("<table class='vr-table'>");
+            sb.AppendLine("<thead>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th>Scenario</th>");
+            sb.AppendLine("<th class='vr-num'>Effective Area (acres)</th>");
+            sb.AppendLine("<th class='vr-num'>Runoff Volume (ac-ft/yr)</th>");
+            sb.AppendLine("<th class='vr-num'>Runoff Volume (in/year)</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</thead>");
+            sb.AppendLine("<tbody>");
+
+            // Helper local function for formatting inches/year (safe against zero area)
+            Func<double, double, string> formatInches = (volAcFt, areaAc) =>
+            {
+                if (areaAc <= 0.0) return "N/A";
+                double inches = 12.0 * volAcFt / areaAc;
+                return inches.ToString("##.##");
+            };
+
+            // Row: Pre-condition (only when applicable)
+            if (AnalysisType != BMPTrainsProject.AT_BMPAnalysis)
+            {
+                if (PreCatchmentAreaAcres != 0)
+                {
+                    sb.AppendLine("<tr>");
+                    sb.AppendLine("<td>Pre-Condition</td>");
+                    sb.AppendLine($"<td class='vr-num'>{PreCatchmentAreaAcres.ToString("###.##")}</td>");
+                    sb.AppendLine($"<td class='vr-num'>{PreRunoffVolume.ToString("##.##")}</td>");
+                    sb.AppendLine($"<td class='vr-num'>{formatInches(PreRunoffVolume, PreCatchmentAreaAcres)}</td>");
+                    sb.AppendLine("</tr>");
+                }
+                else
+                {
+                    sb.AppendLine("<tr>");
+                    sb.AppendLine("<td>Pre-Condition</td>");
+                    sb.AppendLine("<td class='vr-num'>N/A</td>");
+                    sb.AppendLine("<td class='vr-num'>N/A</td>");
+                    sb.AppendLine("<td class='vr-num'>N/A</td>");
+                    sb.AppendLine("</tr>");
+                }
+            }
+
+            // Row: System Post-Condition (with BMPs)
+            if (PostCatchmentAreaAcres != 0)
+            {
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td>System Post-Condition (with BMPs)</td>");
+                sb.AppendLine($"<td class='vr-num'>{PostCatchmentAreaAcres.ToString("###.##")}</td>");
+                sb.AppendLine($"<td class='vr-num'>{SystemPostRunoffVolume.ToString("##.##")}</td>");
+                sb.AppendLine($"<td class='vr-num'>{formatInches(SystemPostRunoffVolume, PostCatchmentAreaAcres)}</td>");
+                sb.AppendLine("</tr>");
             }
             else
             {
-                // No Routing exists, use the Catchment 1 for the total
-                if (Catchments.ContainsKey(1)) { 
-                    PostRunoffVolume = Catchments[1].getSelectedBMP().RunoffVolume;
-                }
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td>System Post-Condition (with BMPs)</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("</tr>");
             }
-            if (PostCatchmentAreaAcres != 0)
-                s += "System Post-Condition Runoff with BMPs (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
-                    + (12 * PostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/>";
 
-
+            // Row: Post-Condition (no BMP)
             if (PostCatchmentAreaAcres != 0)
-                s += "Post-Condition Runoff no BMP (inches/year over " + PostCatchmentAreaAcres.ToString("###.##") + " acres): "
-                    + (12 * CatchmentPostRunoffVolume / PostCatchmentAreaAcres).ToString("##.##") + "<br/><br/>";
-  
-            return s;
+            {
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td>Post-Condition (no BMP)</td>");
+                sb.AppendLine($"<td class='vr-num'>{PostCatchmentAreaAcres.ToString("###.##")}</td>");
+                sb.AppendLine($"<td class='vr-num'>{CatchmentPostRunoffVolume.ToString("##.##")}</td>");
+                sb.AppendLine($"<td class='vr-num'>{formatInches(CatchmentPostRunoffVolume, PostCatchmentAreaAcres)}</td>");
+                sb.AppendLine("</tr>");
+            }
+            else
+            {
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<td>Post-Condition (no BMP)</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("<td class='vr-num'>N/A</td>");
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine("</tbody>");
+            sb.AppendLine("</table>");
+
+            sb.AppendLine("<div class='vr-note'>");
+            sb.AppendLine("Effective Area is the watershed area used to normalize runoff (acres). Runoff volumes are shown in acre-feet per year and converted to depth (inches/year) by dividing by area and multiplying by 12.");
+            sb.AppendLine("</div>");
+
+            return sb.ToString();
         }
 
         public string PrintSummaryLoadingAnalysis()

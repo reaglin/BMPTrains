@@ -93,7 +93,7 @@ namespace BMPTrains_2020
             currentCatchment().setMultipleBMP(2, Common.getString(cbBMP2));
             currentCatchment().setMultipleBMP(3, Common.getString(cbBMP3));
             currentCatchment().setMultipleBMP(4, Common.getString(cbBMP4));
-
+            lblError.Text = "";
             //if (Common.getString(cbBMP1) != BMPTrainsProject.sNone && Common.getString(cbBMP1) != "") currentCatchment().setMultipleBMP(1, Common.getString(cbBMP1));
             //if (Common.getString(cbBMP2) != BMPTrainsProject.sNone && Common.getString(cbBMP2) != "") currentCatchment().setMultipleBMP(2, Common.getString(cbBMP2));
             //if (Common.getString(cbBMP3) != BMPTrainsProject.sNone && Common.getString(cbBMP3) != "") currentCatchment().setMultipleBMP(3, Common.getString(cbBMP3));
@@ -104,19 +104,19 @@ namespace BMPTrains_2020
             if (!ValidateBMP())
             {
                 btnCalculate.Enabled = false;
-                MessageBox.Show("Note, a BMP can only be used once in series routing");
+                lblError.Text = "Note: A BMP can only be used once in series routing";
             }
 
             if (BlankBMP())
             {
                 btnCalculate.Enabled = false;
-                MessageBox.Show("You cannot have a blank BMP or a No BMP routing to a valid BMP");
+                lblError.Text = "Note: You cannot have a blank BMP or a No BMP routing to a valid BMP";
             }
 
             if (HarvestBeforeDetention())
             {
                 btnCalculate.Enabled = false;
-                MessageBox.Show("Stormwater Harvesting cannot be used before Wet Detention");
+                lblError.Text = "Note: Rainwater or Stormwater Harvesting must be stand-alone in a catchment or follow wet detention if used in series in the same catchment.";
             }
         }
 
