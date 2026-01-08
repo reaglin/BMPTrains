@@ -57,26 +57,6 @@ namespace BMPTrains_2020
 
         private void DisplayDefinedBMPs()
         {
-            //Catchment c = getCatchment();
-
-            //if (getCatchment().PostArea == 0)
-            //{
-            //    DialogResult d = MessageBox.Show("This Catchment is Not Defined. Would you like to enter catchment characteristics?"
-            //                                    , "Define Catchment?"
-            //                                    , MessageBoxButtons.YesNo
-            //                                    , MessageBoxIcon.Information);
-            //    if (d == DialogResult.Yes)
-            //    {
-            //        Form form = new frmWatershedCharacteristics(routingID);
-            //        form.ShowDialog();
-            //        this.Close();
-            //    }
-            //    else
-            //    {
-            //        this.Close();
-            //    }
-            //}
-
             Dictionary<string, BMP> dbmp = getCatchment().DefinedBMPs();
             if (dbmp.Count == 0)
             {

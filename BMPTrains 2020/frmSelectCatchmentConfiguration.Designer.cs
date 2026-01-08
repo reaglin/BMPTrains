@@ -29,10 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.cbOptions = new System.Windows.Forms.ComboBox();
-            this.pbOptions = new System.Windows.Forms.PictureBox();
             this.btnSave = new System.Windows.Forms.Button();
-            this.btnSelect = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnAddCatchment = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
@@ -41,62 +38,27 @@
             this.btnFlowBalance = new System.Windows.Forms.Button();
             this.btnRetention = new System.Windows.Forms.Button();
             this.btnDetention = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.btnBasic = new System.Windows.Forms.Button();
             this.btnRetentionReport = new System.Windows.Forms.Button();
             this.btnDetentionReport = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.lblRouting = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pbOptions)).BeginInit();
+            this.btnBlockDiagram = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // cbOptions
-            // 
-            this.cbOptions.FormattingEnabled = true;
-            this.cbOptions.Location = new System.Drawing.Point(15, 9);
-            this.cbOptions.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
-            this.cbOptions.Name = "cbOptions";
-            this.cbOptions.Size = new System.Drawing.Size(768, 38);
-            this.cbOptions.TabIndex = 5;
-            this.cbOptions.Visible = false;
-            this.cbOptions.SelectedIndexChanged += new System.EventHandler(this.cbOptions_SelectedIndexChanged);
-            // 
-            // pbOptions
-            // 
-            this.pbOptions.BackColor = System.Drawing.Color.White;
-            this.pbOptions.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pbOptions.Location = new System.Drawing.Point(631, 465);
-            this.pbOptions.Margin = new System.Windows.Forms.Padding(12, 16, 12, 16);
-            this.pbOptions.Name = "pbOptions";
-            this.pbOptions.Size = new System.Drawing.Size(46, 33);
-            this.pbOptions.TabIndex = 3;
-            this.pbOptions.TabStop = false;
-            this.pbOptions.Visible = false;
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(697, 456);
+            this.btnSave.Location = new System.Drawing.Point(772, 456);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(171, 42);
+            this.btnSave.Size = new System.Drawing.Size(128, 42);
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Back";
             this.toolTip1.SetToolTip(this.btnSave, "Exit the Current Worksheet");
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnSelect
-            // 
-            this.btnSelect.Location = new System.Drawing.Point(792, 6);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(108, 42);
-            this.btnSelect.TabIndex = 8;
-            this.btnSelect.Text = "Select";
-            this.toolTip1.SetToolTip(this.btnSelect, "This will create the Catchments and routing for the selected configuration.");
-            this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Visible = false;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // dataGridView1
             // 
@@ -174,36 +136,6 @@
             this.btnDetention.UseVisualStyleBackColor = true;
             this.btnDetention.Click += new System.EventHandler(this.button2_Click);
             // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(608, 51);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 42);
-            this.label4.TabIndex = 45;
-            this.label4.Text = "0 is Outlet";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(689, 273);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(153, 30);
-            this.label1.TabIndex = 47;
-            this.label1.Text = "Report Options";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(673, 96);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(195, 30);
-            this.label3.TabIndex = 50;
-            this.label3.Text = "Calculation Options";
-            // 
             // btnBasic
             // 
             this.btnBasic.Location = new System.Drawing.Point(631, 129);
@@ -237,6 +169,36 @@
             this.btnDetentionReport.UseVisualStyleBackColor = true;
             this.btnDetentionReport.Click += new System.EventHandler(this.btnDetentionReport_Click);
             // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(608, 51);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(115, 42);
+            this.label4.TabIndex = 45;
+            this.label4.Text = "0 is Outlet";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(689, 273);
+            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(153, 30);
+            this.label1.TabIndex = 47;
+            this.label1.Text = "Report Options";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(673, 96);
+            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(195, 30);
+            this.label3.TabIndex = 50;
+            this.label3.Text = "Calculation Options";
+            // 
             // lblRouting
             // 
             this.lblRouting.AutoSize = true;
@@ -247,12 +209,25 @@
             this.lblRouting.TabIndex = 54;
             this.lblRouting.Text = "Routing";
             // 
+            // btnBlockDiagram
+            // 
+            this.btnBlockDiagram.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBlockDiagram.Location = new System.Drawing.Point(622, 456);
+            this.btnBlockDiagram.Name = "btnBlockDiagram";
+            this.btnBlockDiagram.Size = new System.Drawing.Size(128, 42);
+            this.btnBlockDiagram.TabIndex = 55;
+            this.btnBlockDiagram.Text = "Print Routing";
+            this.toolTip1.SetToolTip(this.btnBlockDiagram, "Exit the Current Worksheet");
+            this.btnBlockDiagram.UseVisualStyleBackColor = true;
+            this.btnBlockDiagram.Click += new System.EventHandler(this.btnBlockDiagram_Click);
+            // 
             // frmSelectCatchmentConfiguration
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(925, 519);
             this.ControlBox = false;
+            this.Controls.Add(this.btnBlockDiagram);
             this.Controls.Add(this.lblRouting);
             this.Controls.Add(this.btnDetentionReport);
             this.Controls.Add(this.btnRetentionReport);
@@ -267,16 +242,12 @@
             this.Controls.Add(this.btnReport);
             this.Controls.Add(this.btnAddCatchment);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cbOptions);
-            this.Controls.Add(this.pbOptions);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "frmSelectCatchmentConfiguration";
             this.Text = "Select Catchment Configuration";
             this.Load += new System.EventHandler(this.frmSelectCatchmentConfiguration_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pbOptions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -284,11 +255,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cbOptions;
-        private System.Windows.Forms.PictureBox pbOptions;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btnAddCatchment;
         private System.Windows.Forms.Button btnReport;
@@ -304,5 +271,6 @@
         private System.Windows.Forms.Button btnRetentionReport;
         private System.Windows.Forms.Button btnDetentionReport;
         private System.Windows.Forms.Label lblRouting;
+        private System.Windows.Forms.Button btnBlockDiagram;
     }
 }

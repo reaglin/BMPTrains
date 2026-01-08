@@ -1344,6 +1344,200 @@ namespace BMPTrains_2020.DomainCode
             return p;
         }
 
+
+     public string PrintRoutingBlockDiagram()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine("<h3>Routing Diagram</h3>");
+
+            if (Catchments == null || Catchments.Count == 0)
+            {
+                sb.AppendLine("<p>No catchments defined.</p>");
+                return sb.ToString();
+            }
+
+            // Collect routing nodes (only those that have a routing and the routing.FromID matches the dictionary key)
+            var routingIds = new HashSet<int>();
+            foreach (var kv in Catchments)
+            {
+                var c = kv.Value;
+                if (c == null) continue;
+                var r = c.getRouting();
+                if (r != null && r.FromID == kv.Key) routingIds.Add(kv.Key);
+            }
+
+            if (routingIds.Count == 0)
+            {
+                sb.AppendLine("<p>No routing defined.</p>");
+                return sb.ToString();
+            }
+
+            // Build toMap (node -> ToID) and children (parent -> list of upstream nodes)
+            var toMap = new Dictionary<int, int>();
+            var children = new Dictionary<int, List<int>>(); // parent -> children (upstream)
+                                                             // ensure outlet key exists
+            children[0] = new List<int>();
+
+            foreach (var id in routingIds)
+            {
+                var c = getCatchment(id, false);
+                if (c == null) continue;
+                var r = c.getRouting();
+                if (r == null) continue;
+
+                int to = r.ToID;
+                toMap[id] = to;
+
+                if (!children.ContainsKey(to)) children[to] = new List<int>();
+                children[to].Add(id);
+
+                if (!children.ContainsKey(id)) children[id] = new List<int>(); // ensure key exists for uniformity
+            }
+
+            // Nodes that feed directly into outlet
+            var topNodes = children.ContainsKey(0) ? children[0] : new List<int>();
+            if (topNodes.Count == 0)
+            {
+                sb.AppendLine("<p>No nodes route to the outlet (node 0).</p>");
+                return sb.ToString();
+            }
+
+            // For each topNode build all upstream chains (there may be multiple upstream branches -> create one chain per leaf)
+            var allChains = new List<List<int>>();
+
+            foreach (var top in topNodes)
+            {
+                // gather all nodes in this branch (all nodes that eventually lead to 'top') by DFS on children
+                var branchNodes = new HashSet<int>();
+                var stack = new Stack<int>();
+                stack.Push(top);
+                while (stack.Count > 0)
+                {
+                    var cur = stack.Pop();
+                    if (!branchNodes.Add(cur)) continue;
+                    if (children.ContainsKey(cur))
+                    {
+                        foreach (var up in children[cur])
+                        {
+                            // avoid infinite loop if malformed, only traverse routingIds
+                            if (routingIds.Contains(up)) stack.Push(up);
+                        }
+                    }
+                }
+
+                // Find leaves in this branch (furthest upstream nodes): nodes that have no upstream children
+                var leaves = branchNodes.Where(n => !children.ContainsKey(n) || children[n].Count == 0).ToList();
+                if (leaves.Count == 0)
+                {
+                    // fallback: treat 'top' as a single chain
+                    leaves.Add(top);
+                }
+
+                // For each leaf, follow toMap down to outlet, building the chain
+                foreach (var leaf in leaves)
+                {
+                    var chain = new List<int>();
+                    int cur = leaf;
+                    // walk downwards until we hit outlet (0) or we encounter something invalid
+                    while (true)
+                    {
+                        chain.Add(cur);
+                        if (!toMap.ContainsKey(cur)) break; // defensive
+                        int to = toMap[cur];
+                        if (to == 0) break;
+                        // guard against loops/missing nodes
+                        if (!routingIds.Contains(to)) { chain.Add(to); break; }
+                        // avoid infinite loops
+                        if (chain.Contains(to)) break;
+                        cur = to;
+                    }
+                    // chain now contains leaf -> ... -> (node that routes to outlet)
+                    allChains.Add(chain);
+                }
+            }
+
+            if (allChains.Count == 0)
+            {
+                sb.AppendLine("<p>No chains discovered.</p>");
+                return sb.ToString();
+            }
+
+            // Local CSS for diagram
+            sb.AppendLine("<style>");
+            sb.AppendLine(".rt-wrap { display:block; font-family: Arial, sans-serif; }");
+            sb.AppendLine(".rt-table { width:100%; border-collapse: collapse; }");
+            sb.AppendLine(".rt-col { vertical-align: top; text-align:center; padding:8px; }");
+            sb.AppendLine(".rt-block { display:inline-block; background:#f7fbff; border:1px solid #cfe6ff; border-radius:6px; padding:8px 10px; min-width:150px; margin:6px 0; }");
+            sb.AppendLine(".rt-id { font-weight:700; color:#0b5394; }");
+            sb.AppendLine(".rt-name { font-size:0.95em; color:#23475a; margin-top:4px; }");
+            sb.AppendLine(".rt-bmp { font-size:0.9em; color:#444; margin-top:4px; }");
+            sb.AppendLine(".rt-arrow { font-size:20px; color:#666; line-height:1; margin:4px 0; }");
+            sb.AppendLine(".rt-outlet { display:inline-block; background:#eef6ea; border:1px solid #c6e6c7; border-radius:6px; padding:10px 16px; font-weight:700; color:#1b6a2e; }");
+            sb.AppendLine("</style>");
+
+            sb.AppendLine("<div class='rt-wrap'>");
+
+            // Render chains as columns
+            sb.AppendLine("<table class='rt-table'><tr>");
+
+            foreach (var chain in allChains)
+            {
+                sb.AppendLine("<td class='rt-col'>");
+
+                // Render blocks from upstream (first element) down to immediate upstream of outlet
+                for (int i = 0; i < chain.Count; i++)
+                {
+                    int nodeId = chain[i];
+                    var c = getCatchment(nodeId, false);
+                    string name = c != null ? (c.CatchmentName ?? ("Catchment " + nodeId)) : ("Catchment " + nodeId);
+                    string bmp = "(none)";
+                    try
+                    {
+                        var bmpObj = c?.getSelectedBMP();
+                        if (bmpObj != null) bmp = bmpObj.BMPType ?? bmp;
+                    }
+                    catch { }
+
+                    sb.AppendLine("<div class='rt-block'>");
+                    sb.AppendLine($"<div class='rt-id'>ID {nodeId}</div>");
+                    sb.AppendLine($"<div class='rt-name'>{System.Security.SecurityElement.Escape(name)}</div>");
+                    sb.AppendLine($"<div class='rt-bmp'>{System.Security.SecurityElement.Escape(bmp)}</div>");
+                    sb.AppendLine("</div>");
+
+                    // arrow to next (if not last)
+                    if (i < chain.Count - 1)
+                    {
+                        sb.AppendLine("<div class='rt-arrow'>&darr;</div>");
+                    }
+                    else
+                    {
+                        // final node in column (routes to outlet), show arrow to outlet
+                        sb.AppendLine("<div class='rt-arrow'>&darr;</div>");
+                    }
+                }
+
+                sb.AppendLine("</td>");
+            }
+
+            sb.AppendLine("</tr>");
+
+            // Outlet row - span across all columns and show outlet block centered
+            sb.AppendLine("<tr>");
+            sb.AppendLine($"<td colspan='{allChains.Count}' style='text-align:center; padding-top:8px;'>");
+            sb.AppendLine("<div class='rt-outlet'>");
+            sb.AppendLine("<div>Outlet (0)</div>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</td>");
+            sb.AppendLine("</tr>");
+
+            sb.AppendLine("</table>");
+
+            sb.AppendLine("</div>");
+
+            return sb.ToString();
+        }
+
         public string PrintRoutingDestination(Catchment c)
         {
             string s = "";
@@ -1358,6 +1552,7 @@ namespace BMPTrains_2020.DomainCode
             }
             return s;
         }
+
         public string PrintRetentionInSeriesReport() 
         {
             RoutingMethod = BMPTrainsProject.routing_DetentionInSeries;
@@ -1378,9 +1573,93 @@ namespace BMPTrains_2020.DomainCode
         {
             return BMPTrainsReports.RoutingBalanceDiagramForAllHtml(this);
         }
-        // Added public checks for series report availability
+
+        // Added public checks for series report availability - routing 
+        // must be set to series and all BMPs must be of the correct type
+        public bool CheckIfRoutingIsInSeries()
+        {
+            // Only consider catchments that actually have a CatchmentRouting instance.
+            if (Catchments == null || Catchments.Count == 0) return false;
+
+            // Collect routing node IDs (FromID) present in the project (i.e. catchments that have a routing)
+            var routingIds = new HashSet<int>();
+            foreach (var kv in Catchments)
+            {
+                var c = kv.Value;
+                if (c == null) continue;
+                var r = c.getRouting();
+                if (r != null && r.FromID == kv.Key) routingIds.Add(kv.Key);
+            }
+
+            // No routings defined -> not a series routing
+            if (routingIds.Count == 0) return false;
+
+            // Build indegree counts for routing nodes + outlet(0)
+            var indeg = new Dictionary<int, int>();
+            indeg[0] = 0; // outlet
+
+            foreach (var id in routingIds) indeg[id] = 0;
+
+            // Map each routing node to its ToID and validate ToIDs
+            var toMap = new Dictionary<int, int>();
+            foreach (var id in routingIds)
+            {
+                var c = getCatchment(id, false);
+                if (c == null) return false;
+                var r = c.getRouting();
+                if (r == null) return false;
+
+                int to = r.ToID;
+
+                // ToID must be either 0 (outlet) or another routing node id
+                if (to != 0 && !routingIds.Contains(to))
+                {
+                    // routes to a node not part of the routing set -> not a single series
+                    return false;
+                }
+
+                toMap[id] = to;
+                if (!indeg.ContainsKey(to)) indeg[to] = 0;
+                indeg[to] = indeg[to] + 1;
+            }
+
+            // Exactly one routing must point to the outlet (ToID == 0)
+            if (!indeg.ContainsKey(0) || indeg[0] != 1) return false;
+
+            // No node should have indegree > 1 (no branching)
+            foreach (var id in routingIds)
+            {
+                if (indeg.ContainsKey(id) && indeg[id] > 1) return false;
+            }
+
+            // There must be exactly one start node (indegree == 0)
+            var starts = routingIds.Where(id => indeg.ContainsKey(id) && indeg[id] == 0).ToList();
+            if (starts.Count != 1) return false;
+            int start = starts[0];
+
+            // Walk from the start following ToID pointers, ensure we visit every routing node exactly once and terminate at outlet
+            var visited = new HashSet<int>();
+            int cur = start;
+            while (true)
+            {
+                if (visited.Contains(cur)) return false; // cycle detected
+                visited.Add(cur);
+
+                int to = toMap[cur];
+                if (to == 0) break; // reached outlet successfully
+                                    // guard: to must be a valid routing id (checked earlier)
+                if (!toMap.ContainsKey(to)) return false;
+                cur = to;
+            }
+
+            // Ensure all routing nodes are on the single chain
+            return visited.Count == routingIds.Count;
+        }
+
         public bool CheckIfRetentionInSeries()
         {
+            if (CheckIfRoutingIsInSeries() == false) return false;
+            
             for (int i = 1; i <= this.numCatchments; i++)
             {
                 Catchment c = this.getCatchment(i);
@@ -1395,6 +1674,8 @@ namespace BMPTrains_2020.DomainCode
 
         public bool CheckIfDetentionInSeries()
         {
+            if (CheckIfRoutingIsInSeries() == false) return false;
+
             for (int i = 1; i <= this.numCatchments; i++)
             {
                 Catchment c = this.getCatchment(i);

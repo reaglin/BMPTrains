@@ -22,22 +22,11 @@ namespace BMPTrains_2020
         private void frmSelectCatchmentConfiguration_Load(object sender, EventArgs e)
         {
             AddColumns();
-            DisplayCatchmentConfigurationsCombo();
             DisplayCurrentRouting();
             showAvailableCalculationOptions();
         }
 
-        private void DisplayCatchmentConfigurationsCombo()
-        {
-            cbOptions.DataSource = new BindingSource(BMPTrainsProject.CatchmentConfigurations(), null);
-            cbOptions.DisplayMember = "Value";
-            cbOptions.ValueMember = "Key";
-
-            if ((Globals.Project.CatchmentConfiguration != "") || (Globals.Project.CatchmentConfiguration != null))
-            {
-                cbOptions.SelectedValue = Globals.Project.CatchmentConfiguration;
-            }
-        }
+ 
 
         private void AddColumns()
         {
@@ -121,20 +110,42 @@ namespace BMPTrains_2020
 
        public void showAvailableCalculationOptions()
         {
+            // Turn off all buttons - then turn on ones that are available
+            btnRetention.Enabled = false;
+            btnRetentionReport.Enabled = false;
+            btnDetention.Enabled = false;
+            btnDetentionReport.Enabled = false;
+            btnBasic.Enabled = false;
+            btnBlockDiagram.Visible = true;
+
             lblRouting.Text = Globals.Project.RoutingMethod;
             bool retentionAvailable = Globals.Project.CheckIfRetentionInSeries();
             bool detentionAvailable = Globals.Project.CheckIfDetentionInSeries();
-            btnRetentionReport.Enabled = retentionAvailable;
-            btnDetentionReport.Enabled = detentionAvailable;
-            btnRetention.Enabled = retentionAvailable;
-            btnDetention.Enabled = detentionAvailable;
-            lblRouting.Text = Globals.Project.RoutingMethod;
+            // retentionAvailable turns on btnRetentionReport and turns off Basic Routing
+
+            if (Globals.Project.CheckIfRetentionInSeries()) { 
+                btnRetention.Enabled = true;
+                btnRetentionReport.Enabled = true;
+                btnFlowBalance.Enabled = true;
+                btnReport.Enabled = true;
+                return;
+            }
+            if (Globals.Project.CheckIfDetentionInSeries())
+            {
+                btnDetention.Enabled = true;
+                btnDetentionReport.Enabled = true;
+                btnFlowBalance.Enabled = true;
+                btnReport.Enabled = true;
+                return;
+            }
+
+            //if (Globals.Project.getRoutingOutlet() != null)
+            //{
+            //    btnBlockDiagram.Visible = true;
+            //}
         }
 
-        private void cbOptions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            DisplayImage();
-        }
+
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -147,36 +158,6 @@ namespace BMPTrains_2020
             this.Close();
         }
 
-        private void btnSelect_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("This will overwrite the existing routing, Continue?", "Overwrite Existing Routing", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.No) return;
-
-            if (cbOptions.SelectedValue.ToString() != "" && cbOptions.SelectedValue != null)
-            {
-                try
-                {
-                    int[] cc = CatchmentConfigurations.Routings[cbOptions.SelectedValue.ToString()];
-                    dataGridView1.Rows.Clear();
-                    Globals.Project.numCatchments = cc.Length - 1;
-                    for (int i = 1; i < cc.Length; i++)
-                    {
-                        // We are also going to set to values
-                        int from = i;
-                        Globals.Project.getCatchment(i).setToRouting(cc[i]);
-                    }
-                }
-                catch { return; }
-                DisplayCurrentRouting();
-                DisplayImage();
-
-            }
-        }
-        public void DisplayImage()
-        {
-            pbOptions.Image = Globals.Project.getConfigurationImage(cbOptions.SelectedValue.ToString());
-            pbOptions.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-        }
         void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // If not Edit button - ignore click
@@ -288,6 +269,11 @@ namespace BMPTrains_2020
             Globals.Project.Calculate();
             showAvailableCalculationOptions();
             showReport(Globals.Project.PrintDetentionInSeriesReport(), "Detention in Series Report");
+        }
+
+        private void btnBlockDiagram_Click(object sender, EventArgs e)
+        {
+            showReport(Globals.Project.PrintRoutingBlockDiagram(), "Block Diagram");
         }
     }
 }
