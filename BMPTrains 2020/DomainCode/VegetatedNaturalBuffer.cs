@@ -107,7 +107,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Vegetated Natural Buffer Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Vegetated Natural Buffer Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public VegetatedNaturalBuffer(Catchment c): base(c) {

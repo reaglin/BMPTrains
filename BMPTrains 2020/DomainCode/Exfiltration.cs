@@ -52,7 +52,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Exfiltration System Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Exfiltration System Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public Exfiltration(Catchment c) : base(c) {

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Xml.Linq;
 
 namespace BMPTrains_2020.DomainCode
@@ -597,26 +598,56 @@ namespace BMPTrains_2020.DomainCode
         public string AsHtmlTable()
         {
             return this.AsHtmlTable(this.PropertyLabels());
-        }        
+        }
 
-        public string AsHtmlTable(Dictionary<string, string> p)
+        public string AsHtmlTable(Dictionary<string, string> p, string styleBlock = null, string tableClass = null)
         {
-            string s = "<table>";
+            var sb = new StringBuilder();
+
+            // Emit provided style block (wrap in <style> if user passed plain CSS).
+            if (!string.IsNullOrWhiteSpace(styleBlock))
+            {
+                string trimmed = styleBlock.Trim();
+                if (trimmed.StartsWith("<style", StringComparison.OrdinalIgnoreCase))
+                    sb.AppendLine(styleBlock);
+                else
+                    sb.AppendLine("<style>" + styleBlock + "</style>");
+
+                // Default class when styleBlock supplied and no class requested
+                if (string.IsNullOrWhiteSpace(tableClass)) tableClass = "xmlobj-table";
+            }
+
+            string classAttr = string.IsNullOrWhiteSpace(tableClass)
+                ? string.Empty
+                : " class='" + System.Security.SecurityElement.Escape(tableClass) + "'";
+
+            sb.AppendLine("<table" + classAttr + ">");
+
+            // Table header
+            sb.AppendLine("<thead>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th>Parameter</th>");
+            sb.AppendLine("<th>Value</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</thead>");
+
+            sb.AppendLine("<tbody>");
             foreach (KeyValuePair<string, string> pair in p)
             {
-                s += "<tr>";
-                // To debug print out both key and value - uncomment to debug
-                //s += "<td>" + pair.Key + ":" + pair.Value + "</td>";
-                // Normal node only print out value
-                s += "<td>" + (pair.Value == "" ? pair.Key : pair.Value) + "</td>";
+                sb.AppendLine("<tr>");
+                // Label (Parameter)
+                string label = string.IsNullOrWhiteSpace(pair.Value) ? pair.Key : pair.Value;
+                sb.AppendLine("<td>" + System.Security.SecurityElement.Escape(label) + "</td>");
+                // Value
                 string v = GetValue(pair.Key);
-                s += "<td>" + v + "</td>";
-                
-                
-                s += "</tr>";
+                sb.AppendLine("<td>" + System.Security.SecurityElement.Escape(v) + "</td>");
+                sb.AppendLine("</tr>");
             }
-            s += "</table>";
-            return s;
+            sb.AppendLine("</tbody>");
+
+            sb.AppendLine("</table>");
+
+            return sb.ToString();
         }
 
         public string AsHtmlTable(string[] header, string values)

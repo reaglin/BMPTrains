@@ -8,6 +8,15 @@ namespace BMPTrains_2020.DomainCode
 {
     public static class BMPTrainsReports
     {
+
+        public static string TableStyle1 =  "<style>"
+            + ".my-table { border: 1px solid #cfcfcf; border-collapse: separate; border-spacing: 0; width:100%; }"
+            + ".my-table td { padding: 6px 8px; vertical-align: top; }"
+            + ".my-table tr { border-bottom: 1px solid #e6e6e6; }"
+            + ".my-table tr:nth-child(even) { background-color: #fafafa; }"
+            + ".my-table thead th { background: linear-gradient(#e6f2ff, #d9ecff); font-weight: 700; color: #0b5394; padding: 8px 10px; border-bottom: 2px solid #c0daf5; text-align: left; }"
+            + "</style>";
+        
         public static string MasterReportHeader(string reportText, string reportTitle = "")
         {
             // Project/file/user metadata (safe-escaped)

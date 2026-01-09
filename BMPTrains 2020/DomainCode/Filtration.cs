@@ -13,7 +13,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Filtration Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Filtration Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public Filtration(Catchment c) : base(c) {
@@ -58,7 +58,7 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        public override string GroundwaterAnalysis()
+        public override string PrintGroundwaterAnalysis()
         {
             string s = "<br/>";
             if (MediaMixType != MediaMix.None)

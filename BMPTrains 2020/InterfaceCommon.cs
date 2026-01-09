@@ -158,17 +158,47 @@ namespace BMPTrains_2020
             }
             return s;
         }
-        public static string PrintPropertyTable(object o, string[] properties, string Label)
+        // Modified PrintPropertyTable to make Label optional and accept an optional style block + table class.
+        // If styleBlock is provided it is emitted (wrapped in <style> if necessary) and the table will receive
+        // the specified tableClass (or a sensible default) so the styles can target only this table.
+        public static string PrintPropertyTable(object o, string[] properties, string Label = null, string styleBlock = null, string tableClass = null)
         {
-            string s = "<h2>" + Label + "</h2>";
-            s += "<table>";
+            var sb = new StringBuilder();
+
+            // Optional label
+            if (!string.IsNullOrWhiteSpace(Label))
+            {
+                sb.AppendLine("<h2>" + System.Security.SecurityElement.Escape(Label) + "</h2>");
+            }
+
+            // Emit provided style block (wrap in <style> if user passed plain CSS).
+            if (!string.IsNullOrWhiteSpace(styleBlock))
+            {
+                string trimmed = styleBlock.Trim();
+                if (trimmed.StartsWith("<style", StringComparison.OrdinalIgnoreCase))
+                    sb.AppendLine(styleBlock);
+                else
+                    sb.AppendLine("<style>" + styleBlock + "</style>");
+
+                // Default class when styleBlock supplied and no class requested
+                if (string.IsNullOrWhiteSpace(tableClass)) tableClass = "ic-table";
+            }
+
+            string classAttr = string.IsNullOrWhiteSpace(tableClass)
+                ? string.Empty
+                : " class='" + System.Security.SecurityElement.Escape(tableClass) + "'";
+
+            sb.AppendLine("<table" + classAttr + ">");
+
             foreach (var property in properties)
             {
-                s += PrintPropertyRow(o, property);
+                sb.AppendLine(PrintPropertyRow(o, property));
             }
-            s += "</table><br/>";
-            return s;
+
+            sb.AppendLine("</table><br/>");
+            return sb.ToString();
         }
+
         public static string PrintPropertyRow(object o, string property)
         {
             return PrintProperty(o, property, true);

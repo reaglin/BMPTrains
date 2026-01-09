@@ -74,7 +74,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Wet Detention Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Wet Detention Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public WetDetention(Catchment c) : base(c)
@@ -269,6 +269,7 @@ namespace BMPTrains_2020.DomainCode
 
         public void Calculate(double ResTime)
         {
+            // This uses standard equations to calculate removal based on residence time
             DetentionPercentNitrogenRemoval = CalculateNitrogenRemoval(ResTime);
             DetentionPercentPhosphorusRemoval = CalculatePhosphorusRemoval(ResTime);
 

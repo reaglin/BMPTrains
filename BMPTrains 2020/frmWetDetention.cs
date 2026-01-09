@@ -117,7 +117,7 @@ namespace BMPTrains_2020
         {
             getValues();
             currentBMP().Calculate();
-            wbOutput.DocumentText = currentBMP().BasicReport();
+            wbOutput.DocumentText = currentBMP().PrintBasicReport();
             Common.ShowDetentionPlot(currentBMP());
         }
 

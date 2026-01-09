@@ -105,7 +105,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Swale Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Swale Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public Swale(Catchment c) : base(c) {

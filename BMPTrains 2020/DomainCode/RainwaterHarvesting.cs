@@ -18,7 +18,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rainwater Harvesting Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rainwater Harvesting Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public static Dictionary<string, double> RoofTypes() => new Dictionary<string, double>

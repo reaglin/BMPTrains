@@ -166,7 +166,7 @@ namespace BMPTrains_2020
             Calculate();
             if (lastBMPID() == 0) return;
             //if (lastBMP().BMPType == BMPTrainsProject.sWetDetention) btnAnoxicDepth.Visible = true; else btnAnoxicDepth.Visible = false;
-            Form form = new frmReport(currentBMP().getReport());
+            Form form = new frmReport(currentBMP().PrintBMPReport());
             form.ShowDialog();
         }
 
@@ -188,7 +188,7 @@ namespace BMPTrains_2020
                 form1.ShowDialog();
                 return;
             }
-            Form form = new frmReport(currentBMP().PrintFullReport());
+            Form form = new frmReport(currentBMP().PrintBMPReport());
             form.ShowDialog();
 
         }

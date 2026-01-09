@@ -203,13 +203,12 @@ namespace BMPTrains_2020.DomainCode
 
         public string PrintWatershedCharacteristics()
         {
-            string s = InterfaceCommon.PrintPropertyTable(this, InputVariables, "Catchment Characteristics");
-            s += InterfaceCommon.PrintPropertyTable(this, PreConditionVariables, "Pre-Condition Watershed Characteristics");
-            s += InterfaceCommon.PrintPropertyTable(this, PostConditionVariables, "Post-Condition Watershed Characteristics");
+            string s = InterfaceCommon.PrintPropertyTable(this, InputVariables, "Catchment Characteristics", BMPTrainsReports.TableStyle1, "my-table");
+            s += InterfaceCommon.PrintPropertyTable(this, PreConditionVariables, "Pre-Condition Watershed Characteristics", BMPTrainsReports.TableStyle1, "my-table");
+            s += InterfaceCommon.PrintPropertyTable(this, PostConditionVariables, "Post-Condition Watershed Characteristics", BMPTrainsReports.TableStyle1, "my-table");
 
             return s;
         }
-
 
         #region "BMP Properties"
         // Need to add a single instance of each BMP a Catchment Can have - this
@@ -383,10 +382,9 @@ namespace BMPTrains_2020.DomainCode
         public double getContributingArea()
         {
             return PostArea - BMPArea;
-            if (getSelectedBMPType() == BMPTrainsProject.sStormwaterHarvesting) return this.PostArea;
-            if (BMPArea > PostArea) return 0;
-            return PostArea - BMPArea;
-
+            //if (getSelectedBMPType() == BMPTrainsProject.sStormwaterHarvesting) return this.PostArea;
+            //if (BMPArea > PostArea) return 0;
+            //return PostArea - BMPArea;
         }
 
         public Dictionary<string, BMP> ImplementedBMPs()

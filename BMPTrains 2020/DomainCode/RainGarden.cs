@@ -44,7 +44,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rain Garden Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Rain Garden Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public RainGarden(Catchment c) : base(c) {

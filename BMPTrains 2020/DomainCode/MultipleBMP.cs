@@ -123,10 +123,7 @@ namespace BMPTrains_2020.DomainCode
             CalculateMassLoading();
 
             CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
-
-
         }
-
 
         public bool CalculateAllRetention()
         {
@@ -215,47 +212,6 @@ namespace BMPTrains_2020.DomainCode
 
             return false;
         }
-
-        //private void CalculateTraditional()
-        //{
-
-        //    if (bmp1.isDefined())
-        //    {
-        //        CalculateMassLoadReductions(bmp1);
-        //        ProvidedNTreatmentEfficiency = bmp1.ProvidedNTreatmentEfficiency;
-        //        ProvidedPTreatmentEfficiency = bmp1.ProvidedPTreatmentEfficiency;
-        //        CalculateMassLoading(false);
-        //        if (bmp2.isDefined())
-        //        {
-        //            bmp2.BMPNMassLoadIn = bmp1.BMPNMassLoadOut;
-        //            bmp2.BMPPMassLoadIn = bmp1.BMPPMassLoadOut;
-        //            CalculateMassLoadReductions(bmp2);
-        //            ProvidedNTreatmentEfficiency = 100 *  (bmp1.BMPNMassLoadIn - bmp2.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-        //            ProvidedPTreatmentEfficiency = 100 *  (bmp1.BMPPMassLoadIn - bmp2.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-        //            CalculateMassLoading(false);
-        //            if (bmp3.isDefined())
-        //            {
-        //                bmp3.BMPNMassLoadIn = bmp2.BMPNMassLoadOut;
-        //                bmp3.BMPPMassLoadIn = bmp2.BMPPMassLoadOut;
-        //                CalculateMassLoadReductions(bmp3);
-        //                ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp3.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-        //                ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp3.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-        //                CalculateMassLoading(false);
-        //                if (bmp4.isDefined())
-        //                {
-        //                    bmp4.BMPNMassLoadIn = bmp3.BMPNMassLoadOut;
-        //                    bmp4.BMPPMassLoadIn = bmp3.BMPPMassLoadOut;
-        //                    CalculateMassLoadReductions(bmp4);
-        //                    ProvidedNTreatmentEfficiency = 100 * (bmp1.BMPNMassLoadIn - bmp4.BMPNMassLoadOut) / bmp1.BMPNMassLoadIn;
-        //                    ProvidedPTreatmentEfficiency = 100 * (bmp1.BMPPMassLoadIn - bmp4.BMPPMassLoadOut) / bmp1.BMPPMassLoadIn;
-        //                    CalculateMassLoading(false);
-        //                }
-
-        //            }
-
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Calculates the Traditional Mass Loading reductions across a chain of up to four BMPs.
@@ -570,31 +526,38 @@ namespace BMPTrains_2020.DomainCode
             if (((Storage)up).BMPVolumeOut != 0) rt = ((WetDetention)down).PermanentPoolVolume / ((Storage)up).BMPVolumeOut * 365;
             ((WetDetention)down).Calculate(rt);
 
-            down.BMPNMassLoadIn = up.BMPNMassLoadOut;
-            down.BMPPMassLoadIn = up.BMPPMassLoadOut;
+            // The current Wet Detention efficiency for standalone for N and P are stored in
+            // DetentionPercentNitrogenRemoval and DetentionPercentPhosphorusRemoval 
+            double DetentionNEff = ((WetDetention)down).DetentionPercentNitrogenRemoval;
+            double DetentionPEff = ((WetDetention)down).DetentionPercentPhosphorusRemoval;
+
+            // The Wet Detention Calculation gives us a standalone efficiency for wet detentions
+            // 
 
             // Now we have to adjust the overall efficiency to take into account the additional removal
+            // using e as upstream retention treatment efficiency and detention efficiency non-adjusted. 
+            // Adjusted efficiency =  ((e1 / 100.0) + (e2 / 100.0) * (1 - (e1 / 100.0))) * 100.0;
+            // e1 and e2 as a fraction = e1 + e2*(1-e1)
 
-            double NonAdjustedN = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
-            double NonAdjustedP = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
+            //double NonAdjustedN = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
+            //double NonAdjustedP = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
 
-            //if (e > down.CalculatedNTreatmentEfficiency)
-            //    down.CalculatedNTreatmentEfficiency = down.CalculatedNTreatmentEfficiency - 22;
-            //else
-            down.ProvidedNTreatmentEfficiency = down.ProvidedNTreatmentEfficiency - e/7.0;
-            //down.CalculatedNTreatmentEfficiency = NonAdjustedN - e / 7.0;
-            //if (e > down.CalculatedPTreatmentEfficiency)
-            //    down.CalculatedPTreatmentEfficiency = down.CalculatedPTreatmentEfficiency - 12;
-            //else
-            down.ProvidedPTreatmentEfficiency = down.ProvidedPTreatmentEfficiency - e/7.0;
-            //down.CalculatedPTreatmentEfficiency = NonAdjustedP - e / 7.0;
+            //down.ProvidedNTreatmentEfficiency = down.ProvidedNTreatmentEfficiency - e/7.0;
+            //down.ProvidedPTreatmentEfficiency = down.ProvidedPTreatmentEfficiency - e/7.0;
+            down.ProvidedNTreatmentEfficiency = (100 - e) * ((DetentionNEff/100) - (10/100)*(e / 100));
+            down.ProvidedPTreatmentEfficiency = (100 - e) * ((DetentionPEff/100) - (20/100)*(e / 100));
 
             if (down.ProvidedNTreatmentEfficiency <= 0) down.ProvidedNTreatmentEfficiency = 0.0;
             if (down.ProvidedPTreatmentEfficiency <= 0) down.ProvidedPTreatmentEfficiency = 0.0;
 
-            ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
-            ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
+            //ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
+            //ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
+            ProvidedNTreatmentEfficiency = e + down.ProvidedNTreatmentEfficiency;
+            ProvidedPTreatmentEfficiency = e + down.ProvidedPTreatmentEfficiency;
 
+            // Now calculate Mass Load reductions
+            down.BMPNMassLoadIn = up.BMPNMassLoadOut;
+            down.BMPPMassLoadIn = up.BMPPMassLoadOut;
             CalculateMassLoadReductions(down);
             CalculateMassLoadReductions(this);
         }
@@ -810,30 +773,41 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintBMPReport()
         {
-            string s = "<b>Project:</b> " + Globals.Project.ProjectName + "<br/>";
-            s += "<b>Date:</b> " + DateTime.Now.ToString("d") + "<br/><br/>";
-            s += "<b>Multiple BMP in Series Design Parameters</b><br/>";
-            if (bmp1.isDefined()) s += SpecificBMPReport(1, bmp1);
-            if (bmp2.isDefined()) s += SpecificBMPReport(2, bmp2);
-            if (bmp3.isDefined()) s += SpecificBMPReport(3, bmp3);
-            if (bmp4.isDefined()) s += SpecificBMPReport(4, bmp4);
-
+            string s = "<h2>Multiple BMP in Series</h2>";
             s += PrintWatershedCharacteristics();
-            s += SurfaceWaterAnalysis();
-            if ((DoGroundwaterAnalysis == "Yes") || (MediaMixType != MediaMix.None)) s += GroundwaterAnalysis();
+            s += SpecificBMPReport(1, bmp1);
+            s += SpecificBMPReport(2, bmp2);
+            s += SpecificBMPReport(3, bmp3);
+            s += SpecificBMPReport(4, bmp4);
+
+            s += PrintSurfaceWaterDischarge();
+
+            if ((DoGroundwaterAnalysis == "Yes") || (MediaMixType != MediaMix.None)) s += PrintGroundwaterAnalysis();
+
             s += LoadDiagram();
             return s;
         }
 
         public string SpecificBMPReport(int i, BMP bmp)
         {
-            string s = "<br/>BMP in Series Number: " + i.ToString() + "<br/>";
-            s += "BMP Type: " + bmp.BMPType + "<br/>";
-            s += bmp.BMPInputVariables();
-            return s;
+            if (bmp == null) return string.Empty;
+
+            string vars = bmp.PrintInputVariables();
+
+            // If vars contains no printable content (null/empty/whitespace) return nothing
+            if (string.IsNullOrWhiteSpace(vars)) return string.Empty;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("<h2>BMP in Series Number: " + i.ToString() + " (");
+            // BMPType is plain text; escape to avoid injecting into surrounding HTML
+            sb.AppendLine("BMP Type: " + System.Security.SecurityElement.Escape(bmp.BMPType ?? "") + ")</h2>");
+            // vars is assumed to be HTML returned by PrintInputVariables() — include as-is
+            sb.Append(vars);
+
+            return sb.ToString();
         }
 
-        public override string BasicReport()
+        public override string PrintBasicReport()
         {
             return AsHtmlTable(MReportLabels());
         }
@@ -854,6 +828,7 @@ namespace BMPTrains_2020.DomainCode
                 {"BMPPMassLoadOut", "Overall Phosphorus Load (kg/yr)"}
             };
         }
+
         public override string getReport()
         {
             string s = "<h2>Combined Report of all BMP's</h2>";
@@ -866,27 +841,11 @@ namespace BMPTrains_2020.DomainCode
                 return s;
             }
 
-            //s += "<h1>Contributing BMPs</h1>";
-            //if (bmpExists(1) && bmp1.BMPType != BMPTrainsProject.sNone) s += bmp1.EfficiencyReport();
-            //if (bmpExists(2) && bmp2.BMPType != BMPTrainsProject.sNone) s += bmp2.EfficiencyReport();
-            //if (bmpExists(3) && bmp3.BMPType != BMPTrainsProject.sNone) s += bmp3.EfficiencyReport();
-            //if (bmpExists(4) && bmp4.BMPType != BMPTrainsProject.sNone) s += bmp4.EfficiencyReport();
             s += EfficiencyReport();
             return s;
         }
 
-        public string PrintFullReport()
-        {
-            string s = "<h1>Multiple BMP Report</h1>";
-            s += "Each BMP rreported in routing order";
-            s += PrintWatershedCharacteristics();
-
-            if (bmp1.isDefined()) { s += "<h2>BMP 1</h2>"+ bmp1.PrintInputVariables(); }
-            if (bmp2.isDefined()) { s += "<h2>BMP 2</h2>" + bmp2.PrintInputVariables(); }
-            if (bmp3.isDefined()) { s += "<h2>BMP 3</h2>" + bmp3.PrintInputVariables(); }
-            if (bmp4.isDefined()) { s += "<h2>BMP 4</h2>" + bmp4.PrintInputVariables(); }
-            return s;
-        }
+        
 
         public override string EfficiencyReport()
         {

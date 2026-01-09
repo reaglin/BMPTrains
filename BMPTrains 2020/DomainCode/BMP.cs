@@ -343,7 +343,7 @@ namespace BMPTrains_2020.DomainCode
             s += PrintInputVariables();
             s += PrintWatershedCharacteristics();
             s += PrintSurfaceWaterDischarge();
-            if ((DoGroundwaterAnalysis == "Yes")||(MediaMixType != MediaMix.None)) s += GroundwaterAnalysis();
+            if ((DoGroundwaterAnalysis == "Yes")||(MediaMixType != MediaMix.None)) s += PrintGroundwaterAnalysis();
             s += LoadDiagram();
             return s;
         }
@@ -372,26 +372,7 @@ namespace BMPTrains_2020.DomainCode
         public string PrintWatershedCharacteristics()
         {
             string[] values = { "WatershedArea", "ContributingArea", "WatershedNDCIACurveNumber", "WatershedDCIAPercent", "RainfallZone", "Rainfall" };
-            return InterfaceCommon.PrintPropertyTable(this, values, "Watershed Characteristics");
-        }
-
-        public string SurfaceWaterAnalysis()
-        {
-            if (ProvidedNTreatmentEfficiency >= 100) ProvidedNTreatmentEfficiency = 99;
-            if (ProvidedPTreatmentEfficiency >= 100) ProvidedPTreatmentEfficiency = 99;
-
-            string s = "<br/><b>Surface Water Discharge</b><br/>";
-            s += AsHtmlTable(
-                new Dictionary<string, string>
-            {
-                {"RequiredNTreatmentEfficiency", "Required TN Treatment Efficiency (%)"},
-                {"ProvidedNTreatmentEfficiency", "Provided TN Treatment Efficiency (%)"},
-                {"RequiredPTreatmentEfficiency", "Required TP Treatment Efficiency (%)"},
-                {"ProvidedPTreatmentEfficiency", "Provided TP Treatment Efficiency (%)"},
-            });
-            s += "<br/>";
-
-            return s;
+            return InterfaceCommon.PrintPropertyTable(this, values, "Watershed Characteristics", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public string PrintSurfaceWaterDischarge()
@@ -400,39 +381,55 @@ namespace BMPTrains_2020.DomainCode
             if (ProvidedPTreatmentEfficiency >= 100) ProvidedPTreatmentEfficiency = 99;
             // Give each property as a string 
             string[] values = { "RequiredNTreatmentEfficiency", "ProvidedNTreatmentEfficiency", "RequiredPTreatmentEfficiency", "ProvidedPTreatmentEfficiency" };
-            return InterfaceCommon.PrintPropertyTable(this, values, "Surface Water Discharge");
+            return InterfaceCommon.PrintPropertyTable(this, values, "Surface Water Discharge", BMPTrainsReports.TableStyle1, "my-table");
         }
 
 
-        public virtual string GroundwaterAnalysis()
+        public string PrintMediaMixInformation()
         {
-            if (BMPType == BMPTrainsProject.sMultipleBMP) return "";
-            string s = "<br/>";
-            if ((MediaMixType != MediaMix.None) ||((MediaMixType != MediaMix.NotSpecified))) { 
-                s += "<b>Media Mix Information</b><br/>";
-                s += AsHtmlTable(
-                    new Dictionary<string, string>
-                    {
-                        {"MediaMixType", "Type of Media Mix"},
-                        {"MediaNPercentReduction", "Media N Reduction (%)"},
-                        {"MediaPPercentReduction", "Media P Reduction (%)"}
-                    });
-                }
+            // If no media mix is specified, return empty string
+            if ((MediaMixType == MediaMix.None) || (MediaMixType == MediaMix.NotSpecified)) return string.Empty;
 
-            s += "<br/>";
-            s += "<br/><b>Groundwater Discharge (Stand-Alone)</b><br/>";
-            s += AsHtmlTable(
-                new Dictionary<string, string>
+            return InterfaceCommon.PrintPropertyTable(
+                this,
+                new string[] { "MediaMixType", "MediaNPercentReduction", "MediaPPercentReduction" },
+                "Media Mix Information",
+                BMPTrainsReports.TableStyle1,
+                "my-table"
+            );
+        }
+
+        public string PrintStandaloneGroundwaterDischarge()
+        {
+            return InterfaceCommon.PrintPropertyTable(
+                this,
+                new string[] { "RechargeRate", "GroundwaterNMassLoadOut", "GroundwaterTNConcentration", "GroundwaterPMassLoadOut", "GroundwaterTPConcentration" },
+                "Groundwater Discharge (Stand-Alone)",
+                BMPTrainsReports.TableStyle1,
+                "my-table"
+            );
+        }
+
+        public virtual string PrintGroundwaterAnalysis()
+        {
+            if (BMPType == BMPTrainsProject.sMultipleBMP) return string.Empty;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("<br/>");
+
+            // Media mix table (only included when specified)
+            string media = PrintMediaMixInformation();
+            if (!string.IsNullOrWhiteSpace(media))
             {
-                {"RechargeRate", "Treatment Rate (MG/yr)"},
-                {"GroundwaterNMassLoadOut", "TN Mass Load (kg/yr)"},
-                {"GroundwaterTNConcentration", "TN Concentration (mg/L)"},
-                {"GroundwaterPMassLoadOut", "TP Mass Load (kg/yr)"},
-                {"GroundwaterTPConcentration", "TP Concentration (mg/L)"},
-                });
-            s += "<br/>";
+                sb.AppendLine(media);
+                sb.AppendLine("<br/>");
+            }
 
-            return s;
+            // Groundwater standalone table
+            sb.AppendLine(PrintStandaloneGroundwaterDischarge());
+            sb.AppendLine("<br/>");
+
+            return sb.ToString();
         }
 
         public string LoadDiagram()
@@ -597,7 +594,7 @@ namespace BMPTrains_2020.DomainCode
             return current;
         }
 
-        public virtual string BasicReport()
+        public virtual string PrintBasicReport()
         {
             string s = ""; // "<div style='float:right;font-size:70%;'>" + Globals.Project.Version() + "</div>";
             s += AsHtmlTable(BasicReportLabels());
@@ -639,7 +636,7 @@ namespace BMPTrains_2020.DomainCode
             switch (ReportType)
             {
                 case sAllProperties: return s + AsHtmlTable();
-                case sBasicReport: return s + BasicReport();
+                case sBasicReport: return s + PrintBasicReport();
                 default: return s + AsHtmlTable(); 
             }
         }

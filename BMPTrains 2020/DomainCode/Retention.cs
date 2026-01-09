@@ -13,7 +13,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override string PrintInputVariables()
         {
-            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Retention Input Variables");
+            return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Retention Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
         #endregion
 
@@ -39,10 +39,11 @@ namespace BMPTrains_2020.DomainCode
             string s = "";
             s += AsHtmlTable(
                 new Dictionary<string, string>
-            {
-                {"RetentionDepth", "Retention Depth (in)"},
-                {"RetentionVolume", "Retention Volume (ac-ft)"}
-            });
+                {
+                    {"RetentionDepth", "Retention Depth (in)"},
+                    {"RetentionVolume", "Retention Volume (ac-ft)"}
+                },
+                BMPTrainsReports.TableStyle1, "my-table");
             return s;            
         }
         public override Dictionary<string, string> PropertyLabels()
