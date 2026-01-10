@@ -16,7 +16,44 @@ namespace BMPTrains_2020.DomainCode
             + ".my-table tr:nth-child(even) { background-color: #fafafa; }"
             + ".my-table thead th { background: linear-gradient(#e6f2ff, #d9ecff); font-weight: 700; color: #0b5394; padding: 8px 10px; border-bottom: 2px solid #c0daf5; text-align: left; }"
             + "</style>";
-        
+
+        // CSS used for load/flow diagrams (moved here so other renderers can reuse it)
+        // Updated: use larger, dark-blue Unicode arrows (no SVG) for better sizing/printing in WebBrowser.
+        public static string LoadReportStyle1 =
+    "<style>" +
+    ".load-diagram { border-collapse: collapse; width:100%; font-family: Arial, sans-serif; }" +
+    ".load-diagram td { padding: 10px; vertical-align: middle; }" +
+    ".ld-border { border: 2px solid #333; padding: 10px; }" +
+    ".ld-arrow { text-align: center; color: #0b5394; font-weight: 700; width: 72px; }" +
+    ".ld-arrow .glyph { color: #0b5394; font-size: 28px; line-height: 1; display: inline-block; }" +
+    ".ld-arrow .tail { color: #0b5394; font-size: 20px; margin-right:4px; display:inline-block; vertical-align:middle; }" +
+    ".ld-arrow .box { display:inline-block; vertical-align: middle; }" +
+    "</style>";
+
+        /// <summary>
+        /// Render a compact arrow using Unicode characters (no SVG) to improve sizing/printing.
+        /// dir: "right" or "down"
+        /// width/height parameters are accepted for compatibility but ignored (kept in signature).
+        /// color - hex color for inline fallback (kept for compatibility).
+        /// Returns a complete TD string containing a larger, dark-blue arrow with a tail and a head.
+        /// </summary>
+        public static string RenderArrow(string dir = "right", int width = 72, int height = 28, string color = "#0b5394")
+        {
+            dir = (dir ?? "right").ToLowerInvariant();
+
+            if (dir == "down")
+            {
+                // Vertical tail (two short vertical bars) + head (down arrow)
+                // Use simple characters to ensure consistent printing from WebBrowser.
+                string headDown = $"<span class='glyph' style='color:{color};'>&darr;</span>"; // ↓
+                return $"<td class='ld-arrow' title='Flow down' aria-label='Flow down'><div class='box' style='text-align:center;'>{headDown}</div></td>";
+            }
+
+            // Right arrow: short repeated dashes (tail) + large arrowhead
+            string head = $"<span class='glyph' style='color:{color};'>&rarr;</span>"; // →
+            return $"<td class='ld-arrow' title='Flow right' aria-label='Flow right'><div class='box'>{head}</div></td>";
+        }
+
         public static string MasterReportHeader(string reportText, string reportTitle = "")
         {
             // Project/file/user metadata (safe-escaped)

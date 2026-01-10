@@ -29,23 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmWetDetention));
             this.tbPPVolume = new System.Windows.Forms.TextBox();
             this.btnHelp = new System.Windows.Forms.Button();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.btnReport = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.wbOutput = new System.Windows.Forms.WebBrowser();
             this.label2 = new System.Windows.Forms.Label();
-            this.tbLittoralCredit = new System.Windows.Forms.TextBox();
             this.tbWetlandCredit = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.label3 = new System.Windows.Forms.Label();
             this.btnPlot = new System.Windows.Forms.Button();
             this.btnCost = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnHelp2 = new System.Windows.Forms.Button();
             this.btnAnoxicDepth = new System.Windows.Forms.Button();
             this.tbUserTP = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -92,19 +88,9 @@
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
             // 
-            // btnReport
-            // 
-            this.btnReport.Location = new System.Drawing.Point(644, 364);
-            this.btnReport.Name = "btnReport";
-            this.btnReport.Size = new System.Drawing.Size(112, 39);
-            this.btnReport.TabIndex = 7;
-            this.btnReport.Text = "Copy";
-            this.btnReport.UseVisualStyleBackColor = true;
-            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
-            // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(644, 409);
+            this.btnClose.Location = new System.Drawing.Point(644, 462);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 8;
@@ -129,14 +115,6 @@
             this.label2.Size = new System.Drawing.Size(452, 30);
             this.label2.TabIndex = 27;
             this.label2.Text = "Floating Wetland or and other MAPs Credit (%):";
-            // 
-            // tbLittoralCredit
-            // 
-            this.tbLittoralCredit.Location = new System.Drawing.Point(644, 454);
-            this.tbLittoralCredit.Name = "tbLittoralCredit";
-            this.tbLittoralCredit.Size = new System.Drawing.Size(115, 35);
-            this.tbLittoralCredit.TabIndex = 2;
-            this.tbLittoralCredit.Visible = false;
             // 
             // tbWetlandCredit
             // 
@@ -183,18 +161,6 @@
             this.btnCost.Text = "Cost";
             this.btnCost.UseVisualStyleBackColor = true;
             this.btnCost.Click += new System.EventHandler(this.btnCost_Click);
-            // 
-            // btnHelp2
-            // 
-            this.btnHelp2.BackColor = System.Drawing.Color.Yellow;
-            this.btnHelp2.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp2.Image")));
-            this.btnHelp2.Location = new System.Drawing.Point(710, 42);
-            this.btnHelp2.Name = "btnHelp2";
-            this.btnHelp2.Size = new System.Drawing.Size(46, 40);
-            this.btnHelp2.TabIndex = 60;
-            this.toolTip1.SetToolTip(this.btnHelp2, "Wet Detention Methodology");
-            this.btnHelp2.UseVisualStyleBackColor = false;
-            this.btnHelp2.Click += new System.EventHandler(this.btnHelp2_Click);
             // 
             // btnAnoxicDepth
             // 
@@ -268,19 +234,16 @@
             this.Controls.Add(this.tbUserTP);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAnoxicDepth);
-            this.Controls.Add(this.btnHelp2);
             this.Controls.Add(this.btnCost);
             this.Controls.Add(this.btnPlot);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tbPPVolume);
             this.Controls.Add(this.tbWetlandCredit);
-            this.Controls.Add(this.tbLittoralCredit);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.wbOutput);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnCalculate);
             this.Controls.Add(this.btnPrint);
-            this.Controls.Add(this.btnReport);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -300,18 +263,15 @@
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.WebBrowser wbOutput;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox tbLittoralCredit;
         private System.Windows.Forms.TextBox tbWetlandCredit;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnPlot;
         private System.Windows.Forms.Button btnCost;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button btnHelp2;
         private System.Windows.Forms.Button btnAnoxicDepth;
         private System.Windows.Forms.TextBox tbUserTP;
         private System.Windows.Forms.Label label4;

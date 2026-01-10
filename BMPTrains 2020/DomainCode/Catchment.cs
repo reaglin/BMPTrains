@@ -19,6 +19,8 @@ namespace BMPTrains_2020.DomainCode
 
         public const string SessionId = "CatchmentID";
         // Catchment ID is id inherited from XmlPropertyObject
+
+        [Meta("Catchment ID", "", 0)]
         public int ToID { get; set; }
         public bool Disabled { get; set; }
 
@@ -570,53 +572,53 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        // This is anexample of using the 
-        public string Report_CatchmentPrePostAsTable()
-        {
-            var s = new System.Text.StringBuilder();
+        // This is an example of using the 
+        //public string Report_CatchmentPrePostAsTable()
+        //{
+        //    var s = new System.Text.StringBuilder();
 
-            // Table 1: General Info
-            s.Append(Common.GenerateReportTableFromProperties(this, "General Information",
-                c => c.CatchmentName,
-                c => c.RainfallZone,
-                c => c.Rainfall
-            ));
+        //    // Table 1: General Info
+        //    s.Append(Common.GenerateReportTableFromProperties(this, "General Information",
+        //        c => c.CatchmentName,
+        //        c => c.RainfallZone,
+        //        c => c.Rainfall
+        //    ));
 
-            // Table 2: Pre-Condition (A separate table creates a visual 'Section')
-            s.Append(Common.GenerateReportTableFromProperties(this, "Pre-Condition Landuse",
-                c => c.PreLandUseName,
-                c => c.PreArea,
-                c => c.PreRationalCoefficient,
-                c => c.PreNonDCIACurveNumber,
-                c => c.PreDCIAPercent,
-                c => c.PreNConcentration,
-                c => c.PrePConcentration,
-                c => c.PreRunoffVolume,
-                c => c.PreGWN,
-                c => c.PreGWP,
-                c => c.PreNLoading,
-                c => c.PrePLoading
-            ));
+        //    // Table 2: Pre-Condition (A separate table creates a visual 'Section')
+        //    s.Append(Common.GenerateReportTableFromProperties(this, "Pre-Condition Landuse",
+        //        c => c.PreLandUseName,
+        //        c => c.PreArea,
+        //        c => c.PreRationalCoefficient,
+        //        c => c.PreNonDCIACurveNumber,
+        //        c => c.PreDCIAPercent,
+        //        c => c.PreNConcentration,
+        //        c => c.PrePConcentration,
+        //        c => c.PreRunoffVolume,
+        //        c => c.PreGWN,
+        //        c => c.PreGWP,
+        //        c => c.PreNLoading,
+        //        c => c.PrePLoading
+        //    ));
 
-            // Table 3: Post-Condition
-            s.Append(Common.GenerateReportTableFromProperties(this, "Post-Condition Landuse",
-                c => c.PostLandUseName,
-                c => c.PostArea,
-                c => c.BMPArea,
-                c => c.PostRationalCoefficient,
-                c => c.PostNonDCIACurveNumber,
-                c => c.PostDCIAPercent,
-                c => c.PostNConcentration,
-                c => c.PostPConcentration,
-                c => c.PostRunoffVolume,
-                c => c.PostGWN,
-                c => c.PostGWP,
-                c => c.PostNLoading,
-                c => c.PostPLoading
-            ));
+        //    // Table 3: Post-Condition
+        //    s.Append(Common.GenerateReportTableFromProperties(this, "Post-Condition Landuse",
+        //        c => c.PostLandUseName,
+        //        c => c.PostArea,
+        //        c => c.BMPArea,
+        //        c => c.PostRationalCoefficient,
+        //        c => c.PostNonDCIACurveNumber,
+        //        c => c.PostDCIAPercent,
+        //        c => c.PostNConcentration,
+        //        c => c.PostPConcentration,
+        //        c => c.PostRunoffVolume,
+        //        c => c.PostGWN,
+        //        c => c.PostGWP,
+        //        c => c.PostNLoading,
+        //        c => c.PostPLoading
+        //    ));
 
-            return s.ToString();
-        }
+        //    return s.ToString();
+        //}
 
 
 
@@ -668,7 +670,6 @@ namespace BMPTrains_2020.DomainCode
 
         public string getRoutingBalanceReport()
         {
-
             return routing.getBalanceReport();
         }
 

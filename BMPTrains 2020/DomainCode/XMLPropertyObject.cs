@@ -685,24 +685,24 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        public void GetPropertiesFromUserControl(Dictionary<string, string> d, IUserControlPropertyInput uc)
-        {
-            // Sets the properties from a User Control that implements IUserControlPropertyInput
-            // d - Dictionary of properties to set.
+        //public void GetPropertiesFromUserControl(Dictionary<string, string> d, IUserControlPropertyInput uc)
+        //{
+        //    // Sets the properties from a User Control that implements IUserControlPropertyInput
+        //    // d - Dictionary of properties to set.
 
-            foreach (KeyValuePair<string, string> p in d)
-            {
-                this.SetValue(p.Key, uc.GetPropertyValue(p.Key));
-            }
-        }
+        //    foreach (KeyValuePair<string, string> p in d)
+        //    {
+        //        this.SetValue(p.Key, uc.GetPropertyValue(p.Key));
+        //    }
+        //}
 
-        public void SetPropertValuesInUserControl(Dictionary<string, string> d, IUserControlPropertyInput uc)
-        {
-            foreach (KeyValuePair<string, string> p in d)
-            {
-                uc.SetPropertyValue(p.Key, GetValue(p.Key).ToString());
-            }
-        }
+        //public void SetPropertValuesInUserControl(Dictionary<string, string> d, IUserControlPropertyInput uc)
+        //{
+        //    foreach (KeyValuePair<string, string> p in d)
+        //    {
+        //        uc.SetPropertyValue(p.Key, GetValue(p.Key).ToString());
+        //    }
+        //}
 
         // Used in output to set labels for input and output
         public abstract Dictionary<string, string> PropertyLabels();
@@ -721,16 +721,7 @@ namespace BMPTrains_2020.DomainCode
             return d;
         }
 
-        // Lists as key - all properties USED IN INPUT, values are input labels
-        //        public abstract Dictionary<string, string> InputProperties();
-        /*
-        public Dictionary<string, string> InputPropertyValues()
-        {
-            // Answers a dictionary of all values for properties
-            // that are used in input
-            return InputPropertyValues(InputProperties());
-        }
-        */
+ 
 
         public Dictionary<string, string> InputPropertyValues(Dictionary<string, string> properties)
         {

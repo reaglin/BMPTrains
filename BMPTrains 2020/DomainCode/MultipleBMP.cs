@@ -522,7 +522,7 @@ namespace BMPTrains_2020.DomainCode
 
             // e is provided retention treatment efficiency
             double e = CalculateEffectiveRetentionTreatmentEfficiency();
-            up.BMPVolumeOut = up.BMPVolumeIn * e / 100; // This is retention calculation for VOlume Out
+            up.BMPVolumeOut = up.BMPVolumeIn * e / 100; // This is retention calculation for Volume Out
             if (((Storage)up).BMPVolumeOut != 0) rt = ((WetDetention)down).PermanentPoolVolume / ((Storage)up).BMPVolumeOut * 365;
             ((WetDetention)down).Calculate(rt);
 
@@ -534,30 +534,21 @@ namespace BMPTrains_2020.DomainCode
             // The Wet Detention Calculation gives us a standalone efficiency for wet detentions
             // 
 
-            // Now we have to adjust the overall efficiency to take into account the additional removal
-            // using e as upstream retention treatment efficiency and detention efficiency non-adjusted. 
-            // Adjusted efficiency =  ((e1 / 100.0) + (e2 / 100.0) * (1 - (e1 / 100.0))) * 100.0;
-            // e1 and e2 as a fraction = e1 + e2*(1-e1)
-
-            //double NonAdjustedN = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
-            //double NonAdjustedP = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
-
-            //down.ProvidedNTreatmentEfficiency = down.ProvidedNTreatmentEfficiency - e/7.0;
-            //down.ProvidedPTreatmentEfficiency = down.ProvidedPTreatmentEfficiency - e/7.0;
-            down.ProvidedNTreatmentEfficiency = (100 - e) * ((DetentionNEff/100) - (10/100)*(e / 100));
-            down.ProvidedPTreatmentEfficiency = (100 - e) * ((DetentionPEff/100) - (20/100)*(e / 100));
+            double tna = 10.0; // Temporary N Adjustment Factor
+            double tpa = 20.0; // Temporary P Adjustment Factor
+            down.ProvidedNTreatmentEfficiency = (100 - e) * ((DetentionNEff/100) - (tna/100)*(e / 100));
+            down.ProvidedPTreatmentEfficiency = (100 - e) * ((DetentionPEff/100) - (tpa/100)*(e / 100));
 
             if (down.ProvidedNTreatmentEfficiency <= 0) down.ProvidedNTreatmentEfficiency = 0.0;
             if (down.ProvidedPTreatmentEfficiency <= 0) down.ProvidedPTreatmentEfficiency = 0.0;
 
-            //ProvidedNTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedNTreatmentEfficiency);
-            //ProvidedPTreatmentEfficiency = CalculateAdjustedEfficiency(e, down.ProvidedPTreatmentEfficiency);
             ProvidedNTreatmentEfficiency = e + down.ProvidedNTreatmentEfficiency;
             ProvidedPTreatmentEfficiency = e + down.ProvidedPTreatmentEfficiency;
 
             // Now calculate Mass Load reductions
             down.BMPNMassLoadIn = up.BMPNMassLoadOut;
             down.BMPPMassLoadIn = up.BMPPMassLoadOut;
+            
             CalculateMassLoadReductions(down);
             CalculateMassLoadReductions(this);
         }

@@ -176,7 +176,7 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        public new string BasicReport()
+        public string BasicReport()
         {
             string s =  base.PrintBasicReport();
             s += "<br/>";

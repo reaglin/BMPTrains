@@ -133,8 +133,7 @@ namespace BMPTrains_2020
         private void btnHelp_Click(object sender, EventArgs e)
         {
             // This allows us to have external help by pulling up a web site in the application
-            Form form = new frmHelp("https://stormwater.ucf.edu/research-publications/");
-            form.ShowDialog();
+            BMPTrainsProject.OpenDocumentation("Exfiltration");
         }
 
         private void btnExfiltrationCalculator_Click(object sender, EventArgs e)

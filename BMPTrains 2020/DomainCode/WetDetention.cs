@@ -72,10 +72,40 @@ namespace BMPTrains_2020.DomainCode
                 "PermanentPoolVolume", "PermanentPoolVolume31", "ResidenceTime",
                 "HasLittoralZone", "WetlandEfficiencyCredit" };
 
+        // Keys extracted from the local dictionary in PropertyLabels()
+        public new static readonly string[] ReportVariables = {
+                "ResidenceTime",
+                "PermanentPoolPondDepth",
+                "PermanentPoolArea",
+                "PermanentPoolVolume",
+                "PermanentPoolVolumeOverWatershed",
+                "MinimumPermanentPoolVolume",
+                "LittoralZoneEfficiencyCredit",
+                "AdditionalPercentNLittoralRemoval",
+                "AdditionalPercentPLittoralRemoval",
+                "HasLittoralZone",
+                "WetlandEfficiencyCredit",
+                "AdditionalPercentNWetlandRemoval",
+                "AdditionalPercentPWetlandRemoval",
+                "AnnualVolume"
+        };
+
+
+
         public override string PrintInputVariables()
         {
             return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Wet Detention Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
+
+        public override string PrintReportVariables()
+        {
+            string s = InterfaceCommon.PrintPropertyTable(this, ReportVariables, "Wet Detention Report Variables", BMPTrainsReports.TableStyle1, "my-table");
+            s += base.PrintReportVariables();
+
+            return s;
+        }
+
+
 
         public WetDetention(Catchment c) : base(c)
         {
@@ -301,8 +331,8 @@ namespace BMPTrains_2020.DomainCode
 
             if (!HasLittoralZone)
             {
-                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency/1.10;//Math.Max(ProvidedNTreatmentEfficiency - 10, 0.0);
-                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency/1.10;//Math.Max(ProvidedPTreatmentEfficiency - 10, 0.0);
+                ProvidedNTreatmentEfficiency = ProvidedNTreatmentEfficiency/1.10;  //Math.Max(ProvidedNTreatmentEfficiency - 10, 0.0);
+                ProvidedPTreatmentEfficiency = ProvidedPTreatmentEfficiency/1.10;  //Math.Max(ProvidedPTTreatmentEfficiency - 10, 0.0);
             }
 
             NRemaining = 100 - ProvidedNTreatmentEfficiency;

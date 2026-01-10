@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -261,13 +260,47 @@ namespace BMPTrains_2020.DomainCode
         public double TNEMC { get; set; }
         public double TPEMC { get; set; }
 
-        public static readonly string[] InputVariables = {  };
+        public static readonly string[] InputVariables = { };
 
-        // Can use if meta properties are defined (Follow Meta Print for Details)
-        public string Print(string property_name)
-        {
-            return InterfaceCommon.PrintProperty(this, property_name);
-        }
+        public static readonly string[] OutputVariables = { };
+
+        public static readonly string[] ReportVariables = {
+            "BMPType",
+            "BMPName",
+            "HelpURL",
+            "WatershedArea",
+            "ContributingArea",
+            "WatershedNDCIACurveNumber",
+            "WatershedDCIAPercent",
+            "RainfallZone",
+            "Rainfall",
+            "RationalCoefficient",
+            "HydraulicCaptureEfficiency",
+            "RequiredNTreatmentEfficiency",
+            "RequiredPTreatmentEfficiency",
+            "CalculatedNTreatmentEfficiency",
+            "CalculatedPTreatmentEfficiency",
+            "RemainingNTreatmentEfficiency",
+            "RemainingPTreatmentEfficiency",
+            "BMPNMassLoadIn",
+            "BMPPMassLoadIn",
+            "BMPNMassLoadOut",
+            "BMPPMassLoadOut",
+            "NMassReduction",
+            "PMassReduction",
+            "NMassReductionLb",
+            "PMassReductionLb",
+            "VolumeIn",
+            "VolumeOut"
+        };
+        public static string[] WatershedCharacteristicsVariables = { 
+            "WatershedArea", "ContributingArea", "WatershedNDCIACurveNumber", 
+            "WatershedDCIAPercent", "RainfallZone", "Rainfall" };
+        
+        public static string[] SurfaceWaterDischargeVariables = { 
+            "RequiredNTreatmentEfficiency", "ProvidedNTreatmentEfficiency", 
+            "RequiredPTreatmentEfficiency", "ProvidedPTreatmentEfficiency" };
+
         #endregion
 
         #region "Contructors"
@@ -325,6 +358,7 @@ namespace BMPTrains_2020.DomainCode
 
         public string MetaReport(Dictionary<string, string[]> d)
         {
+            // This is used for debugging
             string s = ReportHeader();
             foreach (KeyValuePair<string, string[]> kvp in d)
             {
@@ -333,17 +367,33 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
+        public string PrintFullReport()
+        {
+            return PrintInputVariables() + PrintReportVariables();
+        }
+
+        public string PrintFormReport()
+        {
+            return PrintInputVariables() + PrintReportVariables(); ;
+        }
+
+        public virtual string PrintReportVariables()
+        {
+            return InterfaceCommon.PrintPropertyTable(this, ReportVariables, "BMP Report Variables", BMPTrainsReports.TableStyle1, "my-table");
+        }
 
         public virtual string PrintBMPReport()
         {
-            string s = "<h1>Project:  " + Globals.Project.ProjectName + "</h1>";
-            s += "<h2>" + BMPTypeTitle() + " Design ";
-            s += "Report Date: " + DateTime.Now.ToString("d") + "</h2><br/>";
-
+            string s = "";
+            // Inputs for all for reports first
             s += PrintInputVariables();
+            // Then watershed characteristics
             s += PrintWatershedCharacteristics();
+            // Then surface water discharge
             s += PrintSurfaceWaterDischarge();
+            // Then groundwater analysis if specified
             if ((DoGroundwaterAnalysis == "Yes")||(MediaMixType != MediaMix.None)) s += PrintGroundwaterAnalysis();
+            // Finally the load diagram 
             s += LoadDiagram();
             return s;
         }
@@ -353,26 +403,9 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-        //public string WatershedCharacteristics()
-        //{
-        //    string s = "<br/><b>Watershed Characteristics</b><br/>";
-        //    s += AsHtmlTable(
-        //        new Dictionary<string, string>
-        //    {
-        //        {"WatershedArea", "Catchment Area (acres)"},
-        //        {"ContributingArea","Contributing Area (acres)" },
-        //        {"WatershedNDCIACurveNumber", "Non-DCIA Curve Number"},
-        //        {"WatershedDCIAPercent", "DCIA Percent"},
-        //        {"RainfallZone", "Rainfall Zone"},
-        //        {"Rainfall", "Rainfall (in)" },
-        //    });
-        //    return s;
-        //}
-
         public string PrintWatershedCharacteristics()
-        {
-            string[] values = { "WatershedArea", "ContributingArea", "WatershedNDCIACurveNumber", "WatershedDCIAPercent", "RainfallZone", "Rainfall" };
-            return InterfaceCommon.PrintPropertyTable(this, values, "Watershed Characteristics", BMPTrainsReports.TableStyle1, "my-table");
+        {            
+            return InterfaceCommon.PrintPropertyTable(this, BMP.WatershedCharacteristicsVariables, "Watershed Characteristics", BMPTrainsReports.TableStyle1, "my-table");
         }
 
         public string PrintSurfaceWaterDischarge()
@@ -380,8 +413,8 @@ namespace BMPTrains_2020.DomainCode
             if (ProvidedNTreatmentEfficiency >= 100) ProvidedNTreatmentEfficiency = 99;
             if (ProvidedPTreatmentEfficiency >= 100) ProvidedPTreatmentEfficiency = 99;
             // Give each property as a string 
-            string[] values = { "RequiredNTreatmentEfficiency", "ProvidedNTreatmentEfficiency", "RequiredPTreatmentEfficiency", "ProvidedPTreatmentEfficiency" };
-            return InterfaceCommon.PrintPropertyTable(this, values, "Surface Water Discharge", BMPTrainsReports.TableStyle1, "my-table");
+        
+            return InterfaceCommon.PrintPropertyTable(this, BMP.SurfaceWaterDischargeVariables, "Surface Water Discharge", BMPTrainsReports.TableStyle1, "my-table");
         }
 
 
@@ -948,149 +981,144 @@ namespace BMPTrains_2020.DomainCode
         #region "Load Reporting"
         public virtual string EfficiencyReport()
         {
-            string s = "<br/><h2>Load Diagram for " + BMPTypeTitle() + " (stand-alone)</h2><br/><table>";
-            s += "<tr>";         // 5 Cells per row
+            var sb = new StringBuilder();
+
+            // Use centralized CSS from BMPTrainsReports
+            sb.AppendLine(BMPTrainsReports.LoadReportStyle1);
+
+            sb.AppendLine("<br/><h2>Load Diagram for " + BMPTypeTitle() + " (stand-alone)</h2><br/>");
+            sb.AppendLine("<table class='load-diagram'><tr>");
 
             double R = RunoffVolume;
             if (HydraulicCaptureEfficiency == 0) HydraulicCaptureEfficiency = ProvidedPTreatmentEfficiency;
 
-            // Create row for load balance report, 5 Columns in the Report
-            // **************************  Row 1 *********************************
-            s += Common.TableCellReport(
+            // Row 1
+            sb.AppendLine(Common.TableCellReport(
                 label: "Load",
                 showBorder: true,
-                customStyle: "", // optional
+                customStyle: "width:20%;",
                 new ReportMetric("N", BMPNMassLoadIn, "kg/yr"),
                 new ReportMetric("P", BMPPMassLoadIn, "kg/yr"),
-                new ReportMetric("P", R, "ac-ft/yr")
-                );
+                new ReportMetric("Q", R, "ac-ft/yr")
+            ));
 
-            s += Common.TableCellRightArrow();
+            // replace local ArrowCell with centralized renderer
+            sb.AppendLine(BMPTrainsReports.RenderArrow("right"));
 
-            s += Common.TableCellReport(
-                "Treatment",
-                true,
-                "",
+            sb.AppendLine(Common.TableCellReport(
+                label:"Treatment",
+                showBorder: true,
+                customStyle: "width: 20%;",
                 new ReportMetric("N", ProvidedNTreatmentEfficiency, "%", 0),
                 new ReportMetric("P", ProvidedPTreatmentEfficiency, "%", 0)
-                );
-            s += Common.TableCellRightArrow();
-            //}
+            ));
 
+            sb.AppendLine(BMPTrainsReports.RenderArrow("right"));
 
-            BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100.0;
-            BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100.0;
+            //BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100.0;
+            //BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100.0;
 
             if (this.BMPType == BMPTrainsProject.sWetDetention)
             {
-                s += Common.TableCellReport(
-                    "Surface Discharge",
-                    true,
-                    "",
+                sb.AppendLine(Common.TableCellReport(
+                    label: "Surface Discharge",
+                    showBorder: true,
+                    customStyle: "width: 20%;",
                     new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
                     new ReportMetric("P", BMPPMassLoadOut, "kg/yr")
-                );
+                ));
             }
             else
             {
-                s += Common.TableCellReport(
-                    "Surface Discharge",
-                    true,
-                    "",
+                sb.AppendLine(Common.TableCellReport(
+                    label: "Surface Discharge",
+                    showBorder: true,
+                    customStyle: "width:20%;",
                     new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
                     new ReportMetric("P", BMPPMassLoadOut, "kg/yr"),
                     new ReportMetric("Q", ((100 - HydraulicCaptureEfficiency) / 100) * R, "ac-ft/yr")
-                );
+                ));
             }
-            s += "</tr>";
 
+            sb.AppendLine("</tr>");
 
-            GroundwaterNMassLoadIn = BMPNMassLoadIn * ProvidedNTreatmentEfficiency / 100.0;
-            GroundwaterPMassLoadIn = BMPPMassLoadIn * ProvidedPTreatmentEfficiency / 100.0;
+            // Row 2
+            sb.AppendLine("<tr>");
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine(BMPTrainsReports.RenderArrow("down"));
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine("</tr>");
 
-            NRetained = BMPNMassLoadIn - BMPNMassLoadOut - GroundwaterNMassLoadOut;
-            PRetained = BMPPMassLoadIn - BMPPMassLoadOut - GroundwaterPMassLoadOut;
-
-
-            // Creates second in mass balance report - only Mass reduction in this row
-
-            // **************************  Row 2 ***********************************
-
-            s += "<tr>";
-            s += Common.TableCellBlank(2);
-            s += Common.TableCellDownArrow();
-            s += Common.TableCellBlank();
-
-
+            // Row 3
+            sb.AppendLine("<tr>");
+            sb.AppendLine(Common.TableCellBlank(2));
             if (this.BMPType == BMPTrainsProject.sWetDetention)
             {
-                s += Common.TableCellReport(
+                sb.AppendLine(Common.TableCellReport(
+                    "Mass Reduction",
+                    true,
+                    "",
+                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr")
+                ));
+            }
+            else
+            {
+                sb.AppendLine(Common.TableCellReport(
                     "Mass Reduction",
                     false,
                     "",
                     new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
-                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr")
-                );
-            }
-            else
-            {
-                s += Common.TableCellReport(
-                    "Mass Reduction",
-                    false,
-                     "",
-                    new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
                     new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr"),
                     new ReportMetric("Q", HydraulicCaptureEfficiency * R / 100, "ac-ft/yr")
-                );
+                ));
             }
-            s += "</tr>";
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine("</tr>");
 
-            // #eaglin replace with new report form
-            // Gemini chat https://gemini.google.com/app/644260b50b38b383 
             if (BMPType == BMPTrainsProject.sFiltration || BMPType == BMPTrainsProject.sVegetatedFilterStrip)
             {
-                s += "</table>";
-                return s;
+                sb.AppendLine("</table>");
+                return sb.ToString();
             }
 
             if ((Globals.Project.DoGroundwaterAnalysis == "Yes") && (isRetention()))
             {
                 string tTitle = (BMPType == BMPTrainsProject.sVegetatedFilterStrip ? "Media Treatment" : "GW Treatment");
                 string dTitle = (BMPType == BMPTrainsProject.sVegetatedFilterStrip ? "Ditch Discharge" : "GW Discharge");
-                // ***************************Row 1 ********************************
-                s += "<tr>";
-                s += Common.TableCellReport("Into Media", false, "",
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine(Common.TableCellReport("Into Media", false, "",
                     new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr", 3),
-                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr", 3));
-                s += Common.TableCellBlank();
-                s += Common.TableCellReport(tTitle, true, "",
+                    new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr", 3)));
+                sb.AppendLine(Common.TableCellBlank());
+                sb.AppendLine(Common.TableCellReport(tTitle, true, "",
                     new ReportMetric("N", MediaNPercentReduction, "%", 0),
-                    new ReportMetric("P", MediaPPercentReduction, "%", 0));
-                s += Common.TableCellRightArrow();
-                s += Common.TableCellReport(dTitle, false, "",
+                    new ReportMetric("P", MediaPPercentReduction, "%", 0)));
+                sb.AppendLine(BMPTrainsReports.RenderArrow("right"));
+                sb.AppendLine(Common.TableCellReport(dTitle, false, "",
                     new ReportMetric("N", GroundwaterNMassLoadOut, "kg/yr", 3),
-                    new ReportMetric("P", GroundwaterPMassLoadOut, "kg/yr", 3));
-                s += "</tr>";
-                // ***************************Row 2 ********************************
-                s += "<tr>";
-                s += Common.TableCellBlank(2);
-                s += Common.TableCellDownArrow();
-                s += Common.TableCellBlank(2);
-                s += "</tr>";
-                // ***************************Row 3 ********************************
-                s += "<tr>";
-                s += Common.TableCellBlank(2);
-                s += Common.TableCellReport("Retained", false, "",
+                    new ReportMetric("P", GroundwaterPMassLoadOut, "kg/yr", 3)));
+                sb.AppendLine("</tr>");
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine(Common.TableCellBlank(2));
+                sb.AppendLine(BMPTrainsReports.RenderArrow("down"));
+                sb.AppendLine(Common.TableCellBlank(2));
+                sb.AppendLine("</tr>");
+
+                sb.AppendLine("<tr>");
+                sb.AppendLine(Common.TableCellBlank(2));
+                sb.AppendLine(Common.TableCellReport("Retained", false, "",
                     new ReportMetric("N", NRetained, "kg/yr", 2),
-                    new ReportMetric("P", PRetained, "kg/yr", 2));
-                s += Common.TableCellBlank(2);
-                s += "</tr>";
+                    new ReportMetric("P", PRetained, "kg/yr", 2)));
+                sb.AppendLine(Common.TableCellBlank(2));
+                sb.AppendLine("</tr>");
             }
            
-            s += "</table>";
-            return s;
+            sb.AppendLine("</table>");
+            return sb.ToString();
         }
-
 
         public string EfficiencyReportCell(double val1, double val2, int places = 2, string units = "", string label = "", int border = 0)
         {

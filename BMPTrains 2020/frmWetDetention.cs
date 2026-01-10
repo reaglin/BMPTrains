@@ -145,13 +145,11 @@ namespace BMPTrains_2020
                 return;
             }
 
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", "Wet Detention System");
+            form.ShowDialog();
         }
 
-        private void btnHelp2_Click(object sender, EventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/DetentionMethodology.pdf");
-        }
+
 
         private void btnAnoxicDepth_Click(object sender, EventArgs e)
         {

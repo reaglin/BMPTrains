@@ -31,6 +31,10 @@ namespace BMPTrains_2020
             return false;
         }
 
+        public static string User()
+        {
+            return (string.IsNullOrWhiteSpace(Globals.UserEmail) ? "Unregistered User" : Globals.UserEmail) ;
+        }
         public static string GenerateCodeFromEmail(string email)
         {
             // Extract first 6 alphabetic characters

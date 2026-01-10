@@ -55,6 +55,12 @@ namespace BMPTrains_2020.DomainCode
             return InterfaceCommon.PrintPropertyTable(this, InputVariables, "Exfiltration System Input Variables", BMPTrainsReports.TableStyle1, "my-table");
         }
 
+        public string PrintStorageVariables()
+        {
+            string[] values = { "PipeVolumeCF", "TrenchVolumeCF", "StorageVolumeAF", "StorageVolumeIn" };
+            return InterfaceCommon.PrintPropertyTable(this, values, "Exfiltration Storage Variables", BMPTrainsReports.TableStyle1, "my-table");
+        }
+
         public Exfiltration(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sExfiltration;
         }
@@ -105,75 +111,73 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        public Dictionary<string, string> StorageLabels()
-        {
-            return new Dictionary<string, string>
-            {
-                {"label0", "<h2>Exfiltration Input Variables</h2>" },
-                {"PipeSpan", "Pipe Span (in)" },
-                {"PipeRise", "Pipe Rise (in)"},
-                {"PipeLength", "Pipe Length (ft)"},
-                {"TrenchWidth", "Trench/Vault Width (ft)"},
-                {"TrenchDepth", "Trench Depth (ft)"},
-                {"TrenchLength", "Trench Length (ft)" },
-                { "VoidRatio", "Void Ratio (fraction)"},
-                {"label1", "<b>Exfiltration Calculated Values</b>"  },
-                { "PipeVolumeCF", "Pipe Volume (cf)"},
-                {"TrenchVolumeCF", "Trench/Vault Volume (cf)"},
-                {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
-                {"StorageVolumeIn", "Storage Volume (in over CA)"}
-                
+        //public Dictionary<string, string> StorageLabels()
+        //{
+        //    return new Dictionary<string, string>
+        //    {
+        //        {"label0", "<h2>Exfiltration Input Variables</h2>" },
+        //        {"PipeSpan", "Pipe Span (in)" },
+        //        {"PipeRise", "Pipe Rise (in)"},
+        //        {"PipeLength", "Pipe Length (ft)"},
+        //        {"TrenchWidth", "Trench/Vault Width (ft)"},
+        //        {"TrenchDepth", "Trench Depth (ft)"},
+        //        {"TrenchLength", "Trench Length (ft)" },
+        //        { "VoidRatio", "Void Ratio (fraction)"},
+        //        {"label1", "<b>Exfiltration Calculated Values</b>"  },
+        //        { "PipeVolumeCF", "Pipe Volume (cf)"},
+        //        {"TrenchVolumeCF", "Trench/Vault Volume (cf)"},
+        //        {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
+        //        {"StorageVolumeIn", "Storage Volume (in over CA)"}
+        //    };
+        //}
+        //// This one is in the printout
+        //public override string BMPInputVariables()
+        //{
+        //    string s = "";
+        //    s += AsHtmlTable(
+        //        new Dictionary<string, string>
+        //    {
+        //        {"PipeSpan", "Pipe Span (in)" },
+        //        {"PipeRise", "Pipe Rise (in)"},
+        //        {"PipeLength", "Pipe Length (ft)"},
+        //        {"TrenchWidth", "Trench/Vault Width (ft)"},
+        //        {"TrenchDepth", "Trench/Vault Depth (ft)"},
+        //        {"TrenchLength", "Trench Length (ft)" },
+        //        { "VoidRatio", "Void not in pipe (fraction) "},
+        //        {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
+        //        {"StorageVolumeIn", "Retention Depth (in over CA)"},
+        //        {"IncreasedEffectiveness", "Effectiveness Increase for < 3 hours (%)" }
 
-            };
-        }
-        // This one is in the printout
-        public override string BMPInputVariables()
-        {
-            string s = "";
-            s += AsHtmlTable(
-                new Dictionary<string, string>
-            {
-                {"PipeSpan", "Pipe Span (in)" },
-                {"PipeRise", "Pipe Rise (in)"},
-                {"PipeLength", "Pipe Length (ft)"},
-                {"TrenchWidth", "Trench/Vault Width (ft)"},
-                {"TrenchDepth", "Trench/Vault Depth (ft)"},
-                {"TrenchLength", "Trench Length (ft)" },
-                { "VoidRatio", "Void not in pipe (fraction) "},
-                {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
-                {"StorageVolumeIn", "Retention Depth (in over CA)"},
-                {"IncreasedEffectiveness", "Effectiveness Increase for < 3 hours (%)" }
-
-                });
-            return s;
-        }
+        //        });
+        //    return s;
+        //}
 
 
-        public override Dictionary<string, int> PropertyDecimalPlaces()
-        {
-            return Add(new Dictionary<string, int>
-            {
-                {"PipeSpan", 1 },
-                {"PipeRise", 1},
-                {"PipeLength", 1},
-                {"TrenchWidth", 1},
-                {"TrenchDepth", 1},
-                {"TrenchLength", 1 },
-                { "VoidRatio", 2},
-                { "PipeVolumeCF", 0},
-                {"TrenchVolumeCF", 0},
-                {"StorageVolumeAF", 2},
-                {"StorageVolumeIn", 3},
-                {"IncreasedEffectiveness", 3 }
-            }, base.PropertyDecimalPlaces());
-        }
+        //public override Dictionary<string, int> PropertyDecimalPlaces()
+        //{
+        //    return Add(new Dictionary<string, int>
+        //    {
+        //        {"PipeSpan", 1 },
+        //        {"PipeRise", 1},
+        //        {"PipeLength", 1},
+        //        {"TrenchWidth", 1},
+        //        {"TrenchDepth", 1},
+        //        {"TrenchLength", 1 },
+        //        { "VoidRatio", 2},
+        //        { "PipeVolumeCF", 0},
+        //        {"TrenchVolumeCF", 0},
+        //        {"StorageVolumeAF", 2},
+        //        {"StorageVolumeIn", 3},
+        //        {"IncreasedEffectiveness", 3 }
+        //    }, base.PropertyDecimalPlaces());
+        //}
 
-        public new string AsHtmlTable()
-        {
-            string s = "<h1>Exfiltration Efficiency Report</h1>";
-            s += base.AsHtmlTable();
-            return s;
-        }
+        //public new string AsHtmlTable()
+        //{
+        //    string s = "<h1>Exfiltration Efficiency Report</h1>";
+        //    s += base.AsHtmlTable();
+        //    return s;
+        //}
 
         public override string BMPTypeTitle()
         {
@@ -209,14 +213,17 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        public string StorageReport()
+        public string PrintStorageReport()
         {
             string s = "";
+
+            s += PrintInputVariables();
+
+            s += PrintStorageVariables();
+
             if (TrenchWidth + 1 < PipeSpan / 12) s += "Warning: Pipe Width requires a 6 inch clearance with trench edge<br/>";
             if (TrenchWidth < 3) s += "Warning: Minimum Trench/Vault Depth is 3 ft<br/>";
             if (TrenchDepth + 1 < PipeRise / 12) s += "Warning: Trench/Vault Depth must have 6 inch clearance with trench top and bottom<br/>";
-
-            s += base.AsHtmlTable(StorageLabels());
             return s;
         }
     }

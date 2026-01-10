@@ -107,7 +107,7 @@ namespace BMPTrains_2020.DomainCode
 
         // Opens documentation in program in browser
 
-        public static void OpenDocumentation() { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Documentation); }
+        public static void OpenDocumentation(string page = "") { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Documentation + page); }
 
         public static void OpenWebsite() { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Website); }
         //public static void openURL(string url = "") { System.Diagnostics.Process.Start(URL_Documentation + url); }

@@ -64,7 +64,7 @@ namespace BMPTrains_2020
 
         private void setOutputText()
         {
-            wbOutput.DocumentText = currentBMP().StorageReport();
+            wbOutput.DocumentText = currentBMP().PrintStorageReport();
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)

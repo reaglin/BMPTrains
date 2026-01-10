@@ -182,7 +182,7 @@ namespace BMPTrains_2020
                 Common.setValue(tbP, Globals.Project.RequiredPTreatmentEfficiency);
             }
 
-            this.Text = "General Site Information for Project File: " + Globals.Project.getFileName();
+            this.Text = "General Site Information (Current User: " + Globals.User() + ")";
             EnableButtons();
             //btnConfiguration.Text = "Select Catchment Configuration"; // + Globals.Project.CatchmentConfiguration +;
         }
@@ -453,14 +453,7 @@ namespace BMPTrains_2020
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            Cursor.Current = Cursors.WaitCursor;
-            string s = Globals.Project.PrintAll();
-            s += Globals.Project.PrintAllCatchments();
-
-            Form form = new frmReport(s);
-            form.ShowDialog();
-            Cursor.Current = Cursors.Default;
-
+            BMPTrainsProject.OpenDocumentation();
         }
     }
 }
