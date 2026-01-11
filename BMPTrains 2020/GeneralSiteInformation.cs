@@ -26,7 +26,7 @@ namespace BMPTrains_2020
 
             BindingSource bs = new BindingSource();
             bs.DataSource = StaticLookupTables.RainfallZones();
-          
+
             cbMetZone.DataSource = bs;
 
             // Bind Project types to Combo
@@ -39,14 +39,6 @@ namespace BMPTrains_2020
             setValues();
         }
 
-        private void btnRainfallMap_Click(object sender, EventArgs e)
-        {
-            // Show the Rainfall Map
-            Form frmRainfall = new FormMeanAnnualRainfall();
-            frmRainfall.ShowDialog(this);
-
-        }
-
         private void cbAnalysisType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -57,7 +49,7 @@ namespace BMPTrains_2020
             string analysisType = Common.getString(cbAnalysisType);
 
             Globals.Project.AnalysisType = analysisType;
-            if ((BMPTrainsProject.AT_Criteria_For_Scenario(analysisType) != BMPTrainsProject.AT_Criteria_None) 
+            if ((BMPTrainsProject.AT_Criteria_For_Scenario(analysisType) != BMPTrainsProject.AT_Criteria_None)
                 || (analysisType == BMPTrainsProject.AT_Redevelopment)
                 || (analysisType == BMPTrainsProject.AT_Redevelopment_OFW))
             {
@@ -66,10 +58,10 @@ namespace BMPTrains_2020
 
                 Common.setValue(tbN, BMPTrainsProject.AT_Removal_For_Scenario(analysisType, "N"));
                 Common.setValue(tbP, BMPTrainsProject.AT_Removal_For_Scenario(analysisType, "P"));
-//                enableNP = true;
+                //                enableNP = true;
                 showNP = true;
             }
-  
+
             if (analysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 lblN.Text = "Nitrogen Removal Efficiency (%):";
@@ -102,18 +94,6 @@ namespace BMPTrains_2020
 
             Application.Exit();
         }
-      
-        private void btnZoneMaps_Click(object sender, EventArgs e)
-        {
-
-            // Want to set proerty of image before loading
-            this.RainfallDefault = BMPTrains_2020.Properties.Resources.RainfallZones;
-
-            // Show the Rainfall Map
-            Form frmRainfall = new FormMeanAnnualRainfall(this);
-            
-            frmRainfall.ShowDialog();
-        }
 
         private void getValues(bool readAnalysisType = true)
         {
@@ -124,9 +104,9 @@ namespace BMPTrains_2020
             Globals.Project.DoGroundwaterAnalysis = Common.getString(cbGroundwater);
 
             Globals.Project.RequiredNTreatmentEfficiency = Common.getInt(tbN, 0, 99);
-            Globals.Project.RequiredPTreatmentEfficiency = Common.getInt(tbP, 0 ,99);
+            Globals.Project.RequiredPTreatmentEfficiency = Common.getInt(tbP, 0, 99);
 
-            if (tbPercentLessThanPre.Enabled) Globals.Project.RequiredPreReductionPercent = Common.getDouble(tbPercentLessThanPre); 
+            if (tbPercentLessThanPre.Enabled) Globals.Project.RequiredPreReductionPercent = Common.getDouble(tbPercentLessThanPre);
 
             Globals.Project.Calculate();        // This also sets Catchment Values for Associated Catchments
             EnableButtons();
@@ -148,11 +128,12 @@ namespace BMPTrains_2020
                 btnConfiguration.Enabled = false;
                 btnCatchmentReport.Enabled = false;
                 btnOptions.Enabled = false;
-                
+
                 return;
             }
-     
-            if ((Globals.Project.Catchments[1].SelectedBMPType == "") || (Globals.Project.Catchments[1].SelectedBMPType == null)) {
+
+            if ((Globals.Project.Catchments[1].SelectedBMPType == "") || (Globals.Project.Catchments[1].SelectedBMPType == null))
+            {
                 btnReport.Enabled = false;
                 return;
             }
@@ -173,9 +154,9 @@ namespace BMPTrains_2020
             Common.setValue(cbMetZone, Globals.Project.RainfallZone);
             Common.setValue(tbMeanAnnualRainfall, Globals.Project.MeanAnnualRainfall);
             Common.setValue(cbAnalysisType, Globals.Project.AnalysisType);
-            Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis,true);
+            Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis, true);
             if (tbPercentLessThanPre.Enabled) Common.setValue(tbPercentLessThanPre, Globals.Project.RequiredPreReductionPercent);
-                if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
+            if ((string)cbAnalysisType.SelectedValue == BMPTrainsProject.AT_SpecifiedRemovalEfficiency)
             {
                 //Common.setValue(tbN, Globals.Project.RequiredNTreatmentEfficiency);
                 Common.setValue(tbN, 55);
@@ -197,9 +178,9 @@ namespace BMPTrains_2020
                 return;
             }
 
-                Save();
-                Globals.Project.Modified = false;
-  
+            Save();
+            Globals.Project.Modified = false;
+
         }
 
         private void ShowvalidationForm()
@@ -221,20 +202,20 @@ namespace BMPTrains_2020
             dlg.InitialDirectory = Common.WorkingDirectory();
 
             dlg.Filter = "BMPFast files (*.bmpt)|*.bmpt";
-           
+
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string fileName = dlg.FileName;
                 OpenFile(fileName);
-                
+
                 Globals.Project.Calculate();
             }
-            
+
         }
 
         public void OpenFile(string filename)
         {
-            
+
             string res = Globals.Project.openFromFile(filename);
             Common.setValue(cbGroundwater, Globals.Project.DoGroundwaterAnalysis, true);
             if (res == "")
@@ -244,7 +225,7 @@ namespace BMPTrains_2020
                 setValues();
             }
             else
-            { 
+            {
                 MessageBox.Show(res);
             }
         }
@@ -254,7 +235,7 @@ namespace BMPTrains_2020
             getValues();
             Globals.Project.Calculate();
 
-            Form form = new frmWatershedCharacteristics(1); 
+            Form form = new frmWatershedCharacteristics(1);
             form.ShowDialog();
 
             EnableButtons();
@@ -266,13 +247,13 @@ namespace BMPTrains_2020
             Form form = new frmSelectCatchmentConfiguration();
             form.ShowDialog();
             EnableButtons();
-//            btnConfiguration.Text = "Catchment Configuration " + Globals.Project.CatchmentConfiguration;
+            //            btnConfiguration.Text = "Catchment Configuration " + Globals.Project.CatchmentConfiguration;
         }
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
             if (!Globals.Project.Catchments.ContainsKey(1))
-            { 
+            {
                 DialogResult dialogResult = MessageBox.Show("You must create a Catchment before defining treatment options, would you like to do that now?", "Define Catchment", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -289,11 +270,11 @@ namespace BMPTrains_2020
         private void btnNewProject_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("This will create a new project, all current project data that is not saved will be lost, continue?", "New Project", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Globals.Project = new BMPTrainsProject();
-                    setValues();
-                }
+            if (dialogResult == DialogResult.Yes)
+            {
+                Globals.Project = new BMPTrainsProject();
+                setValues();
+            }
         }
 
         private void btnReport_Click(object sender, EventArgs e)
@@ -333,30 +314,7 @@ namespace BMPTrains_2020
         {
             System.Windows.Forms.Clipboard.SetText(StaticLookupTables.RationalCValues(cbMetZone.Text));
         }
-        #region "User Documentation Links"
-        private void btnHarper_Click(object sender, EventArgs e)
-        {
-            BMPTrainsProject.OpenDocumentation();
-        }
 
-        private void btnFDEP_Click(object sender, EventArgs e)
-        {
-            // Link to FDEP Rules
-            BMPTrainsProject.OpenDocumentation();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            // Should be link to Applicants Handbook
-            BMPTrainsProject.OpenDocumentation();
-        }
-
-        private void btnPerformanceSummary_Click(object sender, EventArgs e)
-        {
-            BMPTrainsProject.OpenDocumentation();
-        }
-
-        #endregion
         private void btnCatchmentReport_Click(object sender, EventArgs e)
         {
             if (Control.ModifierKeys == (Keys.Control | Keys.Shift))
@@ -379,11 +337,7 @@ namespace BMPTrains_2020
             Form form = new frmReport(Globals.Project.CatchmentReport());
             form.ShowDialog();
         }
-        private void btnUserManual_Click(object sender, EventArgs e)
-        {
-            // CHange to say - upcoming in new version
-            System.Diagnostics.Process.Start("http://roneaglin.online/bmptrains");
-        }
+
 
         public void btnPre_Click(object sender, EventArgs e)
         {
@@ -448,12 +402,38 @@ namespace BMPTrains_2020
         private void cbGroundwater_SelectedIndexChanged(object sender, EventArgs e)
         {
             // No action
-           
+
         }
 
         private void btnTest_Click(object sender, EventArgs e)
         {
             BMPTrainsProject.OpenDocumentation();
         }
+
+        private void btnRainfallMap_Click_1(object sender, EventArgs e)
+        {
+            showRainfallMap();
+        }
+        private void showRainfallMap()
+        {
+            // Show the Rainfall Map
+            Form frmRainfall = new FormMeanAnnualRainfall();
+            frmRainfall.ShowDialog(this);
+        }
+
+        private void showZoneMaps()
+        {
+            // Want to set proerty of image before loading
+            this.RainfallDefault = BMPTrains_2020.Properties.Resources.RainfallZones;
+            // Show the Rainfall Map
+            Form frmRainfall = new FormMeanAnnualRainfall(this);
+            frmRainfall.ShowDialog();
+        }
+
+        private void btnZoneMaps_Click_1(object sender, EventArgs e)
+        {
+            showZoneMaps();
+        }
     }
 }
+

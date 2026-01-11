@@ -1016,7 +1016,7 @@ namespace BMPTrains_2020.DomainCode
 
         public static string WorkingDirectory()
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\BMPTrains";
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\BMPFast";
             Directory.CreateDirectory(path);
             return path;
         }

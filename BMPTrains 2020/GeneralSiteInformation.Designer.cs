@@ -58,6 +58,8 @@
             this.tbPercentLessThanPre = new System.Windows.Forms.TextBox();
             this.lblPercentLessThanPre = new System.Windows.Forms.Label();
             this.btnTest = new System.Windows.Forms.Button();
+            this.btnRainfallMap = new System.Windows.Forms.Button();
+            this.btnZoneMaps = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -352,11 +354,37 @@
             this.btnTest.UseVisualStyleBackColor = false;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
+            // btnRainfallMap
+            // 
+            this.btnRainfallMap.BackColor = System.Drawing.SystemColors.Info;
+            this.btnRainfallMap.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnRainfallMap.Location = new System.Drawing.Point(744, 99);
+            this.btnRainfallMap.Name = "btnRainfallMap";
+            this.btnRainfallMap.Size = new System.Drawing.Size(34, 38);
+            this.btnRainfallMap.TabIndex = 37;
+            this.btnRainfallMap.Text = "?";
+            this.btnRainfallMap.UseVisualStyleBackColor = false;
+            this.btnRainfallMap.Click += new System.EventHandler(this.btnRainfallMap_Click_1);
+            // 
+            // btnZoneMaps
+            // 
+            this.btnZoneMaps.BackColor = System.Drawing.SystemColors.Info;
+            this.btnZoneMaps.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnZoneMaps.Location = new System.Drawing.Point(744, 55);
+            this.btnZoneMaps.Name = "btnZoneMaps";
+            this.btnZoneMaps.Size = new System.Drawing.Size(34, 38);
+            this.btnZoneMaps.TabIndex = 38;
+            this.btnZoneMaps.Text = "?";
+            this.btnZoneMaps.UseVisualStyleBackColor = false;
+            this.btnZoneMaps.Click += new System.EventHandler(this.btnZoneMaps_Click_1);
+            // 
             // GeneralSiteInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(756, 537);
+            this.ClientSize = new System.Drawing.Size(784, 537);
+            this.Controls.Add(this.btnZoneMaps);
+            this.Controls.Add(this.btnRainfallMap);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.tbPercentLessThanPre);
             this.Controls.Add(this.lblPercentLessThanPre);
@@ -427,5 +455,7 @@
         private System.Windows.Forms.TextBox tbPercentLessThanPre;
         private System.Windows.Forms.Label lblPercentLessThanPre;
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Button btnRainfallMap;
+        private System.Windows.Forms.Button btnZoneMaps;
     }
 }

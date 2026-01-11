@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmWatershedCharacteristics));
             this.cbPreLanduse = new System.Windows.Forms.ComboBox();
             this.tbCatchmentName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -534,128 +533,139 @@
             // 
             // btnGeneralLanduseCategories
             // 
-            this.btnGeneralLanduseCategories.Image = ((System.Drawing.Image)(resources.GetObject("btnGeneralLanduseCategories.Image")));
-            this.btnGeneralLanduseCategories.Location = new System.Drawing.Point(662, 87);
+            this.btnGeneralLanduseCategories.BackColor = System.Drawing.SystemColors.Info;
+            this.btnGeneralLanduseCategories.Location = new System.Drawing.Point(662, 92);
             this.btnGeneralLanduseCategories.Name = "btnGeneralLanduseCategories";
-            this.btnGeneralLanduseCategories.Size = new System.Drawing.Size(46, 40);
+            this.btnGeneralLanduseCategories.Size = new System.Drawing.Size(36, 35);
             this.btnGeneralLanduseCategories.TabIndex = 58;
+            this.btnGeneralLanduseCategories.Text = "?";
             this.toolTip1.SetToolTip(this.btnGeneralLanduseCategories, "View General Land Use Categories");
-            this.btnGeneralLanduseCategories.UseVisualStyleBackColor = true;
+            this.btnGeneralLanduseCategories.UseVisualStyleBackColor = false;
             this.btnGeneralLanduseCategories.Click += new System.EventHandler(this.btnZoneMaps_Click);
             // 
             // btnFLUCCS
             // 
-            this.btnFLUCCS.Image = ((System.Drawing.Image)(resources.GetObject("btnFLUCCS.Image")));
-            this.btnFLUCCS.Location = new System.Drawing.Point(662, 179);
+            this.btnFLUCCS.BackColor = System.Drawing.SystemColors.Info;
+            this.btnFLUCCS.Location = new System.Drawing.Point(662, 174);
             this.btnFLUCCS.Name = "btnFLUCCS";
-            this.btnFLUCCS.Size = new System.Drawing.Size(46, 40);
+            this.btnFLUCCS.Size = new System.Drawing.Size(36, 40);
             this.btnFLUCCS.TabIndex = 59;
+            this.btnFLUCCS.Text = "?";
             this.toolTip1.SetToolTip(this.btnFLUCCS, "FLUCCS Code Summary");
-            this.btnFLUCCS.UseVisualStyleBackColor = true;
+            this.btnFLUCCS.UseVisualStyleBackColor = false;
             this.btnFLUCCS.Click += new System.EventHandler(this.btnFLUCCS_Click);
             // 
             // btnNaturalCommunity
             // 
-            this.btnNaturalCommunity.Image = ((System.Drawing.Image)(resources.GetObject("btnNaturalCommunity.Image")));
+            this.btnNaturalCommunity.BackColor = System.Drawing.SystemColors.Info;
             this.btnNaturalCommunity.Location = new System.Drawing.Point(662, 133);
             this.btnNaturalCommunity.Name = "btnNaturalCommunity";
-            this.btnNaturalCommunity.Size = new System.Drawing.Size(46, 40);
+            this.btnNaturalCommunity.Size = new System.Drawing.Size(36, 35);
             this.btnNaturalCommunity.TabIndex = 60;
+            this.btnNaturalCommunity.Text = "?";
             this.toolTip1.SetToolTip(this.btnNaturalCommunity, "Natural Community Summary");
-            this.btnNaturalCommunity.UseVisualStyleBackColor = true;
+            this.btnNaturalCommunity.UseVisualStyleBackColor = false;
             this.btnNaturalCommunity.Click += new System.EventHandler(this.btnNaturalCommunity_Click);
             // 
             // btnPreCCN
             // 
+            this.btnPreCCN.BackColor = System.Drawing.SystemColors.Info;
             this.btnPreCCN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPreCCN.Image = ((System.Drawing.Image)(resources.GetObject("btnPreCCN.Image")));
             this.btnPreCCN.Location = new System.Drawing.Point(632, 285);
             this.btnPreCCN.Name = "btnPreCCN";
-            this.btnPreCCN.Size = new System.Drawing.Size(46, 35);
+            this.btnPreCCN.Size = new System.Drawing.Size(40, 35);
             this.btnPreCCN.TabIndex = 61;
+            this.btnPreCCN.Text = "+";
             this.toolTip1.SetToolTip(this.btnPreCCN, "Calculate a pre condition Composite Curve Number");
-            this.btnPreCCN.UseVisualStyleBackColor = true;
+            this.btnPreCCN.UseVisualStyleBackColor = false;
             this.btnPreCCN.Click += new System.EventHandler(this.btnPreCCN_Click);
             // 
             // btnPostCCN
             // 
+            this.btnPostCCN.BackColor = System.Drawing.SystemColors.Info;
             this.btnPostCCN.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnPostCCN.Image = ((System.Drawing.Image)(resources.GetObject("btnPostCCN.Image")));
             this.btnPostCCN.Location = new System.Drawing.Point(632, 366);
             this.btnPostCCN.Name = "btnPostCCN";
-            this.btnPostCCN.Size = new System.Drawing.Size(46, 35);
+            this.btnPostCCN.Size = new System.Drawing.Size(40, 35);
             this.btnPostCCN.TabIndex = 62;
+            this.btnPostCCN.Text = "+";
             this.toolTip1.SetToolTip(this.btnPostCCN, "Calculate a post condition Composite Curve Number");
-            this.btnPostCCN.UseVisualStyleBackColor = true;
+            this.btnPostCCN.UseVisualStyleBackColor = false;
             this.btnPostCCN.Click += new System.EventHandler(this.btnPostCCN_Click);
             // 
             // btnViewAnnualC
             // 
-            this.btnViewAnnualC.Image = ((System.Drawing.Image)(resources.GetObject("btnViewAnnualC.Image")));
-            this.btnViewAnnualC.Location = new System.Drawing.Point(1052, 221);
+            this.btnViewAnnualC.BackColor = System.Drawing.SystemColors.Info;
+            this.btnViewAnnualC.Location = new System.Drawing.Point(1061, 223);
             this.btnViewAnnualC.Name = "btnViewAnnualC";
-            this.btnViewAnnualC.Size = new System.Drawing.Size(52, 40);
+            this.btnViewAnnualC.Size = new System.Drawing.Size(34, 35);
             this.btnViewAnnualC.TabIndex = 63;
+            this.btnViewAnnualC.Text = "?";
             this.toolTip1.SetToolTip(this.btnViewAnnualC, "Annual Runoff Fraction C");
-            this.btnViewAnnualC.UseVisualStyleBackColor = true;
+            this.btnViewAnnualC.UseVisualStyleBackColor = false;
             this.btnViewAnnualC.Click += new System.EventHandler(this.btnViewAnnualC_Click);
             // 
             // btnMassLoadingDoc
             // 
-            this.btnMassLoadingDoc.Image = ((System.Drawing.Image)(resources.GetObject("btnMassLoadingDoc.Image")));
-            this.btnMassLoadingDoc.Location = new System.Drawing.Point(1052, 305);
+            this.btnMassLoadingDoc.BackColor = System.Drawing.SystemColors.Info;
+            this.btnMassLoadingDoc.Location = new System.Drawing.Point(1061, 307);
             this.btnMassLoadingDoc.Name = "btnMassLoadingDoc";
-            this.btnMassLoadingDoc.Size = new System.Drawing.Size(46, 40);
+            this.btnMassLoadingDoc.Size = new System.Drawing.Size(34, 35);
             this.btnMassLoadingDoc.TabIndex = 64;
+            this.btnMassLoadingDoc.Text = "?";
             this.toolTip1.SetToolTip(this.btnMassLoadingDoc, "Mass Loading Methods");
-            this.btnMassLoadingDoc.UseVisualStyleBackColor = true;
+            this.btnMassLoadingDoc.UseVisualStyleBackColor = false;
             this.btnMassLoadingDoc.Click += new System.EventHandler(this.btnMassLoadingDoc_Click);
             // 
             // btnEMCPreN
             // 
-            this.btnEMCPreN.Image = ((System.Drawing.Image)(resources.GetObject("btnEMCPreN.Image")));
-            this.btnEMCPreN.Location = new System.Drawing.Point(945, 139);
+            this.btnEMCPreN.BackColor = System.Drawing.SystemColors.Info;
+            this.btnEMCPreN.Location = new System.Drawing.Point(945, 144);
             this.btnEMCPreN.Name = "btnEMCPreN";
-            this.btnEMCPreN.Size = new System.Drawing.Size(33, 40);
+            this.btnEMCPreN.Size = new System.Drawing.Size(33, 35);
             this.btnEMCPreN.TabIndex = 65;
+            this.btnEMCPreN.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPreN, "Pre Composite EMC Calculation for N");
-            this.btnEMCPreN.UseVisualStyleBackColor = true;
+            this.btnEMCPreN.UseVisualStyleBackColor = false;
             this.btnEMCPreN.Visible = false;
             this.btnEMCPreN.Click += new System.EventHandler(this.btnEMCPreN_Click);
             // 
             // btnEMCPostN
             // 
-            this.btnEMCPostN.Image = ((System.Drawing.Image)(resources.GetObject("btnEMCPostN.Image")));
-            this.btnEMCPostN.Location = new System.Drawing.Point(1064, 141);
+            this.btnEMCPostN.BackColor = System.Drawing.SystemColors.Info;
+            this.btnEMCPostN.Location = new System.Drawing.Point(1064, 144);
             this.btnEMCPostN.Name = "btnEMCPostN";
-            this.btnEMCPostN.Size = new System.Drawing.Size(40, 40);
+            this.btnEMCPostN.Size = new System.Drawing.Size(31, 35);
             this.btnEMCPostN.TabIndex = 66;
+            this.btnEMCPostN.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPostN, "Post Composite EMC Calculation for N");
-            this.btnEMCPostN.UseVisualStyleBackColor = true;
+            this.btnEMCPostN.UseVisualStyleBackColor = false;
             this.btnEMCPostN.Visible = false;
             this.btnEMCPostN.Click += new System.EventHandler(this.btnEMCPostN_Click);
             // 
             // btnEMCPostP
             // 
-            this.btnEMCPostP.Image = ((System.Drawing.Image)(resources.GetObject("btnEMCPostP.Image")));
-            this.btnEMCPostP.Location = new System.Drawing.Point(1064, 180);
+            this.btnEMCPostP.BackColor = System.Drawing.SystemColors.Info;
+            this.btnEMCPostP.Location = new System.Drawing.Point(1064, 182);
             this.btnEMCPostP.Name = "btnEMCPostP";
-            this.btnEMCPostP.Size = new System.Drawing.Size(40, 40);
+            this.btnEMCPostP.Size = new System.Drawing.Size(31, 35);
             this.btnEMCPostP.TabIndex = 68;
+            this.btnEMCPostP.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPostP, "Post Composite EMC Calculation for P");
-            this.btnEMCPostP.UseVisualStyleBackColor = true;
+            this.btnEMCPostP.UseVisualStyleBackColor = false;
             this.btnEMCPostP.Visible = false;
             this.btnEMCPostP.Click += new System.EventHandler(this.btnEMCPostP_Click);
             // 
             // btnEMCPreP
             // 
-            this.btnEMCPreP.Image = ((System.Drawing.Image)(resources.GetObject("btnEMCPreP.Image")));
-            this.btnEMCPreP.Location = new System.Drawing.Point(945, 180);
+            this.btnEMCPreP.BackColor = System.Drawing.SystemColors.Info;
+            this.btnEMCPreP.Location = new System.Drawing.Point(945, 182);
             this.btnEMCPreP.Name = "btnEMCPreP";
-            this.btnEMCPreP.Size = new System.Drawing.Size(33, 40);
+            this.btnEMCPreP.Size = new System.Drawing.Size(33, 35);
             this.btnEMCPreP.TabIndex = 67;
+            this.btnEMCPreP.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPreP, "Pre Composite EMC Calculation for P");
-            this.btnEMCPreP.UseVisualStyleBackColor = true;
+            this.btnEMCPreP.UseVisualStyleBackColor = false;
             this.btnEMCPreP.Visible = false;
             this.btnEMCPreP.Click += new System.EventHandler(this.btnEMCPreP_Click);
             // 

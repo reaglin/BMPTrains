@@ -108,15 +108,82 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        // Helper type used to display basename while retaining full path
+        private class RecentFileItem
+        {
+            public string FullPath { get; }
+            public string DisplayName { get; }
+
+            public RecentFileItem(string fullPath)
+            {
+                FullPath = fullPath ?? "";
+                try
+                {
+                    DisplayName = string.IsNullOrEmpty(FullPath) ? "" : Path.GetFileName(FullPath);
+                    if (string.IsNullOrEmpty(DisplayName)) DisplayName = FullPath; // fallback
+                }
+                catch
+                {
+                    DisplayName = FullPath;
+                }
+            }
+
+            // ListBox calls ToString() for display when Items are objects
+            public override string ToString() => DisplayName;
+        }
+
+        /// <summary>
+        /// Populate the ListBox with SHORT names (file name only) while the ListBox.Items keep the object
+        /// that contains the full path.  Double-click handlers should read the selected RecentFileItem.FullPath.
+        /// </summary>
         public void FillListBox(ListBox lb)
         {
-            if (File1 == null) return;
-            if (File1 != "") lb.Items.Add(File1);
-            if (File2 != "") lb.Items.Add(File2);
-            if (File3 != "") lb.Items.Add(File3);
-            if (File4 != "") lb.Items.Add(File4);
-            if (File5 != "") lb.Items.Add(File5);
-            if (File6 != "") lb.Items.Add(File6);
+            if (lb == null) return;
+            lb.Items.Clear();
+
+            // Prefer the in-memory 'files' list if available, otherwise fall back to File1..File6
+            var source = new List<string>();
+            if (files != null && files.Count > 0)
+            {
+                source.AddRange(files.Where(f => !string.IsNullOrWhiteSpace(f)));
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(File1)) source.Add(File1);
+                if (!string.IsNullOrWhiteSpace(File2)) source.Add(File2);
+                if (!string.IsNullOrWhiteSpace(File3)) source.Add(File3);
+                if (!string.IsNullOrWhiteSpace(File4)) source.Add(File4);
+                if (!string.IsNullOrWhiteSpace(File5)) source.Add(File5);
+                if (!string.IsNullOrWhiteSpace(File6)) source.Add(File6);
+            }
+
+            // Add RecentFileItem objects so ListBox shows the filename but SelectedItem contains full path
+            foreach (var path in source)
+            {
+                if (string.IsNullOrWhiteSpace(path)) continue;
+                lb.Items.Add(new RecentFileItem(path));
+            }
+        }
+
+        /// <summary>
+        /// Return the full path for the currently selected item in the ListBox.  Works with legacy string items too.
+        /// </summary>
+        public static string GetFullPathFromListBox(ListBox lb)
+        {
+            if (lb == null || lb.SelectedItem == null) return string.Empty;
+
+            if (lb.SelectedItem is RecentFileItem rfi)
+            {
+                return rfi.FullPath;
+            }
+
+            // Backwards compatibility: item might be plain string (full path)
+            if (lb.SelectedItem is string s)
+            {
+                return s;
+            }
+
+            return lb.SelectedItem.ToString();
         }
 
         public override Dictionary<string, string> PropertyLabels()

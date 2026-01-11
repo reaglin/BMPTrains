@@ -115,7 +115,7 @@ namespace BMPTrains_2020
             {
                 this.UseWaitCursor = true;
                 // Double Click to Open a File
-                string filename = lbFiles.SelectedItem.ToString();
+                string filename = FileList.GetFullPathFromListBox(lbFiles); 
                 parent.OpenFile(filename);
                 this.UseWaitCursor = false;
                 this.Close();
