@@ -17,7 +17,7 @@ namespace BMPTrains_2020.DomainCode
 
         public override bool isDefined()
         {
-            return true;
+            return false;
         }
     }
 }

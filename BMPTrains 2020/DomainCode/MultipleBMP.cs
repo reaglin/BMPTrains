@@ -8,11 +8,20 @@ namespace BMPTrains_2020.DomainCode
 {
     public class MultipleBMP :Storage
     {
+        public static string case_RetentionToWetDetention = "Retention to Wet Detention";
+        public static string case_RetentionInSeries = "Retention in Series";
+        public static string case_WetDetentionInSeries = "Wet Detention in Series";
+        public static string case_DetentionToHarvesting = "Wet Detention to Stormwater Harvesting";
+        public static string case_Generic = "Generic Multiple BMP";
+
+        public string ScenarioCase { get; set; }
+
         #region "Properties"
         public BMP bmp1;
         public BMP bmp2;
         public BMP bmp3;
         public BMP bmp4;
+        public BMP cBMP; // Used for combining retention systems
 
         public int RetentionCount { get; set; }
         #endregion
@@ -27,6 +36,9 @@ namespace BMPTrains_2020.DomainCode
             bmp2 = new BMP(c); bmp2.BMPType = c.BMP2;
             bmp3 = new BMP(c); bmp3.BMPType = c.BMP3;
             bmp4 = new BMP(c); bmp4.BMPType = c.BMP4;
+
+            cBMP = new Retention(c);
+            cBMP.SetValuesFromCatchment(c);
         }
 
         public void AddBMP(int i, BMP bmp)
@@ -38,7 +50,28 @@ namespace BMPTrains_2020.DomainCode
         }
         #endregion
 
-        #region "Calculate"
+        #region "Determine Special Cases and Helper Methods"
+        public void DetermineScenarioCase()
+        {
+            // Determine the scenario case for reporting purposes
+
+            // If all BMPs are retention
+            if (isRetention())
+            {
+                ScenarioCase = case_RetentionInSeries;
+                return;
+            }
+            if (IsRetentionToWetDetention())
+            {
+                ScenarioCase = case_RetentionToWetDetention;
+                return;
+            }
+
+
+            ScenarioCase =  case_Generic;
+
+        }
+
         public BMP getBMP(int bmpID)
         {
             if (bmpID == 4) return bmp4;
@@ -47,18 +80,211 @@ namespace BMPTrains_2020.DomainCode
             return bmp4;
         }
 
+        public bool bmpExists(int i)
+        {
+            if (i == 1) return bmp1.isDefined();
+            if (i == 2) return bmp2.isDefined();
+            if (i == 3) return bmp3.isDefined();
+            if (i == 4) return bmp4.isDefined();
+            return false;
+        }
 
+        public override bool isDefined()
+        {
+            try
+            {
+                if (bmp1 != null && !string.IsNullOrWhiteSpace(bmp1.BMPType) && bmp1.BMPType != BMPTrainsProject.sNone) return true;
+                if (bmp2 != null && !string.IsNullOrWhiteSpace(bmp2.BMPType) && bmp2.BMPType != BMPTrainsProject.sNone) return true;
+                if (bmp3 != null && !string.IsNullOrWhiteSpace(bmp3.BMPType) && bmp3.BMPType != BMPTrainsProject.sNone) return true;
+                if (bmp4 != null && !string.IsNullOrWhiteSpace(bmp4.BMPType) && bmp4.BMPType != BMPTrainsProject.sNone) return true;
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // If any bmp in the sereis is retention, it has retention
+        public override bool hasRetention()
+        {
+            if (bmp1 != null && bmp1.isRetention()) return true;
+            if (bmp2 != null && bmp2.isRetention()) return true;
+            if (bmp3 != null && bmp3.isRetention()) return true;
+            if (bmp4 != null && bmp4.isRetention()) return true;
+
+            return false;
+        }
+
+
+
+        // The last retention BMP in the series (contiguous retention from the start).
+        // Returns 0 if the first BMP is not retention (or no retention present).
+        private int LastRetention()
+        {
+            BMP[] bmps = new BMP[] { bmp1, bmp2, bmp3, bmp4 };
+            int lastRetention = 0;
+
+            for (int i = 0; i < bmps.Length; i++)
+            {
+                var b = bmps[i];
+                // stop if no BMP defined at this position
+                if (b == null || !b.isDefined()) break;
+
+                // if defined but not retention, we stop and do not count further
+                if (!b.isRetention()) break;
+
+                // defined and retention -> update lastRetention
+                lastRetention = i + 1;
+            }
+
+            return lastRetention;
+        }
+
+        // isRetention means all BMPs are retention types, this is because if the type is sNone, then there 
+        // are no more BMPs used in the series.  As soon as a non-retention BMP is found, the system is not retention
+        // isRetention means the series is a retention-only train:
+        // - at least one BMP is defined, AND
+        // - every defined BMP (from the first) is a retention, with no non-retention defined before a gap.
+        public override bool isRetention()
+        {
+            BMP[] bmps = new BMP[] { bmp1, bmp2, bmp3, bmp4 };
+            bool anyDefined = false;
+
+            for (int i = 0; i < bmps.Length; i++)
+            {
+                var b = bmps[i];
+                if (b == null || !b.isDefined())
+                {
+                    // empty slot -> end of series (valid); if we never saw a defined BMP, not retention
+                    break;
+                }
+
+                anyDefined = true;
+
+                if (!b.isRetention())
+                {
+                    // a defined but non-retention BMP -> series is not a retention-only train
+                    return false;
+                }
+            }
+
+            return anyDefined; // true only if at least one BMP defined and all defined ones were retention
+        }
+
+        // Returns true when the system "starts with" retention:
+        // - it returns the isRetention() of the first defined BMP (i.e. first non-empty position must be retention).
+        // - returns false if no BMPs are defined.
+        public bool isRetentionUpstream()
+        {
+            BMP[] bmps = new BMP[] { bmp1, bmp2, bmp3, bmp4 };
+            foreach (var b in bmps)
+            {
+                if (b == null) continue;
+                if (b.isDefined())
+                {
+                    return b.isRetention();
+                }
+            }
+            return false;
+        }
+
+        public bool IsRetentionToWetDetention(bool requireUpstreamRetention = true)
+        {
+            BMP[] bmps = new BMP[] { bmp1, bmp2, bmp3, bmp4 };
+
+            // find last defined BMP index
+            int lastIndex = -1;
+            for (int i = 0; i < bmps.Length; i++)
+            {
+                if (bmps[i] != null && bmps[i].isDefined())
+                    lastIndex = i;
+            }
+            if (lastIndex < 0) return false; // no BMPs defined
+
+            // last must be wet detention
+            var lastBmp = bmps[lastIndex];
+            if (!(lastBmp is WetDetention) && lastBmp.BMPType != BMPTrainsProject.sWetDetention) return false;
+
+            // ensure train is contiguous and all upstream defined BMPs are retention
+            for (int i = 0; i < lastIndex; i++)
+            {
+                var b = bmps[i];
+                if (b == null || !b.isDefined()) return false; // gap -> reject (or change behaviour if gaps allowed)
+                if (!b.isRetention()) return false; // upstream must be retention
+            }
+
+            if (requireUpstreamRetention && lastIndex == 0) return false;
+
+            return true;
+        }
+        private static readonly Dictionary<Type, string[]> _inputVariablesCache = new Dictionary<Type, string[]>();
+
+        public static string[] GetInputVariablesForBmp(BMP bmp)
+        {
+            if (bmp == null) return new string[0];
+            return GetInputVariablesForType(bmp.GetType());
+        }
+
+        private static string[] GetInputVariablesForType(Type t)
+        {
+            return GetVariablesForType(t, "InputVariables");
+
+        }
+
+        private static string[] GetVariablesForType(Type t, string name)
+        {
+            if (t == null) return new string[0];
+
+            lock (_inputVariablesCache)
+            {
+                if (_inputVariablesCache.TryGetValue(t, out var cached)) return cached;
+            }
+
+            Type cur = t;
+            while (cur != null && cur != typeof(object))
+            {
+                // look for a public static field named "InputVariables"
+                var fi = cur.GetField(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (fi != null && fi.FieldType == typeof(string[]))
+                {
+                    var value = fi.GetValue(null) as string[] ?? new string[0];
+                    lock (_inputVariablesCache) { _inputVariablesCache[t] = value; }
+                    return value;
+                }
+
+                // also support a public static property named "InputVariables"
+                var pi = cur.GetProperty(name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                if (pi != null && pi.PropertyType == typeof(string[]))
+                {
+                    var value = pi.GetValue(null, null) as string[] ?? new string[0];
+                    lock (_inputVariablesCache) { _inputVariablesCache[t] = value; }
+                    return value;
+                }
+
+                cur = cur.BaseType;
+            }
+
+            lock (_inputVariablesCache) { _inputVariablesCache[t] = new string[0]; }
+            return new string[0];
+        }
+        #endregion
+        #region "Calculate Methods"
         public new void Calculate()
         {
-
+            DetermineScenarioCase();
             // lastRetentionBMPId will be the last Retention BMP
             // lastBMPId is the last BMP used in calculation
 
             //
-           // Special Case: All bmp in series are retention 
-           //
+            // Special Case: All bmp in series are retention 
+            //
 
-            if (CalculateAllRetention()) return;
+            if (ScenarioCase == case_RetentionInSeries)
+            {
+                CalculateRetentionInSeries();
+                return;
+            }
 
             //
             // Special Case Wet Detention to Stormwater Harvesting (possibly following a retention system)
@@ -68,8 +294,14 @@ namespace BMPTrains_2020.DomainCode
 
 
             //
-            //  Spcial Caase Retention to Wet Detention  
+            //  Spcial Case Retention to Wet Detention  
             //
+
+            if (ScenarioCase == case_RetentionToWetDetention)
+            {
+                CalculateRetentionToWetDetention();
+                return;
+            }
 
             int lastRetentionBMPId = CalculateRetention();
             int lastBMPId = lastRetentionBMPId;
@@ -125,18 +357,21 @@ namespace BMPTrains_2020.DomainCode
             CalculateFlowWeightedGroundwaterTreatmentEfficiency(true);
         }
 
-        public bool CalculateAllRetention()
+        // This calculates the BMP overall if every BMP is Retention
+        public void CalculateRetentionInSeries()
         {
-            if (isRetention())
-            {
-                double d = CalculateEffectiveRetentionTreatmentEfficiency();
-                ProvidedNTreatmentEfficiency = d;
-                ProvidedPTreatmentEfficiency = d;
-                RechargeRate = RunoffVolume * 0.3258724 * HydraulicCaptureEfficiency / 100;
-                CalculateRetentionGroundwaterTreatmentEfficiency();
-                return true;
-            }
-            return false;
+            double d = CalculateSeriesRetentionTreatmentEfficiency();
+            HydraulicCaptureEfficiency = d;
+            ProvidedNTreatmentEfficiency = d;
+            ProvidedPTreatmentEfficiency = d;
+            RechargeRate = RunoffVolume * 0.3258724 * HydraulicCaptureEfficiency / 100;
+            CalculateRetentionGroundwaterTreatmentEfficiency();
+
+            // cBMP is the combined retention BMP and is used
+            // to route to other BMP types as a single BMP
+
+            cBMP.RetentionDepth = CalculateEquivalentRetentionDepth();
+            cBMP.Calculate();
         }
 
         public bool CalculateDetentionToHarvesting()
@@ -312,27 +547,7 @@ namespace BMPTrains_2020.DomainCode
         /// the system is not considered a retention system, and the method returns <c>false</c>.</para>
         /// </remarks>
         /// <returns><c>true</c> if the last defined BMP is a retention type; otherwise, <c>false</c>.</returns>
-        public override bool isRetention()
-        {
-            // If the last BMP is retention - system is retention - These means all types are retention
-            if (bmp1.isRetention()) { if (bmp2.BMPType == BMPTrainsProject.sNone) return true; } else return false;
-            if (bmp2.isRetention()) { if (bmp3.BMPType == BMPTrainsProject.sNone) return true; } else return false;
-            if (bmp3.isRetention()) { if (bmp4.BMPType == BMPTrainsProject.sNone) return true; } else return false;
-            if (bmp4.isRetention()) return true;
 
-            return false;
-        }
-
-        public override bool hasRetention()
-        {
-            // If any bmp is retention, it has retention
-            if (bmp1.isRetention()) return true;
-            if (bmp2.isRetention()) return true;
-            if (bmp3.isRetention()) return true;
-            if (bmp4.isRetention()) return true;
-
-            return false;
-        }
 
         public override void CalculateCost()
         {
@@ -348,9 +563,11 @@ namespace BMPTrains_2020.DomainCode
         }
 
 
-        public double CalculateEffectiveRetentionTreatmentEfficiency()
+        public double CalculateSeriesRetentionTreatmentEfficiency()
         {
-            RetentionDepth = getEquivalentRetentionDepth();      // Retention Depth
+            RetentionDepth = CalculateEquivalentRetentionDepth(); // Retention Depth
+
+            // These values come from the Catchment
             double NDCIACN = WatershedNDCIACurveNumber;     // Non Directly connected CN
             double DCIAP = WatershedDCIAPercent;            // Directly Connected Impervious Area Perccent
             RetentionVolume = RetentionDepth * ContributingArea / 12;       // Acre-feet
@@ -516,41 +733,74 @@ namespace BMPTrains_2020.DomainCode
             return lastBMP;
         }
 
+        private void CalculateRetentionToWetDetention()
+        {
+            // Find the last retention BMP
+            int lastRetentionBMPId = LastRetention();
+            if (lastRetentionBMPId == 0) return; // No retention found - should not happen here
+            BMP up = null;
+            BMP down = null;
+
+            // Create the Combined Retention BMP (cBMP)
+            cBMP.RetentionDepth = CalculateEquivalentRetentionDepth();
+            cBMP.Calculate();
+
+            if (lastRetentionBMPId == 1) { RouteRetentionToWetDetention(cBMP, bmp2); return; }
+            if (lastRetentionBMPId == 2) { RouteRetentionToWetDetention(cBMP, bmp3); return; }
+            if (lastRetentionBMPId == 3) { RouteRetentionToWetDetention(cBMP, bmp4); return; }
+        }
+
         private void RouteRetentionToWetDetention(BMP up, BMP down)
         {
-            double rt = 0.0;    // Adjusted Residence time based on incoming flow difference due to removal
-
             // e is provided retention treatment efficiency
-            double e = CalculateEffectiveRetentionTreatmentEfficiency();
-            up.BMPVolumeOut = up.BMPVolumeIn * e / 100; // This is retention calculation for Volume Out
-            if (((Storage)up).BMPVolumeOut != 0) rt = ((WetDetention)down).PermanentPoolVolume / ((Storage)up).BMPVolumeOut * 365;
-            ((WetDetention)down).Calculate(rt);
+            double e = CalculateSeriesRetentionTreatmentEfficiency();
+            up.NTreatmentEfficiencySeriesContribution = e;
+            up.PTreatmentEfficiencySeriesContribution = e;
+            up.NTreatmentEfficiencyStandalone = e;
+            up.PTreatmentEfficiencyStandalone = e;
+
+            up.BMPVolumeOut = RunoffVolume * e / 100; // This is retention calculation for Volume Out
+            if (up.BMPVolumeOut != 0)
+                ((WetDetention)down).EffectiveResidenceTime = ((WetDetention)down).PermanentPoolVolume / up.BMPVolumeOut * 365;
+
+            ((WetDetention)down).Calculate(((WetDetention)down).EffectiveResidenceTime);
 
             // The current Wet Detention efficiency for standalone for N and P are stored in
             // DetentionPercentNitrogenRemoval and DetentionPercentPhosphorusRemoval 
             double DetentionNEff = ((WetDetention)down).DetentionPercentNitrogenRemoval;
             double DetentionPEff = ((WetDetention)down).DetentionPercentPhosphorusRemoval;
+            down.NTreatmentEfficiencyStandalone = DetentionNEff;
+            down.PTreatmentEfficiencyStandalone = DetentionPEff;
 
             // The Wet Detention Calculation gives us a standalone efficiency for wet detentions
             // 
 
             double tna = 10.0; // Temporary N Adjustment Factor
             double tpa = 20.0; // Temporary P Adjustment Factor
-            down.ProvidedNTreatmentEfficiency = (100 - e) * ((DetentionNEff/100) - (tna/100)*(e / 100));
-            down.ProvidedPTreatmentEfficiency = (100 - e) * ((DetentionPEff/100) - (tpa/100)*(e / 100));
+            down.NTreatmentEfficiencySeriesContribution = (100 - e) * ((DetentionNEff/100) - (tna/100)*(e / 100));
+            down.PTreatmentEfficiencySeriesContribution = (100 - e) * ((DetentionPEff/100) - (tpa/100)*(e / 100));
 
-            if (down.ProvidedNTreatmentEfficiency <= 0) down.ProvidedNTreatmentEfficiency = 0.0;
-            if (down.ProvidedPTreatmentEfficiency <= 0) down.ProvidedPTreatmentEfficiency = 0.0;
+            if (down.NTreatmentEfficiencySeriesContribution <= 0) down.NTreatmentEfficiencySeriesContribution = 0.0;
+            if (down.PTreatmentEfficiencySeriesContribution <= 0) down.PTreatmentEfficiencySeriesContribution = 0.0;
 
-            ProvidedNTreatmentEfficiency = e + down.ProvidedNTreatmentEfficiency;
-            ProvidedPTreatmentEfficiency = e + down.ProvidedPTreatmentEfficiency;
+            // The provided efficiency for the system is the sum of retention and detention efficiencies
+            ProvidedNTreatmentEfficiency = e + down.NTreatmentEfficiencySeriesContribution;
+            ProvidedPTreatmentEfficiency = e + down.PTreatmentEfficiencySeriesContribution;
 
-            // Now calculate Mass Load reductions
+            up.BMPNMassLoadOut = up.BMPNMassLoadIn * (100 - up.NTreatmentEfficiencySeriesContribution) / 100;
+            up.BMPPMassLoadOut = up.BMPPMassLoadIn * (100 - up.PTreatmentEfficiencySeriesContribution) / 100;
+
+            // Now calculate Mass Load reductions (for BMP)
             down.BMPNMassLoadIn = up.BMPNMassLoadOut;
             down.BMPPMassLoadIn = up.BMPPMassLoadOut;
-            
-            CalculateMassLoadReductions(down);
-            CalculateMassLoadReductions(this);
+
+            down.BMPNMassLoadOut = down.BMPNMassLoadIn * (100 - down.NTreatmentEfficiencySeriesContribution) / 100;
+            down.BMPPMassLoadOut = down.BMPPMassLoadIn * (100 - down.PTreatmentEfficiencySeriesContribution) / 100;
+
+            // Also Overall reduction in Mass Load 
+
+            BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100;
+            BMPPMassLoadOut = BMPPMassLoadIn * (100 - ProvidedPTreatmentEfficiency) / 100;
         }
 
         private void CalculateMassLoadReductions(BMP bmp)
@@ -592,7 +842,8 @@ namespace BMPTrains_2020.DomainCode
             RetentionCount = 0;
             if (bmp1.isRetention())
             {
-                HydraulicCaptureEfficiency = CalculateEffectiveRetentionTreatmentEfficiency();
+                HydraulicCaptureEfficiency = CalculateSeriesRetentionTreatmentEfficiency();
+
 
                 // First Calculate Retention based removal efficiency
                 // if (RetentionDepth != 0) base.Calculate();
@@ -601,30 +852,17 @@ namespace BMPTrains_2020.DomainCode
 
                 CalculateGroundwaterDischarge();
 
-                if (bmp1.isRetention()) RetentionCount = 1;
-                if (bmp2.isRetention()) RetentionCount = 2;
-                if (bmp2.isRetention() && bmp3.isRetention()) RetentionCount = 3;
-                if (bmp2.isRetention() && bmp3.isRetention() && bmp4.isRetention()) RetentionCount = 4;
             }
 
             return RetentionCount;
         }
 
-        private int LastRetention()
-        {
-            int RetentionCount = 0;
-            if (bmp1.isRetention()) RetentionCount = 1;
-            if (bmp2.isRetention()) RetentionCount = 2;
-            if (bmp3.isRetention()) RetentionCount = 3;
-            if (bmp4.isRetention()) RetentionCount = 4;
-            return RetentionCount;
 
-        }
 
         public override void CalculateGroundwaterDischarge()
         {
             // Works as the Sum of all retention
-            HydraulicCaptureEfficiency = CalculateEffectiveRetentionTreatmentEfficiency();
+            HydraulicCaptureEfficiency = CalculateSeriesRetentionTreatmentEfficiency();
 
             // Overall Hydraulic Efficiency (System is treated as a single Unit)
             GroundwaterNMassLoadIn = BMPNMassLoadIn * HydraulicCaptureEfficiency / 100;
@@ -637,51 +875,6 @@ namespace BMPTrains_2020.DomainCode
             GroundwaterPMassLoadOut = GroundwaterPMassLoadIn * (100 - MediaPPercentReduction) / 100;
         }
 
-
-        //private double getEquivalentRetentionDepth()
-        //{
-        //    double RD = 0;
-        //    if (bmp1.isDefined())
-        //    {
-        //        if (bmp1.isRetention())
-        //        {
-        //            RD += bmp1.RetentionDepth;
-        //        }
-        //        else
-        //        {
-        //            return 0.0;
-        //        }
-        //    }
-
-        //    if (bmp2.isDefined())
-        //    {
-        //        if (bmp2.isRetention())
-        //        {
-        //            RD += bmp2.RetentionDepth;
-        //        }
-        //        else { return RD; }
-        //    }
-
-        //    if (bmp3.isDefined())
-        //    {
-        //        if (bmp3.isRetention())
-        //        {
-        //            RD += bmp3.RetentionDepth;
-        //        }
-        //        else
-        //        {
-        //            return RD;
-        //        }
-        //    }
-
-        //    if (bmp4.isDefined())
-        //    {
-        //        if (bmp4.isRetention()) { RD += bmp4.RetentionDepth; } else { return RD; }
-        //    }
-        //    return RD;
-        //}
-
-
         /// <summary>
         /// Calculates the equivalent retention depth by summing the RetentionDepth 
         /// of all defined BMPs that are retention types.
@@ -691,7 +884,7 @@ namespace BMPTrains_2020.DomainCode
         /// if a defined BMP is encountered that is not a retention type.
         /// </remarks>
         /// <returns>A double representing the total equivalent retention depth.</returns>
-        private double getEquivalentRetentionDepth()
+        private double CalculateEquivalentRetentionDepth()
         {
             // Create an array/list of the four Bmp objects to iterate over
             BMP[] bmps = new BMP[] { this.bmp1, this.bmp2, this.bmp3, this.bmp4 };
@@ -723,29 +916,7 @@ namespace BMPTrains_2020.DomainCode
             return ((e1 / 100.0) + (e2 / 100.0) * (1 - (e1 / 100.0))) * 100.0;
         }
 
-        public bool bmpExists(int i)
-        {
-            if (i == 1) return bmp1.isDefined();
-            if (i == 2) return bmp2.isDefined();
-            if (i == 3) return bmp3.isDefined();
-            if (i == 4) return bmp4.isDefined();
-            return false;
-        }
 
-        public override bool isDefined()
-        {
-            try { 
-            if ((bmp1.BMPType != BMPTrainsProject.sNone) && ((bmp1.BMPType.Trim()) != "")) return true;
-            if ((bmp2.BMPType != BMPTrainsProject.sNone) && ((bmp2.BMPType.Trim()) != "")) return true;
-            if ((bmp3.BMPType != BMPTrainsProject.sNone) && ((bmp3.BMPType.Trim()) != "")) return true;
-            if ((bmp4.BMPType != BMPTrainsProject.sNone) && ((bmp4.BMPType.Trim()) != "")) return true;
-            return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
 
         #endregion
 
@@ -782,17 +953,44 @@ namespace BMPTrains_2020.DomainCode
         public string SpecificBMPReport(int i, BMP bmp)
         {
             if (bmp == null) return string.Empty;
+            if (!bmp.isDefined()) return string.Empty;
 
-            string vars = bmp.PrintInputVariables();
+            // Base WetDetention input variables (safe-guard against null)
+            string[] inputVariables = GetInputVariablesForBmp(bmp);
 
-            // If vars contains no printable content (null/empty/whitespace) return nothing
+            // Extra series/detention-specific variables to append for retention->detention case
+            string[] detentionVariables = {
+                "NTreatmentEfficiencySeriesContribution",
+                "PTreatmentEfficiencySeriesContribution",
+                "EffectiveResidenceTime"
+            };
+
+            string[] retentionVariables = {
+                "ProvidedPTreatmentEfficiency",
+                "ProvidedPTreatmentEfficiency"
+            };
+            
+            // When the scenario is Retention -> Wet Detention and this BMP is the wet detention,
+            // concatenate the arrays so we print both the normal input variables and the series variables.
+            string[] varsToPrint = inputVariables;
+            if ((ScenarioCase == case_RetentionToWetDetention) && (bmp.BMPType == BMPTrainsProject.sWetDetention))
+            {
+                varsToPrint = inputVariables.Concat(detentionVariables).ToArray();
+            }
+
+
+            if (bmp.BMPType == BMPTrainsProject.sRetention)
+            {
+                varsToPrint = inputVariables.Concat(retentionVariables).ToArray();
+            }
+
+
+            // Print selected properties for this BMP
+            string vars = bmp.PrintProperties(varsToPrint);
             if (string.IsNullOrWhiteSpace(vars)) return string.Empty;
 
             var sb = new StringBuilder();
-            sb.AppendLine("<h2>BMP in Series Number: " + i.ToString() + " (");
-            // BMPType is plain text; escape to avoid injecting into surrounding HTML
-            sb.AppendLine("BMP Type: " + System.Security.SecurityElement.Escape(bmp.BMPType ?? "") + ")</h2>");
-            // vars is assumed to be HTML returned by PrintInputVariables() — include as-is
+            sb.AppendLine("<h3>BMP in Series Number: " + i.ToString() + " (BMP Type: " + System.Security.SecurityElement.Escape(bmp.BMPType ?? "") + ")</h3>");
             sb.Append(vars);
 
             return sb.ToString();

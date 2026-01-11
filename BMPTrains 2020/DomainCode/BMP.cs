@@ -101,11 +101,27 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Provided Phosphorus Treatment Efficiency", "%", "##.#")]
         public double ProvidedPTreatmentEfficiency { get; set; }
 
+        // *********** The following are only used for BMP's in Series Routing *************
+        // *********** They are set when doing MultipleBMP Calculations **********************
+
         // Adjusted treatment efficiencies are the efficiencies
         // that occur when the BMP is in a routing with different
         // input conditions.
-        public double AdjustedNTreatmentEfficiency { get; set; }
-        public double AdjustedPTreatmentEfficiency { get; set; }
+        [Meta("Nitrogen Treatment Efficiency (Series Contribution)", "%", "##.##")]
+        public double NTreatmentEfficiencySeriesContribution { get; set; }
+
+        [Meta("Phosphorus Treatment Efficiency (Series Contribution)", "%", "##.##")]
+        public double PTreatmentEfficiencySeriesContribution { get; set; }
+
+        // When used in Series routing, there is a standalone efficiency which we store
+        // and the series contribution efficiency
+        [Meta("Nitrogen Treatment Efficiency (Standalone)", "%", "##.#")]
+        public double NTreatmentEfficiencyStandalone { get; set; }
+
+        [Meta("Phosphorus Treatment Efficiency (Standalone)", "%", "##.#")]
+        public double PTreatmentEfficiencyStandalone { get; set; }
+
+
 
         [Meta("Remaining Nitrogen Treatment Efficiency", "%",  2)]
         public double RemainingNTreatmentEfficiency { get; set; }
@@ -331,6 +347,11 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Reporting Tools"
+
+        public string PrintProperties(string[] vars, string title = "")
+        {
+            return InterfaceCommon.PrintPropertyTable(this, vars, title, BMPTrainsReports.TableStyle1, "my-table");
+        }
 
         // Useful for a report which is simply a list of variables not divided into sections
         public string MetaReport(string[] vars, string title = "", Boolean showHeader = true)

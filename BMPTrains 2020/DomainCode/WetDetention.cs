@@ -12,6 +12,11 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Average Residence Time", "days",  2)]
         public double ResidenceTime { get; set; }
+
+        [Meta("Average Effective Residence Time", "days", 2)]
+        public double EffectiveResidenceTime { get; set; }
+
+        [Meta("Permanent Pool Depth", "ft", 2)]
         public double PermanentPoolPondDepth { get; set; } // feet
 
         [Meta("Permanent Pool Area", "acres",  2)]
@@ -23,11 +28,10 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Permanent Pool Volume for 31 days residence", "ac-ft",  2)]
         public double PermanentPoolVolume31 { get; set; } // ac-ft
 
-        public double PermanentPoolVolumeOverWatershed { get; set; }
+        //public double PermanentPoolVolumeOverWatershed { get; set; }
 
         [Meta("Minimum Permanent Pool Volume", "ac-ft", 2)]
         public double MinimumPermanentPoolVolume { get; set; }
-
 
         //public double LittoralZoneEfficiencyCredit { get; set; }
 
@@ -54,7 +58,6 @@ namespace BMPTrains_2020.DomainCode
 
         [Meta("Overall Provided Nitrogen Treatment Efficiency", "%",  2)]
         public double DetentionPercentNitrogenRemoval { get; set; }
-
 
         [Meta("Mean Annual Pond TP Concentration", "ug/l",  2)]
         public double MeanAnnualPondTPConcentration { get; set;}    // ug/l
@@ -263,7 +266,6 @@ namespace BMPTrains_2020.DomainCode
 
         public new void Calculate()
         {
-  
             ResidenceTime = PermanentPoolVolume / RunoffVolume * 365;      // Permanent Pool Volume in Acre-feet
             PermanentPoolVolume31 = 31 * RunoffVolume / 365;
 
