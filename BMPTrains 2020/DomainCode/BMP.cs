@@ -1000,6 +1000,42 @@ namespace BMPTrains_2020.DomainCode
         #endregion
 
         #region "Load Reporting"
+
+        public virtual ReportMetric[] RoutingInputMetrics() { 
+            return new ReportMetric[] {
+                new ReportMetric("N", BMPNMassLoadIn, "kg/yr"),
+                new ReportMetric("P", BMPPMassLoadIn, "kg/yr"),
+                new ReportMetric("Q", RunoffVolume, "ac-ft/yr")
+            };
+        }
+
+        public virtual ReportMetric[] RoutingOutputMetrics()
+        {
+            return new ReportMetric[] {
+                new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
+                new ReportMetric("P", BMPPMassLoadOut, "kg/yr"),
+                new ReportMetric("Q", ((100 - HydraulicCaptureEfficiency) / 100) * RunoffVolume, "ac-ft/yr")
+            };
+        }
+
+        public virtual ReportMetric[] RoutingEfficiencyMetrics()
+        {
+            return new ReportMetric[] {
+                new ReportMetric("N", ProvidedNTreatmentEfficiency, "%", 0),
+                new ReportMetric("P", ProvidedPTreatmentEfficiency, "%", 0)
+            };
+        }
+
+        public virtual ReportMetric[] RoutingMassReductionMetrics()
+        {
+            return new ReportMetric[] {
+                new ReportMetric("N", GroundwaterNMassLoadIn, "kg/yr"),
+                new ReportMetric("P", GroundwaterPMassLoadIn, "kg/yr")
+            };
+        }
+
+
+
         public virtual string EfficiencyReport()
         {
             var sb = new StringBuilder();
@@ -1012,6 +1048,13 @@ namespace BMPTrains_2020.DomainCode
 
             double R = RunoffVolume;
             if (HydraulicCaptureEfficiency == 0) HydraulicCaptureEfficiency = ProvidedPTreatmentEfficiency;
+
+            sb.AppendLine(BMPTrainsReports.RenderRoutingDiagram(RoutingInputMetrics(), 
+                                            RoutingEfficiencyMetrics(), 
+                                            RoutingOutputMetrics(), 
+                                            RoutingMassReductionMetrics()));
+
+            return sb.ToString();
 
             // Row 1
             sb.AppendLine(Common.TableCellReport(

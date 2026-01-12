@@ -662,5 +662,64 @@ namespace BMPTrains_2020.DomainCode
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Render a 3-row routing diagram table:
+        /// Row1: [Inputs (bordered)] [→] [Efficiencies (bordered)] [→] [Outputs (bordered)]
+        /// Row2: [ ] [ ] [↓] [ ] [ ]
+        /// Row3: [ ] [ ] [Mass Reductions (bordered)] [ ] [ ]
+        /// Uses Common.TableCellReport and RenderArrow for cells/arrows.
+        /// </summary>
+        public static string RenderRoutingDiagram(
+            ReportMetric[] inputs,
+            ReportMetric[] efficiencies,
+            ReportMetric[] outputs,
+            ReportMetric[] massReductions,
+            string inputLabel = "Load",
+            string efficiencyLabel = "Treatment",
+            string outputLabel = "Surface Discharge",
+            string massReductionLabel = "Mass Reduction",
+            string inputStyle = "width:20%;",
+            string efficiencyStyle = "width:20%;",
+            string outputStyle = "width:20%;",
+            bool massReductionBorder = true)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("<table class='load-diagram'><tr>");
+
+            // Inputs (bordered)
+            sb.AppendLine(Common.TableCellReport(inputLabel, true, inputStyle, inputs ?? new ReportMetric[0]));
+
+            // Right arrow
+            sb.AppendLine(RenderArrow("right"));
+
+            // Efficiencies (bordered)
+            sb.AppendLine(Common.TableCellReport(efficiencyLabel, true, efficiencyStyle, efficiencies ?? new ReportMetric[0]));
+
+            // Right arrow
+            sb.AppendLine(RenderArrow("right"));
+
+            // Outputs (bordered)
+            sb.AppendLine(Common.TableCellReport(outputLabel, true, outputStyle, outputs ?? new ReportMetric[0]));
+
+            sb.AppendLine("</tr>");
+
+            // Row 2: blank, blank, down arrow, blank, blank
+            sb.AppendLine("<tr>");
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine(RenderArrow("down"));
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine("</tr>");
+
+            // Row 3: mass reduction centered in middle cell (border optional)
+            sb.AppendLine("<tr>");
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine(Common.TableCellReport(massReductionLabel, massReductionBorder, "", massReductions ?? new ReportMetric[0]));
+            sb.AppendLine(Common.TableCellBlank(2));
+            sb.AppendLine("</tr>");
+
+            sb.AppendLine("</table>");
+            return sb.ToString();
+        }
+
     }
 }

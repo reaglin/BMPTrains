@@ -218,6 +218,7 @@ namespace BMPTrains_2020.DomainCode
 
             return true;
         }
+
         private static readonly Dictionary<Type, string[]> _inputVariablesCache = new Dictionary<Type, string[]>();
 
         public static string[] GetInputVariablesForBmp(BMP bmp)
@@ -269,12 +270,14 @@ namespace BMPTrains_2020.DomainCode
             return new string[0];
         }
         #endregion
+
         #region "Calculate Methods"
         public new void Calculate()
         {
+
+            // Special cases are handled separately. 
             DetermineScenarioCase();
-            // lastRetentionBMPId will be the last Retention BMP
-            // lastBMPId is the last BMP used in calculation
+
 
             //
             // Special Case: All bmp in series are retention 
@@ -738,8 +741,6 @@ namespace BMPTrains_2020.DomainCode
             // Find the last retention BMP
             int lastRetentionBMPId = LastRetention();
             if (lastRetentionBMPId == 0) return; // No retention found - should not happen here
-            BMP up = null;
-            BMP down = null;
 
             // Create the Combined Retention BMP (cBMP)
             cBMP.RetentionDepth = CalculateEquivalentRetentionDepth();

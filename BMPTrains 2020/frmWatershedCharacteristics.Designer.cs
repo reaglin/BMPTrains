@@ -627,7 +627,6 @@
             this.btnEMCPreN.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPreN, "Pre Composite EMC Calculation for N");
             this.btnEMCPreN.UseVisualStyleBackColor = false;
-            this.btnEMCPreN.Visible = false;
             this.btnEMCPreN.Click += new System.EventHandler(this.btnEMCPreN_Click);
             // 
             // btnEMCPostN
@@ -640,7 +639,6 @@
             this.btnEMCPostN.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPostN, "Post Composite EMC Calculation for N");
             this.btnEMCPostN.UseVisualStyleBackColor = false;
-            this.btnEMCPostN.Visible = false;
             this.btnEMCPostN.Click += new System.EventHandler(this.btnEMCPostN_Click);
             // 
             // btnEMCPostP
@@ -653,7 +651,6 @@
             this.btnEMCPostP.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPostP, "Post Composite EMC Calculation for P");
             this.btnEMCPostP.UseVisualStyleBackColor = false;
-            this.btnEMCPostP.Visible = false;
             this.btnEMCPostP.Click += new System.EventHandler(this.btnEMCPostP_Click);
             // 
             // btnEMCPreP
@@ -666,7 +663,6 @@
             this.btnEMCPreP.Text = "+";
             this.toolTip1.SetToolTip(this.btnEMCPreP, "Pre Composite EMC Calculation for P");
             this.btnEMCPreP.UseVisualStyleBackColor = false;
-            this.btnEMCPreP.Visible = false;
             this.btnEMCPreP.Click += new System.EventHandler(this.btnEMCPreP_Click);
             // 
             // label20

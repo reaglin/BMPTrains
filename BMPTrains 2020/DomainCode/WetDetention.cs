@@ -108,8 +108,6 @@ namespace BMPTrains_2020.DomainCode
             return s;
         }
 
-
-
         public WetDetention(Catchment c) : base(c)
         {
             BMPType = BMPTrainsProject.sWetDetention;
@@ -208,6 +206,22 @@ namespace BMPTrains_2020.DomainCode
 
             });
             return s;
+        }
+        public override ReportMetric[] RoutingInputMetrics()
+        {
+            return new ReportMetric[] {
+                new ReportMetric("N", BMPNMassLoadIn, "kg/yr"),
+                new ReportMetric("P", BMPPMassLoadIn, "kg/yr")
+
+            };
+        }
+
+        public override ReportMetric[] RoutingOutputMetrics()
+        {
+            return new ReportMetric[] {
+                new ReportMetric("N", BMPNMassLoadOut, "kg/yr"),
+                new ReportMetric("P", BMPPMassLoadOut, "kg/yr")
+            };
         }
 
         public string AnoxicDepthReport()
