@@ -181,10 +181,8 @@ namespace BMPTrains_2020.DomainCode
             return false;
         }
 
-        public new void Calculate()
+        public new virtual void Calculate()
         {
-
-
             CalculateDelayEfficiency();
 
             CalculateTreatmentEfficiency(RetentionDepth, WatershedNDCIACurveNumber, WatershedDCIAPercent);

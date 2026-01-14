@@ -15,9 +15,7 @@ namespace BMPTrains_2020.DomainCode
             "Recycled (crushed) concrete\t21.00\nBold and GoldTM\t20.00\nOther Reservoir Space\t95.00\nBelgardTM\t20.00\n" +
             "User Defined(5)\t5.00\nUser Defined(20)\t20.00\nUser Defined(25)\t25.00\nUser Defined(30)\t30.00\n";
 
-        public static readonly string[] InputVariables = {
-         "SurfaceArea", "RetentionDepth"
-        };
+
         public AvailablePerviousPavements()
         {            
             Name = DefaultName;
@@ -36,6 +34,9 @@ namespace BMPTrains_2020.DomainCode
         public double SurfaceArea { get; set; } //ac
         public double TotalStorage { get; set; }
 
+        public static new string[] InputVariables = {
+         "SurfaceArea", "RetentionDepth"
+        };
         public PerviousPavement(Catchment c) : base(c) {
             BMPType = BMPTrainsProject.sPerviousPavement;
            PerviousPavements = new AvailablePerviousPavements();

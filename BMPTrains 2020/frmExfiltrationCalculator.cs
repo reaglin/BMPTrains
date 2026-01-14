@@ -58,7 +58,7 @@ namespace BMPTrains_2020
             Common.setValue(tbTrenchLength, currentBMP().TrenchLength);
             Common.setValue(tbVoidRatio, currentBMP().VoidRatio);
 
-            currentBMP().CalculateStorage();
+            currentBMP().Calculate();
             setOutputText();
         }
 
@@ -70,7 +70,7 @@ namespace BMPTrains_2020
         private void btnCalculate_Click(object sender, EventArgs e)
         {
             getValues();
-            currentBMP().CalculateStorage();
+            currentBMP().Calculate();
             setOutputText();
         }
 

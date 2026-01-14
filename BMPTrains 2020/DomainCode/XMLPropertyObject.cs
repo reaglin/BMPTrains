@@ -456,6 +456,19 @@ namespace BMPTrains_2020.DomainCode
             {
                 switch (pi.PropertyType.Name)
                 {
+                    case "bool":
+                    case "Boolean":
+                        if (value.ToLower() == "yes" || value.ToLower() == "true" || value == "1")
+                        {
+                            pi.SetValue(this, true, null);
+                        }
+                        else
+                        {
+                            pi.SetValue(this, false, null);
+                        }
+                        break;
+
+
                     default:
                         pi.SetValue(this, Convert.ChangeType(value, pi.PropertyType), null);
                         break;

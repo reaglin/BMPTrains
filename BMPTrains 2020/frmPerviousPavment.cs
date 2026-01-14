@@ -59,6 +59,7 @@ namespace BMPTrains_2020
         private void getValues()
         {
             currentBMP().SurfaceArea = Common.getDouble(tbSurfaceArea);
+            currentBMP().TotalStorage = Common.getDouble(tbStorage);
         }
 
         private void MenuItemClickHandler(object sender, EventArgs e)

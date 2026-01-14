@@ -1,8 +1,4 @@
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.exe.config
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.exe
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPTrains.pdb
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.csproj.AssemblyReference.cache
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.g.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.FormMeanAnnualRainfall.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmAboutValidation.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmCalculators.resources
@@ -52,7 +48,10 @@ C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.StateRainfallMaps.resources
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.csproj.GenerateResource.cache
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.csproj.CoreCompileInputs.cache
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.exe
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.pdb
-C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains.exe.config
 C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPTrains_2020.frmRetentionInSeries.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPFast.exe.config
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPFast.exe
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\bin\Debug\BMPFast.pdb
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.g.resources
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.exe
+C:\Users\ronal\source\repos\reaglin\BMPTrains\BMPTrains 2020\obj\Debug\BMPFast.pdb

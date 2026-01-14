@@ -47,7 +47,7 @@ namespace BMPTrains_2020.DomainCode
         [Meta("Effectiveness Increase for > 3 hours", "%",  2)]
         public double IncreasedEffectiveness { get; set; }
 
-        public new static readonly string[] InputVariables = {"PipeSpan", "PipeRise", "PipeLength", "TrenchWidth", "TrenchDepth", "TrenchLength",
+        public new static string[] InputVariables = {"PipeSpan", "PipeRise", "PipeLength", "TrenchWidth", "TrenchDepth", "TrenchLength",
                 "VoidRatio", "PipeVolumeCF", "TrenchVolumeCF", "StorageVolumeAF", "StorageVolumeIn"};
 
         public override string PrintInputVariables()
@@ -65,13 +65,6 @@ namespace BMPTrains_2020.DomainCode
             BMPType = BMPTrainsProject.sExfiltration;
         }
 
-        public new void Calculate()
-        {
-            // The input is Retention Depth in inches over watershed
-            CalculateStorage();
-            base.Calculate();
-            CalculateAdjustment();
-        }
         public new void SetValuesFromProject(BMPTrainsProject p, Catchment c)
         {
             this.WatershedArea = c.PostArea;
@@ -110,79 +103,18 @@ namespace BMPTrains_2020.DomainCode
             return d1;
         }
 
-
-        //public Dictionary<string, string> StorageLabels()
-        //{
-        //    return new Dictionary<string, string>
-        //    {
-        //        {"label0", "<h2>Exfiltration Input Variables</h2>" },
-        //        {"PipeSpan", "Pipe Span (in)" },
-        //        {"PipeRise", "Pipe Rise (in)"},
-        //        {"PipeLength", "Pipe Length (ft)"},
-        //        {"TrenchWidth", "Trench/Vault Width (ft)"},
-        //        {"TrenchDepth", "Trench Depth (ft)"},
-        //        {"TrenchLength", "Trench Length (ft)" },
-        //        { "VoidRatio", "Void Ratio (fraction)"},
-        //        {"label1", "<b>Exfiltration Calculated Values</b>"  },
-        //        { "PipeVolumeCF", "Pipe Volume (cf)"},
-        //        {"TrenchVolumeCF", "Trench/Vault Volume (cf)"},
-        //        {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
-        //        {"StorageVolumeIn", "Storage Volume (in over CA)"}
-        //    };
-        //}
-        //// This one is in the printout
-        //public override string BMPInputVariables()
-        //{
-        //    string s = "";
-        //    s += AsHtmlTable(
-        //        new Dictionary<string, string>
-        //    {
-        //        {"PipeSpan", "Pipe Span (in)" },
-        //        {"PipeRise", "Pipe Rise (in)"},
-        //        {"PipeLength", "Pipe Length (ft)"},
-        //        {"TrenchWidth", "Trench/Vault Width (ft)"},
-        //        {"TrenchDepth", "Trench/Vault Depth (ft)"},
-        //        {"TrenchLength", "Trench Length (ft)" },
-        //        { "VoidRatio", "Void not in pipe (fraction) "},
-        //        {"StorageVolumeAF", "Storage Volume (Ac-ft)"},
-        //        {"StorageVolumeIn", "Retention Depth (in over CA)"},
-        //        {"IncreasedEffectiveness", "Effectiveness Increase for < 3 hours (%)" }
-
-        //        });
-        //    return s;
-        //}
-
-
-        //public override Dictionary<string, int> PropertyDecimalPlaces()
-        //{
-        //    return Add(new Dictionary<string, int>
-        //    {
-        //        {"PipeSpan", 1 },
-        //        {"PipeRise", 1},
-        //        {"PipeLength", 1},
-        //        {"TrenchWidth", 1},
-        //        {"TrenchDepth", 1},
-        //        {"TrenchLength", 1 },
-        //        { "VoidRatio", 2},
-        //        { "PipeVolumeCF", 0},
-        //        {"TrenchVolumeCF", 0},
-        //        {"StorageVolumeAF", 2},
-        //        {"StorageVolumeIn", 3},
-        //        {"IncreasedEffectiveness", 3 }
-        //    }, base.PropertyDecimalPlaces());
-        //}
-
-        //public new string AsHtmlTable()
-        //{
-        //    string s = "<h1>Exfiltration Efficiency Report</h1>";
-        //    s += base.AsHtmlTable();
-        //    return s;
-        //}
-
         public override string BMPTypeTitle()
         {
             return "Exfiltration";
         }
+
+        public new void Calculate()
+        {
+            // The input is Retention Depth in inches over watershed
+            CalculateStorage();
+            base.Calculate();
+            CalculateAdjustment();
+        }             
 
         public void CalculateStorage()
         {

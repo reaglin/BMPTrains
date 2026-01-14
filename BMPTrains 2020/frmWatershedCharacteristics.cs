@@ -369,6 +369,7 @@ namespace BMPTrains_2020
 
         private void btnZoneMaps_Click(object sender, EventArgs e)
         {
+            //Eaglin - update link
             System.Diagnostics.Process.Start("http://roneaglin.online/BMPTrainsDocumentation/GeneralLandUseCategories.pdf"); ;
         }
 

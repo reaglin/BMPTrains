@@ -50,7 +50,7 @@
             // tbSurfaceArea
             // 
             this.tbSurfaceArea.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbSurfaceArea.Location = new System.Drawing.Point(298, 31);
+            this.tbSurfaceArea.Location = new System.Drawing.Point(318, 31);
             this.tbSurfaceArea.Name = "tbSurfaceArea";
             this.tbSurfaceArea.Size = new System.Drawing.Size(89, 35);
             this.tbSurfaceArea.TabIndex = 1;
@@ -62,7 +62,7 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(12, 34);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(280, 30);
+            this.label2.Size = new System.Drawing.Size(300, 30);
             this.label2.TabIndex = 5;
             this.label2.Text = "Permeable Pavement Area (ac):";
             // 

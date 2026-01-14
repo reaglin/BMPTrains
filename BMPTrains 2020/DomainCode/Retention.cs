@@ -130,7 +130,7 @@ namespace BMPTrains_2020.DomainCode
 
             string s =  AsHtmlTable(retVal);
 
-            return s + EfficiencyReport();
+            return s + PrintEfficiencyReport();
         }
 
         public new string AsHtmlTable()

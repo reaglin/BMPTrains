@@ -415,7 +415,7 @@ namespace BMPTrains_2020.DomainCode
             // Then groundwater analysis if specified
             if ((DoGroundwaterAnalysis == "Yes")||(MediaMixType != MediaMix.None)) s += PrintGroundwaterAnalysis();
             // Finally the load diagram 
-            s += LoadDiagram();
+            s += PrintLoadDiagram();
             return s;
         }
         public virtual string BMPInputVariables()
@@ -486,9 +486,9 @@ namespace BMPTrains_2020.DomainCode
             return sb.ToString();
         }
 
-        public string LoadDiagram()
+        public string PrintLoadDiagram()
         {
-            string s = EfficiencyReport();
+            string s = PrintEfficiencyReport();
             return s;
         }
 
@@ -653,7 +653,7 @@ namespace BMPTrains_2020.DomainCode
             string s = ""; // "<div style='float:right;font-size:70%;'>" + Globals.Project.Version() + "</div>";
             s += AsHtmlTable(BasicReportLabels());
 
-            s += EfficiencyReport();
+            s += PrintEfficiencyReport();
             return s;
         }
 
@@ -930,7 +930,7 @@ namespace BMPTrains_2020.DomainCode
             if (RemainingPTreatmentEfficiency < 0) RemainingPTreatmentEfficiency = 0.0;
         }
 
-        public void CalculateMassLoading(bool recalcMassLoad = false)
+        public void CalculateMassLoading(bool recalcMassLoad = true)
         {
             if (recalcMassLoad) { 
                 BMPNMassLoadOut = BMPNMassLoadIn * (100 - ProvidedNTreatmentEfficiency) / 100;
@@ -1036,7 +1036,7 @@ namespace BMPTrains_2020.DomainCode
 
 
 
-        public virtual string EfficiencyReport()
+        public virtual string PrintEfficiencyReport()
         {
             var sb = new StringBuilder();
 

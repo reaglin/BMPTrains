@@ -233,6 +233,8 @@ namespace BMPTrains_2020.DomainCode
 
         }
 
+        // Different BMP Types have different definition for InputVariables
+        // Defined as a public static new string[] InputVariables property  
         private static string[] GetVariablesForType(Type t, string name)
         {
             if (t == null) return new string[0];
@@ -947,7 +949,7 @@ namespace BMPTrains_2020.DomainCode
 
             if ((DoGroundwaterAnalysis == "Yes") || (MediaMixType != MediaMix.None)) s += PrintGroundwaterAnalysis();
 
-            s += LoadDiagram();
+            s += PrintLoadDiagram();
             return s;
         }
 
@@ -1027,17 +1029,17 @@ namespace BMPTrains_2020.DomainCode
             if (isRetention())
             {
                 s += "<h1>Equivalent Retention</h1>";
-                s += EfficiencyReport();
+                s += PrintEfficiencyReport();
                 return s;
             }
 
-            s += EfficiencyReport();
+            s += PrintEfficiencyReport();
             return s;
         }
 
         
 
-        public override string EfficiencyReport()
+        public override string PrintEfficiencyReport()
         {
             string s = "<br/><h2>Load for  Multiple BMP in Series</h2><br/>";
             s += "<table><tr>";         // 5 Cells per row

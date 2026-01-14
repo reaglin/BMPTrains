@@ -50,7 +50,8 @@ namespace BMPTrains_2020
 
         private void getValues()
         {
-            currentBMP().HasLittoralZone= chkLittoralZone.Checked;
+            currentBMP().HasLittoralZone = Common.getBoolean(chkLittoralZone);
+            
             currentBMP().PermanentPoolVolume = Common.getDouble(tbPPVolume);
             //currentBMP().LittoralZoneEfficiencyCredit = Common.getDouble(tbLittoralCredit);
             currentBMP().WetlandEfficiencyCredit = Common.getDouble(tbWetlandCredit);
