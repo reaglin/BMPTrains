@@ -17,7 +17,6 @@ namespace BMPTrains_2020
         {
             InitializeComponent();
 
-
             string html = BMPTrains_2020.DomainCode.BMPTrainsReports.MasterReportHeader(text, reportHeader);
             wbReport.DocumentText = html;
 
@@ -29,8 +28,7 @@ namespace BMPTrains_2020
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
-            
+            this.Close();            
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)

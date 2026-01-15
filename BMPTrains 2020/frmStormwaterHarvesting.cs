@@ -98,7 +98,8 @@ namespace BMPTrains_2020
                 form1.ShowDialog();
                 return;
             }
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
 
         private void MenuItemClickHandler(object sender, EventArgs e)

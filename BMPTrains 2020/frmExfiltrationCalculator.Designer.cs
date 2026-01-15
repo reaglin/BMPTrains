@@ -45,6 +45,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.tbVoidRatio = new System.Windows.Forms.TextBox();
             this.wbOutput = new System.Windows.Forms.WebBrowser();
+            this.btnPrint = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnClose
@@ -61,7 +62,7 @@
             // 
             // btnCalculate
             // 
-            this.btnCalculate.Location = new System.Drawing.Point(664, 248);
+            this.btnCalculate.Location = new System.Drawing.Point(664, 190);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(112, 39);
             this.btnCalculate.TabIndex = 9;
@@ -203,12 +204,23 @@
             this.wbOutput.Size = new System.Drawing.Size(615, 149);
             this.wbOutput.TabIndex = 35;
             // 
+            // btnPrint
+            // 
+            this.btnPrint.Location = new System.Drawing.Point(664, 245);
+            this.btnPrint.Name = "btnPrint";
+            this.btnPrint.Size = new System.Drawing.Size(112, 39);
+            this.btnPrint.TabIndex = 36;
+            this.btnPrint.Text = "Print";
+            this.btnPrint.UseVisualStyleBackColor = true;
+            this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
+            // 
             // frmExfiltrationCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(788, 351);
             this.ControlBox = false;
+            this.Controls.Add(this.btnPrint);
             this.Controls.Add(this.wbOutput);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.tbVoidRatio);
@@ -256,5 +268,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbVoidRatio;
         private System.Windows.Forms.WebBrowser wbOutput;
+        private System.Windows.Forms.Button btnPrint;
     }
 }

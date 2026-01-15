@@ -149,7 +149,7 @@
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.btnPrint.Location = new System.Drawing.Point(513, 434);
+            this.btnPrint.Location = new System.Drawing.Point(513, 389);
             this.btnPrint.Name = "btnPrint";
             this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 48;
@@ -160,12 +160,13 @@
             // btnCopy
             // 
             this.btnCopy.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.btnCopy.Location = new System.Drawing.Point(513, 389);
+            this.btnCopy.Location = new System.Drawing.Point(513, 290);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(112, 39);
             this.btnCopy.TabIndex = 49;
             this.btnCopy.Text = "Copy";
             this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Visible = false;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // cbMixes

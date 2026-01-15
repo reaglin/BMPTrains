@@ -84,18 +84,19 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(570, 397);
+            this.btnReport.Location = new System.Drawing.Point(570, 442);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(112, 39);
             this.btnReport.TabIndex = 9;
             this.btnReport.Text = "Copy";
             this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Visible = false;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(570, 442);
+            this.btnClose.Location = new System.Drawing.Point(570, 517);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(112, 39);
             this.btnClose.TabIndex = 10;
@@ -208,7 +209,7 @@
             // 
             // btnPlot
             // 
-            this.btnPlot.Location = new System.Drawing.Point(570, 517);
+            this.btnPlot.Location = new System.Drawing.Point(570, 397);
             this.btnPlot.Name = "btnPlot";
             this.btnPlot.Size = new System.Drawing.Size(112, 39);
             this.btnPlot.TabIndex = 52;

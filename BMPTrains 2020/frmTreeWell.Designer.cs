@@ -103,6 +103,7 @@
             this.btnReport.TabIndex = 8;
             this.btnReport.Text = "Copy";
             this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Visible = false;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // btnPrint

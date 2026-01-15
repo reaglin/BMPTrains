@@ -87,16 +87,14 @@ namespace BMPTrains_2020
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            getValues();
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            this.wbOutput.Document.Focus();
-            SendKeys.SendWait("^a");
-            SendKeys.SendWait("^a^c");
-            DialogResult dialogResult = MessageBox.Show("Report has been copied to the clipboard as HTML text", "Copy Report", MessageBoxButtons.OK);
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
 
         private void btnCalculate_Click(object sender, EventArgs e)

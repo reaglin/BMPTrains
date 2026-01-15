@@ -145,7 +145,8 @@ namespace BMPTrains_2020
                 return;
             }
             // Same for every edit form
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog(); 
         }
 
         private void btnHelp_Click(object sender, EventArgs e)

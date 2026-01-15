@@ -154,6 +154,9 @@ namespace BMPTrains_2020
                 form1.ShowDialog();
                 return;
             }
+
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
     }
 }

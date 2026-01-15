@@ -89,8 +89,8 @@ namespace BMPTrains_2020
                 form1.ShowDialog();
                 return;
             }
-
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         } 
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -103,10 +103,8 @@ namespace BMPTrains_2020
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            this.wbOutput.Document.Focus();
-            SendKeys.SendWait("^a");
-            SendKeys.SendWait("^a^c");
-            DialogResult dialogResult = MessageBox.Show("Report has been copied to the clipboard as HTML text", "Copy Report", MessageBoxButtons.OK);
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
 
         private void MenuItemClickHandler(object sender, EventArgs e)

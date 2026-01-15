@@ -24,6 +24,7 @@ namespace BMPTrains_2020
             InitializeComponent();
         }
 
+        
         private void frmWetDetention_Load(object sender, EventArgs e)
         {            
             // Add this to each object assigned to a Catchment, Implement MenuItemClickhandler
@@ -34,7 +35,7 @@ namespace BMPTrains_2020
             Common.setValue(tbUserTP, 0.0);
 
             currentBMP().BMPType = BMPTrainsProject.sWetDetention;
-            this.Text +=currentCatchment().TitleHeader();
+            this.Text += currentCatchment().TitleHeader();
             
         }
               
@@ -146,7 +147,7 @@ namespace BMPTrains_2020
                 return;
             }
 
-            Form form = new frmReport(wbOutput.DocumentText, "", "Wet Detention System");
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
             form.ShowDialog();
         }
 

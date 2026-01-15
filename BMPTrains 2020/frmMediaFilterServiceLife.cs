@@ -177,7 +177,8 @@ namespace BMPTrains_2020
 
         private void btnPrint_Click(object sender, EventArgs e)
         {
-            wbOutput.Print();
+            Form form = new frmReport(wbOutput.DocumentText, "", this.Text);
+            form.ShowDialog();
         }
 
         private void btnCopy_Click(object sender, EventArgs e)

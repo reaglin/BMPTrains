@@ -70,7 +70,7 @@
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.Location = new System.Drawing.Point(547, 511);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(112, 31);
+            this.btnClose.Size = new System.Drawing.Size(112, 46);
             this.btnClose.TabIndex = 7;
             this.btnClose.Text = "Back";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -85,14 +85,15 @@
             this.btnReport.TabIndex = 8;
             this.btnReport.Text = "Copy";
             this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Visible = false;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // btnPrint
             // 
             this.btnPrint.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrint.Location = new System.Drawing.Point(547, 439);
+            this.btnPrint.Location = new System.Drawing.Point(547, 402);
             this.btnPrint.Name = "btnPrint";
-            this.btnPrint.Size = new System.Drawing.Size(112, 31);
+            this.btnPrint.Size = new System.Drawing.Size(112, 39);
             this.btnPrint.TabIndex = 9;
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
@@ -254,7 +255,7 @@
             this.btnCost.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCost.Location = new System.Drawing.Point(547, 359);
             this.btnCost.Name = "btnCost";
-            this.btnCost.Size = new System.Drawing.Size(112, 39);
+            this.btnCost.Size = new System.Drawing.Size(112, 37);
             this.btnCost.TabIndex = 38;
             this.btnCost.Text = "Cost";
             this.btnCost.UseVisualStyleBackColor = true;
