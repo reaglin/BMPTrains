@@ -435,5 +435,10 @@ namespace BMPTrains_2020
             Form form = new frmCompositeEMC(c(), false, false);
             form.ShowDialog(this);
         }
+
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            BMPTrainsProject.OpenHelp("catchments");
+        }
     }
 }

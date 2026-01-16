@@ -60,6 +60,7 @@
             this.btnTest = new System.Windows.Forms.Button();
             this.btnRainfallMap = new System.Windows.Forms.Button();
             this.btnZoneMaps = new System.Windows.Forms.Button();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -378,11 +379,24 @@
             this.btnZoneMaps.UseVisualStyleBackColor = false;
             this.btnZoneMaps.Click += new System.EventHandler(this.btnZoneMaps_Click_1);
             // 
+            // btnHelp
+            // 
+            this.btnHelp.BackColor = System.Drawing.SystemColors.Info;
+            this.btnHelp.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnHelp.Location = new System.Drawing.Point(744, 11);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(34, 38);
+            this.btnHelp.TabIndex = 39;
+            this.btnHelp.Text = "?";
+            this.btnHelp.UseVisualStyleBackColor = false;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click_1);
+            // 
             // GeneralSiteInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 537);
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnZoneMaps);
             this.Controls.Add(this.btnRainfallMap);
             this.Controls.Add(this.btnTest);
@@ -457,5 +471,6 @@
         private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Button btnRainfallMap;
         private System.Windows.Forms.Button btnZoneMaps;
+        private System.Windows.Forms.Button btnHelp;
     }
 }

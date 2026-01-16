@@ -482,32 +482,6 @@ namespace BMPTrains_2020.DomainCode
             GroundwaterPRemoved = GroundwaterPLoading * GroundwaterPRemovalEfficiency / 100;
         }
 
-        //public virtual double CalculateGroundwaterPLoading()
-        //{
-        //    BMP bmp = getSelectedBMP();
-        //    if (bmp.isRetention()) GroundwaterPLoading = bmp.GroundwaterPLoading();
-        //    else
-        //        GroundwaterPLoading = 0.0;
-
-        //    return GroundwaterPLoading;
-        //}
-
-        //public double GroundwaterNRemoved()
-        //{
-        //    double l = CalculateGroundwaterNLoading();
-        //    double e = GroundwaterNRemovalEfficiency();
-        //    double r =  l * e / 100;
-        //    return r;
-        //}
-
-        //public double GroundwaterPRemoved()
-        //{
-        //    double l = GroundwaterPLoading;
-        //    double e = GroundwaterPRemovalEfficiency();
-        //    double r =  l * e / 100;
-        //    return r;
-        //}
-
         #endregion
 
         #region "Reporting"
@@ -578,37 +552,6 @@ namespace BMPTrains_2020.DomainCode
             if ((AnalysisType == BMPTrainsProject.AT_SpecifiedRemovalEfficiency) ||
                 (AnalysisType == BMPTrainsProject.AT_NetImprovement))
                     s += " Required Removal " + String.Format("N: {0:N0}% ", RequiredNTreatmentEfficiency) + String.Format("P: {0:N0}%", RequiredPTreatmentEfficiency);
-
-            return s;
-        }
-        public new string AsHtmlTable()
-        {
-            string s = "<table>";
-            foreach (KeyValuePair<string, string> pair in PropertyLabels())
-            {
-                s += "<tr>";
-                s += "<td>" + pair.Value + "</td>";
-                string v = GetValue(pair.Key);
-                s += "<td>" + v + "</td>";
-                s += "</tr>";
-            }
-
-            s += "<tr>";
-            s += "<td>Pollutant<br/>Pre Condition Pollutant Loads </td>";
-            s += "<td>" + AsHtmlTable(new string[] { "Pollutant", "Load (kg/year)" }, PreLoading) + "</td>";
-            s += "</tr>";
-
-            s += "<tr>";
-            s += "<td>Pollutant<br/>Post Condition Pollutant Loads </td>";
-            s += "<td>" + AsHtmlTable(new string[] { "Pollutant", "Load (kg/year)" }, PostLoading) + "</td>";
-            s += "</tr>";
-
-            //s += "<tr>";
-            //s += "<td>Pollutant<br/> Required Removal Efficiency </td>";
-            //s += "<td>" + AsHtmlTable(new string[] { "Pollutant", "Removal (%)" }, RequiredNTreatmentEfficiency) + "</td>";
-            //s += "</tr>";
-
-            s += "</table>";
 
             return s;
         }

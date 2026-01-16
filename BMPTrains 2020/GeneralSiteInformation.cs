@@ -39,6 +39,11 @@ namespace BMPTrains_2020
             setValues();
         }
 
+        private void btnHelp_Click(object sender, EventArgs e)
+        {
+            BMPTrainsProject.OpenHelp("project");
+        }
+
         private void cbAnalysisType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -433,6 +438,11 @@ namespace BMPTrains_2020
         private void btnZoneMaps_Click_1(object sender, EventArgs e)
         {
             showZoneMaps();
+        }
+
+        private void btnHelp_Click_1(object sender, EventArgs e)
+        {
+            BMPTrainsProject.OpenHelp("project");
         }
     }
 }

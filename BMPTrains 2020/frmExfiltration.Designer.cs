@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmExfiltration));
             this.btnCalculate = new System.Windows.Forms.Button();
             this.btnPrint = new System.Windows.Forms.Button();
-            this.btnReport = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.wbOutput = new System.Windows.Forms.WebBrowser();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -79,16 +78,6 @@
             this.btnPrint.Text = "Print";
             this.btnPrint.UseVisualStyleBackColor = true;
             this.btnPrint.Click += new System.EventHandler(this.btnPrint_Click);
-            // 
-            // btnReport
-            // 
-            this.btnReport.Location = new System.Drawing.Point(698, 514);
-            this.btnReport.Name = "btnReport";
-            this.btnReport.Size = new System.Drawing.Size(112, 39);
-            this.btnReport.TabIndex = 6;
-            this.btnReport.Text = "Copy";
-            this.btnReport.UseVisualStyleBackColor = true;
-            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
             // btnClose
             // 
@@ -355,7 +344,6 @@
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnCalculate);
             this.Controls.Add(this.btnPrint);
-            this.Controls.Add(this.btnReport);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.wbOutput);
             this.Controls.Add(this.menuStrip1);
@@ -377,7 +365,6 @@
 
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.Button btnPrint;
-        private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.WebBrowser wbOutput;
         private System.Windows.Forms.MenuStrip menuStrip1;

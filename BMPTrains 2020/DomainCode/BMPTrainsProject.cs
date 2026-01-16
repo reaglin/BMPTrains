@@ -109,6 +109,8 @@ namespace BMPTrains_2020.DomainCode
 
         public static void OpenDocumentation(string page = "") { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Documentation + page); }
 
+        public static void OpenHelp(string page ="") { BMPTrainsProject.openRawURL(Globals.HelpURL + page); }
+
         public static void OpenWebsite() { BMPTrainsProject.openRawURL(BMPTrainsProject.URL_Website); }
         //public static void openURL(string url = "") { System.Diagnostics.Process.Start(URL_Documentation + url); }
         public static void openRawURL(string url) { System.Diagnostics.Process.Start( url); }

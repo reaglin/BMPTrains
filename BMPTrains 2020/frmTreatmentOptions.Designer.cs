@@ -290,7 +290,6 @@
             this.btnHelp.Text = "Help";
             this.toolTip1.SetToolTip(this.btnHelp, "Open online help ");
             this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Visible = false;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
             // btnBMPs

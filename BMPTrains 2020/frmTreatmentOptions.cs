@@ -318,9 +318,7 @@ namespace BMPTrains_2020
 
         private void btnHelp_Click(object sender, EventArgs e)
         {
-            frmReport form = new frmReport();
-            form.setURL("https://roneaglin.online/projects/bmp-trains/");
-            form.ShowDialog();
+            BMPTrainsProject.OpenHelp("treatments");
         }
     }
 }

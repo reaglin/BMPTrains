@@ -105,6 +105,7 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
+            this.btnHelp = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -862,13 +863,25 @@
             this.label29.Text = "non-runoff sources (kg/yr)";
             this.label29.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // btnHelp
+            // 
+            this.btnHelp.Location = new System.Drawing.Point(600, 32);
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(98, 35);
+            this.btnHelp.TabIndex = 81;
+            this.btnHelp.Text = "?";
+            this.toolTip1.SetToolTip(this.btnHelp, "Save data to project - does not save project file to disk");
+            this.btnHelp.UseVisualStyleBackColor = true;
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
             // frmWatershedCharacteristics
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
-            this.ClientSize = new System.Drawing.Size(1107, 611);
+            this.ClientSize = new System.Drawing.Size(1107, 584);
             this.ControlBox = false;
+            this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.label25);
@@ -948,6 +961,7 @@
             this.Margin = new System.Windows.Forms.Padding(6, 7, 6, 7);
             this.Name = "frmWatershedCharacteristics";
             this.Text = "Watershed Characteristics Worksheet";
+            this.toolTip1.SetToolTip(this, "Help for this screen");
             this.Load += new System.EventHandler(this.frmWatershedCharacteristics_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -1034,5 +1048,6 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Button btnHelp;
     }
 }
